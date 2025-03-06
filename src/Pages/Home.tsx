@@ -5,6 +5,7 @@ const HomeContent: React.FC = () => {
     return (
         <>
             {/* Additional content for Home page */}
+            <p>This website is currently under construction.</p>
         </>
     );
 };
