@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "home": "About me",
+    "projects": "Projects",
+    "resume": "Resume",
+    "contact": "Contact"
+  },
+  "footer": {
+    "rights": "© {{year}} Maël RABOT. All rights reserved."
+  },
+  "home": {
+    "title": "Home"
+  },
+  "projects": {
+    "title": "Projects"
+  },
+  "resume": {
+      "title": "Resume"
+  },
+  "contact": {
+    "title": "Contact"
+  }
+} 

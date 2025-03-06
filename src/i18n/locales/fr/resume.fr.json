@@ -1,0 +1,113 @@
+{
+  "title": "CV",
+  "current": "Poste Actuel",
+  "present": "Présent",
+  "experiences": {
+    "title": "Expériences",
+    "audiowizard": {
+      "jobTitle": "Développeur Full Stack",
+      "company": "AudioWizard",
+      "location": "Lyon - Télétravail",
+      "contractType": "CDD",
+      "description": "AudioWizard est une entreprise qui développe une solution logicielle pour les audioprothésistes.",
+      "bullets": [
+        "Développement full stack",
+        "Administration de base de données",
+        "Maintenance opérationnelle",
+        "Mise en place d'un back-office ForestAdmin"
+      ],
+      "startDate": "Juillet 2023",
+      "endDate": "Août 2025"
+    },
+    "poc": {
+      "jobTitle": "Développeur en recherche et développement",
+      "company": "POC",
+      "location": "Lyon",
+      "contractType": "Association",
+      "description": "PoC est une association étudiante axée sur la recherche et l'exploration de technologies innovantes telles que l'intelligence artificielle (IA), le Web3 et la réalité augmentée/virtuelle (AR/VR). L'association favorise la curiosité, la collaboration et l'expérimentation pratique à travers des ateliers, des hackathons et des projets de recherche.\n\nEn partenariat avec des experts de l'industrie, des institutions académiques et des communautés technologiques, PoC offre des perspectives précieuses et des opportunités de travailler sur des applications réelles. Elle propose un environnement dynamique pour l'apprentissage, la croissance et l'innovation, s'adressant à la fois aux débutants et aux passionnés expérimentés désireux de repousser les limites de la technologie.",
+      "bullets": [
+        "Recherche et prototypage d'un système d'intelligence artificielle qui convertit des images en musique.",
+        "Administration et gestion de bases de données.",
+        "Mise en œuvre de divers modèles théoriques, avec un accent particulier sur le développement d'une IA de conversion d'images en musique à grande échelle.",
+        "Exploration approfondie des techniques de convolution, appliquées spécifiquement aux modèles d'IA générative."
+      ],
+      "startDate": "Janvier 2023",
+      "endDate": "Août 2023"
+    },
+    "cobra": {
+      "jobTitle": "Responsable du pôle atelier",
+      "company": "Coding Club",
+      "location": "Lyon",
+      "contractType": "Association",
+      "description": "Le Coding Club est une association étudiante qui vise à promouvoir les compétences en coda et en programmation chez les lycéens. Le club organise des ateliers, des hackathons et des compétitions de programmation pour aider les étudiants à développer leurs compétences techniques et leurs capacités de résolution de problèmes.",
+      "bullets": [
+        "Organisation d'ateliers de codage pour les lycéens",
+        "Mentorat des étudiants dans des projets et compétitions de codage",
+        "Collaboration avec les enseignants pour intégrer le codage dans le programme scolaire",
+        "Participation à des compétitions de codage et des hackathons"
+      ],
+      "startDate": "Février 2023",
+      "endDate": "Février 2025"
+    },
+    "burger-king": {
+      "jobTitle": "Employé Polyvalent",
+      "company": "Burger King",
+      "location": "Ornex",
+      "contractType": "Temps plein",
+      "description": "Burger King est une chaîne de restaurants de restauration rapide spécialisée dans les hamburgers grillés à la flamme.",
+      "bullets": [
+        "Gestion efficace de la cuisine et du comptoir pendant les heures de pointe, assurant un service rapide et de haute qualité.",
+        "Contributions significatives au maintien d'un retour client majoritairement positif, en mettant en œuvre des pratiques axées sur la satisfaction et la qualité du service.",
+        "Responsable de la formation des nouveaux employés, assurant une intégration efficace et une compréhension approfondie des procédures."
+      ],
+      "startDate": "Juin 2021",
+      "endDate": "Septembre 2022"
+    }
+  },
+  "educations": {
+    "title": "Formations",
+    "epitech": {
+      "degree": "Expert en ingénierie logicielle & Expert en technologie de l’information",
+      "school": "Epitech",
+      "location": "Lyon",
+      "description": "Epitech est un établissement privé d'enseignement supérieur en informatique, fondé en 1999. Il est membre du groupe IONIS Education, le plus grand groupe d'enseignement supérieur privé en France.\n\nL'école est connue pour sa pédagogie innovante basée sur les projets, qui met l'accent sur l'apprentissage pratique et l'expérience concrète. Les étudiants d'Epitech travaillent sur des projets réels, participent à des hackathons et collaborent avec des partenaires industriels pour développer leurs compétences techniques et leur capacité à résoudre des problèmes.",
+      "startDate": "Septembre 2022",
+      "endDate": "Avril 2027",
+      "bullets": [
+        "Moyenne de 3.2",
+        "Ambassadeur de l'école",
+        "Membre du Epitech Innovation Hub"
+      ]
+    },
+    "CAU": {
+      "degree": "Programme International",
+      "school": "Université Chung-Ang",
+      "location": "Séoul",
+      "description": "L'Université Chung-Ang est un établissement privé d'enseignement supérieur en Corée du Sud, fondé en 1918. C'est l'une des plus anciennes universités du pays et elle est connue pour son fort accent sur la recherche et l'innovation.\n\nL'université propose une large gamme de programmes de premier cycle et de cycles supérieurs dans divers domaines, y compris les arts, les sciences humaines, les sciences sociales, les sciences naturelles et l'ingénierie. Elle abrite un corps étudiant diversifié et une communauté de campus dynamique, offrant aux étudiants un environnement d'apprentissage riche et dynamique.",
+      "startDate": "Août 2025",
+      "endDate": "Juin 2026",
+      "bullets": [
+        "Participer au Programme International",
+        "Étudier la langue et la culture coréennes",
+        "Participer à des événements et activités culturelles",
+        "Suivre des cours et projets en informatique",
+        "Collaborer avec des pairs sur des projets de développement logiciel",
+        "Mener des recherches sur des sujets informatiques avancés"
+      ]
+    },
+    "bac": {
+      "degree": "Baccalauréat Scientifique",
+      "school": "Lycée International",
+      "location": "Ferney-Voltaire",
+      "description": "Le Lycée International est un lycée public situé à Ferney-Voltaire, en France. Il offre un programme complet qui met fortement l'accent sur les sciences, les mathématiques et la technologie.\n\nL'école propose aux étudiants un programme académique rigoureux qui les prépare à l'enseignement supérieur et aux carrières professionnelles. Elle met l'accent sur la pensée critique, la résolution de problèmes et la créativité, favorisant une culture de curiosité intellectuelle et d'excellence académique.",
+      "startDate": "Septembre 2018",
+      "endDate": "Juin 2021",
+      "bullets": [
+        "Spécialisation en Mathématiques et Informatique",
+        "Participation à des activités et compétitions extrascolaires",
+        "Engagement dans des services communautaires et des travaux bénévoles",
+        "Rôles de leadership dans des organisations et clubs étudiants"
+      ]
+    }
+  }
+}
