@@ -116,10 +116,10 @@ const HomeContent: React.FC = () => {
                                     <Typography variant="h4" gutterBottom sx={{ mb: 2 }}>
                                         {t('home.aboutMe')}
                                     </Typography>
-                                    <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
+                                    <Typography variant="body1" sx={{ lineHeight: 1.8, textAlign: 'justify' }}>
                                         {t('home.description1')}
                                     </Typography>
-                                    <Typography variant="body1" sx={{ lineHeight: 1.8, mt: 2 }}>
+                                    <Typography variant="body1" sx={{ lineHeight: 1.8, mt: 2, textAlign: 'justify' }}>
                                         {t('home.description2')}
                                     </Typography>
                                 </Box>
@@ -151,7 +151,7 @@ const HomeContent: React.FC = () => {
                             <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
                                 {t('home.involvement')}
                             </Typography>
-                            <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
+                            <Typography variant="body1" sx={{ lineHeight: 1.8, textAlign: 'justify' }}>
                                 {t('home.description3')}
                             </Typography>
                         </Paper>
@@ -248,6 +248,57 @@ const HomeContent: React.FC = () => {
                                             ))}
                                         </Stack>
                                     </Paper>
+                                </motion.div>
+                            ))}
+                        </Box>
+                    </Box>
+                </motion.div>
+
+                <motion.div
+                    initial={{ opacity: 0, x: -100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7 }}
+                >
+                    <Box sx={{ mb: 4 }}>
+                        <Typography
+                            variant="h3"
+                            gutterBottom
+                            sx={{
+                                textAlign: 'center',
+                                mb: 6,
+                                background: (theme) => `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                                backgroundClip: 'text',
+                                WebkitBackgroundClip: 'text',
+                                color: 'transparent',
+                            }}
+                        >
+                            {t('home.passions.title')}
+                        </Typography>
+                        <Box sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            flexWrap: 'wrap',
+                            gap: 2,
+                            mb: 8
+                        }}>
+                            {(t('home.passions.list', { returnObjects: true }) as string[]).map((passion, index) => (
+                                <motion.div
+                                    key={index}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <Chip
+                                        label={passion}
+                                        color="secondary"
+                                        sx={{
+                                            fontWeight: 500,
+                                            background: (theme) =>
+                                                `linear-gradient(45deg, ${theme.palette.secondary.main} 30%, ${theme.palette.secondary.light} 90%)`,
+                                            '&:hover': {
+                                                transform: 'translateY(-2px)',
+                                            }
+                                        }}
+                                    />
                                 </motion.div>
                             ))}
                         </Box>

@@ -35,6 +35,10 @@
         "title": "Langues",
         "list": ["Français (Natif)", "Anglais (C1)"]
       }
+    },
+    "passions": {
+      "title": "Passions",
+      "list": ["Aviation", "Cuisine", "Président d'une association sportive"]
     }
   },
   "projects": {

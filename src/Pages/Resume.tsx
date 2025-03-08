@@ -38,6 +38,7 @@ const useResumeData = (): ResumeDataType[] => {
         'cobra',
         'poc',
         'burger-king',
+        'MUN',
     ];
 
     return experiences.map(exp => {
@@ -99,15 +100,15 @@ const Resume: React.FC = () => {
         return (
             <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
                 {data.map((experience, index) => (
-                    <motion.div
-                        key={index}
-                        // @ts-expect-error sx prop is not recognized by motion
-                        sx={{maxWidth: 800, mx: "auto", p: 2}}
-                        initial={{ opacity: 0, x: -100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7, delay: index * 0.2 }}
-                        whileHover={{scale: 1.05}}
-                    >
+                    // <motion.div
+                    //     key={index}
+                    //     // @ts-expect-error sx prop is not recognized by motion
+                    //     sx={{maxWidth: 800, mx: "auto", p: 2}}
+                    //     initial={{ opacity: 0, x: -100 }}
+                    //     animate={{ opacity: 1, x: 0 }}
+                    //     transition={{ duration: 0.7, delay: index * 0.2 }}
+                    //     whileHover={{scale: 1.05}}
+                    // >
                         <Card sx={{mb: 4}}>
                             <CardContent>
                                 <Stack direction="row" spacing={2}>
@@ -148,13 +149,21 @@ const Resume: React.FC = () => {
                                 {((experience?.bullets?.length ?? 0) > 0 && experience?.description) && (
                                     <Divider sx={{my: 2}}/>
                                 )}
-                                {/* @ts-expect-error needed for '\n' handling */}
-                                <Typography variant="body1" color="textSecondary"
-                                            dangerouslySetInnerHTML={{__html: experience?.description}}/>
+                                {/* @ts-expect-error dangerouslySetInnerHTML is not recognized by Typography */}
+                                <Typography 
+                                    variant="body1" 
+                                    color="textSecondary"
+                                    sx={{ textAlign: 'justify' }}
+                                    dangerouslySetInnerHTML={{__html: experience?.description}}
+                                />
                                 <ul>
                                     {experience?.bullets?.map((bullet, bulletIndex) => (
                                         <li key={bulletIndex}>
-                                            <Typography variant="body2" color="textSecondary">
+                                            <Typography 
+                                                variant="body2" 
+                                                color="textSecondary"
+                                                sx={{ textAlign: 'justify' }}
+                                            >
                                                 {bullet}
                                             </Typography>
                                         </li>
@@ -162,7 +171,7 @@ const Resume: React.FC = () => {
                                 </ul>
                             </CardContent>
                         </Card>
-                    </motion.div>
+                    // </motion.div>
                 ))}
             </Box>
         );
@@ -174,15 +183,15 @@ const Resume: React.FC = () => {
         return (
             <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
                 {educationData.map((education, index) => (
-                    <motion.div
-                        key={index}
-                        // @ts-expect-error sx prop is not recognized by motion
-                        sx={{maxWidth: 800, mx: "auto", p: 2}}
-                        initial={{ opacity: 0, x: -100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7, delay: index * 0.2 }}
-                        whileHover={{scale: 1.05}}
-                    >
+                    // <motion.div
+                    //     key={index}
+                    //     // @ts-expect-error sx prop is not recognized by motion
+                    //     sx={{maxWidth: 800, mx: "auto", p: 2}}
+                    //     initial={{ opacity: 0, x: -100 }}
+                    //     animate={{ opacity: 1, x: 0 }}
+                    //     transition={{ duration: 0.7, delay: index * 0.2 }}
+                    //     whileHover={{scale: 1.05}}
+                    // >
                         <Card sx={{ mb: 4 }}>
                             <CardContent>
                                 <Stack direction="row" spacing={2}>
@@ -211,12 +220,21 @@ const Resume: React.FC = () => {
                                 {((education?.bullets?.length ?? 0) > 0 && education?.description) && (
                                     <Divider sx={{ my: 2 }} />
                                 )}
-                                {/* @ts-expect-error needed for '\n' handling */}
-                                <Typography variant="body1" color="textSecondary" dangerouslySetInnerHTML={{ __html: education?.description }} />
+                                {/* @ts-expect-error dangerouslySetInnerHTML is not recognized by Typography */}
+                                <Typography 
+                                    variant="body1" 
+                                    color="textSecondary" 
+                                    sx={{ textAlign: 'justify' }}
+                                    dangerouslySetInnerHTML={{ __html: education?.description }} 
+                                />
                                 <ul>
                                     {education?.bullets?.map((bullet, bulletIndex) => (
                                         <li key={bulletIndex}>
-                                            <Typography variant="body2" color="textSecondary">
+                                            <Typography 
+                                                variant="body2" 
+                                                color="textSecondary"
+                                                sx={{ textAlign: 'justify' }}
+                                            >
                                                 {bullet}
                                             </Typography>
                                         </li>
@@ -224,7 +242,7 @@ const Resume: React.FC = () => {
                                 </ul>
                             </CardContent>
                         </Card>
-                    </motion.div>
+                    // </motion.div>
                 ))}
             </Box>
         );
