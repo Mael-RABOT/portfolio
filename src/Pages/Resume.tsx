@@ -100,11 +100,15 @@ const Resume: React.FC = () => {
             <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
                 {data.map((experience, index) => (
                     <motion.div
-                        // @ts-ignore sx prop is not recognized by motion
+                        key={index}
+                        // @ts-expect-error sx prop is not recognized by motion
                         sx={{maxWidth: 800, mx: "auto", p: 2}}
+                        initial={{ opacity: 0, x: -100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7, delay: index * 0.2 }}
                         whileHover={{scale: 1.05}}
                     >
-                        <Card key={index} sx={{mb: 4}}>
+                        <Card sx={{mb: 4}}>
                             <CardContent>
                                 <Stack direction="row" spacing={2}>
                                     <CardMedia
@@ -117,7 +121,17 @@ const Resume: React.FC = () => {
                                         <Typography variant="h5" component="div">
                                             {experience.jobTitle}
                                         </Typography>
-                                        <Typography variant="h6" color="primary">
+                                        <Typography
+                                            variant="h6"
+                                            color="primary"
+                                            sx={{
+                                                fontWeight: 'bold',
+                                                background: (theme) => `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
+                                                backgroundClip: 'text',
+                                                WebkitBackgroundClip: 'text',
+                                                color: 'transparent',
+                                            }}
+                                        >
                                             {experience.company}
                                         </Typography>
                                         <Stack direction="row" spacing={1} mt={1}>
@@ -134,7 +148,7 @@ const Resume: React.FC = () => {
                                 {((experience?.bullets?.length ?? 0) > 0 && experience?.description) && (
                                     <Divider sx={{my: 2}}/>
                                 )}
-                                {/* @ts-ignore needed for '\n' handling */}
+                                {/* @ts-expect-error needed for '\n' handling */}
                                 <Typography variant="body1" color="textSecondary"
                                             dangerouslySetInnerHTML={{__html: experience?.description}}/>
                                 <ul>
@@ -160,47 +174,57 @@ const Resume: React.FC = () => {
         return (
             <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
                 {educationData.map((education, index) => (
-                    <Card key={index} sx={{ mb: 4 }}>
-                        <CardContent>
-                            <Stack direction="row" spacing={2}>
-                                <CardMedia
-                                    component="img"
-                                    sx={{ width: 100, height: 100 }}
-                                    image={`/${education.image}`}
-                                    alt={`${education.school} logo`}
-                                />
-                                <Box>
-                                    <Typography variant="h5" component="div">
-                                        {education.degree}
-                                    </Typography>
-                                    <Typography variant="h6" color="primary">
-                                        {education.school}
-                                    </Typography>
-                                    <Stack direction="row" spacing={1} mt={1}>
-                                        <Chip label={education.location} color="primary" />
-                                        {education.current && <Chip label={t('current', { ns: 'resume' })} color="success" />}
-                                    </Stack>
-                                    <Typography variant="body2" color="textSecondary" mt={1}>
-                                        {education.startDate} - {education.current ? t('present', { ns: 'resume' }) : education.endDate}
-                                    </Typography>
-                                </Box>
-                            </Stack>
-                            {((education?.bullets?.length ?? 0) > 0 && education?.description) && (
-                                <Divider sx={{ my: 2 }} />
-                            )}
-                            {/* @ts-ignore needed for '\n' handling */}
-                            <Typography variant="body1" color="textSecondary" dangerouslySetInnerHTML={{ __html: education?.description }} />
-                            <ul>
-                                {education?.bullets?.map((bullet, bulletIndex) => (
-                                    <li key={bulletIndex}>
-                                        <Typography variant="body2" color="textSecondary">
-                                            {bullet}
+                    <motion.div
+                        key={index}
+                        // @ts-expect-error sx prop is not recognized by motion
+                        sx={{maxWidth: 800, mx: "auto", p: 2}}
+                        initial={{ opacity: 0, x: -100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7, delay: index * 0.2 }}
+                        whileHover={{scale: 1.05}}
+                    >
+                        <Card sx={{ mb: 4 }}>
+                            <CardContent>
+                                <Stack direction="row" spacing={2}>
+                                    <CardMedia
+                                        component="img"
+                                        sx={{ width: 100, height: 100 }}
+                                        image={`/${education.image}`}
+                                        alt={`${education.school} logo`}
+                                    />
+                                    <Box>
+                                        <Typography variant="h5" component="div">
+                                            {education.degree}
                                         </Typography>
-                                    </li>
-                                ))}
-                            </ul>
-                        </CardContent>
-                    </Card>
+                                        <Typography variant="h6" color="primary">
+                                            {education.school}
+                                        </Typography>
+                                        <Stack direction="row" spacing={1} mt={1}>
+                                            <Chip label={education.location} color="primary" />
+                                            {education.current && <Chip label={t('current', { ns: 'resume' })} color="success" />}
+                                        </Stack>
+                                        <Typography variant="body2" color="textSecondary" mt={1}>
+                                            {education.startDate} - {education.current ? t('present', { ns: 'resume' }) : education.endDate}
+                                        </Typography>
+                                    </Box>
+                                </Stack>
+                                {((education?.bullets?.length ?? 0) > 0 && education?.description) && (
+                                    <Divider sx={{ my: 2 }} />
+                                )}
+                                {/* @ts-expect-error needed for '\n' handling */}
+                                <Typography variant="body1" color="textSecondary" dangerouslySetInnerHTML={{ __html: education?.description }} />
+                                <ul>
+                                    {education?.bullets?.map((bullet, bulletIndex) => (
+                                        <li key={bulletIndex}>
+                                            <Typography variant="body2" color="textSecondary">
+                                                {bullet}
+                                            </Typography>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
                 ))}
             </Box>
         );
@@ -211,22 +235,28 @@ const Resume: React.FC = () => {
     };
 
     return (
-        <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
-            <Typography variant="h4" component="div" gutterBottom>
-                {t('experiences.title', { ns: 'resume' })}
-            </Typography>
-            <ExperienceRender />
-            <Divider sx={{ my: 4 }} />
-            <Typography variant="h4" component="div" gutterBottom>
-                {t('educations.title', { ns: 'resume' })}
-            </Typography>
-            <EducationRender />
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                <Fab color="primary" aria-label="scroll to top" onClick={handleScrollToTop}>
-                    <KeyboardArrowUp />
-                </Fab>
+        <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+        >
+            <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
+                <Typography variant="h4" component="div" gutterBottom>
+                    {t('experiences.title', { ns: 'resume' })}
+                </Typography>
+                <ExperienceRender />
+                <Divider sx={{ my: 4 }} />
+                <Typography variant="h4" component="div" gutterBottom>
+                    {t('educations.title', { ns: 'resume' })}
+                </Typography>
+                <EducationRender />
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <Fab color="primary" aria-label="scroll to top" onClick={handleScrollToTop}>
+                        <KeyboardArrowUp />
+                    </Fab>
+                </Box>
             </Box>
-        </Box>
+        </motion.div>
     );
 };
 

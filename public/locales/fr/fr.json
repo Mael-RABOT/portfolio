@@ -1,0 +1,53 @@
+{
+  "navigation": {
+    "home": "À propos de moi",
+    "projects": "Projets",
+    "resume": "CV",
+    "contact": "Contact"
+  },
+  "footer": {
+    "rights": "© {{year}} Maël RABOT. Tous droits réservés."
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Bienvenue, je suis Maël RABOT",
+    "subtitle": "Un développeur passionné et amateur de technologie explorant le monde de l'informatique.",
+    "aboutMe": "À Propos de Moi",
+    "description1": "Je suis étudiant en troisième année d'informatique à Epitech, en route vers un diplôme de Master (Bac +5). Ma passion pour la technologie me pousse à explorer divers domaines de l'informatique, cherchant constamment de nouveaux défis et opportunités d'apprentissage.",
+    "description2": "Actuellement, je me concentre sur la programmation bas niveau, la Programmation Orientée Objet, le développement web et la robotique. Je souhaite également développer mes compétences dans le développement de jeux vidéo et la programmation graphique.",
+    "involvement": "Engagement Communautaire",
+    "description3": "Je suis activement impliqué dans le 'Coding Club', où nous promouvons l'informatique et le développement auprès des lycéens. De plus, je suis ambassadeur de l'école, représentant Epitech lors d'événements publics et partageant ma passion pour l'informatique avec les futurs étudiants.",
+    "skills": {
+      "title": "Compétences Techniques",
+      "programmingLanguages": {
+        "title": "Langages de Programmation",
+        "list": ["C", "C++", "Python", "JavaScript", "TypeScript", "PHP", "SQL", "Bash"]
+      },
+      "tools": {
+        "title": "Outils & Frameworks",
+        "list": ["Git", "React", "Docker", "Node.js", "MariaDB"]
+      },
+      "softSkills": {
+        "title": "Compétences Douces",
+        "list": ["Travail d'Équipe", "Autonomie", "Résolution de Problèmes", "Apprentissage Continu"]
+      },
+      "languages": {
+        "title": "Langues",
+        "list": ["Français (Natif)", "Anglais (C1)"]
+      }
+    }
+  },
+  "projects": {
+    "title": "Projet"
+  },
+  "resume": {
+    "title": "CV"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "N'hésitez pas à me contacter par email pour toute demande ou collaboration.",
+    "emailTitle": "Email",
+    "github": "Profil GitHub",
+    "linkedin": "Profil LinkedIn"
+  }
+} 

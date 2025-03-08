@@ -5,6 +5,7 @@ const Projects: React.FC = () => {
     return (
         <>
             {/* Additional content for page */}
+            <p>This page is currently under construction</p>
         </>
     );
 };

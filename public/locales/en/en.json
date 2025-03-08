@@ -1,0 +1,53 @@
+{
+  "navigation": {
+    "home": "About me",
+    "projects": "Projects",
+    "resume": "Resume",
+    "contact": "Contact"
+  },
+  "footer": {
+    "rights": "© {{year}} Maël RABOT. All rights reserved."
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome, I'm Maël RABOT",
+    "subtitle": "A passionate developer and tech enthusiast exploring the world of computer science.",
+    "aboutMe": "About Me",
+    "description1": "I'm a third-year computer science student at Epitech, working towards a Master's degree (Bac +5). My passion for technology drives me to explore various IT fields, constantly seeking new challenges and opportunities to learn.",
+    "description2": "Currently, I'm focusing on low-level programming, Object-Oriented Programming, web development, and robotics. I'm also eager to expand my knowledge into video game development and graphical programming.",
+    "involvement": "Community Involvement",
+    "description3": "I'm actively involved in the 'Coding Club', where we promote IT and development to high school students. Additionally, I serve as a school ambassador, representing Epitech at public events and sharing our passion for technology with future students.",
+    "skills": {
+      "title": "Technical Skills",
+        "programmingLanguages": {
+          "title": "Programming Languages",
+          "list": ["C", "C++", "Python", "JavaScript", "TypeScript", "PHP", "SQL", "Bash"]
+        },
+        "tools": {
+          "title": "Tools & Frameworks",
+          "list": ["Git", "React", "Docker", "Node.js", "MariaDB"]
+        },
+        "softSkills": {
+          "title": "Soft Skills",
+          "list": ["Team Work", "Autonomy", "Problem Solving", "Continuous Learning"]
+        },
+        "languages": {
+          "title": "Languages",
+          "list": ["French (Native)", "English (C1)"]
+        }
+    }
+  },
+  "projects": {
+    "title": "Projects"
+  },
+  "resume": {
+      "title": "Resume"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Feel free to reach out to me via email for any inquiries or collaborations.",
+    "emailTitle": "Email",
+    "github": "GitHub Profile",
+    "linkedin": "LinkedIn Profile"
+  }
+} 
