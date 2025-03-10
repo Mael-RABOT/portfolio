@@ -2,11 +2,11 @@ services:
   vite-app:
     build: .
     ports:
-      - "5173:5173"
+      - "4173:4173"
     volumes:
       - .:/app
       - /app/node_modules
-    command: npm run preview
+    command: npm run preview -- --host
     networks:
       - caddy-net
 
