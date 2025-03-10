@@ -1,0 +1,25 @@
+services:
+  vite-app:
+    build: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run preview
+    networks:
+      - caddy-net
+
+  reverse-proxy:
+      image: caddy:latest
+      restart: always
+      ports:
+        - "8080:80"
+        - "443:443"
+      volumes:
+        - "./Caddyfile:/etc/caddy/Caddyfile"
+      networks:
+        - caddy-net
+
+networks:
+  caddy-net:
