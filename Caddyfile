@@ -1,3 +1,18 @@
-http://www.maelrabot.com:8080 {
-    reverse_proxy * http://vite-app:5173
+http://maelrabot.com {
+    reverse_proxy /* http://vite-app:5173 {
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote}
+        header_up X-Forwarded-For {http.request.remote}
+        header_up X-Forwarded-Proto {http.request.scheme}
+        
+        transport http {
+            keepalive 30s
+        }
+    }
+
+    @websockets {
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    reverse_proxy @websockets http://vite-app:5173
 }
