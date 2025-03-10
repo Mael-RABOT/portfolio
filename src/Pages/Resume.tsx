@@ -99,7 +99,7 @@ const Resume: React.FC = () => {
 
         return (
             <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
-                {data.map((experience, index) => (
+                {data.map((experience) => (
                     // <motion.div
                     //     key={index}
                     //     // @ts-expect-error sx prop is not recognized by motion
@@ -182,7 +182,7 @@ const Resume: React.FC = () => {
 
         return (
             <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
-                {educationData.map((education, index) => (
+                {educationData.map((education) => (
                     // <motion.div
                     //     key={index}
                     //     // @ts-expect-error sx prop is not recognized by motion
