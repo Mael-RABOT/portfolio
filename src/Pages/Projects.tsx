@@ -117,6 +117,13 @@ const Projects: React.FC = () => {
                                     ...(project.stars ? [`⭐ Stars: ${project.stars}`] : []),
             t('terminal.readyInspection')
         ]);
+
+        // Scroll to top on mobile when project is selected
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
+        }
     };
 
     const getStatusColor = (status: string) => {
@@ -160,40 +167,19 @@ const Projects: React.FC = () => {
         return result;
     };
 
+    const hasValidFileStructure = (project: Project): boolean => {
+        return !!(project.fileStructure &&
+                 project.fileStructure.length > 0 &&
+                 project.fileStructure.some(item => item.name && item.name.trim() !== ''));
+    };
+
     const getFileTree = (project: Project) => {
-        if (project.fileStructure && project.fileStructure.length > 0) {
-            return renderFileTree(project.fileStructure);
+        if (hasValidFileStructure(project)) {
+            return renderFileTree(project.fileStructure!);
         }
 
-        // Fallback to mock structure if no real data available
-        return `
-        📁 Repository structure not available
-
-        ╔═══════════════════════════════════════════╗
-        ║           🚀 LOADING FAILED 🚀            ║
-        ╠═══════════════════════════════════════════╣
-        ║                                           ║
-        ║      ██████╗  ██████╗ ██████╗ ███████╗    ║
-        ║     ██╔════╝ ██╔═══██╗██╔══██╗██╔════╝    ║
-        ║     ██║      ██║   ██║██║  ██║█████╗      ║
-        ║     ██║      ██║   ██║██║  ██║██╔══╝      ║
-        ║     ╚██████╗ ╚██████╔╝██████╔╝███████╗    ║
-        ║      ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝    ║
-        ║                                           ║
-        ║     Repository might be private or        ║
-        ║     temporarily unavailable               ║
-        ║                                           ║
-        ║     [░░░░░░░░░░] 0% Loaded                ║
-        ║                                           ║
-        ╚═══════════════════════════════════════════╝
-
-        > git status
-        fatal: not a git repository
-
-        > ls -la
-        total 0
-        drwxr-xr-x  2 dev dev  4096 src
-        `;
+        // Return empty string if no data - this should not be called anyway due to conditional rendering
+        return "";
     };
 
     return (
@@ -214,59 +200,11 @@ const Projects: React.FC = () => {
                 </div>
             </div>
 
-            {/* Project Grid */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('listing.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-grid">
-                        {projects.map((project, index) => (
-                            <div
-                                key={index}
-                                className="terminal-card command-item"
-                                onClick={() => handleProjectSelect(project)}
-                            >
-                                <div className="terminal-card-header">
-                                    <span className="status-indicator"
-                                          style={{ backgroundColor: getStatusColor(project.status) }}>
-                                    </span>
-                                    {project.name}
-                                </div>
-                                <div className="project-meta">
-                                    <div className="terminal-prompt">
-                                        {t('meta.gitStatus')} {t(`status.${project.status.toLowerCase()}` as any)}
-                                    </div>
-                                    <div className="terminal-text">
-                                        <strong>{t('meta.type')}</strong> {project.type}<br/>
-                                        <strong>{t('meta.lang')}</strong> {project.language}<br/>
-                                        <strong>{t('meta.files')}</strong> {isLoading ? '...' : project.fileCount}<br/>
-                                        <strong>{t('meta.last')}</strong> {isLoading ? '...' : project.lastCommit}
-                                        {project.stars !== undefined && project.stars > 0 && (
-                                            <><br/><strong>⭐ Stars:</strong> {project.stars}</>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="tech-stack">
-                                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
-                                        <span key={techIndex} className="terminal-command tech-tag">
-                                            {tech}
-                                        </span>
-                                    ))}
-                                    {project.technologies.length > 3 && (
-                                        <span className="tech-more">+{project.technologies.length - 3}</span>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Selected Project Details */}
+            {/* Selected Project Details - Mobile Focus Zone */}
             {selectedProject && (
-                <div className="terminal-section">
+                <div className="terminal-section mobile-focus-zone">
                     <div className="terminal-section-header">
+                        <span className="mobile-close-btn" onClick={() => setSelectedProject(null)}>×</span>
                         {t('details.title')} - {selectedProject.name.toUpperCase()}
                     </div>
                     <div className="terminal-section-content">
@@ -274,7 +212,7 @@ const Projects: React.FC = () => {
                             <div className="terminal-card">
                                 <div className="terminal-card-header">{t('details.info.title')}</div>
                                 <div className="terminal-prompt">{t('details.info.command')}</div>
-                                <div className="terminal-text">
+                                <div className="terminal-text mobile-project-description">
                                     <strong>{t('details.info.description')}</strong><br/>
                                     {selectedProject.description}
                                     <br/><br/>
@@ -300,13 +238,15 @@ const Projects: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="terminal-card">
-                                <div className="terminal-card-header">{t('details.structure.title')}</div>
-                                <div className="terminal-prompt">{t('details.structure.command')}</div>
-                                <pre className="terminal-text file-tree">
-                                    {isLoading ? "Loading file structure..." : getFileTree(selectedProject)}
-                                </pre>
-                            </div>
+                            {hasValidFileStructure(selectedProject) && !isLoading && (
+                                <div className="terminal-card">
+                                    <div className="terminal-card-header">{t('details.structure.title')}</div>
+                                    <div className="terminal-prompt">{t('details.structure.command')}</div>
+                                    <pre className="terminal-text file-tree">
+                                        {getFileTree(selectedProject)}
+                                    </pre>
+                                </div>
+                            )}
                         </div>
 
                         <div className="terminal-card" style={{ marginTop: '20px' }}>
@@ -324,6 +264,55 @@ const Projects: React.FC = () => {
                     </div>
                 </div>
             )}
+
+            {/* Project Grid */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('listing.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-grid">
+                        {projects.map((project, index) => (
+                            <div
+                                key={index}
+                                className="terminal-card command-item"
+                                onClick={() => handleProjectSelect(project)}
+                            >
+                                <div className="terminal-card-header">
+                                    <span className="status-indicator"
+                                          style={{ backgroundColor: getStatusColor(project.status) }}>
+                                    </span>
+                                    {project.name}
+                                </div>
+                                <div className="project-meta">
+                                    <div className="terminal-prompt">
+                                        {t('meta.gitStatus')} {t(`status.${project.status.toLowerCase()}` as any)}
+                                    </div>
+                                    <div className="terminal-text mobile-project-summary">
+                                        <strong>{t('meta.type')}</strong> {project.type}<br/>
+                                        <strong>{t('meta.lang')}</strong> {project.language}<br/>
+                                        <strong>{t('meta.files')}</strong> {isLoading ? '...' : project.fileCount}<br/>
+                                        <strong>{t('meta.last')}</strong> {isLoading ? '...' : project.lastCommit}
+                                        {project.stars !== undefined && project.stars > 0 && (
+                                            <><br/><strong>⭐ Stars:</strong> {project.stars}</>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="tech-stack">
+                                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                                        <span key={techIndex} className="terminal-command tech-tag">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                    {project.technologies.length > 3 && (
+                                        <span className="tech-more">+{project.technologies.length - 3}</span>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
 
             {/* Group Projects Section */}
             <div className="terminal-section">

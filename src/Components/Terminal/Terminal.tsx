@@ -19,6 +19,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
   const [shutdownStep, setShutdownStep] = useState(0);
   const [showContinue, setShowContinue] = useState(false);
   const [visibleLines, setVisibleLines] = useState<number[]>([]);
+  const [isMobileNavVisible, setIsMobileNavVisible] = useState(true);
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
@@ -71,6 +72,26 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
   ];
 
   // Shutdown sequence animation
+      // Handle mobile navigation visibility - start hidden on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsMobileNavVisible(false);
+      } else {
+        setIsMobileNavVisible(true);
+      }
+    };
+
+    // Set initial state
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     if (!showShutdown) {
       return;
@@ -216,34 +237,65 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
           </div>
 
           {/* Terminal Navigation */}
-          <nav className="terminal-nav">
+          <nav className={`terminal-nav ${isMobileNavVisible ? 'visible' : 'hidden'}`}>
             <div className="nav-menu">
               <Link
                 to="/"
                 className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}
+                onClick={() => {
+                  if (window.innerWidth <= 768) {
+                    setIsMobileNavVisible(false);
+                  }
+                }}
               >
                 {t('menu.home')}
               </Link>
               <Link
                 to="/projects"
                 className={`nav-item ${location.pathname === '/projects' ? 'active' : ''}`}
+                onClick={() => {
+                  if (window.innerWidth <= 768) {
+                    setIsMobileNavVisible(false);
+                  }
+                }}
               >
                 {t('menu.projects')}
               </Link>
               <Link
                 to="/resume"
                 className={`nav-item ${location.pathname === '/resume' ? 'active' : ''}`}
+                onClick={() => {
+                  if (window.innerWidth <= 768) {
+                    setIsMobileNavVisible(false);
+                  }
+                }}
               >
                 {t('menu.resume')}
               </Link>
               <Link
                 to="/contact"
                 className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}
+                onClick={() => {
+                  if (window.innerWidth <= 768) {
+                    setIsMobileNavVisible(false);
+                  }
+                }}
               >
                 {t('menu.contact')}
               </Link>
             </div>
           </nav>
+
+                    {/* Mobile Navigation Toggle */}
+          <button
+            className="mobile-nav-toggle"
+            onClick={() => setIsMobileNavVisible(!isMobileNavVisible)}
+            aria-label="Toggle navigation menu"
+          >
+            <span className="nav-toggle-icon">
+              {isMobileNavVisible ? '×' : '☰'}
+            </span>
+          </button>
 
           {/* Terminal Content */}
           <div className="terminal-content">
