@@ -15,6 +15,8 @@ import enResume from '../../public/locales/en/resume.json';
 import frResume from '../../public/locales/fr/resume.json';
 import enNavigation from '../../public/locales/en/navigation.json';
 import frNavigation from '../../public/locales/fr/navigation.json';
+import enData from '../../public/locales/en/data.json';
+import frData from '../../public/locales/fr/data.json';
 
 i18n
   .use(LanguageDetector)
@@ -27,7 +29,8 @@ i18n
         projects: enProjects,
         contact: enContact,
         resume: enResume,
-        navigation: enNavigation
+        navigation: enNavigation,
+        data: enData
       },
       fr: {
         translation: frTranslations,
@@ -35,7 +38,8 @@ i18n
         projects: frProjects,
         contact: frContact,
         resume: frResume,
-        navigation: frNavigation
+        navigation: frNavigation,
+        data: frData
       }
     },
     fallbackLng: 'en',

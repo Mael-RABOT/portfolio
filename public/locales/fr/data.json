@@ -1,0 +1,213 @@
+{
+  "resume": {
+    "experiences": [
+      {
+        "jobTitle": "Co-fondateur & Chef de Produit",
+        "company": "Sentience Robotics",
+        "location": "Lyon",
+        "contractType": "Association",
+        "description": "Co-fondé une association avec des amis pour créer un framework ROS 2 open-source pour contrôler toute plateforme robotique. Direction d'une équipe de développeurs tout en construisant des robots humanoïdes à partir d'impression 3D. Responsable de la gestion de projet, création de feuille de route et développement technique utilisant ROS 2.",
+        "bullets": [
+          "Développement ROS 2",
+          "Gestion et leadership d'équipe",
+          "Développement agile avec tableaux kanban",
+          "Développement open source",
+          "Robotique et impression 3D",
+          "Création de feuille de route produit et backlog"
+        ],
+        "startDate": "2024-10",
+        "endDate": "Présent"
+      },
+      {
+        "jobTitle": "Développeur Full Stack",
+        "company": "AudioWizard",
+        "location": "Lyon - Télétravail",
+        "contractType": "Contrat à durée déterminée",
+        "description": "AudioWizard est une entreprise qui développe une solution logicielle pour les spécialistes d'appareils auditifs.",
+        "bullets": [
+          "Développement full stack",
+          "Administration de base de données",
+          "Maintenance opérationnelle",
+          "Mise en place d'un back-office ForestAdmin"
+        ],
+        "startDate": "Juillet 2023",
+        "endDate": "Août 2025"
+      },
+      {
+        "jobTitle": "Développeur Recherche et Développement",
+        "company": "POC",
+        "location": "Lyon",
+        "contractType": "Association",
+        "description": "PoC est une association étudiante axée sur la recherche et l'exploration de technologies innovantes telles que l'Intelligence Artificielle (IA), Web3, et la Réalité Augmentée/Virtuelle (AR/VR). L'association favorise la curiosité, la collaboration et l'expérimentation pratique à travers des ateliers, hackathons et projets de recherche\nEn partenariat avec des experts de l'industrie, institutions académiques et communautés tech, PoC fournit des insights précieux et des opportunités de travailler sur des applications réelles. Elle offre un environnement dynamique d'apprentissage, croissance et innovation, s'adressant aux débutants comme aux passionnés expérimentés désireux de repousser les limites de la technologie.",
+        "bullets": [
+          "Recherche et prototypage d'un système d'intelligence artificielle qui convertit des images en musique.",
+          "Administration et gestion de base de données.",
+          "Implémentation de divers modèles théoriques, avec un focus particulier sur le développement d'une IA de conversion image-musique à grande échelle.",
+          "Exploration approfondie des techniques convolutionnelles, spécifiquement appliquées aux modèles d'IA générative."
+        ],
+        "startDate": "Janvier 2023",
+        "endDate": "Août 2023"
+      },
+      {
+        "jobTitle": "Responsable d'Atelier",
+        "company": "Coding Club",
+        "location": "Lyon",
+        "contractType": "Association",
+        "description": "Le coding club est une association étudiante qui vise à promouvoir les compétences de codage et de programmation chez les lycéens. Le club organise des ateliers, hackathons et compétitions de programmation pour aider les étudiants à développer leurs compétences techniques et capacités de résolution de problèmes.",
+        "bullets": [
+          "Organisation d'ateliers de programmation pour lycéens",
+          "Mentorat d'étudiants dans des projets et compétitions de codage",
+          "Collaboration avec les enseignants pour intégrer la programmation dans le curriculum scolaire",
+          "Participation à des compétitions de programmation et hackathons"
+        ],
+        "startDate": "Février 2023",
+        "endDate": "Février 2025"
+      },
+      {
+        "jobTitle": "Équipier",
+        "company": "Burger King",
+        "location": "Ornex",
+        "contractType": "Temps plein",
+        "description": "Burger King est une chaîne de restauration rapide spécialisée dans les hamburgers grillés à la flamme.",
+        "bullets": [
+          "Gestion efficace de la cuisine et du comptoir pendant les heures de pointe, assurant un service rapide et de haute qualité.",
+          "Contributions significatives au maintien d'un retour client majoritairement positif, implémentant des pratiques axées sur la satisfaction client et la qualité de service.",
+          "Responsable de la formation des nouveaux employés, assurant une intégration efficace et une compréhension approfondie des procédures."
+        ],
+        "startDate": "Juin 2021",
+        "endDate": "Septembre 2022"
+      },
+      {
+        "jobTitle": "Délégué",
+        "company": "Model United Nations",
+        "location": "Ferney-Voltaire / Genève",
+        "contractType": "Association",
+        "description": "J'ai participé au MUN, d'abord comme assistant pour apprendre la structure et le fonctionnement de l'ONU, avant de devenir délégué et représenter plusieurs pays dans de nombreux débats. FerMUN rassemble 51 écoles de 23 pays différents, se réunissant à l'Union Internationale des Télécommunications, avec une cérémonie d'ouverture dans la Salle des Droits de l'Homme et de l'Alliance des Civilisations à l'ONU à Genève. En tant que délégué dans l'édition 2021, j'ai représenté la Côte d'Ivoire sur la question du développement durable dans les pays en développement.",
+        "bullets": [
+          "Amélioration significative de mon niveau d'anglais",
+          "Rencontre de personnes d'horizons divers",
+          "Prise de parole en public",
+          "Participation aux débats et argumentation/soutien de mes points",
+          "Rédaction de résolutions et documents officiels"
+        ],
+        "startDate": "Septembre 2019",
+        "endDate": "Juin 2021"
+      }
+    ],
+    "educations": [
+      {
+        "degree": "Master en Informatique",
+        "school": "Epitech",
+        "location": "Lyon",
+        "description": "Epitech est un établissement privé d'enseignement supérieur en informatique, fondé en 1999. Il fait partie du Groupe IONIS Education, le plus grand groupe d'enseignement supérieur privé en France.\n\nL'école est connue pour sa pédagogie innovante basée sur les projets, qui met l'accent sur l'apprentissage pratique et l'expérience concrète. Les étudiants d'Epitech travaillent sur des projets du monde réel, participent à des hackathons et collaborent avec des partenaires industriels pour développer leurs compétences techniques et capacités de résolution de problèmes.",
+        "startDate": "Septembre 2022",
+        "endDate": "Avril 2027",
+        "bullets": [
+          "Moyenne de 3.2",
+          "Ambassadeur de l'école",
+          "Membre de l'Epitech Innovation Hub"
+        ]
+      },
+      {
+        "degree": "Programme International",
+        "school": "Université Chung-Ang",
+        "location": "Séoul",
+        "description": "L'Université Chung-Ang est un établissement privé d'enseignement supérieur en Corée du Sud, fondé en 1918. C'est l'une des plus anciennes universités du pays et elle est connue pour son accent fort sur la recherche et l'innovation.\n\nL'université offre une large gamme de programmes de premier et deuxième cycles dans divers domaines, incluant les arts, humanités, sciences sociales, sciences naturelles et ingénierie. Elle abrite un corps étudiant diversifié et une communauté de campus dynamique, offrant aux étudiants un environnement d'apprentissage riche et dynamique.",
+        "startDate": "Août 2025",
+        "endDate": "Juin 2026",
+        "bullets": [
+          "Participation au Programme International",
+          "Étude de la langue et culture coréennes",
+          "Participation à des événements et activités culturels",
+          "Engagement dans des cours et projets d'informatique",
+          "Collaboration avec des pairs sur des projets de développement logiciel",
+          "Recherche dans des sujets informatiques avancés"
+        ]
+      },
+      {
+        "degree": "Baccalauréat Scientifique",
+        "school": "Lycée International",
+        "location": "Ferney-Voltaire",
+        "description": "Le Lycée International est un établissement d'enseignement secondaire public situé à Ferney-Voltaire, France. Il offre un curriculum complet qui inclut un fort accent sur les sciences, mathématiques et technologie.\n\nL'école fournit aux étudiants un programme académique rigoureux qui les prépare pour l'enseignement supérieur et les carrières professionnelles. Elle met l'accent sur la pensée critique, la résolution de problèmes et la créativité, favorisant une culture de curiosité intellectuelle et d'excellence académique.",
+        "startDate": "Septembre 2018",
+        "endDate": "Juin 2021",
+        "bullets": [
+          "Spécialisation en Mathématiques et Informatique",
+          "Participation à des activités extrascolaires et compétitions",
+          "Engagement dans le service communautaire et bénévolat",
+          "Rôles de leadership dans les organisations et clubs étudiants"
+        ]
+      }
+    ],
+    "certifications": []
+  },
+  "projects": [
+    {
+      "name": "terminal-portfolio",
+      "type": "application-web",
+      "status": "active",
+      "language": "TypeScript",
+      "description": "Un site web portfolio de style terminal avec effets matriciels et design TUI",
+      "technologies": ["React", "TypeScript", "CSS3", "Canvas API"],
+      "repository": "https://github.com/dev/terminal-portfolio",
+      "demo": "https://portfolio.dev",
+      "fileCount": 47,
+      "lastCommit": "il y a 2h"
+    },
+    {
+      "name": "microservice-auth",
+      "type": "service-backend",
+      "status": "completed",
+      "language": "Node.js",
+      "description": "Microservice d'authentification basé sur JWT avec mise en cache Redis",
+      "technologies": ["Node.js", "Express", "Redis", "MongoDB", "Docker"],
+      "repository": "https://github.com/dev/microservice-auth",
+      "fileCount": 23,
+      "lastCommit": "il y a 1 semaine"
+    },
+    {
+      "name": "ml-prediction-api",
+      "type": "service-api",
+      "status": "active",
+      "language": "Python",
+      "description": "API d'apprentissage automatique pour l'analyse prédictive avec FastAPI",
+      "technologies": ["Python", "FastAPI", "TensorFlow", "PostgreSQL", "Docker"],
+      "repository": "https://github.com/dev/ml-prediction-api",
+      "fileCount": 31,
+      "lastCommit": "il y a 3 jours"
+    },
+    {
+      "name": "blockchain-wallet",
+      "type": "application-crypto",
+      "status": "active",
+      "language": "Rust",
+      "description": "Portefeuille de cryptomonnaie sécurisé avec support multi-chaînes",
+      "technologies": ["Rust", "Web3", "Ethereum", "Bitcoin", "WASM"],
+      "repository": "https://github.com/dev/blockchain-wallet",
+      "fileCount": 89,
+      "lastCommit": "il y a 5 jours"
+    },
+    {
+      "name": "devops-automation",
+      "type": "script-automatisation",
+      "status": "completed",
+      "language": "Bash",
+      "description": "Scripts d'automatisation DevOps complets pour les pipelines CI/CD",
+      "technologies": ["Bash", "Docker", "Kubernetes", "Jenkins", "AWS"],
+      "repository": "https://github.com/dev/devops-automation",
+      "fileCount": 15,
+      "lastCommit": "il y a 2 semaines"
+    },
+    {
+      "name": "real-time-chat",
+      "type": "application-web",
+      "status": "archived",
+      "language": "JavaScript",
+      "description": "Application de chat en temps réel avec support WebSocket",
+      "technologies": ["Socket.io", "Express", "MongoDB", "React"],
+      "repository": "https://github.com/dev/real-time-chat",
+      "fileCount": 34,
+      "lastCommit": "il y a 3 mois"
+    }
+  ]
+}

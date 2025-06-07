@@ -45,38 +45,7 @@
     "completed": "TERMINÉ",
     "archived": "ARCHIVÉ"
   },
-  "projects": [
-    {
-      "name": "terminal-portfolio",
-      "type": "application-web",
-      "description": "Un site web portfolio de style terminal avec effets matriciels et design TUI"
-    },
-    {
-      "name": "microservice-auth",
-      "type": "service-backend",
-      "description": "Microservice d'authentification basé sur JWT avec mise en cache Redis"
-    },
-    {
-      "name": "ml-prediction-api",
-      "type": "service-api",
-      "description": "API d'apprentissage automatique pour l'analyse prédictive avec FastAPI"
-    },
-    {
-      "name": "blockchain-wallet",
-      "type": "application-crypto",
-      "description": "Portefeuille de cryptomonnaie sécurisé avec support multi-chaînes"
-    },
-    {
-      "name": "devops-automation",
-      "type": "script-automatisation",
-      "description": "Scripts d'automatisation DevOps complets pour les pipelines CI/CD"
-    },
-    {
-      "name": "real-time-chat",
-      "type": "application-web",
-      "description": "Application de chat en temps réel avec support WebSocket"
-    }
-  ],
+
   "footer": {
     "select": "SÉLECTIONNER UN PROJET À EXPLORER"
   }

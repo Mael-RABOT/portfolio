@@ -45,38 +45,7 @@
     "completed": "COMPLETED",
     "archived": "ARCHIVED"
   },
-  "projects": [
-    {
-      "name": "terminal-portfolio",
-      "type": "web-application",
-      "description": "A terminal-style portfolio website with matrix effects and TUI design"
-    },
-    {
-      "name": "microservice-auth",
-      "type": "backend-service",
-      "description": "JWT-based authentication microservice with Redis caching"
-    },
-    {
-      "name": "ml-prediction-api",
-      "type": "api-service",
-      "description": "Machine learning API for predictive analytics with FastAPI"
-    },
-    {
-      "name": "blockchain-wallet",
-      "type": "crypto-application",
-      "description": "Secure cryptocurrency wallet with multi-chain support"
-    },
-    {
-      "name": "devops-automation",
-      "type": "automation-script",
-      "description": "Comprehensive DevOps automation scripts for CI/CD pipelines"
-    },
-    {
-      "name": "real-time-chat",
-      "type": "web-application",
-      "description": "Real-time chat application with WebSocket support"
-    }
-  ],
+
   "footer": {
     "select": "SELECT PROJECT TO EXPLORE"
   }

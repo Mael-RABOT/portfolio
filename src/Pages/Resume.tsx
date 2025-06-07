@@ -1,27 +1,30 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
-import { RESUME_DATA } from "../Constants/resume";
 
 const Resume: React.FC = () => {
     const { t } = useTranslation('resume');
-    const experience = RESUME_DATA.experiences.map(exp => ({
+    const { t: tData } = useTranslation('data');
+
+    const resumeData = tData('resume', { returnObjects: true }) as any;
+
+    const experience = resumeData.experiences?.map((exp: any) => ({
         position: exp.jobTitle,
         company: exp.company,
-        duration: `${exp.startDate} - ${exp.endDate === 'Present' ? 'Present' : exp.endDate}`,
+        duration: `${exp.startDate} - ${exp.endDate}`,
         location: exp.location,
         contractType: exp.contractType,
         responsibilities: exp.bullets
-    }));
+    })) || [];
 
-    const education = RESUME_DATA.educations.map(edu => ({
+    const education = resumeData.educations?.map((edu: any) => ({
         degree: edu.degree,
         institution: edu.school,
-        year: `${edu.startDate} - ${edu.endDate === 'Present' ? 'Present' : edu.endDate}`,
-        gpa: edu.bullets[0] || "N/A"
-    }));
+        year: `${edu.startDate} - ${edu.endDate}`,
+        gpa: edu.bullets?.[0] || "N/A"
+    })) || [];
 
-    const certifications = RESUME_DATA.certifications.map(cert => cert.name);
+    const certifications = resumeData.certifications?.map((cert: any) => cert.name) || [];
 
     return (
         <div className="terminal-crt terminal-scanlines">

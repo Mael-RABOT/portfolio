@@ -17,85 +17,18 @@ interface Project {
 
 const Projects: React.FC = () => {
     const { t } = useTranslation('projects');
+    const { t: tData } = useTranslation('data');
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+    const projectsData = tData('projects', { returnObjects: true }) as any[];
+    const projects: Project[] = projectsData || [];
+
     const [terminalOutput, setTerminalOutput] = useState<string[]>([
         t('terminal.scanning'),
-        t('terminal.found', { count: 8 }),
+        t('terminal.found', { count: projects.length }),
         t('terminal.loading'),
         t('terminal.ready')
     ]);
-
-    const projectsData = t('projects', { returnObjects: true }) as any[];
-
-    const projects: Project[] = [
-        {
-            name: "terminal-portfolio",
-            type: projectsData[0]?.type || "web-application",
-            status: 'active',
-            language: "TypeScript",
-            description: projectsData[0]?.description || "A terminal-style portfolio website with matrix effects and TUI design",
-            technologies: ["React", "TypeScript", "CSS3", "Canvas API"],
-            repository: "https://github.com/dev/terminal-portfolio",
-            demo: "https://portfolio.dev",
-            fileCount: 47,
-            lastCommit: "2h ago"
-        },
-        {
-            name: "microservice-auth",
-            type: projectsData[1]?.type || "backend-service",
-            status: 'completed',
-            language: "Node.js",
-            description: projectsData[1]?.description || "JWT-based authentication microservice with Redis caching",
-            technologies: ["Node.js", "Express", "Redis", "MongoDB", "Docker"],
-            repository: "https://github.com/dev/microservice-auth",
-            fileCount: 23,
-            lastCommit: "1w ago"
-        },
-        {
-            name: "ml-prediction-api",
-            type: projectsData[2]?.type || "api-service",
-            status: 'active',
-            language: "Python",
-            description: projectsData[2]?.description || "Machine learning API for predictive analytics with FastAPI",
-            technologies: ["Python", "FastAPI", "TensorFlow", "PostgreSQL", "Docker"],
-            repository: "https://github.com/dev/ml-prediction-api",
-            fileCount: 31,
-            lastCommit: "3d ago"
-        },
-        {
-            name: "blockchain-wallet",
-            type: projectsData[3]?.type || "crypto-application",
-            status: 'active',
-            language: "Rust",
-            description: projectsData[3]?.description || "Secure cryptocurrency wallet with multi-chain support",
-            technologies: ["Rust", "Web3", "Ethereum", "Bitcoin", "WASM"],
-            repository: "https://github.com/dev/blockchain-wallet",
-            fileCount: 89,
-            lastCommit: "5d ago"
-        },
-        {
-            name: "devops-automation",
-            type: projectsData[4]?.type || "automation-script",
-            status: 'completed',
-            language: "Bash",
-            description: projectsData[4]?.description || "Comprehensive DevOps automation scripts for CI/CD pipelines",
-            technologies: ["Bash", "Docker", "Kubernetes", "Jenkins", "AWS"],
-            repository: "https://github.com/dev/devops-automation",
-            fileCount: 15,
-            lastCommit: "2w ago"
-        },
-        {
-            name: "real-time-chat",
-            type: projectsData[5]?.type || "web-application",
-            status: 'archived',
-            language: "JavaScript",
-            description: projectsData[5]?.description || "Real-time chat application with WebSocket support",
-            technologies: ["Socket.io", "Express", "MongoDB", "React"],
-            repository: "https://github.com/dev/real-time-chat",
-            fileCount: 34,
-            lastCommit: "3m ago"
-        }
-    ];
 
     const handleProjectSelect = (project: Project) => {
         setSelectedProject(project);
