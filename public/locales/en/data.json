@@ -141,73 +141,96 @@
     ],
     "certifications": []
   },
-  "projects": [
+    "projects": [
     {
-      "name": "terminal-portfolio",
+      "name": "AREA",
+      "type": "web-application",
+      "status": "completed",
+      "language": "TypeScript/Go",
+      "description": "Recreation of IFTTT with automation task creation, featuring OAuth & 2FA protocols",
+      "technologies": ["Vite", "TypeScript", "Go", "OAuth", "2FA", "Docker"],
+      "repository": "https://github.com/ASM-Studios/AREA"
+    },
+    {
+      "name": "R-Type",
+      "type": "game-engine",
+      "status": "completed",
+      "language": "C++",
+      "description": "Creation of a game engine recreating the famous R-Type arcade game, runnable on Linux and Windows",
+      "technologies": ["C++", "CMake", "Cross-platform", "Game Engine"],
+      "repository": "https://github.com/ASM-Studios/R-Type"
+    },
+    {
+      "name": "Office Du Tourisme",
+      "type": "web-application",
+      "status": "completed",
+      "language": "JavaScript",
+      "description": "Game jam project creating a Geoguessr clone with Google Maps integration",
+      "technologies": ["JavaScript", "Google Maps API", "Web Development"],
+      "repository": "https://github.com/ASM-Studios/officeDuTourisme-Front"
+    },
+    {
+      "name": "Corewar",
+      "type": "system-programming",
+      "status": "completed",
+      "language": "C",
+      "description": "Recreation of the famous Corewar game with custom assembler compiler and virtual machine for programs fighting on virtual memory",
+      "technologies": ["C", "Assembly", "Virtual Machine", "Compiler Design"],
+      "repository": "https://github.com/ASM-Studios/ASM-corewar"
+    },
+    {
+      "name": "Lucy Control Panel",
+      "type": "robotics-application",
+      "status": "active",
+      "language": "TypeScript/C++",
+      "description": "Control panel frontend and ROS2 backend for controlling robot platforms with user-friendly web interface",
+      "technologies": ["React", "Vite", "ROS2", "C++", "REST API"],
+      "repository": "https://github.com/Sentience-Robotics/lucy_control_panel"
+    },
+    {
+      "name": "Lucy Framework",
+      "type": "robotics-framework",
+      "status": "active",
+      "language": "C++",
+      "description": "Framework enabling any technology on InMoov platform with safety layer using vision sensors to prevent accidents",
+      "technologies": ["ROS2", "C++", "Computer Vision", "Robotics", "Safety Systems"],
+      "repository": "https://github.com/Sentience-Robotics"
+    },
+    {
+      "name": "Portfolio",
       "type": "web-application",
       "status": "active",
       "language": "TypeScript",
-      "description": "A terminal-style portfolio website with matrix effects and TUI design",
-      "technologies": ["React", "TypeScript", "CSS3", "Canvas API"],
-      "repository": "https://github.com/dev/terminal-portfolio",
-      "demo": "https://portfolio.dev",
-      "fileCount": 47,
-      "lastCommit": "2h ago"
+      "description": "Current portfolio website showcasing frontend development skills with modern React patterns",
+      "technologies": ["React", "Vite", "Ant Design", "i18n", "HOC"],
+      "repository": "https://github.com/Mael-RABOT/portfolio"
     },
     {
-      "name": "microservice-auth",
-      "type": "backend-service",
+      "name": "Pandoc",
+      "type": "system-tool",
       "status": "completed",
-      "language": "Node.js",
-      "description": "JWT-based authentication microservice with Redis caching",
-      "technologies": ["Node.js", "Express", "Redis", "MongoDB", "Docker"],
-      "repository": "https://github.com/dev/microservice-auth",
-      "fileCount": 23,
-      "lastCommit": "1w ago"
+      "language": "Haskell",
+      "description": "Recreation of the pandoc document conversion command-line tool in Haskell",
+      "technologies": ["Haskell", "Functional Programming", "Document Processing"],
+      "repository": "https://github.com/Mael-RABOT/Pandoc"
     },
     {
-      "name": "ml-prediction-api",
-      "type": "api-service",
-      "status": "active",
+      "name": "Teams Clone",
+      "type": "tui-application",
+      "status": "completed",
+      "language": "C",
+      "description": "Clone of Microsoft Teams implemented as a Terminal User Interface using C and network sockets",
+      "technologies": ["C", "TUI", "Sockets", "Networking", "Terminal"],
+      "repository": "https://github.com/Mael-RABOT/microsoftTeams"
+    },
+    {
+      "name": "AI Number Recognition",
+      "type": "machine-learning",
+      "status": "completed",
       "language": "Python",
-      "description": "Machine learning API for predictive analytics with FastAPI",
-      "technologies": ["Python", "FastAPI", "TensorFlow", "PostgreSQL", "Docker"],
-      "repository": "https://github.com/dev/ml-prediction-api",
-      "fileCount": 31,
-      "lastCommit": "3d ago"
-    },
-    {
-      "name": "blockchain-wallet",
-      "type": "crypto-application",
-      "status": "active",
-      "language": "Rust",
-      "description": "Secure cryptocurrency wallet with multi-chain support",
-      "technologies": ["Rust", "Web3", "Ethereum", "Bitcoin", "WASM"],
-      "repository": "https://github.com/dev/blockchain-wallet",
-      "fileCount": 89,
-      "lastCommit": "5d ago"
-    },
-    {
-      "name": "devops-automation",
-      "type": "automation-script",
-      "status": "completed",
-      "language": "Bash",
-      "description": "Comprehensive DevOps automation scripts for CI/CD pipelines",
-      "technologies": ["Bash", "Docker", "Kubernetes", "Jenkins", "AWS"],
-      "repository": "https://github.com/dev/devops-automation",
-      "fileCount": 15,
-      "lastCommit": "2w ago"
-    },
-    {
-      "name": "real-time-chat",
-      "type": "web-application",
-      "status": "archived",
-      "language": "JavaScript",
-      "description": "Real-time chat application with WebSocket support",
-      "technologies": ["Socket.io", "Express", "MongoDB", "React"],
-      "repository": "https://github.com/dev/real-time-chat",
-      "fileCount": 34,
-      "lastCommit": "3m ago"
+      "description": "AI system for analyzing and recognizing hand-drawn numbers, developed during POC AI pool",
+      "technologies": ["Python", "Machine Learning", "Computer Vision", "Neural Networks"],
+      "repository": "https://github.com/Mael-RABOT/AI_number_recognition"
     }
   ]
 }

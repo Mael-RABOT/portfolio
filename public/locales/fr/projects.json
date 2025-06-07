@@ -46,6 +46,21 @@
     "archived": "ARCHIVÉ"
   },
 
+  "organizations": {
+    "title": "ORGANISATIONS & PROJETS DE GROUPE",
+    "command": "ls /organisations/",
+    "personal": {
+      "title": "Projets Personnels",
+      "description": "Projets individuels et travaux de développement personnel affichés ci-dessus."
+    },
+    "asm": {
+      "description": "Projets de groupe créés avec une équipe passionnée de développeurs. Inclut moteurs de jeu, outils d'automatisation et applications web innovantes."
+    },
+    "sentience": {
+      "description": "Mon plus grand projet - Un framework robotique piloté par IA pour robots humanoïdes. Développement robotique open-source avec ROS2, vision par ordinateur et systèmes de sécurité."
+    },
+    "stats": "Total : 3 organisations GitHub | 30+ dépôts | 50+ contributeurs"
+  },
   "footer": {
     "select": "SÉLECTIONNER UN PROJET À EXPLORER"
   }

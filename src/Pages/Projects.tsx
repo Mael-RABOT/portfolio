@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
+import { githubApi, GitHubRepoInfo, FileTreeItem } from "../services/githubApi";
 
 interface Project {
     name: string;
@@ -11,24 +12,94 @@ interface Project {
     technologies: string[];
     repository: string;
     demo?: string;
-    fileCount: number;
-    lastCommit: string;
+    fileCount?: number;
+    lastCommit?: string;
+    stars?: number;
+    forks?: number;
+    fileStructure?: FileTreeItem[];
 }
 
 const Projects: React.FC = () => {
     const { t } = useTranslation('projects');
     const { t: tData } = useTranslation('data');
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [githubData, setGithubData] = useState<{[key: string]: GitHubRepoInfo}>({});
 
     const projectsData = tData('projects', { returnObjects: true }) as any[];
-    const projects: Project[] = projectsData || [];
+    const initialProjects: Project[] = projectsData || [];
 
     const [terminalOutput, setTerminalOutput] = useState<string[]>([
         t('terminal.scanning'),
-        t('terminal.found', { count: projects.length }),
+        t('terminal.found', { count: initialProjects.length }),
         t('terminal.loading'),
         t('terminal.ready')
     ]);
+
+    useEffect(() => {
+        const fetchGitHubData = async () => {
+            setIsLoading(true);
+            setTerminalOutput([
+                t('terminal.scanning'),
+                t('terminal.found', { count: initialProjects.length }),
+                'Testing GitHub authentication...',
+                'Please wait while we gather repository statistics...'
+            ]);
+
+            try {
+                // First test authentication
+                const authTest = await githubApi.testAuthentication();
+                console.log('GitHub Authentication Test:', authTest);
+
+                setTerminalOutput([
+                    t('terminal.scanning'),
+                    t('terminal.found', { count: initialProjects.length }),
+                    `GitHub API: ${authTest.authenticated ? 'Authenticated' : 'Unauthenticated'} (${authTest.rateLimit.remaining}/${authTest.rateLimit.limit} requests)`,
+                    authTest.user ? `Authenticated as: ${authTest.user}` : 'Using public access',
+                    'Fetching live data from GitHub repositories...'
+                ]);
+
+                const repoUrls = initialProjects.map(p => p.repository);
+                const githubInfo = await githubApi.getMultipleRepoInfo(repoUrls);
+                setGithubData(githubInfo);
+
+                // Merge GitHub data with project data
+                const updatedProjects = initialProjects.map(project => ({
+                    ...project,
+                    fileCount: githubInfo[project.repository]?.fileCount || 0,
+                    lastCommit: githubInfo[project.repository]?.lastCommit || 'Unknown',
+                    stars: githubInfo[project.repository]?.stars || 0,
+                    forks: githubInfo[project.repository]?.forks || 0,
+                    fileStructure: githubInfo[project.repository]?.fileStructure || []
+                }));
+
+                setProjects(updatedProjects);
+                setTerminalOutput([
+                    t('terminal.scanning'),
+                    t('terminal.found', { count: updatedProjects.length }),
+                    'Successfully loaded live GitHub data',
+                    t('terminal.ready')
+                ]);
+            } catch (error) {
+                console.error('Failed to fetch GitHub data:', error);
+                // Fallback to projects without GitHub data
+                setProjects(initialProjects.map(p => ({ ...p, fileCount: 0, lastCommit: 'Unknown', fileStructure: [] })));
+                setTerminalOutput([
+                    t('terminal.scanning'),
+                    t('terminal.found', { count: initialProjects.length }),
+                    'Warning: Could not fetch live GitHub data',
+                    t('terminal.ready')
+                ]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (initialProjects.length > 0) {
+            fetchGitHubData();
+        }
+    }, [initialProjects.length, t]);
 
     const handleProjectSelect = (project: Project) => {
         setSelectedProject(project);
@@ -39,8 +110,9 @@ const Projects: React.FC = () => {
             `${t('meta.type')} ${project.type}`,
             `${t('meta.gitStatus')} ${t(`status.${project.status.toLowerCase()}` as any)}`,
             `${t('meta.lang')} ${project.language}`,
-            `${t('meta.files')} ${project.fileCount}`,
-            `${t('meta.last')} ${project.lastCommit}`,
+                                                `${t('meta.files')} ${project.fileCount || 0}`,
+                                    `${t('meta.last')} ${project.lastCommit || 'Unknown'}`,
+                                    ...(project.stars ? [`⭐ Stars: ${project.stars}`] : []),
             t('terminal.readyInspection')
         ]);
     };
@@ -54,19 +126,71 @@ const Projects: React.FC = () => {
         }
     };
 
+    const renderFileTree = (items: FileTreeItem[], depth: number = 0): string => {
+        if (!items || items.length === 0) {
+            return depth === 0 ? "No file structure available" : "";
+        }
+
+        let result = "";
+        items.forEach((item, index) => {
+            const isLast = index === items.length - 1;
+            const prefix = depth === 0 ?
+                (isLast ? "└── " : "├── ") :
+                "│   ".repeat(depth) + (isLast ? "└── " : "├── ");
+
+            const icon = item.type === 'dir' ? '📁' : '📄';
+            result += `${prefix}${icon} ${item.name}\n`;
+
+            // Render children if it's a directory and has children
+            if (item.type === 'dir' && item.children && item.children.length > 0) {
+                const childPrefix = depth === 0 ?
+                    (isLast ? "    " : "│   ") :
+                    "│   ".repeat(depth + 1);
+
+                item.children.forEach((child, childIndex) => {
+                    const isLastChild = childIndex === item.children!.length - 1;
+                    const childIcon = child.type === 'dir' ? '📁' : '📄';
+                    result += `${childPrefix}${isLastChild ? "└── " : "├── "}${childIcon} ${child.name}\n`;
+                });
+            }
+        });
+
+        return result;
+    };
+
     const getFileTree = (project: Project) => {
+        if (project.fileStructure && project.fileStructure.length > 0) {
+            return renderFileTree(project.fileStructure);
+        }
+
+        // Fallback to mock structure if no real data available
         return `
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── utils/
-│   └── main.${project.language === 'TypeScript' ? 'tsx' : project.language === 'Python' ? 'py' : 'js'}
-├── public/
-├── tests/
-├── docs/
-├── package.json
-├── README.md
-└── .gitignore
+        📁 Repository structure not available
+
+        ╔═══════════════════════════════════════════╗
+        ║           🚀 LOADING FAILED 🚀            ║
+        ╠═══════════════════════════════════════════╣
+        ║                                           ║
+        ║      ██████╗  ██████╗ ██████╗ ███████╗    ║
+        ║     ██╔════╝ ██╔═══██╗██╔══██╗██╔════╝    ║
+        ║     ██║      ██║   ██║██║  ██║█████╗      ║
+        ║     ██║      ██║   ██║██║  ██║██╔══╝      ║
+        ║     ╚██████╗ ╚██████╔╝██████╔╝███████╗    ║
+        ║      ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝    ║
+        ║                                           ║
+        ║     Repository might be private or        ║
+        ║     temporarily unavailable               ║
+        ║                                           ║
+        ║     [░░░░░░░░░░] 0% Loaded                ║
+        ║                                           ║
+        ╚═══════════════════════════════════════════╝
+
+        > git status
+        fatal: not a git repository
+
+        > ls -la
+        total 0
+        drwxr-xr-x  2 dev dev  4096 src
         `;
     };
 
@@ -114,8 +238,11 @@ const Projects: React.FC = () => {
                                     <div className="terminal-text">
                                         <strong>{t('meta.type')}</strong> {project.type}<br/>
                                         <strong>{t('meta.lang')}</strong> {project.language}<br/>
-                                        <strong>{t('meta.files')}</strong> {project.fileCount}<br/>
-                                        <strong>{t('meta.last')}</strong> {project.lastCommit}
+                                        <strong>{t('meta.files')}</strong> {isLoading ? '...' : project.fileCount}<br/>
+                                        <strong>{t('meta.last')}</strong> {isLoading ? '...' : project.lastCommit}
+                                        {project.stars !== undefined && project.stars > 0 && (
+                                            <><br/><strong>⭐ Stars:</strong> {project.stars}</>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="tech-stack">
@@ -175,7 +302,7 @@ const Projects: React.FC = () => {
                                 <div className="terminal-card-header">{t('details.structure.title')}</div>
                                 <div className="terminal-prompt">{t('details.structure.command')}</div>
                                 <pre className="terminal-text file-tree">
-                                    {getFileTree(selectedProject)}
+                                    {isLoading ? "Loading file structure..." : getFileTree(selectedProject)}
                                 </pre>
                             </div>
                         </div>
@@ -188,7 +315,6 @@ const Projects: React.FC = () => {
                                     <div key={index} className="tech-item">
                                         <span className="status-indicator"></span>
                                         <span className="terminal-command">{tech}</span>
-                                        <span className="skill-status">{t('meta.installed')}</span>
                                     </div>
                                 ))}
                             </div>
@@ -196,6 +322,47 @@ const Projects: React.FC = () => {
                     </div>
                 </div>
             )}
+
+            {/* Group Projects Section */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('organizations.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-text">
+                        <div className="terminal-prompt">{t('organizations.command')}</div>
+                        <br/>
+                        <div>
+                            <strong>📦 {t('organizations.personal.title')}</strong><br/>
+                            {t('organizations.personal.description')}
+                        </div>
+                        <br/>
+                        <div>
+                            <strong>🏢 ASM Studios</strong><br/>
+                            {t('organizations.asm.description')}<br/>
+                            <a href="https://github.com/ASM-Studios/"
+                               className="terminal-link"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                → github.com/ASM-Studios
+                            </a>
+                        </div>
+                        <br/>
+                        <div>
+                            <strong>🤖 Sentience Robotics</strong><br/>
+                            {t('organizations.sentience.description')}<br/>
+                            <a href="https://github.com/Sentience-Robotics"
+                               className="terminal-link"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                → github.com/Sentience-Robotics
+                            </a>
+                        </div>
+                        <br/>
+                        <div className="terminal-prompt">{t('organizations.stats')}</div>
+                    </div>
+                </div>
+            </div>
 
             {/* Footer */}
             <ASCIIArt type="divider" size="large" />
