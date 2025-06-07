@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
 const Contact: React.FC = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation('contact');
     const [formData, setFormData] = useState({
         name: '',
@@ -10,8 +12,11 @@ const Contact: React.FC = () => {
         subject: '',
         message: ''
     });
+    const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
     const [connectionStatus, setConnectionStatus] = useState(t('connection.disconnected'));
     const [isTransmitting, setIsTransmitting] = useState(false);
+    const [pingStatus, setPingStatus] = useState<string[]>([]);
+    const [isPinging, setIsPinging] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -19,10 +24,54 @@ const Contact: React.FC = () => {
             ...prev,
             [name]: value
         }));
+
+        // Clear error when user starts typing
+        if (formErrors[name]) {
+            setFormErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
+    };
+
+    const validateForm = () => {
+        const errors: {[key: string]: string} = {};
+
+        if (!formData.name.trim()) {
+            errors.name = 'ERROR: SENDER_NAME field cannot be empty';
+        }
+
+        if (!formData.email.trim()) {
+            errors.email = 'ERROR: EMAIL_ADDRESS field cannot be empty';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            errors.email = 'ERROR: Invalid EMAIL_ADDRESS format';
+        }
+
+        if (!formData.subject.trim()) {
+            errors.subject = 'ERROR: MESSAGE_SUBJECT field cannot be empty';
+        }
+
+        if (!formData.message.trim()) {
+            errors.message = 'ERROR: MESSAGE_BODY field cannot be empty';
+        }
+
+        return errors;
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        const errors = validateForm();
+        setFormErrors(errors);
+
+        if (Object.keys(errors).length > 0) {
+            setConnectionStatus('TRANSMISSION_FAILED: Missing required fields');
+            setTimeout(() => {
+                setConnectionStatus(t('connection.disconnected'));
+            }, 3000);
+            return;
+        }
+
         setIsTransmitting(true);
         setConnectionStatus(t('connection.transmitting'));
 
@@ -31,11 +80,71 @@ const Contact: React.FC = () => {
             setConnectionStatus(t('connection.messageSent'));
             setIsTransmitting(false);
             setFormData({ name: '', email: '', subject: '', message: '' });
+            setFormErrors({});
 
             setTimeout(() => {
                 setConnectionStatus(t('connection.disconnected'));
             }, 10000);
         }, 2000);
+    };
+
+    const handlePing = () => {
+        setIsPinging(true);
+        setPingStatus([]);
+
+        const pingResponses = [
+            "PING portfolio.dev (127.0.0.1): 56 data bytes",
+            "64 bytes from portfolio.dev: icmp_seq=0 time=12.3ms",
+            "64 bytes from portfolio.dev: icmp_seq=1 time=8.7ms",
+            "64 bytes from portfolio.dev: icmp_seq=2 time=15.2ms",
+            "64 bytes from portfolio.dev: icmp_seq=3 time=9.8ms",
+            "--- portfolio.dev ping statistics ---",
+            "4 packets transmitted, 4 received, 0% packet loss",
+            "round-trip min/avg/max/stddev = 8.7/11.5/15.2/2.8 ms"
+        ];
+
+        // Simulate ping responses with delays
+        pingResponses.forEach((response, index) => {
+            setTimeout(() => {
+                setPingStatus(prev => [...prev, response]);
+                if (index === pingResponses.length - 1) {
+                    setTimeout(() => {
+                        setIsPinging(false);
+                        setTimeout(() => setPingStatus([]), 5000); // Clear after 5 seconds
+                    }, 500);
+                }
+            }, index * 600);
+        });
+    };
+
+    const handleGitHubConnect = () => {
+        window.open('https://github.com/Mael-RABOT', '_blank', 'noopener,noreferrer');
+    };
+
+    const handleAPIDemo = () => {
+        // Scroll to form and show API example
+        const form = document.querySelector('.terminal-form');
+        if (form) {
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show API documentation in an alert or could be a modal
+        const apiExample = `
+curl -X POST https://api.maelrabot.com/contact \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "subject": "API Connection",
+    "message": "Hello from the API!"
+  }'`;
+
+        console.log("API Endpoint Documentation:", apiExample);
+        // Focus on the form
+        setTimeout(() => {
+            const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
+            if (nameInput) nameInput.focus();
+        }, 1000);
     };
 
     const contactMethods = [
@@ -152,7 +261,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div className="terminal-section-content">
                     <div className="terminal-prompt">{t('form.command')}</div>
-                    <form onSubmit={handleSubmit} className="terminal-form">
+                    <form onSubmit={handleSubmit} className="terminal-form" noValidate>
                         <div className="terminal-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                             <div className="form-group">
                                 <label className="terminal-text">{t('form.senderName')}</label>
@@ -161,10 +270,14 @@ const Contact: React.FC = () => {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleInputChange}
-                                    className="terminal-input"
+                                    className={`terminal-input ${formErrors.name ? 'error' : ''}`}
                                     placeholder={t('form.placeholders.name')}
-                                    required
                                 />
+                                {formErrors.name && (
+                                    <div className="terminal-error">
+                                        <span className="error-indicator">⚠</span> {formErrors.name}
+                                    </div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label className="terminal-text">{t('form.emailAddress')}</label>
@@ -173,10 +286,14 @@ const Contact: React.FC = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    className="terminal-input"
+                                    className={`terminal-input ${formErrors.email ? 'error' : ''}`}
                                     placeholder={t('form.placeholders.email')}
-                                    required
                                 />
+                                {formErrors.email && (
+                                    <div className="terminal-error">
+                                        <span className="error-indicator">⚠</span> {formErrors.email}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -187,10 +304,14 @@ const Contact: React.FC = () => {
                                 name="subject"
                                 value={formData.subject}
                                 onChange={handleInputChange}
-                                className="terminal-input"
+                                className={`terminal-input ${formErrors.subject ? 'error' : ''}`}
                                 placeholder={t('form.placeholders.subject')}
-                                required
                             />
+                            {formErrors.subject && (
+                                <div className="terminal-error">
+                                    <span className="error-indicator">⚠</span> {formErrors.subject}
+                                </div>
+                            )}
                         </div>
 
                         <div className="form-group">
@@ -199,11 +320,15 @@ const Contact: React.FC = () => {
                                 name="message"
                                 value={formData.message}
                                 onChange={handleInputChange}
-                                className="terminal-input"
+                                className={`terminal-input ${formErrors.message ? 'error' : ''}`}
                                 rows={8}
                                 placeholder={t('form.placeholders.message')}
-                                required
                             />
+                            {formErrors.message && (
+                                <div className="terminal-error">
+                                    <span className="error-indicator">⚠</span> {formErrors.message}
+                                </div>
+                            )}
                         </div>
 
                         <div className="form-actions">
@@ -217,7 +342,10 @@ const Contact: React.FC = () => {
                             <button
                                 type="button"
                                 className="terminal-button"
-                                onClick={() => setFormData({ name: '', email: '', subject: '', message: '' })}
+                                onClick={() => {
+                                    setFormData({ name: '', email: '', subject: '', message: '' });
+                                    setFormErrors({});
+                                }}
                             >
                                 {t('form.clear')}
                             </button>
@@ -261,27 +389,57 @@ const Contact: React.FC = () => {
                         <div className="terminal-card">
                             <div className="terminal-card-header">QUICK COMMANDS</div>
                             <div className="command-grid">
-                                <div className="command-item">
+                                <div className="command-item" onClick={handlePing} style={{ cursor: 'pointer' }}>
                                     <div className="terminal-prompt">ping -c 4 portfolio.dev</div>
-                                    <div className="terminal-text">Test connection</div>
+                                    <div className="terminal-text">{isPinging ? t('commands.ping.testing') : t('commands.ping.description')}</div>
                                 </div>
-                                <div className="command-item">
+                                <div className="command-item" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
                                     <div className="terminal-prompt">whois developer</div>
-                                    <div className="terminal-text">View public info</div>
+                                    <div className="terminal-text">{t('commands.whois.description')}</div>
                                 </div>
-                                <div className="command-item">
+                                <div className="command-item" onClick={handleGitHubConnect} style={{ cursor: 'pointer' }}>
                                     <div className="terminal-prompt">ssh github.com</div>
-                                    <div className="terminal-text">Connect via SSH</div>
+                                    <div className="terminal-text">{t('commands.ssh.description')}</div>
                                 </div>
-                                <div className="command-item">
+                                <div className="command-item" onClick={handleAPIDemo} style={{ cursor: 'pointer' }}>
                                     <div className="terminal-prompt">curl -X POST /message</div>
-                                    <div className="terminal-text">Send via API</div>
+                                    <div className="terminal-text">{t('commands.api.description')}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Ping Results */}
+            {(isPinging || pingStatus.length > 0) && (
+                <div className="terminal-section">
+                    <div className="terminal-section-header">
+                        {t('commands.ping.title')}
+                    </div>
+                    <div className="terminal-section-content">
+                        <div className="terminal-prompt">ping -c 4 portfolio.dev</div>
+                        <div className="terminal-text">
+                            {pingStatus.map((line, index) => (
+                                <div key={index} style={{
+                                    fontFamily: 'monospace',
+                                    fontSize: '0.9em',
+                                    marginBottom: '4px',
+                                    color: line.includes('packet loss') || line.includes('round-trip') ?
+                                           'var(--terminal-green)' : 'var(--terminal-text)'
+                                }}>
+                                    {line}
+                                </div>
+                            ))}
+                            {isPinging && (
+                                <div className="terminal-loading">
+                                    {t('commands.ping.waiting')}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Transmission Status */}
             {isTransmitting && (

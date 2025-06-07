@@ -62,9 +62,9 @@
       "command": "wget resume.pdf",
       "description": "Télécharger version PDF"
     },
-    "docx": {
-      "command": "curl -O resume.docx",
-      "description": "Télécharger document Word"
+    "home": {
+      "command": "curl -O home.html",
+      "description": "Aller à la page d'accueil"
     },
     "portfolio": {
       "command": "git clone portfolio",

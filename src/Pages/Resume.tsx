@@ -1,8 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
 const Resume: React.FC = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation('resume');
     const { t: tData } = useTranslation('data');
 
@@ -182,19 +184,33 @@ const Resume: React.FC = () => {
                 </div>
                 <div className="terminal-section-content">
                     <div className="command-grid">
-                        <div className="command-item">
+                        <div className="command-item" onClick={() => {
+                            const link = document.createElement('a');
+                            link.href = '/resume.pdf';
+                            link.download = 'Mael_RABOT_Resume.pdf';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }} style={{ cursor: 'pointer' }}>
                             <div className="terminal-prompt">{t('download.pdf.command')}</div>
                             <div className="terminal-text">{t('download.pdf.description')}</div>
                         </div>
-                        <div className="command-item">
-                            <div className="terminal-prompt">{t('download.docx.command')}</div>
-                            <div className="terminal-text">{t('download.docx.description')}</div>
+                        <div className="command-item" onClick={() => navigate('/home')} style={{ cursor: 'pointer' }}>
+                            <div className="terminal-prompt">{t('download.home.command')}</div>
+                            <div className="terminal-text">{t('download.home.description')}</div>
                         </div>
-                        <div className="command-item">
+                        <div className="command-item" onClick={() => {
+                            const link = document.createElement('a');
+                            link.href = 'https://github.com/Mael-RABOT/portfolio/archive/refs/heads/master.zip';
+                            link.download = 'Mael_RABOT_Portfolio.zip';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }} style={{ cursor: 'pointer' }}>
                             <div className="terminal-prompt">{t('download.portfolio.command')}</div>
                             <div className="terminal-text">{t('download.portfolio.description')}</div>
                         </div>
-                        <div className="command-item">
+                        <div className="command-item" onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>
                             <div className="terminal-prompt">{t('download.contact.command')}</div>
                             <div className="terminal-text">{t('download.contact.description')}</div>
                         </div>

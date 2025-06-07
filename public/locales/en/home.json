@@ -54,6 +54,11 @@
       "command": "whoami --extended",
       "list": ["Team Work", "Autonomy", "Problem Solving", "Continuous Learning"]
     },
+    "others": {
+      "title": "OTHERS",
+      "command": "cat /etc/others.conf",
+      "list": ["3D Printing", "Robotics", "TUI", "Open Source", "Client Relations"]
+    },
     "languages": {
       "title": "LANGUAGES",
       "command": "locale -a",

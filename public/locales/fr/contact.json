@@ -49,6 +49,24 @@
     "availability": "ÉLEVÉE",
     "serverLoad": "12%"
   },
+  "commands": {
+    "ping": {
+      "title": "TEST DE CONNECTIVITÉ RÉSEAU",
+      "testing": "Test en cours...",
+      "waiting": "En attente de réponse...",
+      "description": "Tester la connexion"
+    },
+    "whois": {
+      "description": "Voir les infos publiques"
+    },
+    "ssh": {
+      "description": "Connexion via SSH"
+    },
+    "api": {
+      "scrollToForm": "Défilement vers le formulaire...",
+      "description": "Envoyer via API"
+    }
+  },
   "footer": {
     "ready": "CANAUX DE COMMUNICATION PRÊTS"
   }

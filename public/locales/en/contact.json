@@ -49,6 +49,24 @@
     "availability": "HIGH",
     "serverLoad": "12%"
   },
+  "commands": {
+    "ping": {
+      "title": "NETWORK CONNECTIVITY TEST",
+      "testing": "Pinging...",
+      "waiting": "Waiting for response...",
+      "description": "Test connection"
+    },
+    "whois": {
+      "description": "View public info"
+    },
+    "ssh": {
+      "description": "Connect via SSH"
+    },
+    "api": {
+      "scrollToForm": "Scrolling to form...",
+      "description": "Send via API"
+    }
+  },
   "footer": {
     "ready": "COMMUNICATION CHANNELS READY"
   }
