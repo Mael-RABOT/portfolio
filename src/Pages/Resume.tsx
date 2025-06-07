@@ -1,281 +1,209 @@
 import React from "react";
-import withPage from "../hoc/withPage";
-import { Card, CardContent, CardMedia, Typography, Chip, Divider, Box, Stack, Fab } from "@mui/material";
-import { KeyboardArrowUp } from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
-
-type ResumeDataType = {
-    jobTitle: string;
-    company: string;
-    location: string;
-    startDate: string;
-    endDate?: string;
-    current?: boolean;
-    contractType: string;
-    description?: string;
-    bullets?: string[];
-    image: string;
-};
-
-type EducationDataType = {
-    degree: string;
-    school: string;
-    location: string;
-    startDate: string;
-    endDate?: string;
-    current?: boolean;
-    description?: string;
-    bullets?: string[];
-    image: string;
-};
-
-const useResumeData = (): ResumeDataType[] => {
-    const { t } = useTranslation(['resume', 'translation']);
-
-    const experiences: string[] = [
-        'audiowizard',
-        'cobra',
-        'poc',
-        'burger-king',
-        'MUN',
-    ];
-
-    return experiences.map(exp => {
-        const jobTitle = t(`experiences.${exp}.jobTitle`, { ns: 'resume', defaultValue: '' });
-        if (!jobTitle) {
-            return null;
-        }
-
-        return {
-            jobTitle,
-            company: t(`experiences.${exp}.company`, { ns: 'resume' }),
-            location: t(`experiences.${exp}.location`, { ns: 'resume' }),
-            startDate: t(`experiences.${exp}.startDate`, { ns: 'resume' }),
-            endDate: t(`experiences.${exp}.endDate`, { ns: 'resume' }),
-            current: t(`experiences.${exp}.endDate`, { ns: 'resume' }) === 'present',
-            contractType: t(`experiences.${exp}.contractType`, { ns: 'resume' }),
-            description: t(`experiences.${exp}.description`, { ns: 'resume' }).replace(/\n/g, '<br />'),
-            bullets: t(`experiences.${exp}.bullets`, { ns: 'resume', returnObjects: true }) as string[],
-            image: `${exp}.png`,
-        };
-    }).filter(exp => exp !== null);
-};
-
-const useEducationData = (): EducationDataType[] => {
-    const { t } = useTranslation(['resume', 'translation']);
-
-    const educations: string[] = [
-        'epitech',
-        'CAU',
-        'bac',
-    ];
-
-    return educations.map(edu => {
-        const degree = t(`educations.${edu}.degree`, { ns: 'resume', defaultValue: '' });
-        if (!degree) {
-            return null;
-        }
-
-        return {
-            degree,
-            school: t(`educations.${edu}.school`, { ns: 'resume' }),
-            location: t(`educations.${edu}.location`, { ns: 'resume' }),
-            description: t(`educations.${edu}.description`, { ns: 'resume' }).replace(/\n/g, '<br />'),
-            startDate: t(`educations.${edu}.startDate`, { ns: 'resume' }),
-            endDate: t(`educations.${edu}.endDate`, { ns: 'resume' }),
-            current: t(`educations.${edu}.endDate`, { ns: 'resume' }) === 'present',
-            bullets: t(`educations.${edu}.bullets`, { ns: 'resume', returnObjects: true }) as string[],
-            image: `${edu}.png`,
-        };
-    }).filter(edu => edu !== null);
-};
+import ASCIIArt from "../Components/ASCII/ASCIIArt";
+import { RESUME_DATA } from "../Constants/resume";
 
 const Resume: React.FC = () => {
-    const { t } = useTranslation(['resume', 'translation']);
+    const experience = RESUME_DATA.experiences.map(exp => ({
+        position: exp.jobTitle,
+        company: exp.company,
+        duration: `${exp.startDate} - ${exp.endDate === 'Present' ? 'Present' : exp.endDate}`,
+        location: exp.location,
+        contractType: exp.contractType,
+        responsibilities: exp.bullets
+    }));
 
-    const ExperienceRender = () => {
-        const data = useResumeData();
+    const education = RESUME_DATA.educations.map(edu => ({
+        degree: edu.degree,
+        institution: edu.school,
+        year: `${edu.startDate} - ${edu.endDate === 'Present' ? 'Present' : edu.endDate}`,
+        gpa: edu.bullets[0] || "N/A"
+    }));
 
-        return (
-            <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
-                {data.map((experience) => (
-                    // <motion.div
-                    //     key={index}
-                    //     // @ts-expect-error sx prop is not recognized by motion
-                    //     sx={{maxWidth: 800, mx: "auto", p: 2}}
-                    //     initial={{ opacity: 0, x: -100 }}
-                    //     animate={{ opacity: 1, x: 0 }}
-                    //     transition={{ duration: 0.7, delay: index * 0.2 }}
-                    //     whileHover={{scale: 1.05}}
-                    // >
-                        <Card sx={{mb: 4}}>
-                            <CardContent>
-                                <Stack direction="row" spacing={2}>
-                                    <CardMedia
-                                        component="img"
-                                        sx={{width: 100, height: 100}}
-                                        image={`/${experience.image}`}
-                                        alt={`${experience.company} logo`}
-                                    />
-                                    <Box>
-                                        <Typography variant="h5" component="div">
-                                            {experience.jobTitle}
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            color="primary"
-                                            sx={{
-                                                fontWeight: 'bold',
-                                                background: (theme) => `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
-                                                backgroundClip: 'text',
-                                                WebkitBackgroundClip: 'text',
-                                                color: 'transparent',
-                                            }}
-                                        >
-                                            {experience.company}
-                                        </Typography>
-                                        <Stack direction="row" spacing={1} mt={1}>
-                                            <Chip label={experience.location} color="primary"/>
-                                            <Chip label={experience.contractType} color="secondary"/>
-                                            {experience.current &&
-                                                <Chip label={t('current', {ns: 'resume'})} color="success"/>}
-                                        </Stack>
-                                        <Typography variant="body2" color="textSecondary" mt={1}>
-                                            {experience.startDate} - {experience.current ? t('present', {ns: 'resume'}) : experience.endDate}
-                                        </Typography>
-                                    </Box>
-                                </Stack>
-                                {((experience?.bullets?.length ?? 0) > 0 && experience?.description) && (
-                                    <Divider sx={{my: 2}}/>
-                                )}
-                                {/* @ts-expect-error dangerouslySetInnerHTML is not recognized by Typography */}
-                                <Typography 
-                                    variant="body1" 
-                                    color="textSecondary"
-                                    sx={{ textAlign: 'justify' }}
-                                    dangerouslySetInnerHTML={{__html: experience?.description}}
-                                />
-                                <ul>
-                                    {experience?.bullets?.map((bullet, bulletIndex) => (
-                                        <li key={bulletIndex}>
-                                            <Typography 
-                                                variant="body2" 
-                                                color="textSecondary"
-                                                sx={{ textAlign: 'justify' }}
-                                            >
-                                                {bullet}
-                                            </Typography>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>
-                    // </motion.div>
-                ))}
-            </Box>
-        );
-    };
-
-    const EducationRender = () => {
-        const educationData = useEducationData();
-
-        return (
-            <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
-                {educationData.map((education) => (
-                    // <motion.div
-                    //     key={index}
-                    //     // @ts-expect-error sx prop is not recognized by motion
-                    //     sx={{maxWidth: 800, mx: "auto", p: 2}}
-                    //     initial={{ opacity: 0, x: -100 }}
-                    //     animate={{ opacity: 1, x: 0 }}
-                    //     transition={{ duration: 0.7, delay: index * 0.2 }}
-                    //     whileHover={{scale: 1.05}}
-                    // >
-                        <Card sx={{ mb: 4 }}>
-                            <CardContent>
-                                <Stack direction="row" spacing={2}>
-                                    <CardMedia
-                                        component="img"
-                                        sx={{ width: 100, height: 100 }}
-                                        image={`/${education.image}`}
-                                        alt={`${education.school} logo`}
-                                    />
-                                    <Box>
-                                        <Typography variant="h5" component="div">
-                                            {education.degree}
-                                        </Typography>
-                                        <Typography variant="h6" color="primary">
-                                            {education.school}
-                                        </Typography>
-                                        <Stack direction="row" spacing={1} mt={1}>
-                                            <Chip label={education.location} color="primary" />
-                                            {education.current && <Chip label={t('current', { ns: 'resume' })} color="success" />}
-                                        </Stack>
-                                        <Typography variant="body2" color="textSecondary" mt={1}>
-                                            {education.startDate} - {education.current ? t('present', { ns: 'resume' }) : education.endDate}
-                                        </Typography>
-                                    </Box>
-                                </Stack>
-                                {((education?.bullets?.length ?? 0) > 0 && education?.description) && (
-                                    <Divider sx={{ my: 2 }} />
-                                )}
-                                {/* @ts-expect-error dangerouslySetInnerHTML is not recognized by Typography */}
-                                <Typography 
-                                    variant="body1" 
-                                    color="textSecondary" 
-                                    sx={{ textAlign: 'justify' }}
-                                    dangerouslySetInnerHTML={{ __html: education?.description }} 
-                                />
-                                <ul>
-                                    {education?.bullets?.map((bullet, bulletIndex) => (
-                                        <li key={bulletIndex}>
-                                            <Typography 
-                                                variant="body2" 
-                                                color="textSecondary"
-                                                sx={{ textAlign: 'justify' }}
-                                            >
-                                                {bullet}
-                                            </Typography>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>
-                    // </motion.div>
-                ))}
-            </Box>
-        );
-    };
-
-    const handleScrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    const certifications = RESUME_DATA.certifications.map(cert => cert.name);
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-        >
-            <Box sx={{ maxWidth: 800, mx: "auto", p: 2 }}>
-                <Typography variant="h4" component="div" gutterBottom>
-                    {t('experiences.title', { ns: 'resume' })}
-                </Typography>
-                <ExperienceRender />
-                <Divider sx={{ my: 4 }} />
-                <Typography variant="h4" component="div" gutterBottom>
-                    {t('educations.title', { ns: 'resume' })}
-                </Typography>
-                <EducationRender />
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                    <Fab color="primary" aria-label="scroll to top" onClick={handleScrollToTop}>
-                        <KeyboardArrowUp />
-                    </Fab>
-                </Box>
-            </Box>
-        </motion.div>
+        <div className="terminal-crt terminal-scanlines">
+            {/* Header */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    CURRICULUM VITAE - DEVELOPER PROFILE
+                </div>
+                <div className="terminal-section-content">
+                    <ASCIIArt type="success" size="medium" />
+                    <div className="terminal-prompt">cat /home/developer/cv.txt | head -20</div>
+                                         <div className="terminal-text">
+                        <div><strong>Name:</strong> Maël RABOT</div>
+                        <div><strong>Location:</strong> Lyon, France</div>
+                        <div><strong>Status:</strong> Computer Science Student at Epitech</div>
+                        <div><strong>Specialization:</strong> Full-Stack Development, Robotics, AI Research</div>
+                        <div><strong>Contact:</strong> Available for opportunities</div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Professional Experience */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    PROFESSIONAL EXPERIENCE - WORK HISTORY
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-prompt">cat /var/log/career.log</div>
+                    {experience.map((job, index) => (
+                        <div key={index} className="terminal-card" style={{ marginBottom: '20px' }}>
+                            <div className="terminal-card-header">
+                                {job.position} @ {job.company}
+                            </div>
+                            <div className="terminal-text">
+                                <table className="terminal-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>DURATION:</td>
+                                            <td>{job.duration}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>LOCATION:</td>
+                                            <td>{job.location}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TYPE:</td>
+                                            <td>{job.contractType}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style={{ marginTop: '15px' }}>
+                                    <div className="terminal-prompt">grep "achievements" {job.company.toLowerCase()}.log</div>
+                                    <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
+                                        {job.responsibilities.map((resp, respIndex) => (
+                                            <li key={respIndex} className="terminal-text">
+                                                &gt; {resp}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Education & Certifications */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {`EDUCATION ${certifications.length > 0 ? "& CERTIFICATIONS" : ""} - ACADEMIC RECORDS`}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-grid">
+                        <div className="terminal-card">
+                            <div className="terminal-card-header">EDUCATION</div>
+                            <div className="terminal-prompt">ls /etc/education/</div>
+                            {education.map((edu, index) => (
+                                <div key={index} className="terminal-text" style={{ marginBottom: '15px' }}>
+                                    <strong>{edu.degree}</strong><br/>
+                                    <span className="terminal-command">{edu.institution}</span><br/>
+                                    <span>Year: {edu.year} | GPA: {edu.gpa}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        { certifications?.length > 0 && (
+                            <div className="terminal-card">
+                                <div className="terminal-card-header">CERTIFICATIONS</div>
+                                <div className="terminal-prompt">find /certs -name "*.pem" -type f</div>
+                                <div className="skills-list">
+                                    {certifications.map((cert, index) => (
+                                        <div key={index} className="skill-item">
+                                            <span className="status-indicator"></span>
+                                            <span className="terminal-command">{cert}</span>
+                                            <span className="skill-status">[VALID]</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Technical Skills Matrix */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    TECHNICAL PROFICIENCY MATRIX
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-prompt">cat /proc/skillset | column -t</div>
+                    <table className="terminal-table">
+                        <thead>
+                            <tr>
+                                <th>CATEGORY</th>
+                                <th>TECHNOLOGIES</th>
+                                <th>YEARS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Frontend</td>
+                                <td>React, TypeScript, Vue.js</td>
+                                <td>5+</td>
+                            </tr>
+                            <tr>
+                                <td>Backend</td>
+                                <td>Node.js, Python, Java</td>
+                                <td>5+</td>
+                            </tr>
+                            <tr>
+                                <td>Database</td>
+                                <td>PostgreSQL, MongoDB</td>
+                                <td>4+</td>
+                            </tr>
+                            <tr>
+                                <td>DevOps</td>
+                                <td>Docker, Kubernetes, AWS</td>
+                                <td>3+</td>
+                            </tr>
+                            <tr>
+                                <td>Mobile</td>
+                                <td>React Native, Flutter</td>
+                                <td>2+</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Download Options */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    DOCUMENT DOWNLOAD - EXPORT OPTIONS
+                </div>
+                <div className="terminal-section-content">
+                    <div className="command-grid">
+                        <div className="command-item">
+                            <div className="terminal-prompt">wget resume.pdf</div>
+                            <div className="terminal-text">Download PDF version</div>
+                        </div>
+                        <div className="command-item">
+                            <div className="terminal-prompt">curl -O resume.docx</div>
+                            <div className="terminal-text">Download Word document</div>
+                        </div>
+                        <div className="command-item">
+                            <div className="terminal-prompt">git clone portfolio</div>
+                            <div className="terminal-text">Clone entire portfolio</div>
+                        </div>
+                        <div className="command-item">
+                            <div className="terminal-prompt">echo $CONTACT_INFO</div>
+                            <div className="terminal-text">Display contact details</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Footer */}
+            <ASCIIArt type="divider" size="large" />
+            <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
+                <span className="blinking-cursor">RESUME LOADED SUCCESSFULLY</span>
+            </div>
+        </div>
     );
 };
 
-export default withPage(null, null)(Resume);
+export default Resume;

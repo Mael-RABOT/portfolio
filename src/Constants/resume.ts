@@ -1,0 +1,173 @@
+export interface IExperienceData {
+    jobTitle: string;
+    company: string;
+    location: string;
+    contractType: string;
+    description: string;
+    bullets: string[];
+    startDate: string;
+    endDate: string;
+}
+
+export interface ICertificationData {
+    name: string;
+}
+
+export interface IEducationData {
+    degree: string;
+    school: string;
+    location: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    bullets: string[];
+}
+
+export interface IResumeData {
+    experiences: IExperienceData[];
+    educations: IEducationData[];
+    certifications: ICertificationData[];
+}
+
+export const RESUME_DATA: IResumeData = {
+    experiences: [
+        {
+            jobTitle: "Co-Founder & Product Manager",
+            company: "Sentience Robotics",
+            location: "Lyon",
+            contractType: "Association",
+            description: "Co-founded an association with friends to create an open-source ROS 2 framework for controlling any robotic platform. Leading a team of developers while building humanoid robots from 3D printing. Responsible for project management, roadmap creation, and technical development using ROS 2.",
+            bullets: [
+                "ROS 2 development",
+                "Team management and leadership",
+                "Agile development with kanban boards",
+                "Open source development",
+                "Robotics and 3D printing",
+                "Product roadmap and backlog creation"
+            ],
+            startDate: "2024-10",
+            endDate: "Present"
+        },
+        {
+            jobTitle: "Full Stack Developer",
+            company: "AudioWizard",
+            location: "Lyon - Remote",
+            contractType: "Fixed-term contract",
+            description: "AudioWizard is a company that develops a software solution for hearing aid specialist.",
+            bullets: [
+                "Full stack development",
+                "Database administration",
+                "Operational maintenance",
+                "Setting up of a ForestAdmin back-office"
+            ],
+            startDate: "July 2023",
+            endDate: "August 2025"
+        },
+        {
+            jobTitle: "Research and Development developer",
+            company: "POC",
+            location: "Lyon",
+            contractType: "Association",
+            description: "PoC is a student association focused on researching and exploring innovative technologies such as Artificial Intelligence (AI), Web3, and Augmented/Virtual Reality (AR/VR). The association fosters curiosity, collaboration, and hands-on experimentation through workshops, hackathons, and research projects\nBy partnering with industry experts, academic institutions, and tech communities, PoC provides valuable insights and opportunities to work on real-world applications. It offers a dynamic environment for learning, growth, and innovation, catering to both beginners and experienced enthusiasts eager to push the boundaries of technology.",
+            bullets: [
+                "Research and prototyping of an artificial intelligence system that converts images into music.",
+                "Database administration and management.",
+                "Implementation of various theoretical models, with a particular focus on the development of a large-scale image-to-music conversion AI.",
+                "In-depth exploration of convolutional techniques, specifically applied to generative AI models."
+            ],
+            startDate: "January 2023",
+            endDate: "August 2023"
+        },
+        {
+            jobTitle: "Workshop Lead",
+            company: "Coding Club",
+            location: "Lyon",
+            contractType: "Association",
+            description: "The coding club is a student association that aims to promote coding and programming skills among high schooler. The club organizes workshops, hackathons, and coding competitions to help students develop their technical skills and problem-solving abilities.",
+            bullets: [
+                "Organized coding workshops for high school students",
+                "Mentored students in coding projects and competitions",
+                "Collaborated with teachers to integrate coding into the school curriculum",
+                "Participated in coding competitions and hackathons"
+            ],
+            startDate: "February 2023",
+            endDate: "February 2025"
+        },
+        {
+            jobTitle: "Crew member",
+            company: "Burger King",
+            location: "Ornex",
+            contractType: "Full-time",
+            description: "Burger King is a fast-food restaurant chain that specializes in flame-grilled hamburgers.",
+            bullets: [
+                "Efficiently managed the kitchen and counter during peak hours, ensuring fast and high-quality service.",
+                "Made significant contributions to maintaining a predominantly positive customer feedback, implementing practices focused on customer satisfaction and service quality.",
+                "Responsible for training new employees, ensuring effective integration and a thorough understanding of procedures."
+            ],
+            startDate: "June 2021",
+            endDate: "September 2022"
+        },
+        {
+            jobTitle: "Delegate",
+            company: "Model United Nations",
+            location: "Ferney-Voltaire / Geneva",
+            contractType: "Association",
+            description: "I participated in MUN, first as an assistant to learn about the structure and functioning of the UN, before becoming a delegate and representing several countries in numerous debates. FerMUN brings together 51 schools from 23 different countries, meeting at the International Telecommunication Union, with an opening ceremony in the Human Rights and Alliance of Civilizations Room at the UN in Geneva. As a delegate in the 2021 edition, I represented Ivory Coast on the issue of sustainable development in developing countries.",
+            bullets: [
+                "Significant improvement in my English level",
+                "Meeting people from diverse backgrounds",
+                "Public speaking",
+                "Participation in debates and argumentation/support of my points",
+                "Drafting resolutions and official documents"
+            ],
+            startDate: "September 2019",
+            endDate: "June 2021"
+        }
+    ],
+    educations: [
+        {
+            degree: "Master's degree in Computer Science",
+            school: "Epitech",
+            location: "Lyon",
+            description: "Epitech is a private institution of higher education in computer science, founded in 1999. It is a member of IONIS Education Group, the largest group of private higher education in France.\n\nThe school is known for its innovative project-based pedagogy, which emphasizes practical learning and hands-on experience. Epitech students work on real-world projects, participate in hackathons, and collaborate with industry partners to develop their technical skills and problem-solving abilities.",
+            startDate: "September 2022",
+            endDate: "April 2027",
+            bullets: [
+                "3.2 GPA",
+                "Ambassador of the school",
+                "Member of the Epitech Innovation Hub"
+            ]
+        },
+        {
+            degree: "International Program",
+            school: "Chung-Ang University",
+            location: "Seoul",
+            description: "Chung-Ang University is a private institution of higher education in South Korea, founded in 1918. It is one of the oldest universities in the country and is known for its strong emphasis on research and innovation.\n\nThe university offers a wide range of undergraduate and graduate programs in various fields, including arts, humanities, social sciences, natural sciences, and engineering. It is home to a diverse student body and a vibrant campus community, providing students with a rich and dynamic learning environment.",
+            startDate: "August 2025",
+            endDate: "June 2026",
+            bullets: [
+                "Participate in the International Program",
+                "Study Korean language and culture",
+                "Participate in cultural events and activities",
+                "Engage in computer science courses and projects",
+                "Collaborate with peers on software development projects",
+                "Conduct research in advanced computing topics"
+            ]
+        },
+        {
+            degree: "Science high school diploma",
+            school: "Lycée International",
+            location: "Ferney-Voltaire",
+            description: "The Lycée International is a public secondary school located in Ferney-Voltaire, France. It offers a comprehensive curriculum that includes a strong focus on science, mathematics, and technology.\n\nThe school provides students with a rigorous academic program that prepares them for higher education and professional careers. It emphasizes critical thinking, problem-solving, and creativity, fostering a culture of intellectual curiosity and academic excellence.",
+            startDate: "September 2018",
+            endDate: "June 2021",
+            bullets: [
+                "Specialization in Mathematics and Computer Science",
+                "Participation in extracurricular activities and competitions",
+                "Engagement in community service and volunteer work",
+                "Leadership roles in student organizations and clubs"
+            ]
+        }
+    ],
+    certifications: []
+};
