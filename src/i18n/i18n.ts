@@ -1,10 +1,20 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+
+// Import all translation files
 import enTranslations from '../../public/locales/en/en.json';
 import frTranslations from '../../public/locales/fr/fr.json';
-import enResume from '../../public/locales/en/resume.en.json';
-import frResume from '../../public/locales/fr/resume.fr.json';
+import enHome from '../../public/locales/en/home.json';
+import frHome from '../../public/locales/fr/home.json';
+import enProjects from '../../public/locales/en/projects.json';
+import frProjects from '../../public/locales/fr/projects.json';
+import enContact from '../../public/locales/en/contact.json';
+import frContact from '../../public/locales/fr/contact.json';
+import enResume from '../../public/locales/en/resume.json';
+import frResume from '../../public/locales/fr/resume.json';
+import enNavigation from '../../public/locales/en/navigation.json';
+import frNavigation from '../../public/locales/fr/navigation.json';
 
 i18n
   .use(LanguageDetector)
@@ -13,11 +23,19 @@ i18n
     resources: {
       en: {
         translation: enTranslations,
-        resume: enResume
+        home: enHome,
+        projects: enProjects,
+        contact: enContact,
+        resume: enResume,
+        navigation: enNavigation
       },
       fr: {
         translation: frTranslations,
-        resume: frResume
+        home: frHome,
+        projects: frProjects,
+        contact: frContact,
+        resume: frResume,
+        navigation: frNavigation
       }
     },
     fallbackLng: 'en',
@@ -26,4 +44,4 @@ i18n
     }
   });
 
-export default i18n; 
+export default i18n;

@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "CURRICULUM VITAE - DEVELOPER PROFILE",
+    "command": "cat /home/developer/cv.txt | head -20"
+  },
+  "profile": {
+    "name": "Name:",
+    "location": "Location:",
+    "status": "Status:",
+    "specialization": "Specialization:",
+    "contact": "Contact:",
+    "nameValue": "Maël RABOT",
+    "locationValue": "Lyon, France",
+    "statusValue": "Computer Science Student at Epitech",
+    "specializationValue": "Full-Stack Development, Robotics, AI Research",
+    "contactValue": "Available for opportunities"
+  },
+  "experience": {
+    "title": "PROFESSIONAL EXPERIENCE - WORK HISTORY",
+    "command": "cat /var/log/career.log",
+    "duration": "DURATION:",
+    "location": "LOCATION:",
+    "type": "TYPE:",
+    "achievements": "grep \"achievements\" {{company}}.log"
+  },
+  "education": {
+    "title": "EDUCATION",
+    "certTitle": "& CERTIFICATIONS",
+    "academicTitle": "ACADEMIC RECORDS",
+    "educationCommand": "ls /etc/education/",
+    "certCommand": "find /certs -name \"*.pem\" -type f",
+    "year": "Year:",
+    "gpa": "GPA:",
+    "valid": "[VALID]"
+  },
+  "skills": {
+    "title": "TECHNICAL PROFICIENCY MATRIX",
+    "command": "cat /proc/skillset | column -t",
+    "headers": {
+      "category": "CATEGORY",
+      "technologies": "TECHNOLOGIES",
+      "years": "YEARS"
+    },
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "database": "Database",
+      "devops": "DevOps",
+      "mobile": "Mobile"
+    },
+    "techStacks": {
+      "frontend": "React, TypeScript, Vue.js",
+      "backend": "Node.js, Python, Java",
+      "database": "PostgreSQL, MongoDB",
+      "devops": "Docker, Kubernetes, AWS",
+      "mobile": "React Native, Flutter"
+    }
+  },
+  "download": {
+    "title": "DOCUMENT DOWNLOAD - EXPORT OPTIONS",
+    "pdf": {
+      "command": "wget resume.pdf",
+      "description": "Download PDF version"
+    },
+    "docx": {
+      "command": "curl -O resume.docx",
+      "description": "Download Word document"
+    },
+    "portfolio": {
+      "command": "git clone portfolio",
+      "description": "Clone entire portfolio"
+    },
+    "contact": {
+      "command": "echo $CONTACT_INFO",
+      "description": "Display contact details"
+    }
+  },
+  "footer": {
+    "ready": "RESUME DATA LOADED - READY FOR EXPORT"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "CURRICULUM VITAE - PROFIL DÉVELOPPEUR",
+    "command": "cat /home/developer/cv.txt | head -20"
+  },
+  "profile": {
+    "name": "Nom :",
+    "location": "Lieu :",
+    "status": "Statut :",
+    "specialization": "Spécialisation :",
+    "contact": "Contact :",
+    "nameValue": "Maël RABOT",
+    "locationValue": "Lyon, France",
+    "statusValue": "Étudiant en informatique à Epitech",
+    "specializationValue": "Développement Full-Stack, Robotique, Recherche IA",
+    "contactValue": "Disponible pour des opportunités"
+  },
+  "experience": {
+    "title": "EXPÉRIENCE PROFESSIONNELLE - HISTORIQUE TRAVAIL",
+    "command": "cat /var/log/career.log",
+    "duration": "DURÉE :",
+    "location": "LIEU :",
+    "type": "TYPE :",
+    "achievements": "grep \"réalisations\" {{company}}.log"
+  },
+  "education": {
+    "title": "FORMATION",
+    "certTitle": "& CERTIFICATIONS",
+    "academicTitle": "DOSSIERS ACADÉMIQUES",
+    "educationCommand": "ls /etc/education/",
+    "certCommand": "find /certs -name \"*.pem\" -type f",
+    "year": "Année :",
+    "gpa": "Moyenne :",
+    "valid": "[VALIDE]"
+  },
+  "skills": {
+    "title": "MATRICE DE COMPÉTENCES TECHNIQUES",
+    "command": "cat /proc/skillset | column -t",
+    "headers": {
+      "category": "CATÉGORIE",
+      "technologies": "TECHNOLOGIES",
+      "years": "ANNÉES"
+    },
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "database": "Base de données",
+      "devops": "DevOps",
+      "mobile": "Mobile"
+    },
+    "techStacks": {
+      "frontend": "React, TypeScript, Vue.js",
+      "backend": "Node.js, Python, Java",
+      "database": "PostgreSQL, MongoDB",
+      "devops": "Docker, Kubernetes, AWS",
+      "mobile": "React Native, Flutter"
+    }
+  },
+  "download": {
+    "title": "TÉLÉCHARGEMENT DOCUMENT - OPTIONS D'EXPORT",
+    "pdf": {
+      "command": "wget resume.pdf",
+      "description": "Télécharger version PDF"
+    },
+    "docx": {
+      "command": "curl -O resume.docx",
+      "description": "Télécharger document Word"
+    },
+    "portfolio": {
+      "command": "git clone portfolio",
+      "description": "Cloner l'ensemble du portfolio"
+    },
+    "contact": {
+      "command": "echo $CONTACT_INFO",
+      "description": "Afficher les détails de contact"
+    }
+  },
+  "footer": {
+    "ready": "DONNÉES CV CHARGÉES - PRÊT POUR L'EXPORT"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "PROJECT REPOSITORY BROWSER - GIT STATUS",
+    "command": "git log --oneline | head -10"
+  },
+  "terminal": {
+    "scanning": "Scanning project repositories...",
+    "found": "Found {{count}} active projects",
+    "loading": "Loading project metadata...",
+    "ready": "Ready for project exploration",
+    "loadingProject": "Loading project: {{name}}...",
+    "readyInspection": "Ready for inspection."
+  },
+  "listing": {
+    "title": "PROJECT LISTING - ACTIVE REPOSITORIES"
+  },
+  "details": {
+    "title": "PROJECT DETAILS",
+    "info": {
+      "title": "PROJECT INFO",
+      "command": "cat README.md",
+      "description": "Description:",
+      "repository": "Repository:",
+      "demo": "Live Demo:"
+    },
+    "structure": {
+      "title": "FILE STRUCTURE",
+      "command": "tree -L 3"
+    },
+    "stack": {
+      "title": "TECHNOLOGY STACK",
+      "command": "npm list --depth=0"
+    }
+  },
+  "meta": {
+    "gitStatus": "git status:",
+    "type": "Type:",
+    "lang": "Lang:",
+    "files": "Files:",
+    "last": "Last:",
+    "installed": "[INSTALLED]"
+  },
+  "status": {
+    "active": "ACTIVE",
+    "completed": "COMPLETED",
+    "archived": "ARCHIVED"
+  },
+  "projects": [
+    {
+      "name": "terminal-portfolio",
+      "type": "web-application",
+      "description": "A terminal-style portfolio website with matrix effects and TUI design"
+    },
+    {
+      "name": "microservice-auth",
+      "type": "backend-service",
+      "description": "JWT-based authentication microservice with Redis caching"
+    },
+    {
+      "name": "ml-prediction-api",
+      "type": "api-service",
+      "description": "Machine learning API for predictive analytics with FastAPI"
+    },
+    {
+      "name": "blockchain-wallet",
+      "type": "crypto-application",
+      "description": "Secure cryptocurrency wallet with multi-chain support"
+    },
+    {
+      "name": "devops-automation",
+      "type": "automation-script",
+      "description": "Comprehensive DevOps automation scripts for CI/CD pipelines"
+    },
+    {
+      "name": "real-time-chat",
+      "type": "web-application",
+      "description": "Real-time chat application with WebSocket support"
+    }
+  ],
+  "footer": {
+    "select": "SELECT PROJECT TO EXPLORE"
+  }
+}

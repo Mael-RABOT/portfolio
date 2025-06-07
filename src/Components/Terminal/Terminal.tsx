@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import MatrixRain from '../Effects/MatrixRain';
+import LanguageSwitch from '../LanguageSwitch/LanguageSwitch';
 import './Terminal.css';
 
 interface TerminalProps {
@@ -10,6 +12,7 @@ interface TerminalProps {
 
 const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
   const location = useLocation();
+  const { t } = useTranslation('navigation');
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
@@ -22,11 +25,11 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
 
   const getPageTitle = (path: string) => {
     switch (path) {
-      case '/': return 'HOME';
-      case '/projects': return 'PROJECTS';
-      case '/resume': return 'RESUME';
-      case '/contact': return 'CONTACT';
-      default: return 'PORTFOLIO';
+      case '/': return t('titles.home');
+      case '/projects': return t('titles.projects');
+      case '/resume': return t('titles.resume');
+      case '/contact': return t('titles.contact');
+      default: return t('titles.portfolio');
     }
   };
 
@@ -38,10 +41,13 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
           <span className="status-indicator"></span>
           {getPageTitle(location.pathname)} - PORTFOLIO.EXE - [{formatTime(currentTime)}]
         </div>
-        <div className="terminal-controls">
-          <button className="terminal-control">−</button>
-          <button className="terminal-control">□</button>
-          <button className="terminal-control">×</button>
+        <div className="terminal-header-right">
+          <LanguageSwitch />
+          <div className="terminal-controls">
+            <button className="terminal-control">−</button>
+            <button className="terminal-control">□</button>
+            <button className="terminal-control">×</button>
+          </div>
         </div>
       </div>
 
@@ -52,25 +58,25 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
             to="/"
             className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}
           >
-            [F1] HOME
+            {t('menu.home')}
           </Link>
           <Link
             to="/projects"
             className={`nav-item ${location.pathname === '/projects' ? 'active' : ''}`}
           >
-            [F2] PROJECTS
+            {t('menu.projects')}
           </Link>
           <Link
             to="/resume"
             className={`nav-item ${location.pathname === '/resume' ? 'active' : ''}`}
           >
-            [F3] RESUME
+            {t('menu.resume')}
           </Link>
           <Link
             to="/contact"
             className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}
           >
-            [F4] CONTACT
+            {t('menu.contact')}
           </Link>
         </div>
       </nav>
@@ -79,7 +85,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
       <div className="terminal-content">
         {/* Command Line Indicator */}
         <div className="terminal-prompt">
-          user@portfolio:~$ cat {getPageTitle(location.pathname).toLowerCase()}.txt
+          user@portfolio:~$ {t('command', { page: getPageTitle(location.pathname).toLowerCase() })}
         </div>
 
         {/* Matrix Rain Background Effect */}

@@ -9,17 +9,17 @@ interface SkillCategory {
 }
 
 const Home: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('home');
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [systemReady, setSystemReady] = useState(false);
     const [displayText, setDisplayText] = useState('');
     const [currentCommand, setCurrentCommand] = useState('');
 
     const fullIntroText = `
-INITIALIZING PORTFOLIO SYSTEM...
-LOADING USER DATA...
-ESTABLISHING SECURE CONNECTION...
-READY FOR INPUT.
+${t('banner.initializing')}
+${t('banner.loadingUserData')}
+${t('banner.securingConnection')}
+${t('banner.ready')}
     `;
 
     // Simulate system boot
@@ -61,31 +61,31 @@ READY FOR INPUT.
 
     const programmingSkills: SkillCategory[] = React.useMemo(() => [
         {
-            title: "PROGRAMMING_LANGUAGES",
-            command: "ls /usr/local/languages/",
-            skills: Array.isArray(t("home.skills.programmingLanguages.list", { returnObjects: true }))
-                ? t("home.skills.programmingLanguages.list", { returnObjects: true }) as string[]
+            title: t("skills.programmingLanguages.title"),
+            command: t("skills.programmingLanguages.command"),
+            skills: Array.isArray(t("skills.programmingLanguages.list", { returnObjects: true }))
+                ? t("skills.programmingLanguages.list", { returnObjects: true }) as string[]
                 : ["JavaScript/TypeScript", "Python", "Java", "C/C++", "Rust"]
         },
         {
-            title: "TOOLS_&_FRAMEWORKS",
-            command: "cat /etc/tools.conf",
-            skills: Array.isArray(t("home.skills.tools.list", { returnObjects: true }))
-                ? t("home.skills.tools.list", { returnObjects: true }) as string[]
+            title: t("skills.tools.title"),
+            command: t("skills.tools.command"),
+            skills: Array.isArray(t("skills.tools.list", { returnObjects: true }))
+                ? t("skills.tools.list", { returnObjects: true }) as string[]
                 : ["React", "Node.js", "Docker", "Kubernetes", "AWS", "PostgreSQL"]
         },
         {
-            title: "SOFT_SKILLS",
-            command: "whoami --extended",
-            skills: Array.isArray(t("home.skills.softSkills.list", { returnObjects: true }))
-                ? t("home.skills.softSkills.list", { returnObjects: true }) as string[]
+            title: t("skills.softSkills.title"),
+            command: t("skills.softSkills.command"),
+            skills: Array.isArray(t("skills.softSkills.list", { returnObjects: true }))
+                ? t("skills.softSkills.list", { returnObjects: true }) as string[]
                 : ["Team Leadership", "Problem Solving", "Communication", "Project Management"]
         },
         {
-            title: "LANGUAGES",
-            command: "locale -a",
-            skills: Array.isArray(t("home.skills.languages.list", { returnObjects: true }))
-                ? t("home.skills.languages.list", { returnObjects: true }) as string[]
+            title: t("skills.languages.title"),
+            command: t("skills.languages.command"),
+            skills: Array.isArray(t("skills.languages.list", { returnObjects: true }))
+                ? t("skills.languages.list", { returnObjects: true }) as string[]
                 : ["French (Native)", "English (Fluent)", "Korean (Learning)"]
         }
     ], [t]);
@@ -105,13 +105,13 @@ READY FOR INPUT.
     return (
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    SYSTEM BOOT SEQUENCE
+                    {t('systemBoot.title')}
                 </div>
                 <div className="terminal-section-content">
                     <ASCIIArt type="loading" size="medium" />
                     <div className="terminal-text">
                         <div className="terminal-prompt">
-                            LOADING... [{Math.round(loadingProgress)}%]
+                            {t('systemBoot.loading')} [{Math.round(loadingProgress)}%]
                         </div>
                         <div style={{
                             width: '100%',
@@ -138,7 +138,7 @@ READY FOR INPUT.
             {/* Main Portfolio Banner */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    PORTFOLIO SYSTEM v2.1.0 - MAIN INTERFACE
+                    {t('banner.title')}
                 </div>
                 <div className="terminal-section-content">
                     <ASCIIArt type="banner" size="large" animate={true} />
@@ -151,29 +151,29 @@ READY FOR INPUT.
             {/* System Information */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    SYSTEM INFORMATION - {t('home.welcome').toUpperCase()}
+                    {t('systemInfo.title')} - {t('systemInfo.welcome').toUpperCase()}
                 </div>
                 <div className="terminal-section-content">
                     <div className="terminal-grid">
                         <div className="terminal-card">
-                            <div className="terminal-card-header">HOST INFO</div>
+                            <div className="terminal-card-header">{t('systemInfo.hostInfo.title')}</div>
                             <table className="terminal-table">
                                 <tbody>
-                                    <tr><td>HOSTNAME:</td><td>{systemInfo.hostname}</td></tr>
-                                    <tr><td>USER:</td><td>{systemInfo.user}</td></tr>
-                                    <tr><td>KERNEL:</td><td>{systemInfo.kernel}</td></tr>
-                                    <tr><td>SHELL:</td><td>{systemInfo.shell}</td></tr>
+                                    <tr><td>{t('systemInfo.hostInfo.hostname')}</td><td>{systemInfo.hostname}</td></tr>
+                                    <tr><td>{t('systemInfo.hostInfo.user')}</td><td>{systemInfo.user}</td></tr>
+                                    <tr><td>{t('systemInfo.hostInfo.kernel')}</td><td>{systemInfo.kernel}</td></tr>
+                                    <tr><td>{t('systemInfo.hostInfo.shell')}</td><td>{systemInfo.shell}</td></tr>
                                 </tbody>
                             </table>
                         </div>
                         <div className="terminal-card">
-                            <div className="terminal-card-header">PERFORMANCE</div>
+                            <div className="terminal-card-header">{t('systemInfo.performance.title')}</div>
                             <table className="terminal-table">
                                 <tbody>
-                                    <tr><td>UPTIME:</td><td>{systemInfo.uptime}</td></tr>
-                                    <tr><td>LOAD AVG:</td><td>{systemInfo.load}</td></tr>
-                                    <tr><td>MEMORY:</td><td>{systemInfo.memory}</td></tr>
-                                    <tr><td>PROCESSES:</td><td>{systemInfo.processes}</td></tr>
+                                    <tr><td>{t('systemInfo.performance.uptime')}</td><td>{systemInfo.uptime}</td></tr>
+                                    <tr><td>{t('systemInfo.performance.loadAvg')}</td><td>{systemInfo.load}</td></tr>
+                                    <tr><td>{t('systemInfo.performance.memory')}</td><td>{systemInfo.memory}</td></tr>
+                                    <tr><td>{t('systemInfo.performance.processes')}</td><td>{systemInfo.processes}</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -184,22 +184,22 @@ READY FOR INPUT.
             {/* About Section */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    USER PROFILE - DEVELOPER DOCUMENTATION
+                    {t('profile.title')}
                 </div>
                 <div className="terminal-section-content">
-                    <div className="terminal-prompt">cat /home/mael_rabot/README.md</div>
+                    <div className="terminal-prompt">{t('profile.command')}</div>
                     <div className="terminal-text">
-                                                <h3 className="terminal-command">{t('home.aboutMe').toUpperCase()}.EXE</h3>
+                        <h3 className="terminal-command">{t('profile.aboutMe').toUpperCase()}.EXE</h3>
                         <p>
-                            &gt; {t('home.description1')}
+                            &gt; {t('profile.description1')}
                         </p>
                         <p>
-                            &gt; {t('home.description2')}
+                            &gt; {t('profile.description2')}
                         </p>
 
-                        <h3 className="terminal-command">{t('home.involvement').toUpperCase()}.txt</h3>
+                        <h3 className="terminal-command">{t('profile.involvement').toUpperCase()}.txt</h3>
                         <p>
-                            &gt; {t('home.description3')}
+                            &gt; {t('profile.description3')}
                         </p>
                     </div>
                 </div>
@@ -208,7 +208,7 @@ READY FOR INPUT.
             {/* Skills Section */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    INSTALLED PACKAGES & CAPABILITIES - {t('home.skills.title').toUpperCase()}
+                    {t('skills.title')}
                 </div>
                 <div className="terminal-section-content">
                     <div className="terminal-grid">
@@ -234,13 +234,13 @@ READY FOR INPUT.
             {/* Passions Section */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    PERSONAL INTERESTS - {t('home.passions.title').toUpperCase()}
+                    {t('passions.title')}
                 </div>
                 <div className="terminal-section-content">
-                    <div className="terminal-prompt">cat /etc/interests.conf</div>
+                    <div className="terminal-prompt">{t('passions.command')}</div>
                     <div className="tech-grid">
-                        {(Array.isArray(t('home.passions.list', { returnObjects: true }))
-                            ? t('home.passions.list', { returnObjects: true }) as string[]
+                        {(Array.isArray(t('passions.list', { returnObjects: true }))
+                            ? t('passions.list', { returnObjects: true }) as string[]
                             : ["Robotics & AI", "Open Source Development", "3D Printing", "Machine Learning", "IoT Projects"]
                         ).map((passion, index) => (
                             <div key={index} className="tech-item">
@@ -256,25 +256,25 @@ READY FOR INPUT.
             {/* Quick Actions */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    QUICK ACCESS COMMANDS
+                    {t('quickActions.title')}
                 </div>
                 <div className="terminal-section-content">
                     <div className="command-grid">
                         <div className="command-item">
-                            <div className="terminal-prompt">./view_projects.sh</div>
-                            <div className="terminal-text">Browse development portfolio</div>
+                            <div className="terminal-prompt">{t('quickActions.viewProjects.command')}</div>
+                            <div className="terminal-text">{t('quickActions.viewProjects.description')}</div>
                         </div>
                         <div className="command-item">
-                            <div className="terminal-prompt">cat resume.pdf</div>
-                            <div className="terminal-text">Display professional experience</div>
+                            <div className="terminal-prompt">{t('quickActions.viewResume.command')}</div>
+                            <div className="terminal-text">{t('quickActions.viewResume.description')}</div>
                         </div>
                         <div className="command-item">
-                            <div className="terminal-prompt">send_message.py</div>
-                            <div className="terminal-text">Initialize contact protocol</div>
+                            <div className="terminal-prompt">{t('quickActions.sendMessage.command')}</div>
+                            <div className="terminal-text">{t('quickActions.sendMessage.description')}</div>
                         </div>
                         <div className="command-item">
-                            <div className="terminal-prompt">git status</div>
-                            <div className="terminal-text">Check current development status</div>
+                            <div className="terminal-prompt">{t('quickActions.gitStatus.command')}</div>
+                            <div className="terminal-text">{t('quickActions.gitStatus.description')}</div>
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,7 @@ READY FOR INPUT.
             {/* Footer */}
             <ASCIIArt type="divider" size="large" />
             <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
-                <span className="blinking-cursor">SYSTEM READY FOR INPUT</span>
+                <span className="blinking-cursor">{t('footer.ready')}</span>
             </div>
         </div>
     );

@@ -85,6 +85,12 @@ body {
   letter-spacing: 1px;
 }
 
+.terminal-header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .terminal-controls {
   display: flex;
   gap: 8px;

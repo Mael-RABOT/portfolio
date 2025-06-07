@@ -1,0 +1,90 @@
+{
+  "systemBoot": {
+    "title": "SÉQUENCE DE DÉMARRAGE SYSTÈME",
+    "loading": "CHARGEMENT..."
+  },
+  "banner": {
+    "title": "SYSTÈME PORTFOLIO v2.1.0 - INTERFACE PRINCIPALE",
+    "initializing": "INITIALISATION DU SYSTÈME PORTFOLIO...",
+    "loadingUserData": "CHARGEMENT DES DONNÉES UTILISATEUR...",
+    "securingConnection": "ÉTABLISSEMENT D'UNE CONNEXION SÉCURISÉE...",
+    "ready": "PRÊT POUR LA SAISIE."
+  },
+  "systemInfo": {
+    "title": "INFORMATIONS SYSTÈME",
+    "welcome": "Bienvenue, je suis Maël RABOT",
+    "hostInfo": {
+      "title": "INFO HÔTE",
+      "hostname": "NOM D'HÔTE:",
+      "user": "UTILISATEUR:",
+      "kernel": "NOYAU:",
+      "shell": "SHELL:"
+    },
+    "performance": {
+      "title": "PERFORMANCES",
+      "uptime": "DURÉE DE FONCTIONNEMENT:",
+      "loadAvg": "CHARGE MOYENNE:",
+      "memory": "MÉMOIRE:",
+      "processes": "PROCESSUS:"
+    }
+  },
+  "profile": {
+    "title": "PROFIL UTILISATEUR - DOCUMENTATION DÉVELOPPEUR",
+    "command": "cat /home/mael_rabot/README.md",
+    "aboutMe": "À propos de moi",
+    "description1": "Je suis étudiant en troisième année d'informatique à Epitech, en route vers un Master (Bac +5). Ma passion pour la technologie me pousse à explorer divers domaines informatiques, cherchant constamment de nouveaux défis et opportunités d'apprentissage.",
+    "description2": "Actuellement, je me concentre sur la programmation bas niveau, la Programmation Orientée Objet, le développement web et la robotique. Je suis également désireux d'étendre mes connaissances au développement de jeux vidéo et à la programmation graphique.",
+    "involvement": "Engagement Communautaire",
+    "description3": "Je suis activement impliqué dans le 'Coding Club', où nous promouvons l'informatique et le développement auprès des lycéens. De plus, je sers d'ambassadeur de l'école, représentant Epitech lors d'événements publics et partageant notre passion pour la technologie avec les futurs étudiants."
+  },
+  "skills": {
+    "title": "PACKAGES INSTALLÉS & CAPACITÉS - COMPÉTENCES TECHNIQUES",
+    "programmingLanguages": {
+      "title": "LANGAGES_DE_PROGRAMMATION",
+      "command": "ls /usr/local/languages/",
+      "list": ["C", "C++", "Python", "JavaScript", "TypeScript", "PHP", "SQL", "Bash"]
+    },
+    "tools": {
+      "title": "OUTILS_ET_FRAMEWORKS",
+      "command": "cat /etc/tools.conf",
+      "list": ["Git", "React", "Docker", "Node.js", "MariaDB"]
+    },
+    "softSkills": {
+      "title": "COMPÉTENCES_RELATIONNELLES",
+      "command": "whoami --extended",
+      "list": ["Travail d'équipe", "Autonomie", "Résolution de problèmes", "Apprentissage continu"]
+    },
+    "languages": {
+      "title": "LANGUES",
+      "command": "locale -a",
+      "list": ["Français (Natif)", "Anglais (C1)"]
+    }
+  },
+  "passions": {
+    "title": "INTÉRÊTS PERSONNELS - PASSIONS",
+    "command": "cat /etc/interests.conf",
+    "list": ["Aviation", "Cuisine", "Président d'une association sportive"]
+  },
+  "quickActions": {
+    "title": "COMMANDES D'ACCÈS RAPIDE",
+    "viewProjects": {
+      "command": "./view_projects.sh",
+      "description": "Parcourir le portfolio de développement"
+    },
+    "viewResume": {
+      "command": "cat resume.pdf",
+      "description": "Afficher l'expérience professionnelle"
+    },
+    "sendMessage": {
+      "command": "send_message.py",
+      "description": "Initier le protocole de contact"
+    },
+    "gitStatus": {
+      "command": "git status",
+      "description": "Vérifier le statut de développement actuel"
+    }
+  },
+  "footer": {
+    "ready": "SYSTÈME PRÊT POUR LA SAISIE"
+  }
+}

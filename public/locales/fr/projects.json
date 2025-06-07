@@ -1,0 +1,83 @@
+{
+  "header": {
+    "title": "NAVIGATEUR DE DÉPÔTS PROJETS - STATUT GIT",
+    "command": "git log --oneline | head -10"
+  },
+  "terminal": {
+    "scanning": "Analyse des dépôts de projets...",
+    "found": "{{count}} projets actifs trouvés",
+    "loading": "Chargement des métadonnées de projet...",
+    "ready": "Prêt pour l'exploration des projets",
+    "loadingProject": "Chargement du projet : {{name}}...",
+    "readyInspection": "Prêt pour l'inspection."
+  },
+  "listing": {
+    "title": "LISTE DES PROJETS - DÉPÔTS ACTIFS"
+  },
+  "details": {
+    "title": "DÉTAILS DU PROJET",
+    "info": {
+      "title": "INFO PROJET",
+      "command": "cat README.md",
+      "description": "Description :",
+      "repository": "Dépôt :",
+      "demo": "Démo en direct :"
+    },
+    "structure": {
+      "title": "STRUCTURE DES FICHIERS",
+      "command": "tree -L 3"
+    },
+    "stack": {
+      "title": "PILE TECHNOLOGIQUE",
+      "command": "npm list --depth=0"
+    }
+  },
+  "meta": {
+    "gitStatus": "statut git :",
+    "type": "Type :",
+    "lang": "Lang :",
+    "files": "Fichiers :",
+    "last": "Dernier :",
+    "installed": "[INSTALLÉ]"
+  },
+  "status": {
+    "active": "ACTIF",
+    "completed": "TERMINÉ",
+    "archived": "ARCHIVÉ"
+  },
+  "projects": [
+    {
+      "name": "terminal-portfolio",
+      "type": "application-web",
+      "description": "Un site web portfolio de style terminal avec effets matriciels et design TUI"
+    },
+    {
+      "name": "microservice-auth",
+      "type": "service-backend",
+      "description": "Microservice d'authentification basé sur JWT avec mise en cache Redis"
+    },
+    {
+      "name": "ml-prediction-api",
+      "type": "service-api",
+      "description": "API d'apprentissage automatique pour l'analyse prédictive avec FastAPI"
+    },
+    {
+      "name": "blockchain-wallet",
+      "type": "application-crypto",
+      "description": "Portefeuille de cryptomonnaie sécurisé avec support multi-chaînes"
+    },
+    {
+      "name": "devops-automation",
+      "type": "script-automatisation",
+      "description": "Scripts d'automatisation DevOps complets pour les pipelines CI/CD"
+    },
+    {
+      "name": "real-time-chat",
+      "type": "application-web",
+      "description": "Application de chat en temps réel avec support WebSocket"
+    }
+  ],
+  "footer": {
+    "select": "SÉLECTIONNER UN PROJET À EXPLORER"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "systemBoot": {
+    "title": "SYSTEM BOOT SEQUENCE",
+    "loading": "LOADING..."
+  },
+  "banner": {
+    "title": "PORTFOLIO SYSTEM v2.1.0 - MAIN INTERFACE",
+    "initializing": "INITIALIZING PORTFOLIO SYSTEM...",
+    "loadingUserData": "LOADING USER DATA...",
+    "securingConnection": "ESTABLISHING SECURE CONNECTION...",
+    "ready": "READY FOR INPUT."
+  },
+  "systemInfo": {
+    "title": "SYSTEM INFORMATION",
+    "welcome": "Welcome, I'm Maël RABOT",
+    "hostInfo": {
+      "title": "HOST INFO",
+      "hostname": "HOSTNAME:",
+      "user": "USER:",
+      "kernel": "KERNEL:",
+      "shell": "SHELL:"
+    },
+    "performance": {
+      "title": "PERFORMANCE",
+      "uptime": "UPTIME:",
+      "loadAvg": "LOAD AVG:",
+      "memory": "MEMORY:",
+      "processes": "PROCESSES:"
+    }
+  },
+  "profile": {
+    "title": "USER PROFILE - DEVELOPER DOCUMENTATION",
+    "command": "cat /home/mael_rabot/README.md",
+    "aboutMe": "About Me",
+    "description1": "I'm a third-year computer science student at Epitech, working towards a Master's degree (Bac +5). My passion for technology drives me to explore various IT fields, constantly seeking new challenges and opportunities to learn.",
+    "description2": "Currently, I'm focusing on low-level programming, Object-Oriented Programming, web development, and robotics. I'm also eager to expand my knowledge into video game development and graphical programming.",
+    "involvement": "Community Involvement",
+    "description3": "I'm actively involved in the 'Coding Club', where we promote IT and development to high school students. Additionally, I serve as a school ambassador, representing Epitech at public events and sharing our passion for technology with future students."
+  },
+  "skills": {
+    "title": "INSTALLED PACKAGES & CAPABILITIES - TECHNICAL SKILLS",
+    "programmingLanguages": {
+      "title": "PROGRAMMING_LANGUAGES",
+      "command": "ls /usr/local/languages/",
+      "list": ["C", "C++", "Python", "JavaScript", "TypeScript", "PHP", "SQL", "Bash"]
+    },
+    "tools": {
+      "title": "TOOLS_&_FRAMEWORKS",
+      "command": "cat /etc/tools.conf",
+      "list": ["Git", "React", "Docker", "Node.js", "MariaDB"]
+    },
+    "softSkills": {
+      "title": "SOFT_SKILLS",
+      "command": "whoami --extended",
+      "list": ["Team Work", "Autonomy", "Problem Solving", "Continuous Learning"]
+    },
+    "languages": {
+      "title": "LANGUAGES",
+      "command": "locale -a",
+      "list": ["French (Native)", "English (C1)"]
+    }
+  },
+  "passions": {
+    "title": "PERSONAL INTERESTS - PASSIONS",
+    "command": "cat /etc/interests.conf",
+    "list": ["Aviation", "Cooking", "President of a sports association"]
+  },
+  "quickActions": {
+    "title": "QUICK ACCESS COMMANDS",
+    "viewProjects": {
+      "command": "./view_projects.sh",
+      "description": "Browse development portfolio"
+    },
+    "viewResume": {
+      "command": "cat resume.pdf",
+      "description": "Display professional experience"
+    },
+    "sendMessage": {
+      "command": "send_message.py",
+      "description": "Initialize contact protocol"
+    },
+    "gitStatus": {
+      "command": "git status",
+      "description": "Check current development status"
+    }
+  },
+  "footer": {
+    "ready": "SYSTEM READY FOR INPUT"
+  }
+}

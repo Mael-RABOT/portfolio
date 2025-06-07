@@ -3,14 +3,14 @@ import { useTranslation } from "react-i18next";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
 const Contact: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('contact');
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         subject: '',
         message: ''
     });
-    const [connectionStatus, setConnectionStatus] = useState('DISCONNECTED');
+    const [connectionStatus, setConnectionStatus] = useState(t('connection.disconnected'));
     const [isTransmitting, setIsTransmitting] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -24,16 +24,16 @@ const Contact: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setIsTransmitting(true);
-        setConnectionStatus('TRANSMITTING');
+        setConnectionStatus(t('connection.transmitting'));
 
         // Simulate sending
         setTimeout(() => {
-            setConnectionStatus('MESSAGE_SENT');
+            setConnectionStatus(t('connection.messageSent'));
             setIsTransmitting(false);
             setFormData({ name: '', email: '', subject: '', message: '' });
 
             setTimeout(() => {
-                setConnectionStatus('DISCONNECTED');
+                setConnectionStatus(t('connection.disconnected'));
             }, 10000);
         }, 2000);
     };
@@ -75,25 +75,25 @@ const Contact: React.FC = () => {
             {/* Header */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    COMMUNICATION INTERFACE - CONTACT PROTOCOLS
+                    {t('header.title')}
                 </div>
                 <div className="terminal-section-content">
                     <ASCIIArt type="computer" size="medium" />
-                    <div className="terminal-prompt">netstat -an | grep LISTEN</div>
+                    <div className="terminal-prompt">{t('header.command')}</div>
                     <div className="terminal-text">
-                        <div><strong>CONNECTION STATUS:</strong>
+                        <div><strong>{t('connection.status')}</strong>
                             <span style={{
-                                color: connectionStatus === 'DISCONNECTED' ? 'var(--terminal-gray)' :
-                                       connectionStatus === 'TRANSMITTING' ? 'var(--terminal-bright-green)' :
+                                color: connectionStatus === t('connection.disconnected') ? 'var(--terminal-gray)' :
+                                       connectionStatus === t('connection.transmitting') ? 'var(--terminal-bright-green)' :
                                        'var(--terminal-green)',
                                 marginLeft: '10px'
                             }}>
                                 {connectionStatus}
                             </span>
                         </div>
-                        <div><strong>RESPONSE TIME:</strong> {networkInfo.responseTime}</div>
-                        <div><strong>AVAILABILITY:</strong> {networkInfo.availability}</div>
-                        <div><strong>SERVER LOAD:</strong> {networkInfo.serverLoad}</div>
+                        <div><strong>{t('connection.responseTime')}</strong> {networkInfo.responseTime}</div>
+                        <div><strong>{t('connection.availability')}</strong> {networkInfo.availability}</div>
+                        <div><strong>{t('connection.serverLoad')}</strong> {networkInfo.serverLoad}</div>
                     </div>
                 </div>
             </div>
@@ -101,18 +101,18 @@ const Contact: React.FC = () => {
             {/* Contact Methods */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    AVAILABLE COMMUNICATION CHANNELS
+                    {t('channels.title')}
                 </div>
                 <div className="terminal-section-content">
-                    <div className="terminal-prompt">ps aux | grep communication</div>
+                    <div className="terminal-prompt">{t('channels.command')}</div>
                     <table className="terminal-table">
                         <thead>
                             <tr>
-                                <th>PROTOCOL</th>
-                                <th>ADDRESS</th>
-                                <th>PORT</th>
-                                <th>ENCRYPTION</th>
-                                <th>STATUS</th>
+                                <th>{t('channels.headers.protocol')}</th>
+                                <th>{t('channels.headers.address')}</th>
+                                <th>{t('channels.headers.port')}</th>
+                                <th>{t('channels.headers.encryption')}</th>
+                                <th>{t('channels.headers.status')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -148,60 +148,60 @@ const Contact: React.FC = () => {
             {/* Message Form */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
-                    SECURE MESSAGE TRANSMISSION FORM
+                    {t('form.title')}
                 </div>
                 <div className="terminal-section-content">
-                    <div className="terminal-prompt">nano message.txt</div>
+                    <div className="terminal-prompt">{t('form.command')}</div>
                     <form onSubmit={handleSubmit} className="terminal-form">
                         <div className="terminal-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                             <div className="form-group">
-                                <label className="terminal-text">SENDER_NAME:</label>
+                                <label className="terminal-text">{t('form.senderName')}</label>
                                 <input
                                     type="text"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleInputChange}
                                     className="terminal-input"
-                                    placeholder="Enter your name"
+                                    placeholder={t('form.placeholders.name')}
                                     required
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="terminal-text">EMAIL_ADDRESS:</label>
+                                <label className="terminal-text">{t('form.emailAddress')}</label>
                                 <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     className="terminal-input"
-                                    placeholder="your@email.com"
+                                    placeholder={t('form.placeholders.email')}
                                     required
                                 />
                             </div>
                         </div>
 
                         <div className="form-group">
-                            <label className="terminal-text">MESSAGE_SUBJECT:</label>
+                            <label className="terminal-text">{t('form.messageSubject')}</label>
                             <input
                                 type="text"
                                 name="subject"
                                 value={formData.subject}
                                 onChange={handleInputChange}
                                 className="terminal-input"
-                                placeholder="Brief subject line"
+                                placeholder={t('form.placeholders.subject')}
                                 required
                             />
                         </div>
 
                         <div className="form-group">
-                            <label className="terminal-text">MESSAGE_BODY:</label>
+                            <label className="terminal-text">{t('form.messageBody')}</label>
                             <textarea
                                 name="message"
                                 value={formData.message}
                                 onChange={handleInputChange}
                                 className="terminal-input"
                                 rows={8}
-                                placeholder="Type your message here..."
+                                placeholder={t('form.placeholders.message')}
                                 required
                             />
                         </div>
@@ -212,14 +212,14 @@ const Contact: React.FC = () => {
                                 className="terminal-button primary"
                                 disabled={isTransmitting}
                             >
-                                {isTransmitting ? 'TRANSMITTING...' : 'SEND MESSAGE'}
+                                {isTransmitting ? t('form.transmitting') : t('form.submit')}
                             </button>
                             <button
                                 type="button"
                                 className="terminal-button"
                                 onClick={() => setFormData({ name: '', email: '', subject: '', message: '' })}
                             >
-                                CLEAR BUFFER
+                                {t('form.clear')}
                             </button>
                         </div>
                     </form>
@@ -307,7 +307,7 @@ const Contact: React.FC = () => {
             {/* Footer */}
             <ASCIIArt type="divider" size="large" />
             <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
-                <span className="blinking-cursor">COMMUNICATION CHANNELS OPEN</span>
+                <span className="blinking-cursor">{t('footer.ready')}</span>
             </div>
         </div>
     );

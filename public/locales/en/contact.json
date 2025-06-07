@@ -1,0 +1,55 @@
+{
+  "header": {
+    "title": "COMMUNICATION INTERFACE - CONTACT PROTOCOLS",
+    "command": "netstat -an | grep LISTEN"
+  },
+  "connection": {
+    "status": "CONNECTION STATUS:",
+    "responseTime": "RESPONSE TIME:",
+    "availability": "AVAILABILITY:",
+    "serverLoad": "SERVER LOAD:",
+    "disconnected": "DISCONNECTED",
+    "transmitting": "TRANSMITTING",
+    "messageSent": "MESSAGE_SENT"
+  },
+  "channels": {
+    "title": "AVAILABLE COMMUNICATION CHANNELS",
+    "command": "ps aux | grep communication",
+    "headers": {
+      "protocol": "PROTOCOL",
+      "address": "ADDRESS",
+      "port": "PORT",
+      "encryption": "ENCRYPTION",
+      "status": "STATUS"
+    }
+  },
+  "form": {
+    "title": "SECURE MESSAGE TRANSMISSION FORM",
+    "command": "nano message.txt",
+    "senderName": "SENDER_NAME:",
+    "emailAddress": "EMAIL_ADDRESS:",
+    "messageSubject": "MESSAGE_SUBJECT:",
+    "messageBody": "MESSAGE_BODY:",
+    "placeholders": {
+      "name": "Enter your name",
+      "email": "your@email.com",
+      "subject": "Brief subject line",
+      "message": "Type your message here... (Max 500 characters)"
+    },
+    "submit": "TRANSMIT MESSAGE",
+    "transmitting": "TRANSMITTING...",
+    "clear": "CLEAR BUFFER"
+  },
+  "networkInfo": {
+    "title": "NETWORK DIAGNOSTICS",
+    "command": "ping -c 4 contact.server",
+    "localTime": "LOCAL TIME:",
+    "timezone": "TIMEZONE:",
+    "responseTime": "< 24h",
+    "availability": "HIGH",
+    "serverLoad": "12%"
+  },
+  "footer": {
+    "ready": "COMMUNICATION CHANNELS READY"
+  }
+}
