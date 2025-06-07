@@ -30,15 +30,21 @@ const Projects: React.FC = () => {
     const projectsData = tData('projects', { returnObjects: true }) as any[];
     const initialProjects: Project[] = projectsData || [];
 
-    const [terminalOutput, setTerminalOutput] = useState<string[]>([
-        t('terminal.scanning'),
-        t('terminal.found', { count: initialProjects.length }),
-        t('terminal.loading'),
-        t('terminal.ready')
-    ]);
+    // const [terminalOutput, setTerminalOutput] = useState<string[]>([
+    //     t('terminal.scanning'),
+    //     t('terminal.found', { count: initialProjects.length }),
+    //     t('terminal.loading'),
+    //     t('terminal.ready')
+    // ]);
+    const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchGitHubData = async () => {
+            setTerminalOutput([]);
+            setIsLoading(false);
+            setProjects(initialProjects.map(p => ({ ...p, fileCount: 0, lastCommit: 'Unknown', fileStructure: [] })));
+            return; // API is disabled for now
+
             setIsLoading(true);
             setTerminalOutput([
                 t('terminal.scanning'),
@@ -48,7 +54,6 @@ const Projects: React.FC = () => {
             ]);
 
             try {
-                // First test authentication
                 const authTest = await githubApi.testAuthentication();
                 console.log('GitHub Authentication Test:', authTest);
 
@@ -63,7 +68,6 @@ const Projects: React.FC = () => {
                 const repoUrls = initialProjects.map(p => p.repository);
                 const githubInfo = await githubApi.getMultipleRepoInfo(repoUrls);
 
-                // Merge GitHub data with project data
                 const updatedProjects = initialProjects.map(project => ({
                     ...project,
                     fileCount: githubInfo[project.repository]?.fileCount || 0,
@@ -82,7 +86,6 @@ const Projects: React.FC = () => {
                 ]);
             } catch (error) {
                 console.error('Failed to fetch GitHub data:', error);
-                // Fallback to projects without GitHub data
                 setProjects(initialProjects.map(p => ({ ...p, fileCount: 0, lastCommit: 'Unknown', fileStructure: [] })));
                 setTerminalOutput([
                     t('terminal.scanning'),
