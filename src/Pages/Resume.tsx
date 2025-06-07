@@ -3,6 +3,22 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
+interface JobExperience {
+    position: string;
+    company: string;
+    duration: string;
+    location: string;
+    contractType: string;
+    responsibilities: string[];
+}
+
+interface Education {
+    degree: string;
+    institution: string;
+    year: string;
+    bullets: string[];
+}
+
 const Resume: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation('resume');
@@ -10,7 +26,7 @@ const Resume: React.FC = () => {
 
     const resumeData = tData('resume', { returnObjects: true }) as any;
 
-    const experience = resumeData.experiences?.map((exp: any) => ({
+    const experience: JobExperience[] = resumeData.experiences?.map((exp: any) => ({
         position: exp.jobTitle,
         company: exp.company,
         duration: `${exp.startDate} - ${exp.endDate}`,
@@ -19,14 +35,14 @@ const Resume: React.FC = () => {
         responsibilities: exp.bullets
     })) || [];
 
-    const education = resumeData.educations?.map((edu: any) => ({
+    const education: Education[] = resumeData.educations?.map((edu: any) => ({
         degree: edu.degree,
         institution: edu.school,
         year: `${edu.startDate} - ${edu.endDate}`,
-        gpa: edu.bullets?.[0] || "N/A"
+        bullets: edu.bullets || []
     })) || [];
 
-    const certifications = resumeData.certifications?.map((cert: any) => cert.name) || [];
+    const certifications: string[] = resumeData.certifications?.map((cert: any) => cert.name) || [];
 
     return (
         <div className="terminal-crt terminal-scanlines">
@@ -55,7 +71,7 @@ const Resume: React.FC = () => {
                 </div>
                 <div className="terminal-section-content">
                     <div className="terminal-prompt">{t('experience.command')}</div>
-                    {experience.map((job, index) => (
+                    {experience.map((job: JobExperience, index: number) => (
                         <div key={index} className="terminal-card" style={{ marginBottom: '20px' }}>
                             <div className="terminal-card-header">
                                 {job.position} @ {job.company}
@@ -80,7 +96,7 @@ const Resume: React.FC = () => {
                                 <div style={{ marginTop: '15px' }}>
                                     <div className="terminal-prompt">{t('experience.achievements', { company: job.company.toLowerCase() })}</div>
                                     <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
-                                        {job.responsibilities.map((resp, respIndex) => (
+                                        {job.responsibilities.map((resp: string, respIndex: number) => (
                                             <li key={respIndex} className="terminal-text">
                                                 &gt; {resp}
                                             </li>
@@ -103,11 +119,20 @@ const Resume: React.FC = () => {
                         <div className="terminal-card">
                             <div className="terminal-card-header">{t('education.title')}</div>
                             <div className="terminal-prompt">{t('education.educationCommand')}</div>
-                            {education.map((edu, index) => (
+                            {education.map((edu: Education, index: number) => (
                                 <div key={index} className="terminal-text" style={{ marginBottom: '15px' }}>
                                     <strong>{edu.degree}</strong><br/>
                                     <span className="terminal-command">{edu.institution}</span><br/>
-                                    <span>{t('education.year')} {edu.year} | {t('education.gpa')} {edu.gpa}</span>
+                                    <span>{t('education.year')} {edu.year}</span>
+                                    {edu.bullets && edu.bullets.length > 0 && (
+                                        <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
+                                            {edu.bullets.map((bullet: string, bulletIndex: number) => (
+                                                <li key={bulletIndex} className="terminal-text">
+                                                    &gt; {bullet}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -117,7 +142,7 @@ const Resume: React.FC = () => {
                                 <div className="terminal-card-header">{t('education.certTitle').replace('& ', '')}</div>
                                 <div className="terminal-prompt">{t('education.certCommand')}</div>
                                 <div className="skills-list">
-                                    {certifications.map((cert, index) => (
+                                    {certifications.map((cert: string, index: number) => (
                                         <div key={index} className="skill-item">
                                             <span className="status-indicator"></span>
                                             <span className="terminal-command">{cert}</span>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
-import { githubApi, GitHubRepoInfo, FileTreeItem } from "../services/githubApi";
+import { githubApi, FileTreeItem } from "../services/githubApi";
 
 interface Project {
     name: string;
@@ -25,7 +25,7 @@ const Projects: React.FC = () => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [githubData, setGithubData] = useState<{[key: string]: GitHubRepoInfo}>({});
+
 
     const projectsData = tData('projects', { returnObjects: true }) as any[];
     const initialProjects: Project[] = projectsData || [];
@@ -62,7 +62,6 @@ const Projects: React.FC = () => {
 
                 const repoUrls = initialProjects.map(p => p.repository);
                 const githubInfo = await githubApi.getMultipleRepoInfo(repoUrls);
-                setGithubData(githubInfo);
 
                 // Merge GitHub data with project data
                 const updatedProjects = initialProjects.map(project => ({

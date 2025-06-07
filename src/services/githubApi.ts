@@ -263,9 +263,6 @@ class GitHubApiService {
   async getMultipleRepoInfo(repoUrls: string[]): Promise<GitHubApiResponse> {
     const results: GitHubApiResponse = {};
 
-    // Check rate limit before starting
-    const rateLimit = await this.getRateLimit();
-
     // Adjust batch size based on authentication and rate limit
     const batchSize = this.GITHUB_TOKEN ? 5 : 2; // Larger batches for authenticated requests
     const delayBetweenBatches = this.GITHUB_TOKEN ? 500 : 2000; // Shorter delays for authenticated requests
