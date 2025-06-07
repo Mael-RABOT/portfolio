@@ -1,0 +1,38 @@
+.language-switch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--terminal-green);
+}
+
+.language-label {
+  color: var(--terminal-green);
+  font-weight: bold;
+}
+
+.language-btn {
+  background: none;
+  border: none;
+  color: var(--terminal-gray);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.2s ease;
+}
+
+.language-btn:hover {
+  color: var(--terminal-bright-green);
+}
+
+.language-btn.active {
+  color: var(--terminal-bright-green);
+  font-weight: bold;
+}
+
+.language-separator {
+  color: var(--terminal-gray);
+  margin: 0 2px;
+}

@@ -1,0 +1,73 @@
+{
+  "header": {
+    "title": "INTERFACE DE COMMUNICATION - PROTOCOLES DE CONTACT",
+    "command": "netstat -an | grep LISTEN"
+  },
+  "connection": {
+    "status": "STATUT DE CONNEXION :",
+    "responseTime": "TEMPS DE RÉPONSE :",
+    "availability": "DISPONIBILITÉ :",
+    "serverLoad": "CHARGE SERVEUR :",
+    "disconnected": "DÉCONNECTÉ",
+    "transmitting": "TRANSMISSION",
+    "messageSent": "MESSAGE_ENVOYÉ"
+  },
+  "channels": {
+    "title": "CANAUX DE COMMUNICATION DISPONIBLES",
+    "command": "ps aux | grep communication",
+    "headers": {
+      "protocol": "PROTOCOLE",
+      "address": "ADRESSE",
+      "port": "PORT",
+      "encryption": "CHIFFREMENT",
+      "status": "STATUT"
+    }
+  },
+  "form": {
+    "title": "FORMULAIRE DE TRANSMISSION SÉCURISÉE",
+    "command": "nano message.txt",
+    "senderName": "NOM_EXPÉDITEUR :",
+    "emailAddress": "ADRESSE_EMAIL :",
+    "messageSubject": "SUJET_MESSAGE :",
+    "messageBody": "CORPS_MESSAGE :",
+    "placeholders": {
+      "name": "Entrez votre nom",
+      "email": "votre@email.com",
+      "subject": "Ligne d'objet brève",
+      "message": "Tapez votre message ici... (Max 500 caractères)"
+    },
+    "submit": "TRANSMETTRE MESSAGE",
+    "transmitting": "TRANSMISSION...",
+    "clear": "VIDER TAMPON"
+  },
+  "networkInfo": {
+    "title": "DIAGNOSTICS RÉSEAU",
+    "command": "ping -c 4 contact.server",
+    "localTime": "HEURE LOCALE :",
+    "timezone": "FUSEAU HORAIRE :",
+    "responseTime": "< 24h",
+    "availability": "ÉLEVÉE",
+    "serverLoad": "12%"
+  },
+  "commands": {
+    "ping": {
+      "title": "TEST DE CONNECTIVITÉ RÉSEAU",
+      "testing": "Test en cours...",
+      "waiting": "En attente de réponse...",
+      "description": "Tester la connexion"
+    },
+    "whois": {
+      "description": "Voir les infos publiques"
+    },
+    "ssh": {
+      "description": "Connexion via SSH"
+    },
+    "api": {
+      "scrollToForm": "Défilement vers le formulaire...",
+      "description": "Envoyer via API"
+    }
+  },
+  "footer": {
+    "ready": "CANAUX DE COMMUNICATION PRÊTS"
+  }
+}

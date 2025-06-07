@@ -1,0 +1,67 @@
+{
+  "header": {
+    "title": "NAVIGATEUR DE DÉPÔTS PROJETS - STATUT GIT",
+    "command": "git log --oneline | head -10"
+  },
+  "terminal": {
+    "scanning": "Analyse des dépôts de projets...",
+    "found": "{{count}} projets actifs trouvés",
+    "loading": "Chargement des métadonnées de projet...",
+    "ready": "Prêt pour l'exploration des projets",
+    "loadingProject": "Chargement du projet : {{name}}...",
+    "readyInspection": "Prêt pour l'inspection."
+  },
+  "listing": {
+    "title": "LISTE DES PROJETS - DÉPÔTS ACTIFS"
+  },
+  "details": {
+    "title": "DÉTAILS DU PROJET",
+    "info": {
+      "title": "INFO PROJET",
+      "command": "cat README.md",
+      "description": "Description :",
+      "repository": "Dépôt :",
+      "demo": "Démo en direct :"
+    },
+    "structure": {
+      "title": "STRUCTURE DES FICHIERS",
+      "command": "tree -L 3"
+    },
+    "stack": {
+      "title": "PILE TECHNOLOGIQUE",
+      "command": "npm list --depth=0"
+    }
+  },
+  "meta": {
+    "gitStatus": "statut git :",
+    "type": "Type :",
+    "lang": "Lang :",
+    "files": "Fichiers :",
+    "last": "Dernier :",
+    "installed": "[INSTALLÉ]"
+  },
+  "status": {
+    "active": "ACTIF",
+    "completed": "TERMINÉ",
+    "archived": "ARCHIVÉ"
+  },
+
+  "organizations": {
+    "title": "ORGANISATIONS & PROJETS DE GROUPE",
+    "command": "ls /organisations/",
+    "personal": {
+      "title": "Projets Personnels",
+      "description": "Projets individuels et travaux de développement personnel affichés ci-dessus."
+    },
+    "asm": {
+      "description": "Projets de groupe créés avec une équipe passionnée de développeurs. Inclut moteurs de jeu, outils d'automatisation et applications web innovantes."
+    },
+    "sentience": {
+      "description": "Mon plus grand projet - Un framework robotique piloté par IA pour robots humanoïdes. Développement robotique open-source avec ROS2, vision par ordinateur et systèmes de sécurité."
+    },
+    "stats": "Total : 3 organisations GitHub | 30+ dépôts | 50+ contributeurs"
+  },
+  "footer": {
+    "select": "SÉLECTIONNER UN PROJET À EXPLORER"
+  }
+}

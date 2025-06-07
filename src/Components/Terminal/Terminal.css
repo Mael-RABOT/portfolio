@@ -1,0 +1,501 @@
+/* Terminal Component Specific Styles */
+
+.terminal-main {
+  position: relative;
+  z-index: 2;
+  min-height: 400px;
+  margin: 20px 0;
+}
+
+.terminal-footer {
+  margin-top: 40px;
+  border-top: 1px solid var(--terminal-gray);
+  padding-top: 10px;
+}
+
+.terminal-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--terminal-green);
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 8px 12px;
+  border: 1px solid var(--terminal-gray);
+}
+
+.status-left,
+.status-right {
+  font-family: var(--terminal-font);
+  letter-spacing: 0.5px;
+}
+
+/* Enhanced Terminal Window */
+.terminal-window {
+  max-width: 1200px;
+  margin: 20px auto;
+  box-shadow:
+    0 0 30px rgba(0, 255, 65, 0.4),
+    inset 0 0 30px rgba(0, 255, 65, 0.1),
+    0 0 100px rgba(0, 255, 65, 0.2);
+}
+
+/* Enhanced Navigation */
+.terminal-nav {
+  background-color: rgba(0, 0, 0, 0.95);
+  border: 2px solid var(--terminal-green);
+  backdrop-filter: blur(5px);
+}
+
+.nav-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 65, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.nav-item:hover::before {
+  left: 100%;
+}
+
+/* Terminal Typing Animation */
+.terminal-typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--terminal-green);
+  animation: typing 3s steps(40, end), blink-caret 1s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--terminal-green); }
+}
+
+/* Enhanced Terminal Prompt */
+.terminal-prompt {
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--terminal-gray);
+  font-size: 14px;
+}
+
+/* Matrix Rain Enhancement */
+.matrix-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  overflow: hidden;
+}
+
+.matrix-column {
+  position: absolute;
+  top: -100vh;
+  font-family: var(--terminal-font);
+  font-size: 12px;
+  color: var(--terminal-green);
+  white-space: pre;
+  line-height: 1.2;
+  animation: matrix-fall linear infinite;
+}
+
+@keyframes matrix-fall {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Terminal Glitch Effect */
+.terminal-glitch {
+  position: relative;
+  color: var(--terminal-green);
+}
+
+.terminal-glitch::before,
+.terminal-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--terminal-black);
+}
+
+.terminal-glitch::before {
+  animation: glitch-1 0.5s infinite;
+  color: #ff0040;
+  z-index: -1;
+}
+
+.terminal-glitch::after {
+  animation: glitch-2 0.5s infinite;
+  color: #00ffff;
+  z-index: -2;
+}
+
+@keyframes glitch-1 {
+  0%, 14%, 15%, 49%, 50%, 99%, 100% {
+    transform: translate(0);
+  }
+  1%, 13% {
+    transform: translate(-2px, 2px);
+  }
+  16%, 48% {
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes glitch-2 {
+  0%, 20%, 21%, 62%, 63%, 99%, 100% {
+    transform: translate(0);
+  }
+  1%, 19% {
+    transform: translate(2px, -2px);
+  }
+  22%, 61% {
+    transform: translate(-2px, 2px);
+  }
+}
+
+/* Terminal Scan Lines */
+.terminal-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal-scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 65, 0.03),
+      rgba(0, 255, 65, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Terminal CRT Effect */
+.terminal-crt {
+  position: relative;
+  background: var(--terminal-black);
+}
+
+.terminal-crt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 50%, rgba(0, 255, 65, 0.1) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+  .terminal-window {
+    margin: 10px;
+    max-width: none;
+  }
+
+  .terminal-status-bar {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+
+  .terminal-prompt {
+    font-size: 12px;
+    word-break: break-all;
+  }
+
+  .nav-item {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-header {
+    padding: 6px 12px;
+  }
+
+  .terminal-title {
+    font-size: 10px;
+  }
+
+  .terminal-content {
+    padding: 10px;
+  }
+
+  .terminal-control {
+    width: 10px;
+    height: 10px;
+    font-size: 6px;
+  }
+}
+
+/* Easter Egg Styles */
+
+/* Minimized Page Overlay */
+.minimized-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+    var(--terminal-black) 0%,
+    rgba(0, 20, 0, 0.95) 50%,
+    var(--terminal-black) 100%);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: minimizeIn 0.5s ease-in-out;
+}
+
+.minimized-content {
+  text-align: center;
+  color: var(--terminal-green);
+  font-family: var(--terminal-font);
+  max-width: 800px;
+  padding: 20px;
+  pointer-events: none;
+}
+
+.minimized-ascii {
+  margin-bottom: 30px;
+}
+
+.minimized-ascii pre {
+  color: var(--terminal-bright-green);
+  font-size: 11px;
+  line-height: 1.2;
+  margin: 0;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.minimized-jokes {
+  margin: 30px 0;
+}
+
+.joke-line {
+  margin: 15px 0;
+  font-size: 14px;
+  opacity: 0;
+  animation: slideInJoke 0.8s ease-out forwards;
+}
+
+.joke-line:nth-child(1) { animation-delay: 0.5s; }
+.joke-line:nth-child(2) { animation-delay: 1s; }
+.joke-line:nth-child(3) { animation-delay: 1.5s; }
+.joke-line:nth-child(4) { animation-delay: 2s; }
+
+.minimized-footer {
+  margin-top: 40px;
+}
+
+.blinking-text {
+  animation: blink 1.5s ease-in-out infinite;
+  color: var(--terminal-bright-green);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.minimized-header {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid var(--terminal-green);
+  border-radius: 4px;
+  padding: 8px;
+}
+
+@keyframes minimizeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInJoke {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Active state for terminal controls */
+.terminal-control.active {
+  background-color: var(--terminal-green);
+  color: var(--terminal-black);
+  box-shadow: 0 0 10px var(--terminal-green);
+  animation: pulse-green 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 5px var(--terminal-green);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 15px var(--terminal-green);
+    transform: scale(1.05);
+  }
+}
+
+/* Shutdown Overlay */
+.shutdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.shutdown-content {
+  text-align: center;
+  color: var(--terminal-green);
+  font-family: var(--terminal-font);
+  max-width: 600px;
+  padding: 40px;
+  border: 2px solid var(--terminal-green);
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow:
+    0 0 30px rgba(0, 255, 65, 0.5),
+    inset 0 0 30px rgba(0, 255, 65, 0.1);
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.shutdown-logo {
+  font-size: 48px;
+  margin-bottom: 20px;
+  animation: blink 1s ease-in-out infinite alternate;
+}
+
+.shutdown-message {
+  margin-bottom: 20px;
+  min-height: 300px;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.shutdown-line {
+  margin: 10px 0;
+  opacity: 1;
+  animation: typingLine 0.5s ease-in-out forwards;
+}
+
+.shutdown-line.final-message {
+  color: var(--terminal-bright-green);
+  font-weight: bold;
+}
+
+.shutdown-restart {
+  margin-top: 20px;
+  animation: blink 1s ease-in-out infinite alternate;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes typingLine {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes blink {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+/* Enhanced terminal control hover effects */
+.terminal-control {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.terminal-control:hover {
+  background-color: rgba(0, 255, 65, 0.2);
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+  transform: scale(1.1);
+}
+
+.terminal-control:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 5px rgba(0, 255, 65, 0.6);
+}

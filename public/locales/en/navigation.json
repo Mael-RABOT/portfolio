@@ -1,0 +1,21 @@
+{
+  "menu": {
+    "home": "[F1] HOME",
+    "projects": "[F2] PROJECTS",
+    "resume": "[F3] RESUME",
+    "contact": "[F4] CONTACT"
+  },
+  "titles": {
+    "home": "HOME",
+    "projects": "PROJECTS",
+    "resume": "RESUME",
+    "contact": "CONTACT",
+    "portfolio": "PORTFOLIO"
+  },
+  "command": "cat {{page}}.txt",
+  "languageSwitch": {
+    "title": "LANG",
+    "en": "EN",
+    "fr": "FR"
+  }
+}

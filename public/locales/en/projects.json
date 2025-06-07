@@ -1,0 +1,67 @@
+{
+  "header": {
+    "title": "PROJECT REPOSITORY BROWSER - GIT STATUS",
+    "command": "git log --oneline | head -10"
+  },
+  "terminal": {
+    "scanning": "Scanning project repositories...",
+    "found": "Found {{count}} active projects",
+    "loading": "Loading project metadata...",
+    "ready": "Ready for project exploration",
+    "loadingProject": "Loading project: {{name}}...",
+    "readyInspection": "Ready for inspection."
+  },
+  "listing": {
+    "title": "PROJECT LISTING - ACTIVE REPOSITORIES"
+  },
+  "details": {
+    "title": "PROJECT DETAILS",
+    "info": {
+      "title": "PROJECT INFO",
+      "command": "cat README.md",
+      "description": "Description:",
+      "repository": "Repository:",
+      "demo": "Live Demo:"
+    },
+    "structure": {
+      "title": "FILE STRUCTURE",
+      "command": "tree -L 3"
+    },
+    "stack": {
+      "title": "TECHNOLOGY STACK",
+      "command": "npm list --depth=0"
+    }
+  },
+  "meta": {
+    "gitStatus": "git status:",
+    "type": "Type:",
+    "lang": "Lang:",
+    "files": "Files:",
+    "last": "Last:",
+    "installed": "[INSTALLED]"
+  },
+  "status": {
+    "active": "ACTIVE",
+    "completed": "COMPLETED",
+    "archived": "ARCHIVED"
+  },
+
+  "organizations": {
+    "title": "ORGANIZATIONS & GROUP PROJECTS",
+    "command": "ls /organizations/",
+    "personal": {
+      "title": "Personal Projects",
+      "description": "Individual projects and personal development work displayed above."
+    },
+    "asm": {
+      "description": "Group projects created with a passionate team of developers. Includes game engines, automation tools, and innovative web applications."
+    },
+    "sentience": {
+      "description": "My biggest project ever - An AI-driven robotics framework for humanoid robots. Open-source robotics development with ROS2, computer vision, and safety systems."
+    },
+    "stats": "Total: 3 GitHub organizations | 30+ repositories | 50+ contributors"
+  },
+  "footer": {
+    "select": "SELECT PROJECT TO EXPLORE"
+  }
+}

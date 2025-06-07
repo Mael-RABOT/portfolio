@@ -1,312 +1,331 @@
-import React from "react";
-import {Box, Container, Typography, Paper, Chip, Stack, Divider} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import withPage from "../hoc/withPage";
-import TextGradient from "../Components/Text/TextGradient";
-import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
 interface SkillCategory {
     title: string;
     skills: string[];
+    command: string;
 }
 
-const HomeContent: React.FC = () => {
-    const { t } = useTranslation();
+const Home: React.FC = () => {
+    const { t } = useTranslation('home');
+    const navigate = useNavigate();
+    const [loadingProgress, setLoadingProgress] = useState<number>(0);
+    const [systemReady, setSystemReady] = useState<boolean>(false);
+    const [displayText, setDisplayText] = useState<string>("");
+    const [uptime, setUptime] = useState<string>("");
+
+    const fullIntroText = [
+        t('banner.initializing'),
+        t('banner.loadingUserData'),
+        t('banner.securingConnection'),
+        t('banner.ready')
+    ].filter(Boolean).join('\n') + '\n';
+
+    // Simulate system boot
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setSystemReady(true);
+        }, 1500);
+
+        const progressTimer = setInterval(() => {
+                    setLoadingProgress(prev => {
+            if (prev >= 100) {
+                clearInterval(progressTimer);
+                return 100;
+            }
+            return Math.min(100, prev + Math.random() * 15);
+        });
+        }, 100);
+
+        return () => {
+            clearTimeout(timer);
+            clearInterval(progressTimer);
+        };
+    }, []);
+
+        // Typing effect for intro text
+    useEffect(() => {
+        if (systemReady && fullIntroText) {
+            // Clear existing text immediately
+            setDisplayText('');
+
+            let i = 0;
+            let isCancelled = false;
+
+            const typeText = () => {
+                if (isCancelled) return;
+
+                if (i < fullIntroText.length) {
+                    const newText = fullIntroText.substring(0, i + 1);
+                    setDisplayText(newText);
+                    i++;
+                    setTimeout(typeText, 50);
+                } else {
+                    // Typing complete, ensure final text is set correctly
+                    setDisplayText(fullIntroText);
+                }
+            };
+
+            // Start typing after a delay to ensure text is cleared
+            const startTyping = setTimeout(typeText, 200);
+
+            return () => {
+                isCancelled = true;
+                clearTimeout(startTyping);
+            };
+        }
+    }, [systemReady, fullIntroText]);
+
+    // Dynamic uptime calculation
+    useEffect(() => {
+        const calculateUptime = () => {
+            const startDate = new Date('2004-02-24T00:00:00');
+            const now = new Date();
+            const diffMs = now.getTime() - startDate.getTime();
+
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+            setUptime(`${days}d ${hours}h ${minutes}m - (${Math.floor(days / 365)} years)`);
+        };
+
+        calculateUptime();
+        const interval = setInterval(calculateUptime, 60000); // Update every minute
+
+        return () => clearInterval(interval);
+    }, []);
 
     const programmingSkills: SkillCategory[] = React.useMemo(() => [
         {
-            title: t("home.skills.programmingLanguages.title"),
-            skills: t("home.skills.programmingLanguages.list", { returnObjects: true }) as string[]
+            title: t("skills.programmingLanguages.title"),
+            command: t("skills.programmingLanguages.command"),
+            skills: Array.isArray(t("skills.programmingLanguages.list", { returnObjects: true }))
+                ? t("skills.programmingLanguages.list", { returnObjects: true }) as string[]
+                : ["JavaScript/TypeScript", "Python", "Java", "C/C++", "Rust"]
         },
         {
-            title: t("home.skills.tools.title"),
-            skills: t("home.skills.tools.list", { returnObjects: true }) as string[]
+            title: t("skills.tools.title"),
+            command: t("skills.tools.command"),
+            skills: Array.isArray(t("skills.tools.list", { returnObjects: true }))
+                ? t("skills.tools.list", { returnObjects: true }) as string[]
+                : ["React", "Node.js", "Docker", "Kubernetes", "AWS", "PostgreSQL"]
         },
         {
-            title: t("home.skills.softSkills.title"),
-            skills: t("home.skills.softSkills.list", { returnObjects: true }) as string[]
+            title: t("skills.softSkills.title"),
+            command: t("skills.softSkills.command"),
+            skills: Array.isArray(t("skills.softSkills.list", { returnObjects: true }))
+                ? t("skills.softSkills.list", { returnObjects: true }) as string[]
+                : ["Team Leadership", "Problem Solving", "Communication", "Project Management"]
         },
         {
-            title: t("home.skills.languages.title"),
-            skills: t("home.skills.languages.list", { returnObjects: true }) as string[]
+            title: t("skills.languages.title"),
+            command: t("skills.languages.command"),
+            skills: Array.isArray(t("skills.languages.list", { returnObjects: true }))
+                ? t("skills.languages.list", { returnObjects: true }) as string[]
+                : ["French (Native)", "English (Fluent)", "Korean (Learning)"]
         }
     ], [t]);
 
+    const systemInfo = {
+        hostname: "maelrabot.com",
+        user: "mael_rabot",
+        kernel: "Linux-Portfolio 5.4.0",
+        uptime: uptime,
+        load: "3.5",
+        memory: "8.1GB / 16GB",
+        processes: "156",
+        shell: "/bin/coding_passion"
+    };
+
+    if (!systemReady) {
     return (
-        <Container maxWidth="lg">
-            <Box sx={{ py: 8 }}>
-                <motion.div
-                    initial={{ opacity: 0, x: -100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <Box sx={{ mb: 12, textAlign: 'center' }}>
-                        <TextGradient
-                            text={t('home.welcome')}
-                            variant="h1"
-                        />
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                mt: 2,
-                                mb: 4,
-                                color: 'text.secondary',
-                                maxWidth: '800px',
-                                mx: 'auto',
-                                lineHeight: 1.8
-                            }}
-                        >
-                            {t('home.subtitle')}
-                        </Typography>
-                    </Box>
-                </motion.div>
-
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 6,
-                        mb: 12,
-                        maxWidth: '900px',
-                        mx: 'auto'
-                    }}
-                >
-                    <motion.div
-                        initial={{ opacity: 0, x: -100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7 }}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.99 }}
-                    >
-                        <Paper
-                            elevation={6}
-                            sx={{
-                                p: { xs: 3, md: 5 },
-                                borderRadius: 4,
-                                transition: 'all 0.3s ease-in-out',
-                                background: (theme) => theme.palette.mode === 'dark'
-                                    ? 'linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%)'
-                                    : 'linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%)',
-                                '&:hover': {
-                                    boxShadow: (theme) => `0 8px 24px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)'}`,
-                                }
-                            }}
-                        >
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: { xs: 'column', md: 'row' },
-                                alignItems: 'center',
-                                gap: 4,
-                                mb: 4
-                            }}>
-                                <Box
-                                    component="img"
-                                    src="/me.png"
-                                    alt="Maël RABOT"
-                                    sx={{
-                                        width: { xs: 180, md: 220 },
-                                        height: { xs: 180, md: 220 },
-                                        borderRadius: '50%',
-                                        objectFit: 'cover',
-                                        border: (theme) => `4px solid ${theme.palette.primary.main}`,
-                                        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-                                    }}
-                                />
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography variant="h4" gutterBottom sx={{ mb: 2 }}>
-                                        {t('home.aboutMe')}
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ lineHeight: 1.8, textAlign: 'justify' }}>
-                                        {t('home.description1')}
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ lineHeight: 1.8, mt: 2, textAlign: 'justify' }}>
-                                        {t('home.description2')}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </Paper>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, x: -100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.99 }}
-                    >
-                        <Paper
-                            elevation={6}
-                            sx={{
-                                p: { xs: 3, md: 5 },
-                                borderRadius: 4,
-                                transition: 'all 0.3s ease-in-out',
-                                background: (theme) => theme.palette.mode === 'dark'
-                                    ? 'linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%)'
-                                    : 'linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%)',
-                                '&:hover': {
-                                    boxShadow: (theme) => `0 8px 24px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)'}`,
-                                }
-                            }}
-                        >
-                            <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-                                {t('home.involvement')}
-                            </Typography>
-                            <Typography variant="body1" sx={{ lineHeight: 1.8, textAlign: 'justify' }}>
-                                {t('home.description3')}
-                            </Typography>
-                        </Paper>
-                    </motion.div>
-                </Box>
-
-                <Divider sx={{ my: 6 }} />
-
-                <motion.div
-                    initial={{ opacity: 0, x: -100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7 }}
-                >
-                    <Box sx={{ mb: 4 }}>
-                        <Typography
-                            variant="h3"
-                            gutterBottom
-                            sx={{
-                                textAlign: 'center',
-                                mb: 6,
-                                background: (theme) => `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                color: 'transparent',
-                            }}
-                        >
-                            {t('home.skills.title')}
-                        </Typography>
-                        <Box sx={{
-                            display: 'grid',
-                            gridTemplateColumns: {
-                                xs: '1fr',
-                                sm: '1fr 1fr',
-                                lg: '1fr 1fr 1fr 1fr'
-                            },
-                            gap: 4
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('systemBoot.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <ASCIIArt type="loading" size="medium" />
+                    <div className="terminal-text">
+                        <div className="terminal-prompt">
+                            {t('systemBoot.loading')} [{Math.round(loadingProgress)}%]
+                        </div>
+                        <div style={{
+                            width: '100%',
+                            height: '20px',
+                            border: '1px solid var(--terminal-green)',
+                            marginTop: '10px',
+                            position: 'relative'
                         }}>
-                            {programmingSkills.map((category, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: -100 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    whileHover={{ scale: 1.03 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <Paper
-                                        elevation={6}
-                                        sx={{
-                                            p: 4,
+                            <div style={{
+                                width: `${loadingProgress}%`,
                                             height: '100%',
-                                            borderRadius: 3,
-                                            transition: 'all 0.3s ease-in-out',
-                                            background: (theme) => theme.palette.mode === 'dark'
-                                                ? 'linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%)'
-                                                : 'linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%)',
-                                            '&:hover': {
-                                                boxShadow: (theme) => `0 8px 24px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)'}`,
-                                            }
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="h6"
-                                            gutterBottom
-                                            sx={{
-                                                mb: 3,
-                                                fontWeight: 600,
-                                                color: 'primary.main'
-                                            }}
-                                        >
-                                            {category.title}
-                                        </Typography>
-                                        <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-                                            {category.skills.map((skill, skillIndex) => (
-                                                <motion.div
-                                                    key={skillIndex}
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.95 }}
-                                                >
-                                                    <Chip
-                                                        label={skill}
-                                                        color="primary"
-                                                        sx={{
-                                                            mb: 1,
-                                                            fontWeight: 500,
-                                                            background: (theme) =>
-                                                                `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
-                                                            '&:hover': {
-                                                                transform: 'translateY(-2px)',
-                                                            }
-                                                        }}
-                                                    />
-                                                </motion.div>
-                                            ))}
-                                        </Stack>
-                                    </Paper>
-                                </motion.div>
-                            ))}
-                        </Box>
-                    </Box>
-                </motion.div>
+                                backgroundColor: 'var(--terminal-green)',
+                                transition: 'width 0.1s ease'
+                            }}></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
-                <motion.div
-                    initial={{ opacity: 0, x: -100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7 }}
-                >
-                    <Box sx={{ mb: 4 }}>
-                        <Typography
-                            variant="h3"
-                            gutterBottom
-                            sx={{
-                                textAlign: 'center',
-                                mb: 6,
-                                background: (theme) => `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                color: 'transparent',
-                            }}
-                        >
-                            {t('home.passions.title')}
-                        </Typography>
-                        <Box sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            flexWrap: 'wrap',
-                            gap: 2,
-                            mb: 8
-                        }}>
-                            {(t('home.passions.list', { returnObjects: true }) as string[]).map((passion, index) => (
-                                <motion.div
-                                    key={index}
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    <Chip
-                                        label={passion}
-                                        color="secondary"
-                                        sx={{
-                                            fontWeight: 500,
-                                            background: (theme) =>
-                                                `linear-gradient(45deg, ${theme.palette.secondary.main} 30%, ${theme.palette.secondary.light} 90%)`,
-                                            '&:hover': {
-                                                transform: 'translateY(-2px)',
-                                            }
-                                        }}
-                                    />
-                                </motion.div>
+    return (
+        <div className="terminal-crt terminal-scanlines">
+            {/* Main Portfolio Banner */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('banner.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <ASCIIArt type="banner" size="large" animate={true} />
+                    <div className="ascii-extra">
+                        <pre className="terminal-text">{displayText}</pre>
+                    </div>
+                </div>
+            </div>
+
+            {/* System Information */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('systemInfo.title')} - {t('systemInfo.welcome').toUpperCase()}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-grid">
+                        <div className="terminal-card">
+                            <div className="terminal-card-header">{t('systemInfo.hostInfo.title')}</div>
+                            <table className="terminal-table">
+                                <tbody>
+                                    <tr><td>{t('systemInfo.hostInfo.hostname')}</td><td>{systemInfo.hostname}</td></tr>
+                                    <tr><td>{t('systemInfo.hostInfo.user')}</td><td>{systemInfo.user}</td></tr>
+                                    <tr><td>{t('systemInfo.hostInfo.kernel')}</td><td>{systemInfo.kernel}</td></tr>
+                                    <tr><td>{t('systemInfo.hostInfo.shell')}</td><td>{systemInfo.shell}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="terminal-card">
+                            <div className="terminal-card-header">{t('systemInfo.performance.title')}</div>
+                            <table className="terminal-table">
+                                <tbody>
+                                    <tr><td>{t('systemInfo.performance.uptime')}</td><td>{systemInfo.uptime}</td></tr>
+                                    <tr><td>{t('systemInfo.performance.loadAvg')}</td><td>{systemInfo.load}</td></tr>
+                                    <tr><td>{t('systemInfo.performance.memory')}</td><td>{systemInfo.memory}</td></tr>
+                                    <tr><td>{t('systemInfo.performance.processes')}</td><td>{systemInfo.processes}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* About Section */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('profile.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-prompt">{t('profile.command')}</div>
+                    <div className="terminal-text">
+                        <h3 className="terminal-command">{t('profile.aboutMe').toUpperCase()}.EXE</h3>
+                        <p>
+                            &gt; {t('profile.description1')}
+                        </p>
+                        <p>
+                            &gt; {t('profile.description2')}
+                        </p>
+
+                        <h3 className="terminal-command">{t('profile.involvement').toUpperCase()}.txt</h3>
+                        <p>
+                            &gt; {t('profile.description3')}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Skills Section */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('skills.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-grid">
+                        {programmingSkills.map((category, index) => (
+                            <div key={index} className="terminal-card">
+                                <div className="terminal-card-header">{category.title}</div>
+                                <div className="terminal-prompt">{category.command}</div>
+                                <div className="skills-list">
+                                            {category.skills.map((skill, skillIndex) => (
+                                        <div key={skillIndex} className="skill-item">
+                                            <span className="status-indicator"></span>
+                                            <span className="terminal-command">{skill}</span>
+                                            <span className="skill-status">[ACTIVE]</span>
+                                        </div>
+                                            ))}
+                                </div>
+                            </div>
                             ))}
-                        </Box>
-                    </Box>
-                </motion.div>
-            </Box>
-        </Container>
+                    </div>
+                </div>
+            </div>
+
+            {/* Passions Section */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('passions.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-prompt">{t('passions.command')}</div>
+                    <div className="tech-grid">
+                        {(Array.isArray(t('passions.list', { returnObjects: true }))
+                            ? t('passions.list', { returnObjects: true }) as string[]
+                            : ["Robotics & AI", "Open Source Development", "3D Printing", "Machine Learning", "IoT Projects"]
+                        ).map((passion, index) => (
+                            <div key={index} className="tech-item">
+                                <span className="status-indicator"></span>
+                                <span className="terminal-command">{passion}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="terminal-section">
+                <div className="terminal-section-header">
+                    {t('quickActions.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="command-grid">
+                        <div className="command-item" onClick={() => navigate('/projects')} style={{ cursor: 'pointer' }}>
+                            <div className="terminal-prompt">{t('quickActions.viewProjects.command')}</div>
+                            <div className="terminal-text">{t('quickActions.viewProjects.description')}</div>
+                        </div>
+                        <div className="command-item" onClick={() => navigate('/resume')} style={{ cursor: 'pointer' }}>
+                            <div className="terminal-prompt">{t('quickActions.viewResume.command')}</div>
+                            <div className="terminal-text">{t('quickActions.viewResume.description')}</div>
+                        </div>
+                        <div className="command-item" onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>
+                            <div className="terminal-prompt">{t('quickActions.sendMessage.command')}</div>
+                            <div className="terminal-text">{t('quickActions.sendMessage.description')}</div>
+                        </div>
+                        <div className="command-item" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')} style={{ cursor: 'pointer' }}>
+                            <div className="terminal-prompt">{t('quickActions.gitStatus.command')}</div>
+                            <div className="terminal-text">{t('quickActions.gitStatus.description')}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Footer */}
+            <ASCIIArt type="divider" size="large" />
+            <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
+                <span className="blinking-cursor">{t('footer.ready')}</span>
+            </div>
+        </div>
     );
 };
 
-export default withPage(null, null)(HomeContent);
+export default Home;

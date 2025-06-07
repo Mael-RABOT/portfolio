@@ -1,54 +1,83 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { CssBaseline } from '@mui/material';
-import { ThemeProvider } from './theme/ThemeContext';
-import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import './App.css';
 import './i18n/i18n';
 
-import Layout from "./Components/Layout/Layout.tsx";
+import Terminal from "./Components/Terminal/Terminal";
 import Home from "./Pages/Home";
 import Projects from "./Pages/Projects";
 import Resume from "./Pages/Resume";
 import Contact from "./Pages/Contact";
+import NotFound from "./Pages/NotFound";
 
-const App: React.FC = () => {
-    const { i18n } = useTranslation();
-    const [language, setLanguage] = useState(i18n.language);
+const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const handleLanguageChange = () => {
-            setLanguage(i18n.language);
+        const handleKeyPress = (event: KeyboardEvent) => {
+            switch (event.key) {
+                case 'F1':
+                    event.preventDefault();
+                    navigate('/');
+                    break;
+                case 'F2':
+                    event.preventDefault();
+                    navigate('/projects');
+                    break;
+                case 'F3':
+                    event.preventDefault();
+                    navigate('/resume');
+                    break;
+                case 'F4':
+                    event.preventDefault();
+                    navigate('/contact');
+                    break;
+                default:
+                    break;
+            }
         };
 
-        i18n.on('languageChanged', handleLanguageChange);
+        // Add event listener
+        document.addEventListener('keydown', handleKeyPress);
 
+        // Cleanup
         return () => {
-            i18n.off('languageChanged', handleLanguageChange);
+            document.removeEventListener('keydown', handleKeyPress);
         };
-    }, [i18n]);
+    }, [navigate]);
+
+    return <>{children}</>;
+};
+
+const App: React.FC = () => {
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const updateTime = () => {
+            setCurrentTime(new Date());
+        };
+
+        const intervalId = setInterval(updateTime, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     return (
-        <ThemeProvider>
-            <CssBaseline />
+        <div className="terminal-app">
             <Router>
-                <Layout>
-                    <motion.div
-                        key={language}
-                        initial={{opacity: 0, x: -100}}
-                        animate={{opacity: 1, x: 0}}
-                        transition={{duration: 0.6}}
-                    >
+                <NavigationProvider>
+                    <Terminal currentTime={currentTime}>
                         <Routes>
-                            <Route path="/" element={<Home/>}/>
-                            <Route path="/projects" element={<Projects/>}/>
-                            <Route path="/resume" element={<Resume/>}/>
-                            <Route path="/contact" element={<Contact/>}/>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/projects" element={<Projects />} />
+                            <Route path="/resume" element={<Resume />} />
+                            <Route path="/contact" element={<Contact />} />
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
-                    </motion.div>
-                </Layout>
+                    </Terminal>
+                </NavigationProvider>
             </Router>
-        </ThemeProvider>
+        </div>
     );
 };
 
