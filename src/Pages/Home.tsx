@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
 interface SkillCategory {
@@ -10,32 +11,33 @@ interface SkillCategory {
 
 const Home: React.FC = () => {
     const { t } = useTranslation('home');
-    const [loadingProgress, setLoadingProgress] = useState(0);
-    const [systemReady, setSystemReady] = useState(false);
-    const [displayText, setDisplayText] = useState('');
-    const [currentCommand, setCurrentCommand] = useState('');
+    const navigate = useNavigate();
+    const [loadingProgress, setLoadingProgress] = useState<number>(0);
+    const [systemReady, setSystemReady] = useState<boolean>(false);
+    const [displayText, setDisplayText] = useState<string>("");
+    const [uptime, setUptime] = useState<string>("");
 
-    const fullIntroText = `
-${t('banner.initializing')}
-${t('banner.loadingUserData')}
-${t('banner.securingConnection')}
-${t('banner.ready')}
-    `;
+    const fullIntroText = [
+        t('banner.initializing'),
+        t('banner.loadingUserData'),
+        t('banner.securingConnection'),
+        t('banner.ready')
+    ].filter(Boolean).join('\n') + '\n';
 
     // Simulate system boot
     useEffect(() => {
         const timer = setTimeout(() => {
             setSystemReady(true);
-        }, 2000);
+        }, 1500);
 
         const progressTimer = setInterval(() => {
-            setLoadingProgress(prev => {
-                if (prev >= 100) {
-                    clearInterval(progressTimer);
-                    return 100;
-                }
-                return prev + Math.random() * 15;
-            });
+                    setLoadingProgress(prev => {
+            if (prev >= 100) {
+                clearInterval(progressTimer);
+                return 100;
+            }
+            return Math.min(100, prev + Math.random() * 15);
+        });
         }, 100);
 
         return () => {
@@ -44,20 +46,58 @@ ${t('banner.ready')}
         };
     }, []);
 
-    // Typing effect for intro text
+        // Typing effect for intro text
     useEffect(() => {
-        if (systemReady) {
+        if (systemReady && fullIntroText) {
+            // Clear existing text immediately
+            setDisplayText('');
+
             let i = 0;
+            let isCancelled = false;
+
             const typeText = () => {
+                if (isCancelled) return;
+
                 if (i < fullIntroText.length) {
-                    setDisplayText(prev => prev + fullIntroText[i]);
+                    const newText = fullIntroText.substring(0, i + 1);
+                    setDisplayText(newText);
                     i++;
                     setTimeout(typeText, 50);
+                } else {
+                    // Typing complete, ensure final text is set correctly
+                    setDisplayText(fullIntroText);
                 }
             };
-            typeText();
+
+            // Start typing after a delay to ensure text is cleared
+            const startTyping = setTimeout(typeText, 200);
+
+            return () => {
+                isCancelled = true;
+                clearTimeout(startTyping);
+            };
         }
     }, [systemReady, fullIntroText]);
+
+    // Dynamic uptime calculation
+    useEffect(() => {
+        const calculateUptime = () => {
+            const startDate = new Date('2004-02-24T00:00:00');
+            const now = new Date();
+            const diffMs = now.getTime() - startDate.getTime();
+
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+            setUptime(`${days}d ${hours}h ${minutes}m - (${Math.floor(days / 365)} years)`);
+        };
+
+        calculateUptime();
+        const interval = setInterval(calculateUptime, 60000); // Update every minute
+
+        return () => clearInterval(interval);
+    }, []);
 
     const programmingSkills: SkillCategory[] = React.useMemo(() => [
         {
@@ -94,8 +134,8 @@ ${t('banner.ready')}
         hostname: "maelrabot.com",
         user: "mael_rabot",
         kernel: "Linux-Portfolio 5.4.0",
-        uptime: "1337d 13h 37m",
-        load: "0.42",
+        uptime: uptime,
+        load: "3.5",
         memory: "8.1GB / 16GB",
         processes: "156",
         shell: "/bin/coding_passion"
@@ -246,7 +286,6 @@ ${t('banner.ready')}
                             <div key={index} className="tech-item">
                                 <span className="status-indicator"></span>
                                 <span className="terminal-command">{passion}</span>
-                                <span className="skill-status">[ACTIVE]</span>
                             </div>
                         ))}
                     </div>
@@ -260,19 +299,19 @@ ${t('banner.ready')}
                 </div>
                 <div className="terminal-section-content">
                     <div className="command-grid">
-                        <div className="command-item">
+                        <div className="command-item" onClick={() => navigate('/projects')} style={{ cursor: 'pointer' }}>
                             <div className="terminal-prompt">{t('quickActions.viewProjects.command')}</div>
                             <div className="terminal-text">{t('quickActions.viewProjects.description')}</div>
                         </div>
-                        <div className="command-item">
+                        <div className="command-item" onClick={() => navigate('/resume')} style={{ cursor: 'pointer' }}>
                             <div className="terminal-prompt">{t('quickActions.viewResume.command')}</div>
                             <div className="terminal-text">{t('quickActions.viewResume.description')}</div>
                         </div>
-                        <div className="command-item">
+                        <div className="command-item" onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>
                             <div className="terminal-prompt">{t('quickActions.sendMessage.command')}</div>
                             <div className="terminal-text">{t('quickActions.sendMessage.description')}</div>
                         </div>
-                        <div className="command-item">
+                        <div className="command-item" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')} style={{ cursor: 'pointer' }}>
                             <div className="terminal-prompt">{t('quickActions.gitStatus.command')}</div>
                             <div className="terminal-text">{t('quickActions.gitStatus.description')}</div>
                         </div>

@@ -47,7 +47,7 @@
     "tools": {
       "title": "OUTILS_ET_FRAMEWORKS",
       "command": "cat /etc/tools.conf",
-      "list": ["Git", "React", "Docker", "Node.js", "MariaDB"]
+      "list": ["Git", "React", "Docker", "Node.js", "MariaDB", "ROS 2"]
     },
     "softSkills": {
       "title": "COMPÉTENCES_RELATIONNELLES",
