@@ -143,6 +143,15 @@
   },
   "projects": [
     {
+      "name": "Not A Rhythm Game",
+      "type": "Desktop Game",
+      "status": "active",
+      "language": "C++",
+      "description": "Jeu de rythme Open Source inspiré de Muse Dash, avec un editeur de niveaux complet",
+      "technologies": ["C++", "ImGui", "GLFW", "BASS"],
+      "repository": "https://github.com/Mael-RABOT/NotARhythmGame"
+    },
+    {
       "name": "AREA",
       "type": "application-web",
       "status": "completed",

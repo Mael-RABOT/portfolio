@@ -70,6 +70,15 @@
     "command": "cat /etc/interests.conf",
     "list": ["Aviation", "Cooking", "President of a sports association"]
   },
+  "highlight": {
+    "title": "FEATURED PROJECT - NOTARHYTHMGAME",
+    "command": "cd /projects/notarhythmgame && ./launch.sh",
+    "description": "An Open Source rhythm game inspired by Muse Dash, with a complete level editor",
+    "techStack": "Built with C++ and ImGui",
+    "status": "ACTIVE DEVELOPMENT",
+    "viewProject": "EXECUTE PROJECT",
+    "viewGitHub": "VIEW ON GITHUB"
+  },
   "quickActions": {
     "title": "QUICK ACCESS COMMANDS",
     "viewProjects": {

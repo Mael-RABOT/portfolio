@@ -221,6 +221,45 @@ const Home: React.FC = () => {
                 </div>
             </div>
 
+            {/* Highlight Project Section */}
+            <div className="terminal-section highlight-section">
+                <div className="terminal-section-header">
+                    {t('highlight.title')}
+                </div>
+                <div className="terminal-section-content">
+                    <div className="terminal-prompt">{t('highlight.command')}</div>
+                    <div className="highlight-content">
+                        <div className="highlight-description">
+                            <p className="terminal-text">{t('highlight.description')}</p>
+                            <div className="highlight-tech">
+                                <span className="terminal-command">{t('highlight.techStack')}</span>
+                                <span className="status-badge">{t('highlight.status')}</span>
+                            </div>
+                        </div>
+                        <div className="highlight-action">
+                            <div className="highlight-buttons">
+                                <div
+                                    className="command-item highlight-button"
+                                    onClick={() => navigate('/projects')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div className="terminal-prompt">{t('highlight.viewProject')}</div>
+                                    <div className="terminal-text">→ Navigate to project details</div>
+                                </div>
+                                <div
+                                    className="command-item highlight-button secondary"
+                                    onClick={() => window.open('https://github.com/Mael-RABOT/NotARhythmGame', '_blank')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div className="terminal-prompt">{t('highlight.viewGitHub')}</div>
+                                    <div className="terminal-text">→ Open repository</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* About Section */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
