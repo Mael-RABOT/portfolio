@@ -14,15 +14,7 @@ const Home: React.FC = () => {
     const navigate = useNavigate();
     const [loadingProgress, setLoadingProgress] = useState<number>(0);
     const [systemReady, setSystemReady] = useState<boolean>(false);
-    const [displayText, setDisplayText] = useState<string>("");
     const [uptime, setUptime] = useState<string>("");
-
-    const fullIntroText = [
-        t('banner.initializing'),
-        t('banner.loadingUserData'),
-        t('banner.securingConnection'),
-        t('banner.ready')
-    ].filter(Boolean).join('\n') + '\n';
 
     // Simulate system boot
     useEffect(() => {
@@ -45,39 +37,6 @@ const Home: React.FC = () => {
             clearInterval(progressTimer);
         };
     }, []);
-
-        // Typing effect for intro text
-    useEffect(() => {
-        if (systemReady && fullIntroText) {
-            // Clear existing text immediately
-            setDisplayText('');
-
-            let i = 0;
-            let isCancelled = false;
-
-            const typeText = () => {
-                if (isCancelled) return;
-
-                if (i < fullIntroText.length) {
-                    const newText = fullIntroText.substring(0, i + 1);
-                    setDisplayText(newText);
-                    i++;
-                    setTimeout(typeText, 50);
-                } else {
-                    // Typing complete, ensure final text is set correctly
-                    setDisplayText(fullIntroText);
-                }
-            };
-
-            // Start typing after a delay to ensure text is cleared
-            const startTyping = setTimeout(typeText, 200);
-
-            return () => {
-                isCancelled = true;
-                clearTimeout(startTyping);
-            };
-        }
-    }, [systemReady, fullIntroText]);
 
     // Dynamic uptime calculation
     useEffect(() => {
@@ -175,18 +134,18 @@ const Home: React.FC = () => {
 
     return (
         <div className="terminal-crt terminal-scanlines">
-            {/* Main Portfolio Banner */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('banner.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <ASCIIArt type="banner" size="large" animate={true} />
-                    <div className="ascii-extra">
-                        <pre className="terminal-text">{displayText}</pre>
-                    </div>
-                </div>
-            </div>
+            {/*/!* Main Portfolio Banner *!/*/}
+            {/*<div className="terminal-section">*/}
+            {/*    <div className="terminal-section-header">*/}
+            {/*        {t('banner.title')}*/}
+            {/*    </div>*/}
+            {/*    <div className="terminal-section-content">*/}
+            {/*        <ASCIIArt type="banner" size="large" animate={true} />*/}
+            {/*        <div className="ascii-extra">*/}
+            {/*            <pre className="terminal-text">{displayText}</pre>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
             {/* System Information */}
             <div className="terminal-section">
@@ -359,7 +318,6 @@ const Home: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <ASCIIArt type="divider" size="large" />
             <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
                 <span className="blinking-cursor">{t('footer.ready')}</span>
             </div>

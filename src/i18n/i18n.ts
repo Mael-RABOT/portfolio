@@ -43,6 +43,8 @@ i18n
       }
     },
     fallbackLng: 'en',
+    supportedLngs: ['en', 'fr'],
+    load: 'languageOnly',
     interpolation: {
       escapeValue: false
     }

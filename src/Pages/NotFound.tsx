@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
@@ -92,8 +91,6 @@ const NotFound: React.FC = () => {
                             PAGE NOT FOUND
                         </div>
                     </div>
-
-                    <ASCIIArt type="computer" size="medium" />
 
                     <div style={{ textAlign: 'center', marginTop: '20px' }}>
                         <pre style={{ color: 'var(--terminal-green)', fontSize: '0.9rem' }}>
@@ -219,7 +216,6 @@ const NotFound: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <ASCIIArt type="divider" size="large" />
             <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
                 <span className="blinking-cursor">
                     ERROR CODE 404 | PRESS ANY NAVIGATION BUTTON TO CONTINUE

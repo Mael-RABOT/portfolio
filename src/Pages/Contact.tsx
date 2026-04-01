@@ -213,7 +213,6 @@ curl -X POST https://api.maelrabot.com/contact \\
                     {t('header.title')}
                 </div>
                 <div className="terminal-section-content">
-                    <ASCIIArt type="computer" size="medium" />
                     <div className="terminal-prompt">{t('header.command')}</div>
                     <div className="terminal-text">
                         <div><strong>{t('connection.status')}</strong>
@@ -489,7 +488,6 @@ curl -X POST https://api.maelrabot.com/contact \\
             )}
 
             {/* Footer */}
-            <ASCIIArt type="divider" size="large" />
             <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
                 <span className="blinking-cursor">{t('footer.ready')}</span>
             </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import ASCIIArt from "../Components/ASCII/ASCIIArt";
 import { githubApi, FileTreeItem } from "../services/githubApi";
 
 interface Project {
@@ -27,15 +26,10 @@ const Projects: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
 
 
+    // eslint-disable-next-line
     const projectsData = tData('projects', { returnObjects: true }) as any[];
     const initialProjects: Project[] = projectsData || [];
 
-    // const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    //     t('terminal.scanning'),
-    //     t('terminal.found', { count: initialProjects.length }),
-    //     t('terminal.loading'),
-    //     t('terminal.ready')
-    // ]);
     const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
     useEffect(() => {
@@ -110,6 +104,7 @@ const Projects: React.FC = () => {
             `> ls -la`,
             t('terminal.loadingProject', { name: project.name }),
             `${t('meta.type')} ${project.type}`,
+            // eslint-disable-next-line
             `${t('meta.gitStatus')} ${t(`status.${project.status.toLowerCase()}` as any)}`,
             `${t('meta.lang')} ${project.language}`,
                                                 `${t('meta.files')} ${project.fileCount || 0}`,
@@ -190,8 +185,7 @@ const Projects: React.FC = () => {
                     {t('header.title')}
                 </div>
                 <div className="terminal-section-content">
-                    <ASCIIArt type="computer" size="medium" />
-                    <div className="terminal-prompt">{t('header.command')}</div>
+                    <div className="terminal-prompt">{t('header.command')}{projects.length}</div>
                     <div className="terminal-text">
                         {terminalOutput.map((line, index) => (
                             <div key={index}>&gt; {line}</div>
@@ -286,6 +280,7 @@ const Projects: React.FC = () => {
                                 </div>
                                 <div className="project-meta">
                                     <div className="terminal-prompt">
+                                        {/* eslint-disable-next-line */}
                                         {t('meta.gitStatus')} {t(`status.${project.status.toLowerCase()}` as any)}
                                     </div>
                                     <div className="terminal-text mobile-project-summary">
@@ -356,7 +351,6 @@ const Projects: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <ASCIIArt type="divider" size="large" />
             <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
                 <span className="blinking-cursor">{t('footer.select')}</span>
             </div>

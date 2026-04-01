@@ -1,7 +1,7 @@
 {
   "header": {
     "title": "NAVIGATEUR DE DÉPÔTS PROJETS - STATUT GIT",
-    "command": "git log --oneline | head -10"
+    "command": "git log --oneline | head -"
   },
   "terminal": {
     "scanning": "Analyse des dépôts de projets...",

@@ -1,7 +1,7 @@
 {
   "header": {
     "title": "CURRICULUM VITAE - PROFIL DÉVELOPPEUR",
-    "command": "cat /home/developer/cv.txt | head -20"
+    "command": "cat /home/developer/cv.txt | head -"
   },
   "profile": {
     "name": "Nom :",

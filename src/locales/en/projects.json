@@ -1,7 +1,7 @@
 {
   "header": {
     "title": "PROJECT REPOSITORY BROWSER - GIT STATUS",
-    "command": "git log --oneline | head -10"
+    "command": "git log --oneline | head -"
   },
   "terminal": {
     "scanning": "Scanning project repositories...",

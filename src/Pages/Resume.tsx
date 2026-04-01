@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import ASCIIArt from "../Components/ASCII/ASCIIArt";
+/* eslint-disable */
 
 interface JobExperience {
     position: string;
@@ -52,8 +52,7 @@ const Resume: React.FC = () => {
                     {t('header.title')}
                 </div>
                 <div className="terminal-section-content">
-                    <ASCIIArt type="success" size="medium" />
-                    <div className="terminal-prompt">{t('header.command')}</div>
+                    <div className="terminal-prompt">{t('header.command')}{experience.length + education.length}</div>
                     <div className="terminal-text">
                         <div><strong>{t('profile.name')}</strong> {t('profile.nameValue')}</div>
                         <div><strong>{t('profile.location')}</strong> {t('profile.locationValue')}</div>
@@ -244,7 +243,6 @@ const Resume: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <ASCIIArt type="divider" size="large" />
             <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
                 <span className="blinking-cursor">{t('footer.ready')}</span>
             </div>

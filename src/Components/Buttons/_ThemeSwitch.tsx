@@ -5,6 +5,8 @@ import { Button } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 
+/* UNUSED */
+
 const StyledButton = styled(Button)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
