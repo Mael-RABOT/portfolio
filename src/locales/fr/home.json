@@ -71,10 +71,10 @@
     "list": ["Aviation", "Cuisine", "Président d'une association sportive"]
   },
   "highlight": {
-    "title": "PROJET EN VEDETTE - NOTARHYTHMGAME",
-    "command": "cd /projects/notarhythmgame && ./launch.sh",
-    "description": "Un jeu de rythme Open Source inspiré de Muse Dash, avec un editeur de niveaux complet",
-    "techStack": "Développé avec C++ et ImGui",
+    "title": "PROJET EN VEDETTE - Lucy",
+    "command": "cd /projects/Lucy && ./launch.sh",
+    "description": "Une API de controle open source pour les platformes robotiques.",
+    "techStack": "C++, ROS2, React",
     "status": "DÉVELOPPEMENT ACTIF",
     "viewProject": "EXÉCUTER LE PROJET",
     "viewGitHub": "VOIR SUR GITHUB"

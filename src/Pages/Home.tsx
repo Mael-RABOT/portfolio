@@ -134,19 +134,6 @@ const Home: React.FC = () => {
 
     return (
         <div className="terminal-crt terminal-scanlines">
-            {/*/!* Main Portfolio Banner *!/*/}
-            {/*<div className="terminal-section">*/}
-            {/*    <div className="terminal-section-header">*/}
-            {/*        {t('banner.title')}*/}
-            {/*    </div>*/}
-            {/*    <div className="terminal-section-content">*/}
-            {/*        <ASCIIArt type="banner" size="large" animate={true} />*/}
-            {/*        <div className="ascii-extra">*/}
-            {/*            <pre className="terminal-text">{displayText}</pre>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
             {/* System Information */}
             <div className="terminal-section">
                 <div className="terminal-section-header">
@@ -207,7 +194,7 @@ const Home: React.FC = () => {
                                 </div>
                                 <div
                                     className="command-item highlight-button secondary"
-                                    onClick={() => window.open('https://github.com/Mael-RABOT/NotARhythmGame', '_blank')}
+                                    onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')}
                                     style={{ cursor: 'pointer' }}
                                 >
                                     <div className="terminal-prompt">{t('highlight.viewGitHub')}</div>
