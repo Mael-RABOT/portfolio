@@ -1,48 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { portfolioApi, PortfolioItem } from "../services/portfolioApi";
 /* eslint-disable */
-
-interface JobExperience {
-    position: string;
-    company: string;
-    duration: string;
-    location: string;
-    contractType: string;
-    responsibilities: string[];
-}
-
-interface Education {
-    degree: string;
-    institution: string;
-    year: string;
-    bullets: string[];
-}
 
 const Resume: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation('resume');
     const { t: tData } = useTranslation('data');
 
+    const [experience, setExperience] = useState<PortfolioItem[]>([]);
+    const [education, setEducation] = useState<PortfolioItem[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPortfolioData = async () => {
+            setIsLoading(true);
+            try {
+                const data = await portfolioApi.getAllData();
+                setExperience(data.experiences);
+                setEducation(data.educations);
+            } catch (error) {
+                console.error('Failed to fetch portfolio data:', error);
+                
+                // Fallback to static data if API fails
+                const resumeData = tData('resume', { returnObjects: true }) as any;
+                
+                if (resumeData && resumeData.experiences) {
+                    setExperience(resumeData.experiences.map((exp: any) => ({
+                        position: exp.jobTitle,
+                        company: exp.company,
+                        duration: `${exp.startDate} - ${exp.endDate}`,
+                        location: exp.location,
+                        contractType: exp.contractType,
+                        responsibilities: exp.bullets,
+                        itemType: 'experience'
+                    })));
+                }
+                
+                if (resumeData && resumeData.educations) {
+                    setEducation(resumeData.educations.map((edu: any) => ({
+                        degree: edu.degree,
+                        institution: edu.school,
+                        year: `${edu.startDate} - ${edu.endDate}`,
+                        bullets: edu.bullets || [],
+                        itemType: 'education'
+                    })));
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPortfolioData();
+    }, [tData]);
+
+    // Certifications are currently only in static data based on previous setup
     const resumeData = tData('resume', { returnObjects: true }) as any;
+    const certifications: string[] = resumeData?.certifications?.map((cert: any) => cert.name) || [];
 
-    const experience: JobExperience[] = resumeData.experiences?.map((exp: any) => ({
-        position: exp.jobTitle,
-        company: exp.company,
-        duration: `${exp.startDate} - ${exp.endDate}`,
-        location: exp.location,
-        contractType: exp.contractType,
-        responsibilities: exp.bullets
-    })) || [];
-
-    const education: Education[] = resumeData.educations?.map((edu: any) => ({
-        degree: edu.degree,
-        institution: edu.school,
-        year: `${edu.startDate} - ${edu.endDate}`,
-        bullets: edu.bullets || []
-    })) || [];
-
-    const certifications: string[] = resumeData.certifications?.map((cert: any) => cert.name) || [];
+    if (isLoading) {
+        return <div className="terminal-text">Loading resume data...</div>;
+    }
 
     return (
         <div className="terminal-crt terminal-scanlines">
@@ -58,7 +77,7 @@ const Resume: React.FC = () => {
                         <div><strong>{t('profile.location')}</strong> {t('profile.locationValue')}</div>
                         <div><strong>{t('profile.status')}</strong> {t('profile.statusValue')}</div>
                         <div><strong>{t('profile.specialization')}</strong> {t('profile.specializationValue')}</div>
-                        <div><strong>{t('profile.contact')}</strong> {t('profile.contactValue')}</div>
+                        <div><strong>{t('profile.contact')}</strong> {t('profile.contactValue')} <a href={"mailto:contact@maelrabot.com"}>contact@maelrabot.com</a></div>
                     </div>
                 </div>
             </div>
@@ -70,7 +89,7 @@ const Resume: React.FC = () => {
                 </div>
                 <div className="terminal-section-content">
                     <div className="terminal-prompt">{t('experience.command')}</div>
-                    {experience.map((job: JobExperience, index: number) => (
+                    {experience.map((job: PortfolioItem, index: number) => (
                         <div key={index} className="terminal-card" style={{ marginBottom: '20px' }}>
                             <div className="terminal-card-header">
                                 {job.position} @ {job.company}
@@ -80,7 +99,7 @@ const Resume: React.FC = () => {
                                     <tbody>
                                         <tr>
                                             <td>{t('experience.duration')}</td>
-                                            <td>{job.duration}</td>
+                                            <td>{job.duration || `${job.startDate} - ${job.endDate}`}</td>
                                         </tr>
                                         <tr>
                                             <td>{t('experience.location')}</td>
@@ -92,16 +111,85 @@ const Resume: React.FC = () => {
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div style={{ marginTop: '15px' }}>
-                                    <div className="terminal-prompt">{t('experience.achievements', { company: job.company.toLowerCase() })}</div>
-                                    <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
-                                        {job.responsibilities.map((resp: string, respIndex: number) => (
-                                            <li key={respIndex} className="terminal-text">
-                                                &gt; {resp}
-                                            </li>
+                                {job.images && job.images.length > 0 && (
+                                    <div style={{ 
+                                        display: 'flex', 
+                                        overflowX: 'auto', 
+                                        gap: '15px', 
+                                        marginTop: '15px',
+                                        paddingBottom: '5px'
+                                    }}>
+                                        {job.images.map((img, imgIndex) => (
+                                            <img 
+                                                key={imgIndex}
+                                                src={img.url} 
+                                                alt={`${job.position} ${imgIndex + 1}`} 
+                                                style={{ 
+                                                    maxHeight: '200px', 
+                                                    maxWidth: '80%',
+                                                    objectFit: 'contain',
+                                                    borderRadius: '4px', 
+                                                    border: '1px solid var(--terminal-green)',
+                                                    flexShrink: 0
+                                                }} 
+                                            />
                                         ))}
-                                    </ul>
-                                </div>
+                                    </div>
+                                )}
+                                {job.description && (
+                                    <div style={{ marginTop: '15px' }} className="terminal-text">
+                                        <span style={{ whiteSpace: 'pre-wrap' }}>{job.description}</span>
+                                    </div>
+                                )}
+                                {(job.responsibilities && job.responsibilities.length > 0) && (
+                                    <div style={{ marginTop: '15px' }}>
+                                        {job.company && (
+                                            <div className="terminal-prompt">{t('experience.achievements', { company: job.company.toLowerCase() })}</div>
+                                        )}
+                                        <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
+                                            {job.responsibilities.map((resp: string, respIndex: number) => (
+                                                <li key={respIndex} className="terminal-text">
+                                                    &gt; {resp}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                {job.additionalInfo && Object.keys(job.additionalInfo).length > 0 && (
+                                    <div style={{ marginTop: '15px' }} className="terminal-text">
+                                        {Object.entries(job.additionalInfo).map(([key, value], infoIndex) => (
+                                            <div key={infoIndex} style={{ marginBottom: '10px' }}>
+                                                <strong>{key}:</strong>
+                                                {Array.isArray(value) ? (
+                                                    <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+                                                        {value.map((item, itemIndex) => (
+                                                            <li key={itemIndex}>&gt; {item}</li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <span style={{ whiteSpace: 'pre-wrap' }}> {value}</span>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                {job.links && job.links.length > 0 && (
+                                    <div style={{ marginTop: '15px' }}>
+                                        <div className="terminal-prompt">ASSOCIATED_LINKS:</div>
+                                        <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+                                            {job.links.map((link, linkIndex) => (
+                                                <li key={linkIndex} className="terminal-text">
+                                                    &gt; <a href={link.url}
+                                                       className="terminal-link"
+                                                       target="_blank"
+                                                       rel="noopener noreferrer">
+                                                        {link.url}
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -118,11 +206,42 @@ const Resume: React.FC = () => {
                         <div className="terminal-card">
                             <div className="terminal-card-header">{t('education.title')}</div>
                             <div className="terminal-prompt">{t('education.educationCommand')}</div>
-                            {education.map((edu: Education, index: number) => (
+                            {education.map((edu: PortfolioItem, index: number) => (
                                 <div key={index} className="terminal-text" style={{ marginBottom: '15px' }}>
                                     <strong>{edu.degree}</strong><br/>
                                     <span className="terminal-command">{edu.institution}</span><br/>
-                                    <span>{t('education.year')} {edu.year}</span>
+                                    <span>{t('education.year')} {edu.year || `${edu.startDate} - ${edu.endDate}`}</span>
+                                    {edu.images && edu.images.length > 0 && (
+                                        <div style={{ 
+                                            display: 'flex', 
+                                            overflowX: 'auto', 
+                                            gap: '15px', 
+                                            marginTop: '10px', 
+                                            marginBottom: '10px',
+                                            paddingBottom: '5px'
+                                        }}>
+                                            {edu.images.map((img, imgIndex) => (
+                                                <img 
+                                                    key={imgIndex}
+                                                    src={img.url} 
+                                                    alt={`${edu.institution} ${imgIndex + 1}`} 
+                                                    style={{ 
+                                                        maxHeight: '200px', 
+                                                        maxWidth: '80%',
+                                                        objectFit: 'contain',
+                                                        borderRadius: '4px', 
+                                                        border: '1px solid var(--terminal-green)',
+                                                        flexShrink: 0
+                                                    }} 
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                    {edu.description && (
+                                        <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+                                            <span style={{ whiteSpace: 'pre-wrap' }}>{edu.description}</span>
+                                        </div>
+                                    )}
                                     {edu.bullets && edu.bullets.length > 0 && (
                                         <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
                                             {edu.bullets.map((bullet: string, bulletIndex: number) => (
@@ -131,6 +250,41 @@ const Resume: React.FC = () => {
                                                 </li>
                                             ))}
                                         </ul>
+                                    )}
+                                    {edu.additionalInfo && Object.keys(edu.additionalInfo).length > 0 && (
+                                        <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+                                            {Object.entries(edu.additionalInfo).map(([key, value], infoIndex) => (
+                                                <div key={infoIndex} style={{ marginBottom: '10px' }}>
+                                                    <strong>{key}:</strong>
+                                                    {Array.isArray(value) ? (
+                                                        <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+                                                            {value.map((item, itemIndex) => (
+                                                                <li key={itemIndex}>&gt; {item}</li>
+                                                            ))}
+                                                        </ul>
+                                                    ) : (
+                                                        <span style={{ whiteSpace: 'pre-wrap' }}> {value}</span>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {edu.links && edu.links.length > 0 && (
+                                        <div style={{ marginTop: '10px' }}>
+                                            <div className="terminal-prompt">ASSOCIATED_LINKS:</div>
+                                            <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+                                                {edu.links.map((link, linkIndex) => (
+                                                    <li key={linkIndex} className="terminal-text">
+                                                        &gt; <a href={link.url}
+                                                           className="terminal-link"
+                                                           target="_blank"
+                                                           rel="noopener noreferrer">
+                                                            {link.url}
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     )}
                                 </div>
                             ))}
