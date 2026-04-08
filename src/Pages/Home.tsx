@@ -1,6 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import {
+    Box,
+    Typography,
+    Card,
+    CardHeader,
+    CardContent,
+    Grid,
+    Button,
+    LinearProgress,
+    Table,
+    TableBody,
+    TableRow,
+    TableCell,
+    Chip,
+    Paper,
+    TableContainer
+} from "@mui/material";
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
 
 interface SkillCategory {
@@ -16,20 +33,19 @@ const Home: React.FC = () => {
     const [systemReady, setSystemReady] = useState<boolean>(false);
     const [uptime, setUptime] = useState<string>("");
 
-    // Simulate system boot
     useEffect(() => {
         const timer = setTimeout(() => {
             setSystemReady(true);
         }, 1500);
 
         const progressTimer = setInterval(() => {
-                    setLoadingProgress(prev => {
-            if (prev >= 100) {
-                clearInterval(progressTimer);
-                return 100;
-            }
-            return Math.min(100, prev + Math.random() * 15);
-        });
+            setLoadingProgress(prev => {
+                if (prev >= 100) {
+                    clearInterval(progressTimer);
+                    return 100;
+                }
+                return Math.min(100, prev + Math.random() * 15);
+            });
         }, 100);
 
         return () => {
@@ -38,7 +54,6 @@ const Home: React.FC = () => {
         };
     }, []);
 
-    // Dynamic uptime calculation
     useEffect(() => {
         const calculateUptime = () => {
             const startDate = new Date('2004-02-24T00:00:00');
@@ -53,39 +68,39 @@ const Home: React.FC = () => {
         };
 
         calculateUptime();
-        const interval = setInterval(calculateUptime, 60000); // Update every minute
+        const interval = setInterval(calculateUptime, 60000);
 
         return () => clearInterval(interval);
     }, []);
 
-    const programmingSkills: SkillCategory[] = React.useMemo(() => [
+    const programmingSkills: SkillCategory[] = useMemo(() => [
         {
             title: t("skills.programmingLanguages.title"),
             command: t("skills.programmingLanguages.command"),
             skills: Array.isArray(t("skills.programmingLanguages.list", { returnObjects: true }))
                 ? t("skills.programmingLanguages.list", { returnObjects: true }) as string[]
-                : ["JavaScript/TypeScript", "Python", "Java", "C/C++", "Rust"]
+                : []
         },
         {
             title: t("skills.tools.title"),
             command: t("skills.tools.command"),
             skills: Array.isArray(t("skills.tools.list", { returnObjects: true }))
                 ? t("skills.tools.list", { returnObjects: true }) as string[]
-                : ["React", "Node.js", "Docker", "Kubernetes", "AWS", "PostgreSQL"]
+                : []
         },
         {
             title: t("skills.softSkills.title"),
             command: t("skills.softSkills.command"),
             skills: Array.isArray(t("skills.softSkills.list", { returnObjects: true }))
                 ? t("skills.softSkills.list", { returnObjects: true }) as string[]
-                : ["Team Leadership", "Problem Solving", "Communication", "Project Management"]
+                : []
         },
         {
             title: t("skills.languages.title"),
             command: t("skills.languages.command"),
             skills: Array.isArray(t("skills.languages.list", { returnObjects: true }))
                 ? t("skills.languages.list", { returnObjects: true }) as string[]
-                : ["French (Native)", "English (Fluent)", "Korean (Learning)"]
+                : []
         }
     ], [t]);
 
@@ -101,214 +116,149 @@ const Home: React.FC = () => {
     };
 
     if (!systemReady) {
-    return (
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('systemBoot.title')}
-                </div>
-                <div className="terminal-section-content">
+        return (
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('systemBoot.title')} />
+                <CardContent sx={{ textAlign: 'center' }}>
                     <ASCIIArt type="loading" size="medium" />
-                    <div className="terminal-text">
-                        <div className="terminal-prompt">
-                            {t('systemBoot.loading')} [{Math.round(loadingProgress)}%]
-                        </div>
-                        <div style={{
-                            width: '100%',
-                            height: '20px',
-                            border: '1px solid var(--terminal-green)',
-                            marginTop: '10px',
-                            position: 'relative'
-                        }}>
-                            <div style={{
-                                width: `${loadingProgress}%`,
-                                            height: '100%',
-                                backgroundColor: 'var(--terminal-green)',
-                                transition: 'width 0.1s ease'
-                            }}></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <Typography variant="body1" className="terminal-prompt" sx={{ mt: 2 }}>
+                        {t('systemBoot.loading')} [{Math.round(loadingProgress)}%]
+                    </Typography>
+                    <LinearProgress variant="determinate" value={loadingProgress} sx={{ mt: 1 }} />
+                </CardContent>
+            </Card>
         );
     }
 
     return (
-        <div className="terminal-crt terminal-scanlines">
-            {/* System Information */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('systemInfo.title')} - {t('systemInfo.welcome').toUpperCase()}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-grid">
-                        <div className="terminal-card">
-                            <div className="terminal-card-header">{t('systemInfo.hostInfo.title')}</div>
-                            <table className="terminal-table">
-                                <tbody>
-                                    <tr><td>{t('systemInfo.hostInfo.hostname')}</td><td>{systemInfo.hostname}</td></tr>
-                                    <tr><td>{t('systemInfo.hostInfo.user')}</td><td>{systemInfo.user}</td></tr>
-                                    <tr><td>{t('systemInfo.hostInfo.kernel')}</td><td>{systemInfo.kernel}</td></tr>
-                                    <tr><td>{t('systemInfo.hostInfo.shell')}</td><td>{systemInfo.shell}</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="terminal-card">
-                            <div className="terminal-card-header">{t('systemInfo.performance.title')}</div>
-                            <table className="terminal-table">
-                                <tbody>
-                                    <tr><td>{t('systemInfo.performance.uptime')}</td><td>{systemInfo.uptime}</td></tr>
-                                    <tr><td>{t('systemInfo.performance.loadAvg')}</td><td>{systemInfo.load}</td></tr>
-                                    <tr><td>{t('systemInfo.performance.memory')}</td><td>{systemInfo.memory}</td></tr>
-                                    <tr><td>{t('systemInfo.performance.processes')}</td><td>{systemInfo.processes}</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <Box>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={`${t('systemInfo.title')} - ${t('systemInfo.welcome').toUpperCase()}`} />
+                <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <TableContainer component={Paper} variant="outlined">
+                                <Table size="small">
+                                    <TableBody>
+                                        <TableRow><TableCell>{t('systemInfo.hostInfo.hostname')}</TableCell><TableCell>{systemInfo.hostname}</TableCell></TableRow>
+                                        <TableRow><TableCell>{t('systemInfo.hostInfo.user')}</TableCell><TableCell>{systemInfo.user}</TableCell></TableRow>
+                                        <TableRow><TableCell>{t('systemInfo.hostInfo.kernel')}</TableCell><TableCell>{systemInfo.kernel}</TableCell></TableRow>
+                                        <TableRow><TableCell>{t('systemInfo.hostInfo.shell')}</TableCell><TableCell>{systemInfo.shell}</TableCell></TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TableContainer component={Paper} variant="outlined">
+                                <Table size="small">
+                                    <TableBody>
+                                        <TableRow><TableCell>{t('systemInfo.performance.uptime')}</TableCell><TableCell>{systemInfo.uptime}</TableCell></TableRow>
+                                        <TableRow><TableCell>{t('systemInfo.performance.loadAvg')}</TableCell><TableCell>{systemInfo.load}</TableCell></TableRow>
+                                        <TableRow><TableCell>{t('systemInfo.performance.memory')}</TableCell><TableCell>{systemInfo.memory}</TableCell></TableRow>
+                                        <TableRow><TableCell>{t('systemInfo.performance.processes')}</TableCell><TableCell>{systemInfo.processes}</TableCell></TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
 
-            {/* Highlight Project Section */}
-            <div className="terminal-section highlight-section">
-                <div className="terminal-section-header">
-                    {t('highlight.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('highlight.command')}</div>
-                    <div className="highlight-content">
-                        <div className="highlight-description">
-                            <p className="terminal-text">{t('highlight.description')}</p>
-                            <div className="highlight-tech">
-                                <span className="terminal-command">{t('highlight.techStack')}</span>
-                                <span className="status-badge">{t('highlight.status')}</span>
-                            </div>
-                        </div>
-                        <div className="highlight-action">
-                            <div className="highlight-buttons">
-                                <div
-                                    className="command-item highlight-button"
-                                    onClick={() => navigate('/projects')}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <div className="terminal-prompt">{t('highlight.viewProject')}</div>
-                                    <div className="terminal-text">→ Navigate to project details</div>
-                                </div>
-                                <div
-                                    className="command-item highlight-button secondary"
-                                    onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <div className="terminal-prompt">{t('highlight.viewGitHub')}</div>
-                                    <div className="terminal-text">→ Open repository</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('highlight.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt">{t('highlight.command')}</Typography>
+                    <Box sx={{ mt: 2 }}>
+                        <Typography variant="body1">{t('highlight.description')}</Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>
+                            <Chip label={t('highlight.techStack')} variant="outlined" />
+                            <Chip label={t('highlight.status')} color="primary" />
+                        </Box>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
+                        <Button variant="contained" color="primary" onClick={() => navigate('/projects')}>
+                            {t('highlight.viewProject')}
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')}>
+                            {t('highlight.viewGitHub')}
+                        </Button>
+                    </Box>
+                </CardContent>
+            </Card>
 
-            {/* About Section */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('profile.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('profile.command')}</div>
-                    <div className="terminal-text">
-                        <h3 className="terminal-command">{t('profile.aboutMe').toUpperCase()}.EXE</h3>
-                        <p>
-                            &gt; {t('profile.description1')}
-                        </p>
-                        <p>
-                            &gt; {t('profile.description2')}
-                        </p>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('profile.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt">{t('profile.command')}</Typography>
+                    <Box sx={{ mt: 2 }}>
+                        <Typography variant="h3" component="h2" className="terminal-command">{t('profile.aboutMe').toUpperCase()}.EXE</Typography>
+                        <Typography sx={{ mt: 1 }}>&gt; {t('profile.description1')}</Typography>
+                        <Typography>&gt; {t('profile.description2')}</Typography>
+                        <Typography variant="h3" component="h2" className="terminal-command" sx={{ mt: 2 }}>{t('profile.involvement').toUpperCase()}.txt</Typography>
+                        <Typography sx={{ mt: 1 }}>&gt; {t('profile.description3')}</Typography>
+                    </Box>
+                </CardContent>
+            </Card>
 
-                        <h3 className="terminal-command">{t('profile.involvement').toUpperCase()}.txt</h3>
-                        <p>
-                            &gt; {t('profile.description3')}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Skills Section */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('skills.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-grid">
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('skills.title')} />
+                <CardContent>
+                    <Grid container spacing={2}>
                         {programmingSkills.map((category, index) => (
-                            <div key={index} className="terminal-card">
-                                <div className="terminal-card-header">{category.title}</div>
-                                <div className="terminal-prompt">{category.command}</div>
-                                <div className="skills-list">
-                                            {category.skills.map((skill, skillIndex) => (
-                                        <div key={skillIndex} className="skill-item">
-                                            <span className="status-indicator"></span>
-                                            <span className="terminal-command">{skill}</span>
-                                            <span className="skill-status">[ACTIVE]</span>
-                                        </div>
-                                            ))}
-                                </div>
-                            </div>
-                            ))}
-                    </div>
-                </div>
-            </div>
+                            <Grid item xs={12} md={6} key={index}>
+                                <Card variant="outlined">
+                                    <CardHeader title={category.title} subheader={category.command} />
+                                    <CardContent>
+                                        {category.skills.map((skill, skillIndex) => (
+                                            <Chip key={skillIndex} label={skill} variant="outlined" sx={{ m: 0.5 }} />
+                                        ))}
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </CardContent>
+            </Card>
 
-            {/* Passions Section */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('passions.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('passions.command')}</div>
-                    <div className="tech-grid">
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('passions.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt">{t('passions.command')}</Typography>
+                    <Box sx={{ mt: 2 }}>
                         {(Array.isArray(t('passions.list', { returnObjects: true }))
                             ? t('passions.list', { returnObjects: true }) as string[]
-                            : ["Robotics & AI", "Open Source Development", "3D Printing", "Machine Learning", "IoT Projects"]
+                            : []
                         ).map((passion, index) => (
-                            <div key={index} className="tech-item">
-                                <span className="status-indicator"></span>
-                                <span className="terminal-command">{passion}</span>
-                            </div>
+                            <Chip key={index} label={passion} sx={{ m: 0.5 }} />
                         ))}
-                    </div>
-                </div>
-            </div>
+                    </Box>
+                </CardContent>
+            </Card>
 
-            {/* Quick Actions */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('quickActions.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="command-grid">
-                        <div className="command-item" onClick={() => navigate('/projects')} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('quickActions.viewProjects.command')}</div>
-                            <div className="terminal-text">{t('quickActions.viewProjects.description')}</div>
-                        </div>
-                        <div className="command-item" onClick={() => navigate('/resume')} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('quickActions.viewResume.command')}</div>
-                            <div className="terminal-text">{t('quickActions.viewResume.description')}</div>
-                        </div>
-                        <div className="command-item" onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('quickActions.sendMessage.command')}</div>
-                            <div className="terminal-text">{t('quickActions.sendMessage.description')}</div>
-                        </div>
-                        <div className="command-item" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('quickActions.gitStatus.command')}</div>
-                            <div className="terminal-text">{t('quickActions.gitStatus.description')}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('quickActions.title')} />
+                <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <Button fullWidth variant="outlined" onClick={() => navigate('/projects')}>{t('quickActions.viewProjects.command')}</Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button fullWidth variant="outlined" onClick={() => navigate('/resume')}>{t('quickActions.viewResume.command')}</Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button fullWidth variant="outlined" onClick={() => navigate('/contact')}>{t('quickActions.sendMessage.command')}</Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button fullWidth variant="outlined" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')}>{t('quickActions.gitStatus.command')}</Button>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
 
-            {/* Footer */}
-            <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Typography align="center" sx={{ mt: 4 }}>
                 <span className="blinking-cursor">{t('footer.ready')}</span>
-            </div>
-        </div>
+            </Typography>
+        </Box>
     );
 };
 

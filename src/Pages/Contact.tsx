@@ -3,6 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import emailjs from '@emailjs/browser';
 import ASCIIArt from "../Components/ASCII/ASCIIArt";
+import {
+    Box,
+    Typography,
+    Card,
+    CardHeader,
+    CardContent,
+    Grid,
+    Table,
+    TableBody,
+    TableRow,
+    TableCell,
+    TableHead,
+    Paper,
+    TableContainer,
+    Button,
+    Link,
+    TextField,
+    Alert,
+    CircularProgress
+} from "@mui/material";
 
 const Contact: React.FC = () => {
     const navigate = useNavigate();
@@ -26,7 +46,6 @@ const Contact: React.FC = () => {
             [name]: value
         }));
 
-        // Clear error when user starts typing
         if (formErrors[name]) {
             setFormErrors(prev => ({
                 ...prev,
@@ -76,13 +95,12 @@ const Contact: React.FC = () => {
         setIsTransmitting(true);
         setConnectionStatus(t('connection.transmitting'));
 
-        // Send email using EmailJS
         const templateParams = {
             from_name: formData.name,
             from_email: formData.email,
             subject: formData.subject,
             message: formData.message,
-            to_email: 'contact@maelrabot.com', // Your email
+            to_email: 'contact@maelrabot.com',
             current_date: new Date().toLocaleString(),
         };
 
@@ -129,14 +147,13 @@ const Contact: React.FC = () => {
             "round-trip min/avg/max/stddev = 8.7/11.5/15.2/2.8 ms"
         ];
 
-        // Simulate ping responses with delays
         pingResponses.forEach((response, index) => {
             setTimeout(() => {
                 setPingStatus(prev => [...prev, response]);
                 if (index === pingResponses.length - 1) {
                     setTimeout(() => {
                         setIsPinging(false);
-                        setTimeout(() => setPingStatus([]), 5000); // Clear after 5 seconds
+                        setTimeout(() => setPingStatus([]), 5000);
                     }, 500);
                 }
             }, index * 600);
@@ -148,13 +165,11 @@ const Contact: React.FC = () => {
     };
 
     const handleAPIDemo = () => {
-        // Scroll to form and show API example
         const form = document.querySelector('.terminal-form');
         if (form) {
             form.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Show API documentation in an alert or could be a modal
         const apiExample = `
 curl -X POST https://api.maelrabot.com/contact \\
   -H "Content-Type: application/json" \\
@@ -166,7 +181,6 @@ curl -X POST https://api.maelrabot.com/contact \\
   }'`;
 
         console.log("API Endpoint Documentation:", apiExample);
-        // Focus on the form
         setTimeout(() => {
             const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
             if (nameInput) nameInput.focus();
@@ -206,292 +220,326 @@ curl -X POST https://api.maelrabot.com/contact \\
     };
 
     return (
-        <div className="terminal-crt terminal-scanlines">
+        <Box>
             {/* Header */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('header.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('header.command')}</div>
-                    <div className="terminal-text">
-                        <div><strong>{t('connection.status')}</strong>
-                            <span style={{
-                                color: connectionStatus === t('connection.disconnected') ? 'var(--terminal-gray)' :
-                                       connectionStatus === t('connection.transmitting') ? 'var(--terminal-bright-green)' :
-                                       'var(--terminal-green)',
-                                marginLeft: '10px'
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('header.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 2 }}>{t('header.command')}</Typography>
+                    <Box>
+                        <Typography>
+                            <strong>{t('connection.status')}</strong>
+                            <Typography component="span" sx={{
+                                color: connectionStatus === t('connection.disconnected') ? 'text.disabled' :
+                                       connectionStatus === t('connection.transmitting') ? 'primary.main' :
+                                       'primary.main',
+                                ml: 1,
+                                fontWeight: 'bold'
                             }}>
                                 {connectionStatus}
-                            </span>
-                        </div>
-                        <div><strong>{t('connection.responseTime')}</strong> {networkInfo.responseTime}</div>
-                        <div><strong>{t('connection.availability')}</strong> {networkInfo.availability}</div>
-                        <div><strong>{t('connection.serverLoad')}</strong> {networkInfo.serverLoad}</div>
-                    </div>
-                </div>
-            </div>
+                            </Typography>
+                        </Typography>
+                        <Typography><strong>{t('connection.responseTime')}</strong> {networkInfo.responseTime}</Typography>
+                        <Typography><strong>{t('connection.availability')}</strong> {networkInfo.availability}</Typography>
+                        <Typography><strong>{t('connection.serverLoad')}</strong> {networkInfo.serverLoad}</Typography>
+                    </Box>
+                </CardContent>
+            </Card>
 
             {/* Contact Methods */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('channels.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('channels.command')}</div>
-                    <table className="terminal-table">
-                        <thead>
-                            <tr>
-                                <th>{t('channels.headers.protocol')}</th>
-                                <th>{t('channels.headers.address')}</th>
-                                <th>{t('channels.headers.port')}</th>
-                                <th>{t('channels.headers.encryption')}</th>
-                                <th>{t('channels.headers.status')}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {contactMethods.map((method, index) => (
-                                <tr key={index}>
-                                    <td>{method.protocol}</td>
-                                    <td>
-                                        <a href={`https://${method.address}`}
-                                           className="terminal-link"
-                            target="_blank"
-                                           rel="noopener noreferrer">
-                                            {method.address}
-                                        </a>
-                                    </td>
-                                    <td>{method.port}</td>
-                                    <td>{method.encryption}</td>
-                                    <td>
-                                        <span className="status-indicator"
-                                              style={{
-                                                  backgroundColor: method.status === 'ACTIVE' || method.status === 'ONLINE' ?
-                                                  'var(--terminal-green)' : 'var(--terminal-gray)'
-                                              }}>
-                                        </span>
-                                        {method.status}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('channels.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 2 }}>{t('channels.command')}</Typography>
+                    <TableContainer component={Paper} variant="outlined">
+                        <Table size="small">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>{t('channels.headers.protocol')}</TableCell>
+                                    <TableCell>{t('channels.headers.address')}</TableCell>
+                                    <TableCell>{t('channels.headers.port')}</TableCell>
+                                    <TableCell>{t('channels.headers.encryption')}</TableCell>
+                                    <TableCell>{t('channels.headers.status')}</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {contactMethods.map((method, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{method.protocol}</TableCell>
+                                        <TableCell>
+                                            <Link href={`https://${method.address}`} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                                                {method.address}
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell>{method.port}</TableCell>
+                                        <TableCell>{method.encryption}</TableCell>
+                                        <TableCell>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <Box sx={{ 
+                                                    width: 8, 
+                                                    height: 8, 
+                                                    borderRadius: '50%',
+                                                    bgcolor: method.status === 'ACTIVE' || method.status === 'ONLINE' ? 'primary.main' : 'text.disabled'
+                                                }} />
+                                                <Typography variant="body2">{method.status}</Typography>
+                                            </Box>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </CardContent>
+            </Card>
 
             {/* Message Form */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('form.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('form.command')}</div>
-                    <form onSubmit={handleSubmit} className="terminal-form" noValidate>
-                        <div className="terminal-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                            <div className="form-group">
-                                <label className="terminal-text">{t('form.senderName')}</label>
-                                <input
-                                    type="text"
+            <Card sx={{ mb: 4 }} className="terminal-form">
+                <CardHeader title={t('form.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 3 }}>{t('form.command')}</Typography>
+                    <Box component="form" onSubmit={handleSubmit} noValidate>
+                        <Grid container spacing={3} sx={{ mb: 3 }}>
+                            <Grid item xs={12} sm={6}>
+                                <Typography sx={{ mb: 1, fontWeight: 'bold' }}>{t('form.senderName')}</Typography>
+                                <TextField
+                                    fullWidth
                                     name="name"
                                     value={formData.name}
                                     onChange={handleInputChange}
-                                    className={`terminal-input ${formErrors.name ? 'error' : ''}`}
                                     placeholder={t('form.placeholders.name')}
+                                    error={!!formErrors.name}
+                                    helperText={formErrors.name}
+                                    variant="outlined"
+                                    size="small"
                                 />
-                                {formErrors.name && (
-                                    <div className="terminal-error">
-                                        <span className="error-indicator">⚠</span> {formErrors.name}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="form-group">
-                                <label className="terminal-text">{t('form.emailAddress')}</label>
-                                <input
-                                    type="email"
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Typography sx={{ mb: 1, fontWeight: 'bold' }}>{t('form.emailAddress')}</Typography>
+                                <TextField
+                                    fullWidth
                                     name="email"
+                                    type="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    className={`terminal-input ${formErrors.email ? 'error' : ''}`}
                                     placeholder={t('form.placeholders.email')}
+                                    error={!!formErrors.email}
+                                    helperText={formErrors.email}
+                                    variant="outlined"
+                                    size="small"
                                 />
-                                {formErrors.email && (
-                                    <div className="terminal-error">
-                                        <span className="error-indicator">⚠</span> {formErrors.email}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
 
-                        <div className="form-group">
-                            <label className="terminal-text">{t('form.messageSubject')}</label>
-                            <input
-                                type="text"
+                        <Box sx={{ mb: 3 }}>
+                            <Typography sx={{ mb: 1, fontWeight: 'bold' }}>{t('form.messageSubject')}</Typography>
+                            <TextField
+                                fullWidth
                                 name="subject"
                                 value={formData.subject}
                                 onChange={handleInputChange}
-                                className={`terminal-input ${formErrors.subject ? 'error' : ''}`}
                                 placeholder={t('form.placeholders.subject')}
+                                error={!!formErrors.subject}
+                                helperText={formErrors.subject}
+                                variant="outlined"
+                                size="small"
                             />
-                            {formErrors.subject && (
-                                <div className="terminal-error">
-                                    <span className="error-indicator">⚠</span> {formErrors.subject}
-                                </div>
-                            )}
-                        </div>
+                        </Box>
 
-                        <div className="form-group">
-                            <label className="terminal-text">{t('form.messageBody')}</label>
-                            <textarea
+                        <Box sx={{ mb: 3 }}>
+                            <Typography sx={{ mb: 1, fontWeight: 'bold' }}>{t('form.messageBody')}</Typography>
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={8}
                                 name="message"
                                 value={formData.message}
                                 onChange={handleInputChange}
-                                className={`terminal-input ${formErrors.message ? 'error' : ''}`}
-                                rows={8}
                                 placeholder={t('form.placeholders.message')}
+                                error={!!formErrors.message}
+                                helperText={formErrors.message}
+                                variant="outlined"
                             />
-                            {formErrors.message && (
-                                <div className="terminal-error">
-                                    <span className="error-indicator">⚠</span> {formErrors.message}
-                                </div>
-                            )}
-                        </div>
+                        </Box>
 
-                        <div className="form-actions">
-                            <button
-                                type="submit"
-                                className="terminal-button primary"
+                        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                            <Button 
+                                type="submit" 
+                                variant="contained" 
+                                color="primary" 
                                 disabled={isTransmitting}
+                                sx={{ minWidth: 150 }}
                             >
                                 {isTransmitting ? t('form.transmitting') : t('form.submit')}
-                            </button>
-                            <button
-                                type="button"
-                                className="terminal-button"
+                            </Button>
+                            <Button 
+                                type="button" 
+                                variant="outlined"
+                                color="secondary"
                                 onClick={() => {
                                     setFormData({ name: '', email: '', subject: '', message: '' });
                                     setFormErrors({});
                                 }}
                             >
                                 {t('form.clear')}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                            </Button>
+                        </Box>
+                    </Box>
+                </CardContent>
+            </Card>
 
             {/* Network Information */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    NETWORK DIAGNOSTICS - SYSTEM STATUS
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-grid">
-                        <div className="terminal-card">
-                            <div className="terminal-card-header">CONNECTION INFO</div>
-                            <div className="terminal-prompt">ifconfig | grep inet</div>
-                            <table className="terminal-table">
-                                <tbody>
-                                    <tr>
-                                        <td>LOCAL_TIME:</td>
-                                        <td>{networkInfo.localTime}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TIMEZONE:</td>
-                                        <td>{networkInfo.timezone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RESPONSE_TIME:</td>
-                                        <td>{networkInfo.responseTime}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>AVAILABILITY:</td>
-                                        <td>{networkInfo.availability}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title="NETWORK DIAGNOSTICS - SYSTEM STATUS" />
+                <CardContent>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={6}>
+                            <Card variant="outlined" sx={{ height: '100%' }}>
+                                <CardHeader title="CONNECTION INFO" />
+                                <CardContent>
+                                    <Typography className="terminal-prompt" sx={{ mb: 2 }}>ifconfig | grep inet</Typography>
+                                    <TableContainer component={Paper} elevation={0}>
+                                        <Table size="small">
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell component="th" sx={{ borderBottom: 'none' }}>LOCAL_TIME:</TableCell>
+                                                    <TableCell sx={{ borderBottom: 'none' }}>{networkInfo.localTime}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" sx={{ borderBottom: 'none' }}>TIMEZONE:</TableCell>
+                                                    <TableCell sx={{ borderBottom: 'none' }}>{networkInfo.timezone}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" sx={{ borderBottom: 'none' }}>RESPONSE_TIME:</TableCell>
+                                                    <TableCell sx={{ borderBottom: 'none' }}>{networkInfo.responseTime}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell component="th" sx={{ borderBottom: 'none' }}>AVAILABILITY:</TableCell>
+                                                    <TableCell sx={{ borderBottom: 'none' }}>{networkInfo.availability}</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </CardContent>
+                            </Card>
+                        </Grid>
 
-                        <div className="terminal-card">
-                            <div className="terminal-card-header">QUICK COMMANDS</div>
-                            <div className="command-grid">
-                                <div className="command-item" onClick={handlePing} style={{ cursor: 'pointer' }}>
-                                    <div className="terminal-prompt">ping -c 4 portfolio.dev</div>
-                                    <div className="terminal-text">{isPinging ? t('commands.ping.testing') : t('commands.ping.description')}</div>
-                                </div>
-                                <div className="command-item" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                                    <div className="terminal-prompt">whois developer</div>
-                                    <div className="terminal-text">{t('commands.whois.description')}</div>
-                                </div>
-                                <div className="command-item" onClick={handleGitHubConnect} style={{ cursor: 'pointer' }}>
-                                    <div className="terminal-prompt">ssh github.com</div>
-                                    <div className="terminal-text">{t('commands.ssh.description')}</div>
-                                </div>
-                                <div className="command-item" onClick={handleAPIDemo} style={{ cursor: 'pointer' }}>
-                                    <div className="terminal-prompt">curl -X POST /message</div>
-                                    <div className="terminal-text">{t('commands.api.description')}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <Grid item xs={12} md={6}>
+                            <Card variant="outlined" sx={{ height: '100%' }}>
+                                <CardHeader title="QUICK COMMANDS" />
+                                <CardContent>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6}>
+                                            <Button 
+                                                fullWidth 
+                                                variant="outlined" 
+                                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                                onClick={handlePing}
+                                            >
+                                                <Typography className="terminal-prompt" sx={{ mb: 1, textTransform: 'none' }}>ping -c 4 portfolio.dev</Typography>
+                                                <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{isPinging ? t('commands.ping.testing') : t('commands.ping.description')}</Typography>
+                                            </Button>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <Button 
+                                                fullWidth 
+                                                variant="outlined" 
+                                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                                onClick={() => navigate('/')}
+                                            >
+                                                <Typography className="terminal-prompt" sx={{ mb: 1, textTransform: 'none' }}>whois developer</Typography>
+                                                <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('commands.whois.description')}</Typography>
+                                            </Button>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <Button 
+                                                fullWidth 
+                                                variant="outlined" 
+                                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                                onClick={handleGitHubConnect}
+                                            >
+                                                <Typography className="terminal-prompt" sx={{ mb: 1, textTransform: 'none' }}>ssh github.com</Typography>
+                                                <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('commands.ssh.description')}</Typography>
+                                            </Button>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <Button 
+                                                fullWidth 
+                                                variant="outlined" 
+                                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                                onClick={handleAPIDemo}
+                                            >
+                                                <Typography className="terminal-prompt" sx={{ mb: 1, textTransform: 'none' }}>curl -X POST /message</Typography>
+                                                <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('commands.api.description')}</Typography>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
 
             {/* Ping Results */}
             {(isPinging || pingStatus.length > 0) && (
-                <div className="terminal-section">
-                    <div className="terminal-section-header">
-                        {t('commands.ping.title')}
-                    </div>
-                    <div className="terminal-section-content">
-                        <div className="terminal-prompt">ping -c 4 portfolio.dev</div>
-                        <div className="terminal-text">
+                <Card sx={{ mb: 4 }}>
+                    <CardHeader title={t('commands.ping.title')} />
+                    <CardContent>
+                        <Typography className="terminal-prompt" sx={{ mb: 2 }}>ping -c 4 portfolio.dev</Typography>
+                        <Box sx={{ fontFamily: 'monospace' }}>
                             {pingStatus.map((line, index) => (
-                                <div key={index} style={{
-                                    fontFamily: 'monospace',
-                                    fontSize: '0.9em',
-                                    marginBottom: '4px',
-                                    color: line.includes('packet loss') || line.includes('round-trip') ?
-                                           'var(--terminal-green)' : 'var(--terminal-text)'
-                                }}>
+                                <Typography 
+                                    key={index} 
+                                    variant="body2" 
+                                    sx={{ 
+                                        fontFamily: 'inherit',
+                                        mb: 0.5,
+                                        color: line.includes('packet loss') || line.includes('round-trip') ? 'primary.main' : 'text.primary'
+                                    }}
+                                >
                                     {line}
-                                </div>
+                                </Typography>
                             ))}
                             {isPinging && (
-                                <div className="terminal-loading">
-                                    {t('commands.ping.waiting')}
-                                </div>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 1 }}>
+                                    <CircularProgress size={16} />
+                                    <Typography variant="body2" sx={{ fontFamily: 'inherit' }}>{t('commands.ping.waiting')}</Typography>
+                                </Box>
                             )}
-                        </div>
-                    </div>
-                </div>
+                        </Box>
+                    </CardContent>
+                </Card>
             )}
 
             {/* Transmission Status */}
             {isTransmitting && (
-                <div className="terminal-section">
-                    <div className="terminal-section-header">
-                        MESSAGE TRANSMISSION IN PROGRESS
-                    </div>
-                    <div className="terminal-section-content">
+                <Card sx={{ mb: 4 }}>
+                    <CardHeader title="MESSAGE TRANSMISSION IN PROGRESS" />
+                    <CardContent sx={{ textAlign: 'center' }}>
                         <ASCIIArt type="loading" size="small" />
-                        <div className="terminal-text">
-                            <div className="terminal-loading">Encrypting message</div>
-                            <div className="terminal-loading" style={{ animationDelay: '0.5s' }}>
-                                Establishing secure connection
-                            </div>
-                            <div className="terminal-loading" style={{ animationDelay: '1s' }}>
-                                Transmitting data packets
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                <CircularProgress size={16} />
+                                <Typography>Encrypting message</Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, opacity: 0.7 }}>
+                                <CircularProgress size={16} />
+                                <Typography>Establishing secure connection</Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, opacity: 0.4 }}>
+                                <CircularProgress size={16} />
+                                <Typography>Transmitting data packets</Typography>
+                            </Box>
+                        </Box>
+                    </CardContent>
+                </Card>
             )}
 
             {/* Footer */}
-            <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Typography align="center" sx={{ mt: 4 }}>
                 <span className="blinking-cursor">{t('footer.ready')}</span>
-            </div>
-        </div>
+            </Typography>
+        </Box>
     );
 };
 

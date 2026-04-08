@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { portfolioApi, PortfolioItem } from "../services/portfolioApi";
+import {
+    Box,
+    Typography,
+    Card,
+    CardHeader,
+    CardContent,
+    Grid,
+    Chip,
+    Button,
+    Link
+} from "@mui/material";
 
 const Projects: React.FC = () => {
     const { t } = useTranslation('projects');
@@ -55,7 +66,6 @@ const Projects: React.FC = () => {
             t('terminal.readyInspection')
         ]);
 
-        // Scroll to top on mobile when project is selected
         if (window.innerWidth <= 768) {
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -64,11 +74,11 @@ const Projects: React.FC = () => {
     };
 
     const getStatusColor = (status?: string) => {
-        switch (status) {
-            case 'active': return 'var(--terminal-bright-green)';
-            case 'completed': return 'var(--terminal-green)';
-            case 'archived': return 'var(--terminal-gray)';
-            default: return 'var(--terminal-green)';
+        switch (status?.toLowerCase()) {
+            case 'active': return '#00CC34'; // Highlight Hover
+            case 'completed': return '#00FF41'; // Highlight
+            case 'archived': return '#B7B7B7'; // Neutral
+            default: return '#00FF41';
         }
     };
 
@@ -83,238 +93,241 @@ const Projects: React.FC = () => {
     }
 
     return (
-        <div className="terminal-crt terminal-scanlines">
+        <Box>
             {/* Header */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('header.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('header.command')}{projects.length}</div>
-                    <div className="terminal-text">
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('header.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 1 }}>{t('header.command')}{projects.length}</Typography>
+                    <Box>
                         {terminalOutput.map((line, index) => (
-                            <div key={index}>&gt; {line}</div>
+                            <Typography key={index} variant="body1">&gt; {line}</Typography>
                         ))}
-                    </div>
-                </div>
-            </div>
+                    </Box>
+                </CardContent>
+            </Card>
 
-            {/* Selected Project Details - Mobile Focus Zone */}
+            {/* Selected Project Details */}
             {selectedProject && (
-                <div className="terminal-section mobile-focus-zone">
-                    <div className="terminal-section-header">
-                        <span className="mobile-close-btn" onClick={() => setSelectedProject(null)}>×</span>
-                        {t('details.title')} - {selectedProject.name?.toUpperCase()}
-                    </div>
-                    <div className="terminal-section-content">
-                        <div className="terminal-grid">
-                            <div className="terminal-card">
-                                <div className="terminal-card-header">{t('details.info.title')}</div>
-                                <div className="terminal-prompt">{t('details.info.command')}</div>
-                                <div className="terminal-text mobile-project-description">
-                                    {selectedProject.images && selectedProject.images.length > 0 && (
-                                        <div style={{ 
-                                            display: 'flex', 
-                                            overflowX: 'auto', 
-                                            gap: '15px', 
-                                            marginBottom: '15px',
-                                            paddingBottom: '5px'
-                                        }}>
-                                            {selectedProject.images.map((img, imgIndex) => (
-                                                <img 
-                                                    key={imgIndex}
-                                                    src={img.url} 
-                                                    alt={`${selectedProject.name} ${imgIndex + 1}`} 
-                                                    style={{ 
-                                                        maxHeight: '300px', 
-                                                        maxWidth: '90%',
-                                                        objectFit: 'contain',
-                                                        borderRadius: '4px', 
-                                                        border: '1px solid var(--terminal-green)',
-                                                        flexShrink: 0
-                                                    }} 
-                                                />
+                <Card sx={{ mb: 4, borderColor: 'primary.main', borderWidth: 1 }}>
+                    <CardHeader 
+                        title={`${t('details.title')} - ${selectedProject.name?.toUpperCase()}`} 
+                        action={
+                            <Button 
+                                color="inherit" 
+                                onClick={() => setSelectedProject(null)}
+                                sx={{ minWidth: 'auto', px: 2, fontSize: '1.2rem', fontWeight: 'bold' }}
+                            >
+                                ×
+                            </Button>
+                        }
+                    />
+                    <CardContent>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <Typography className="terminal-prompt" sx={{ mb: 2 }}>{t('details.info.command')}</Typography>
+                                {selectedProject.images && selectedProject.images.length > 0 && (
+                                    <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 3, pb: 1 }}>
+                                        {selectedProject.images.map((img, imgIndex) => (
+                                            <Box 
+                                                component="img"
+                                                key={imgIndex}
+                                                src={img.url} 
+                                                alt={`${selectedProject.name} ${imgIndex + 1}`} 
+                                                sx={{ 
+                                                    maxHeight: '300px', 
+                                                    maxWidth: '90%',
+                                                    objectFit: 'contain',
+                                                    border: '1px solid',
+                                                    borderColor: 'divider',
+                                                    flexShrink: 0
+                                                }} 
+                                            />
+                                        ))}
+                                    </Box>
+                                )}
+                                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('details.info.description')}</Typography>
+                                <Typography sx={{ whiteSpace: 'pre-wrap', mb: 3 }}>{selectedProject.description}</Typography>
+                                
+                                {selectedProject.links && selectedProject.links.length > 0 && (
+                                    <Box sx={{ mb: 3 }}>
+                                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Associated Links:</Typography>
+                                        <Box component="ul" sx={{ mt: 0.5, pl: 3 }}>
+                                            {selectedProject.links.map((link, index) => (
+                                                <Box component="li" key={index}>
+                                                    <Link href={link.url} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                                                        {link.url}
+                                                    </Link>
+                                                </Box>
                                             ))}
-                                        </div>
-                                    )}
-                                    <strong>{t('details.info.description')}</strong><br/>
-                                    <span style={{ whiteSpace: 'pre-wrap' }}>{selectedProject.description}</span>
-                                    
-                                    {selectedProject.links && selectedProject.links.length > 0 && (
-                                        <>
-                                            <br/><br/>
-                                            <strong>Associated Links:</strong><br/>
-                                            <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-                                                {selectedProject.links.map((link, index) => (
-                                                    <li key={index}>
-                                                        <a href={link.url}
-                                                           className="terminal-link"
-                                                           target="_blank"
-                                                           rel="noopener noreferrer">
-                                                            {link.url}
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </>
-                                    )}
+                                        </Box>
+                                    </Box>
+                                )}
 
-                                    <div style={{ marginTop: '15px' }}>
-                                        <strong>Explore the code:</strong>{' '}
-                                        {selectedProject.dataSource ? (
-                                            isUrl(selectedProject.dataSource) ? (
-                                                <a href={selectedProject.dataSource}
-                                                   className="terminal-link"
-                                                   target="_blank"
-                                                   rel="noopener noreferrer">
-                                                    {selectedProject.dataSource}
-                                                </a>
-                                            ) : (
-                                                <span>{selectedProject.dataSource}</span>
-                                            )
+                                <Box sx={{ mb: 3 }}>
+                                    <Typography component="span" variant="subtitle1" sx={{ fontWeight: 'bold' }}>Explore the code: </Typography>
+                                    {selectedProject.dataSource ? (
+                                        isUrl(selectedProject.dataSource) ? (
+                                            <Link href={selectedProject.dataSource} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                                                {selectedProject.dataSource}
+                                            </Link>
                                         ) : (
-                                            "none"
-                                        )}
-                                    </div>
-
-                                    {selectedProject.additionalInfo && Object.keys(selectedProject.additionalInfo).length > 0 && (
-                                        <>
-                                            <br/><br/>
-                                            {Object.entries(selectedProject.additionalInfo).map(([key, value], index) => (
-                                                <div key={index}>
-                                                    <strong>{key}:</strong>
-                                                    {Array.isArray(value) ? (
-                                                        <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-                                                            {value.map((item, itemIndex) => (
-                                                                <li key={itemIndex}>{item}</li>
-                                                            ))}
-                                                        </ul>
-                                                    ) : (
-                                                        <span style={{ whiteSpace: 'pre-wrap' }}> {value}</span>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </>
+                                            <Typography component="span">{selectedProject.dataSource}</Typography>
+                                        )
+                                    ) : (
+                                        <Typography component="span">none</Typography>
                                     )}
-                                </div>
-                            </div>
-                        </div>
+                                </Box>
 
-                        {selectedProject.technologies && selectedProject.technologies.length > 0 && (
-                            <div className="terminal-card" style={{ marginTop: '20px' }}>
-                                <div className="terminal-card-header">{t('details.stack.title')}</div>
-                                <div className="terminal-prompt">{t('details.stack.command')}</div>
-                                <div className="tech-grid">
-                                    {selectedProject.technologies.map((tech, index) => (
-                                        <div key={index} className="tech-item">
-                                            <span className="status-indicator"></span>
-                                            <span className="terminal-command">{tech}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                                {selectedProject.additionalInfo && Object.keys(selectedProject.additionalInfo).length > 0 && (
+                                    <Box sx={{ mt: 2 }}>
+                                        {Object.entries(selectedProject.additionalInfo).map(([key, value], index) => (
+                                            <Box key={index} sx={{ mb: 2 }}>
+                                                <Typography component="span" sx={{ fontWeight: 'bold' }}>{key}:</Typography>
+                                                {Array.isArray(value) ? (
+                                                    <Box component="ul" sx={{ mt: 0.5, pl: 3 }}>
+                                                        {value.map((item, itemIndex) => (
+                                                            <Box component="li" key={itemIndex}>
+                                                                <Typography component="span">{item}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </Box>
+                                                ) : (
+                                                    <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}> {value}</Typography>
+                                                )}
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                )}
+                            </Grid>
+
+                            {selectedProject.technologies && selectedProject.technologies.length > 0 && (
+                                <Grid item xs={12}>
+                                    <Typography className="terminal-prompt" sx={{ mt: 1, mb: 2 }}>{t('details.stack.command')}</Typography>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                        {selectedProject.technologies.map((tech, index) => (
+                                            <Chip key={index} label={tech} variant="outlined" />
+                                        ))}
+                                    </Box>
+                                </Grid>
+                            )}
+                        </Grid>
+                    </CardContent>
+                </Card>
             )}
 
             {/* Project Grid */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('listing.title')}
-                </div>
-                <div className="terminal-section-content">
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('listing.title')} />
+                <CardContent>
                     {isLoading ? (
-                        <div className="terminal-text">Loading projects...</div>
+                        <Typography>Loading projects...</Typography>
                     ) : (
-                        <div className="terminal-grid">
+                        <Grid container spacing={2}>
                             {projects.map((project, index) => (
-                                <div
-                                    key={index}
-                                    className="terminal-card command-item"
-                                    onClick={() => handleProjectSelect(project)}
-                                >
-                                    <div className="terminal-card-header">
-                                        <span className="status-indicator"
-                                              style={{ backgroundColor: getStatusColor(project.status) }}>
-                                        </span>
-                                        {project.name}
-                                    </div>
-                                    <div className="project-meta">
-                                        <div className="terminal-prompt">
-                                            {/* eslint-disable-next-line */}
-                                            {t('meta.gitStatus')} {t(`status.${project.status?.toLowerCase()}` as any)}
-                                        </div>
-                                        <div className="terminal-text mobile-project-summary">
-                                            <strong>{t('meta.type')}</strong> {project.type}<br/>
-                                            <strong>{t('meta.lang')}</strong> {project.language}<br/>
-                                        </div>
-                                    </div>
-                                    {project.technologies && project.technologies.length > 0 && (
-                                        <div className="tech-stack">
-                                            {project.technologies.slice(0, 3).map((tech, techIndex) => (
-                                                <span key={techIndex} className="terminal-command tech-tag">
-                                                    {tech}
-                                                </span>
-                                            ))}
-                                            {project.technologies.length > 3 && (
-                                                <span className="tech-more">+{project.technologies.length - 3}</span>
+                                <Grid item xs={12} sm={6} md={4} key={index}>
+                                    <Card 
+                                        variant="outlined" 
+                                        sx={{ 
+                                            height: '100%', 
+                                            display: 'flex', 
+                                            flexDirection: 'column',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s ease',
+                                            '&:hover': {
+                                                borderColor: 'primary.main',
+                                                bgcolor: 'rgba(0, 255, 65, 0.05)'
+                                            }
+                                        }}
+                                        onClick={() => handleProjectSelect(project)}
+                                    >
+                                        <CardHeader 
+                                            title={
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                                    <Box 
+                                                        sx={{ 
+                                                            width: 10, 
+                                                            height: 10, 
+                                                            bgcolor: getStatusColor(project.status),
+                                                            borderRadius: '50%' 
+                                                        }} 
+                                                    />
+                                                    <Typography variant="h6" sx={{ fontSize: '1.1rem' }}>{project.name}</Typography>
+                                                </Box>
+                                            } 
+                                        />
+                                        <CardContent sx={{ flexGrow: 1, pt: 0 }}>
+                                            <Typography className="terminal-prompt" variant="body2" sx={{ mb: 1.5 }}>
+                                                {/* eslint-disable-next-line */}
+                                                {t('meta.gitStatus')} {t(`status.${project.status?.toLowerCase()}` as any)}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ mb: 0.5 }}>
+                                                <strong>{t('meta.type')}</strong> {project.type}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ mb: 2 }}>
+                                                <strong>{t('meta.lang')}</strong> {project.language}
+                                            </Typography>
+                                            {project.technologies && project.technologies.length > 0 && (
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                                                        <Chip key={techIndex} label={tech} size="small" variant="outlined" />
+                                                    ))}
+                                                    {project.technologies.length > 3 && (
+                                                        <Typography variant="caption" sx={{ alignSelf: 'center', ml: 0.5 }}>
+                                                            +{project.technologies.length - 3}
+                                                        </Typography>
+                                                    )}
+                                                </Box>
                                             )}
-                                        </div>
-                                    )}
-                                </div>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
                             ))}
-                        </div>
+                        </Grid>
                     )}
-                </div>
-            </div>
+                </CardContent>
+            </Card>
 
             {/* Group Projects Section */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('organizations.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-text">
-                        <div className="terminal-prompt">{t('organizations.command')}</div>
-                        <br/>
-                        <div>
-                            <strong>📦 {t('organizations.personal.title')}</strong><br/>
-                            {t('organizations.personal.description')}
-                        </div>
-                        <br/>
-                        <div>
-                            <strong>🏢 ASM Studios</strong><br/>
-                            {t('organizations.asm.description')}<br/>
-                            <a href="https://github.com/ASM-Studios/"
-                               className="terminal-link"
-                               target="_blank"
-                               rel="noopener noreferrer">
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('organizations.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 3 }}>{t('organizations.command')}</Typography>
+                    
+                    <Box sx={{ mb: 3 }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>📦 {t('organizations.personal.title')}</Typography>
+                        <Typography sx={{ mt: 0.5 }}>{t('organizations.personal.description')}</Typography>
+                    </Box>
+
+                    <Box sx={{ mb: 3 }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>🏢 ASM Studios</Typography>
+                        <Typography sx={{ mt: 0.5 }}>{t('organizations.asm.description')}</Typography>
+                        <Box sx={{ mt: 1 }}>
+                            <Link href="https://github.com/ASM-Studios/" target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
                                 → github.com/ASM-Studios
-                            </a>
-                        </div>
-                        <br/>
-                        <div>
-                            <strong>🤖 Sentience Robotics</strong><br/>
-                            {t('organizations.sentience.description')}<br/>
-                            <a href="https://github.com/Sentience-Robotics"
-                               className="terminal-link"
-                               target="_blank"
-                               rel="noopener noreferrer">
+                            </Link>
+                        </Box>
+                    </Box>
+
+                    <Box sx={{ mb: 4 }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>🤖 Sentience Robotics</Typography>
+                        <Typography sx={{ mt: 0.5 }}>{t('organizations.sentience.description')}</Typography>
+                        <Box sx={{ mt: 1 }}>
+                            <Link href="https://github.com/Sentience-Robotics" target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
                                 → github.com/Sentience-Robotics
-                            </a>
-                        </div>
-                        <br/>
-                        <div className="terminal-prompt">{t('organizations.stats')}</div>
-                    </div>
-                </div>
-            </div>
+                            </Link>
+                        </Box>
+                    </Box>
+
+                    <Typography className="terminal-prompt">{t('organizations.stats')}</Typography>
+                </CardContent>
+            </Card>
 
             {/* Footer */}
-            <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Typography align="center" sx={{ mt: 4 }}>
                 <span className="blinking-cursor">{t('footer.select')}</span>
-            </div>
-        </div>
+            </Typography>
+        </Box>
     );
 };
 

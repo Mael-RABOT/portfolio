@@ -49,11 +49,11 @@
       "mobile": "Mobile"
     },
     "techStacks": {
-      "frontend": "React, TypeScript, Vue.js",
-      "backend": "Node.js, Python, Java",
-      "database": "PostgreSQL, MongoDB",
-      "devops": "Docker, Kubernetes, AWS",
-      "mobile": "React Native, Flutter"
+      "frontend": "React, TypeScript",
+      "backend": "Node.js, Python, Java, PHP, C/C++",
+      "database": "PostgreSQL, MongoDB, SQL",
+      "devops": "Docker, Bash",
+      "mobile": "React Native, Flutter, Kotlin"
     }
   },
   "download": {

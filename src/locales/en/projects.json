@@ -35,7 +35,7 @@
   "meta": {
     "gitStatus": "git status:",
     "type": "Type:",
-    "lang": "Lang:",
+    "lang": "Technical Stack:",
     "files": "Files:",
     "last": "Last:",
     "installed": "[INSTALLED]"

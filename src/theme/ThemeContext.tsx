@@ -1,55 +1,32 @@
-import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
-import { lightTheme, darkTheme } from './theme';
+import { darkTheme } from './theme';
 
 type ThemeContextType = {
   isDarkMode: boolean;
   toggleTheme: () => void;
 };
 
+// The new design enforces a single high-contrast dark theme.
+// We'll keep the context structure to avoid breaking components that use it,
+// but the theme will always be dark and the toggle will do nothing.
 const ThemeContext = createContext<ThemeContextType>({
-  isDarkMode: false,
+  isDarkMode: true,
   toggleTheme: () => {},
 });
 
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const stored = localStorage.getItem('theme');
-    if (stored !== null) {
-      return stored === 'dark';
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-  }, [isDarkMode]);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      if (localStorage.getItem('theme') === null) {
-        setIsDarkMode(e.matches);
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
-  const theme = useMemo(() => (isDarkMode ? darkTheme : lightTheme), [isDarkMode]);
+  // We always use the darkTheme as per the new design system.
+  // The lightTheme and darkTheme exports from theme.ts are identical.
+  const theme = darkTheme;
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+    <ThemeContext.Provider value={{ isDarkMode: true, toggleTheme: () => {} }}>
       <MUIThemeProvider theme={theme}>
         {children}
       </MUIThemeProvider>
     </ThemeContext.Provider>
   );
-}; 
+};

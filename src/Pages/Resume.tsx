@@ -2,6 +2,28 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { portfolioApi, PortfolioItem } from "../services/portfolioApi";
+import {
+    Box,
+    Typography,
+    Card,
+    CardHeader,
+    CardContent,
+    Grid,
+    Table,
+    TableBody,
+    TableRow,
+    TableCell,
+    TableHead,
+    Paper,
+    TableContainer,
+    Button,
+    Link,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemIcon,
+    Divider
+} from "@mui/material";
 /* eslint-disable */
 
 const Resume: React.FC = () => {
@@ -55,352 +77,395 @@ const Resume: React.FC = () => {
         fetchPortfolioData();
     }, [tData]);
 
-    // Certifications are currently only in static data based on previous setup
     const resumeData = tData('resume', { returnObjects: true }) as any;
     const certifications: string[] = resumeData?.certifications?.map((cert: any) => cert.name) || [];
 
     if (isLoading) {
-        return <div className="terminal-text">Loading resume data...</div>;
+        return <Typography>Loading resume data...</Typography>;
     }
 
     return (
-        <div className="terminal-crt terminal-scanlines">
+        <Box>
             {/* Header */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('header.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('header.command')}{experience.length + education.length}</div>
-                    <div className="terminal-text">
-                        <div><strong>{t('profile.name')}</strong> {t('profile.nameValue')}</div>
-                        <div><strong>{t('profile.location')}</strong> {t('profile.locationValue')}</div>
-                        <div><strong>{t('profile.status')}</strong> {t('profile.statusValue')}</div>
-                        <div><strong>{t('profile.specialization')}</strong> {t('profile.specializationValue')}</div>
-                        <div><strong>{t('profile.contact')}</strong> {t('profile.contactValue')} <a href={"mailto:contact@maelrabot.com"}>contact@maelrabot.com</a></div>
-                    </div>
-                </div>
-            </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('header.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 2 }}>{t('header.command')}{experience.length + education.length}</Typography>
+                    <Grid container spacing={1}>
+                        <Grid item xs={12} sm={6}>
+                            <Typography><strong>{t('profile.name')}</strong> {t('profile.nameValue')}</Typography>
+                            <Typography><strong>{t('profile.location')}</strong> {t('profile.locationValue')}</Typography>
+                            <Typography><strong>{t('profile.status')}</strong> {t('profile.statusValue')}</Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Typography><strong>{t('profile.specialization')}</strong> {t('profile.specializationValue')}</Typography>
+                            <Typography>
+                                <strong>{t('profile.contact')}</strong> {t('profile.contactValue')} 
+                                <Link href="mailto:contact@maelrabot.com" sx={{ ml: 1 }}>contact@maelrabot.com</Link>
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
 
             {/* Professional Experience */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('experience.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('experience.command')}</div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('experience.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 3 }}>{t('experience.command')}</Typography>
+                    
                     {experience.map((job: PortfolioItem, index: number) => (
-                        <div key={index} className="terminal-card" style={{ marginBottom: '20px' }}>
-                            <div className="terminal-card-header">
-                                {job.position} @ {job.company}
-                            </div>
-                            <div className="terminal-text">
-                                <table className="terminal-table">
-                                    <tbody>
-                                        <tr>
-                                            <td>{t('experience.duration')}</td>
-                                            <td>{job.duration || `${job.startDate} - ${job.endDate}`}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{t('experience.location')}</td>
-                                            <td>{job.location}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{t('experience.type')}</td>
-                                            <td>{job.contractType}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <Card key={index} variant="outlined" sx={{ mb: 3 }}>
+                            <CardHeader title={`${job.position} @ ${job.company}`} sx={{ pb: 0 }} />
+                            <CardContent>
+                                <TableContainer component={Paper} variant="outlined" sx={{ mb: 2, mt: 2 }}>
+                                    <Table size="small">
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell component="th" scope="row" sx={{ width: '150px' }}>{t('experience.duration')}</TableCell>
+                                                <TableCell>{job.duration || `${job.startDate} - ${job.endDate}`}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell component="th" scope="row">{t('experience.location')}</TableCell>
+                                                <TableCell>{job.location}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell component="th" scope="row">{t('experience.type')}</TableCell>
+                                                <TableCell>{job.contractType}</TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+
                                 {job.images && job.images.length > 0 && (
-                                    <div style={{ 
-                                        display: 'flex', 
-                                        overflowX: 'auto', 
-                                        gap: '15px', 
-                                        marginTop: '15px',
-                                        paddingBottom: '5px'
-                                    }}>
+                                    <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 2, pb: 1 }}>
                                         {job.images.map((img, imgIndex) => (
-                                            <img 
+                                            <Box 
+                                                component="img"
                                                 key={imgIndex}
                                                 src={img.url} 
                                                 alt={`${job.position} ${imgIndex + 1}`} 
-                                                style={{ 
+                                                sx={{ 
                                                     maxHeight: '200px', 
                                                     maxWidth: '80%',
                                                     objectFit: 'contain',
-                                                    borderRadius: '4px', 
-                                                    border: '1px solid var(--terminal-green)',
+                                                    border: '1px solid',
+                                                    borderColor: 'divider',
                                                     flexShrink: 0
                                                 }} 
                                             />
                                         ))}
-                                    </div>
+                                    </Box>
                                 )}
+
                                 {job.description && (
-                                    <div style={{ marginTop: '15px' }} className="terminal-text">
-                                        <span style={{ whiteSpace: 'pre-wrap' }}>{job.description}</span>
-                                    </div>
+                                    <Typography sx={{ whiteSpace: 'pre-wrap', mb: 2 }}>{job.description}</Typography>
                                 )}
+
                                 {(job.responsibilities && job.responsibilities.length > 0) && (
-                                    <div style={{ marginTop: '15px' }}>
+                                    <Box sx={{ mb: 2 }}>
                                         {job.company && (
-                                            <div className="terminal-prompt">{t('experience.achievements', { company: job.company.toLowerCase() })}</div>
+                                            <Typography className="terminal-prompt" sx={{ mb: 1 }}>{t('experience.achievements', { company: job.company.toLowerCase() })}</Typography>
                                         )}
-                                        <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
+                                        <List dense disablePadding>
                                             {job.responsibilities.map((resp: string, respIndex: number) => (
-                                                <li key={respIndex} className="terminal-text">
-                                                    &gt; {resp}
-                                                </li>
+                                                <ListItem key={respIndex} disableGutters>
+                                                    <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }}>&gt;</ListItemIcon>
+                                                    <ListItemText primary={resp} />
+                                                </ListItem>
                                             ))}
-                                        </ul>
-                                    </div>
+                                        </List>
+                                    </Box>
                                 )}
+
                                 {job.additionalInfo && Object.keys(job.additionalInfo).length > 0 && (
-                                    <div style={{ marginTop: '15px' }} className="terminal-text">
+                                    <Box sx={{ mb: 2 }}>
                                         {Object.entries(job.additionalInfo).map(([key, value], infoIndex) => (
-                                            <div key={infoIndex} style={{ marginBottom: '10px' }}>
-                                                <strong>{key}:</strong>
+                                            <Box key={infoIndex} sx={{ mb: 1 }}>
+                                                <Typography component="span" sx={{ fontWeight: 'bold' }}>{key}:</Typography>
                                                 {Array.isArray(value) ? (
-                                                    <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+                                                    <List dense disablePadding sx={{ pl: 3 }}>
                                                         {value.map((item, itemIndex) => (
-                                                            <li key={itemIndex}>&gt; {item}</li>
+                                                            <ListItem key={itemIndex} disableGutters>
+                                                                <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }}>&gt;</ListItemIcon>
+                                                                <ListItemText primary={item} />
+                                                            </ListItem>
                                                         ))}
-                                                    </ul>
+                                                    </List>
                                                 ) : (
-                                                    <span style={{ whiteSpace: 'pre-wrap' }}> {value}</span>
+                                                    <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}> {value}</Typography>
                                                 )}
-                                            </div>
+                                            </Box>
                                         ))}
-                                    </div>
+                                    </Box>
                                 )}
+
                                 {job.links && job.links.length > 0 && (
-                                    <div style={{ marginTop: '15px' }}>
-                                        <div className="terminal-prompt">ASSOCIATED_LINKS:</div>
-                                        <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+                                    <Box>
+                                        <Typography className="terminal-prompt" sx={{ mb: 1 }}>ASSOCIATED_LINKS:</Typography>
+                                        <List dense disablePadding>
                                             {job.links.map((link, linkIndex) => (
-                                                <li key={linkIndex} className="terminal-text">
-                                                    &gt; <a href={link.url}
-                                                       className="terminal-link"
-                                                       target="_blank"
-                                                       rel="noopener noreferrer">
+                                                <ListItem key={linkIndex} disableGutters>
+                                                    <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }}>&gt;</ListItemIcon>
+                                                    <Link href={link.url} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
                                                         {link.url}
-                                                    </a>
-                                                </li>
+                                                    </Link>
+                                                </ListItem>
                                             ))}
-                                        </ul>
-                                    </div>
+                                        </List>
+                                    </Box>
                                 )}
-                            </div>
-                        </div>
+                            </CardContent>
+                        </Card>
                     ))}
-                </div>
-            </div>
+                </CardContent>
+            </Card>
 
             {/* Education & Certifications */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {`${t('education.title')} ${certifications.length > 0 ? t('education.certTitle') : ""} - ${t('education.academicTitle')}`}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-grid">
-                        <div className="terminal-card">
-                            <div className="terminal-card-header">{t('education.title')}</div>
-                            <div className="terminal-prompt">{t('education.educationCommand')}</div>
-                            {education.map((edu: PortfolioItem, index: number) => (
-                                <div key={index} className="terminal-text" style={{ marginBottom: '15px' }}>
-                                    <strong>{edu.degree}</strong><br/>
-                                    <span className="terminal-command">{edu.institution}</span><br/>
-                                    <span>{t('education.year')} {edu.year || `${edu.startDate} - ${edu.endDate}`}</span>
-                                    {edu.images && edu.images.length > 0 && (
-                                        <div style={{ 
-                                            display: 'flex', 
-                                            overflowX: 'auto', 
-                                            gap: '15px', 
-                                            marginTop: '10px', 
-                                            marginBottom: '10px',
-                                            paddingBottom: '5px'
-                                        }}>
-                                            {edu.images.map((img, imgIndex) => (
-                                                <img 
-                                                    key={imgIndex}
-                                                    src={img.url} 
-                                                    alt={`${edu.institution} ${imgIndex + 1}`} 
-                                                    style={{ 
-                                                        maxHeight: '200px', 
-                                                        maxWidth: '80%',
-                                                        objectFit: 'contain',
-                                                        borderRadius: '4px', 
-                                                        border: '1px solid var(--terminal-green)',
-                                                        flexShrink: 0
-                                                    }} 
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                                    {edu.description && (
-                                        <div style={{ marginTop: '10px', marginBottom: '10px' }}>
-                                            <span style={{ whiteSpace: 'pre-wrap' }}>{edu.description}</span>
-                                        </div>
-                                    )}
-                                    {edu.bullets && edu.bullets.length > 0 && (
-                                        <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
-                                            {edu.bullets.map((bullet: string, bulletIndex: number) => (
-                                                <li key={bulletIndex} className="terminal-text">
-                                                    &gt; {bullet}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                    {edu.additionalInfo && Object.keys(edu.additionalInfo).length > 0 && (
-                                        <div style={{ marginTop: '10px', marginBottom: '10px' }}>
-                                            {Object.entries(edu.additionalInfo).map(([key, value], infoIndex) => (
-                                                <div key={infoIndex} style={{ marginBottom: '10px' }}>
-                                                    <strong>{key}:</strong>
-                                                    {Array.isArray(value) ? (
-                                                        <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-                                                            {value.map((item, itemIndex) => (
-                                                                <li key={itemIndex}>&gt; {item}</li>
-                                                            ))}
-                                                        </ul>
-                                                    ) : (
-                                                        <span style={{ whiteSpace: 'pre-wrap' }}> {value}</span>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                    {edu.links && edu.links.length > 0 && (
-                                        <div style={{ marginTop: '10px' }}>
-                                            <div className="terminal-prompt">ASSOCIATED_LINKS:</div>
-                                            <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-                                                {edu.links.map((link, linkIndex) => (
-                                                    <li key={linkIndex} className="terminal-text">
-                                                        &gt; <a href={link.url}
-                                                           className="terminal-link"
-                                                           target="_blank"
-                                                           rel="noopener noreferrer">
-                                                            {link.url}
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={`${t('education.title')} ${certifications.length > 0 ? t('education.certTitle') : ""} - ${t('education.academicTitle')}`} />
+                <CardContent>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={certifications.length > 0 ? 8 : 12}>
+                            <Card variant="outlined" sx={{ height: '100%' }}>
+                                <CardHeader title={t('education.title')} />
+                                <CardContent>
+                                    <Typography className="terminal-prompt" sx={{ mb: 3 }}>{t('education.educationCommand')}</Typography>
+                                    
+                                    {education.map((edu: PortfolioItem, index: number) => (
+                                        <Box key={index} sx={{ mb: index < education.length - 1 ? 4 : 0 }}>
+                                            <Typography variant="h6">{edu.degree}</Typography>
+                                            <Typography className="terminal-command" sx={{ display: 'inline-block', mb: 1 }}>{edu.institution}</Typography>
+                                            <Typography sx={{ mb: 2 }}>{t('education.year')} {edu.year || `${edu.startDate} - ${edu.endDate}`}</Typography>
 
-                        { certifications?.length > 0 && (
-                            <div className="terminal-card">
-                                <div className="terminal-card-header">{t('education.certTitle').replace('& ', '')}</div>
-                                <div className="terminal-prompt">{t('education.certCommand')}</div>
-                                <div className="skills-list">
-                                    {certifications.map((cert: string, index: number) => (
-                                        <div key={index} className="skill-item">
-                                            <span className="status-indicator"></span>
-                                            <span className="terminal-command">{cert}</span>
-                                            <span className="skill-status">{t('education.valid')}</span>
-                                        </div>
+                                            {edu.images && edu.images.length > 0 && (
+                                                <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 2, pb: 1 }}>
+                                                    {edu.images.map((img, imgIndex) => (
+                                                        <Box 
+                                                            component="img"
+                                                            key={imgIndex}
+                                                            src={img.url} 
+                                                            alt={`${edu.institution} ${imgIndex + 1}`} 
+                                                            sx={{ 
+                                                                maxHeight: '200px', 
+                                                                maxWidth: '80%',
+                                                                objectFit: 'contain',
+                                                                border: '1px solid',
+                                                                borderColor: 'divider',
+                                                                flexShrink: 0
+                                                            }} 
+                                                        />
+                                                    ))}
+                                                </Box>
+                                            )}
+
+                                            {edu.description && (
+                                                <Typography sx={{ whiteSpace: 'pre-wrap', mb: 2 }}>{edu.description}</Typography>
+                                            )}
+
+                                            {edu.bullets && edu.bullets.length > 0 && (
+                                                <List dense disablePadding sx={{ mb: 2 }}>
+                                                    {edu.bullets.map((bullet: string, bulletIndex: number) => (
+                                                        <ListItem key={bulletIndex} disableGutters>
+                                                            <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }}>&gt;</ListItemIcon>
+                                                            <ListItemText primary={bullet} />
+                                                        </ListItem>
+                                                    ))}
+                                                </List>
+                                            )}
+
+                                            {edu.additionalInfo && Object.keys(edu.additionalInfo).length > 0 && (
+                                                <Box sx={{ mb: 2 }}>
+                                                    {Object.entries(edu.additionalInfo).map(([key, value], infoIndex) => (
+                                                        <Box key={infoIndex} sx={{ mb: 1 }}>
+                                                            <Typography component="span" sx={{ fontWeight: 'bold' }}>{key}:</Typography>
+                                                            {Array.isArray(value) ? (
+                                                                <List dense disablePadding sx={{ pl: 3 }}>
+                                                                    {value.map((item, itemIndex) => (
+                                                                        <ListItem key={itemIndex} disableGutters>
+                                                                            <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }}>&gt;</ListItemIcon>
+                                                                            <ListItemText primary={item} />
+                                                                        </ListItem>
+                                                                    ))}
+                                                                </List>
+                                                            ) : (
+                                                                <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}> {value}</Typography>
+                                                            )}
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+                                            )}
+
+                                            {edu.links && edu.links.length > 0 && (
+                                                <Box>
+                                                    <Typography className="terminal-prompt" sx={{ mb: 1 }}>ASSOCIATED_LINKS:</Typography>
+                                                    <List dense disablePadding>
+                                                        {edu.links.map((link, linkIndex) => (
+                                                            <ListItem key={linkIndex} disableGutters>
+                                                                <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }}>&gt;</ListItemIcon>
+                                                                <Link href={link.url} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                                                                    {link.url}
+                                                                </Link>
+                                                            </ListItem>
+                                                        ))}
+                                                    </List>
+                                                </Box>
+                                            )}
+                                            
+                                            {index < education.length - 1 && <Divider sx={{ mt: 3, mb: 1 }} />}
+                                        </Box>
                                     ))}
-                                </div>
-                            </div>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        {certifications?.length > 0 && (
+                            <Grid item xs={12} md={4}>
+                                <Card variant="outlined" sx={{ height: '100%' }}>
+                                    <CardHeader title={t('education.certTitle').replace('& ', '')} />
+                                    <CardContent>
+                                        <Typography className="terminal-prompt" sx={{ mb: 3 }}>{t('education.certCommand')}</Typography>
+                                        <List disablePadding>
+                                            {certifications.map((cert: string, index: number) => (
+                                                <ListItem key={index} disableGutters sx={{ borderBottom: '1px dotted', borderColor: 'divider', pb: 1, mb: 1 }}>
+                                                    <ListItemIcon sx={{ minWidth: 20 }}>
+                                                        <Box sx={{ width: 8, height: 8, bgcolor: 'primary.main' }} />
+                                                    </ListItemIcon>
+                                                    <ListItemText 
+                                                        primary={<Typography className="terminal-command">{cert}</Typography>} 
+                                                    />
+                                                    <Typography variant="caption" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                                                        {t('education.valid')}
+                                                    </Typography>
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
                         )}
-                    </div>
-                </div>
-            </div>
+                    </Grid>
+                </CardContent>
+            </Card>
 
             {/* Technical Skills Matrix */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('skills.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="terminal-prompt">{t('skills.command')}</div>
-                    <table className="terminal-table">
-                        <thead>
-                            <tr>
-                                <th>{t('skills.headers.category')}</th>
-                                <th>{t('skills.headers.technologies')}</th>
-                                <th>{t('skills.headers.years')}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{t('skills.categories.frontend')}</td>
-                                <td>{t('skills.techStacks.frontend')}</td>
-                                <td>5+</td>
-                            </tr>
-                            <tr>
-                                <td>{t('skills.categories.backend')}</td>
-                                <td>{t('skills.techStacks.backend')}</td>
-                                <td>5+</td>
-                            </tr>
-                            <tr>
-                                <td>{t('skills.categories.database')}</td>
-                                <td>{t('skills.techStacks.database')}</td>
-                                <td>4+</td>
-                            </tr>
-                            <tr>
-                                <td>{t('skills.categories.devops')}</td>
-                                <td>{t('skills.techStacks.devops')}</td>
-                                <td>3+</td>
-                            </tr>
-                            <tr>
-                                <td>{t('skills.categories.mobile')}</td>
-                                <td>{t('skills.techStacks.mobile')}</td>
-                                <td>2+</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('skills.title')} />
+                <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 3 }}>{t('skills.command')}</Typography>
+                    <TableContainer component={Paper} variant="outlined">
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>{t('skills.headers.category')}</TableCell>
+                                    <TableCell>{t('skills.headers.technologies')}</TableCell>
+                                    <TableCell>{t('skills.headers.years')}</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>{t('skills.categories.frontend')}</TableCell>
+                                    <TableCell>{t('skills.techStacks.frontend')}</TableCell>
+                                    <TableCell>5+</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>{t('skills.categories.backend')}</TableCell>
+                                    <TableCell>{t('skills.techStacks.backend')}</TableCell>
+                                    <TableCell>5+</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>{t('skills.categories.database')}</TableCell>
+                                    <TableCell>{t('skills.techStacks.database')}</TableCell>
+                                    <TableCell>4+</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>{t('skills.categories.devops')}</TableCell>
+                                    <TableCell>{t('skills.techStacks.devops')}</TableCell>
+                                    <TableCell>3+</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>{t('skills.categories.mobile')}</TableCell>
+                                    <TableCell>{t('skills.techStacks.mobile')}</TableCell>
+                                    <TableCell>2+</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </CardContent>
+            </Card>
 
             {/* Download Options */}
-            <div className="terminal-section">
-                <div className="terminal-section-header">
-                    {t('download.title')}
-                </div>
-                <div className="terminal-section-content">
-                    <div className="command-grid">
-                        <div className="command-item" onClick={() => {
-                            const link = document.createElement('a');
-                            link.href = '/resume.pdf';
-                            link.download = 'Mael_RABOT_Resume.pdf';
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('download.pdf.command')}</div>
-                            <div className="terminal-text">{t('download.pdf.description')}</div>
-                        </div>
-                        <div className="command-item" onClick={() => navigate('/home')} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('download.home.command')}</div>
-                            <div className="terminal-text">{t('download.home.description')}</div>
-                        </div>
-                        <div className="command-item" onClick={() => {
-                            const link = document.createElement('a');
-                            link.href = 'https://github.com/Mael-RABOT/portfolio/archive/refs/heads/master.zip';
-                            link.download = 'Mael_RABOT_Portfolio.zip';
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('download.portfolio.command')}</div>
-                            <div className="terminal-text">{t('download.portfolio.description')}</div>
-                        </div>
-                        <div className="command-item" onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>
-                            <div className="terminal-prompt">{t('download.contact.command')}</div>
-                            <div className="terminal-text">{t('download.contact.description')}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Card sx={{ mb: 4 }}>
+                <CardHeader title={t('download.title')} />
+                <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <Button 
+                                fullWidth 
+                                variant="outlined" 
+                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                onClick={() => {
+                                    const link = document.createElement('a');
+                                    link.href = '/resume.pdf';
+                                    link.download = 'Mael_RABOT_Resume.pdf';
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                }}
+                            >
+                                <Typography className="terminal-prompt" sx={{ mb: 1 }}>{t('download.pdf.command')}</Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.pdf.description')}</Typography>
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button 
+                                fullWidth 
+                                variant="outlined" 
+                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                onClick={() => navigate('/')}
+                            >
+                                <Typography className="terminal-prompt" sx={{ mb: 1 }}>{t('download.home.command')}</Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.home.description')}</Typography>
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button 
+                                fullWidth 
+                                variant="outlined" 
+                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                onClick={() => {
+                                    const link = document.createElement('a');
+                                    link.href = 'https://github.com/Mael-RABOT/portfolio/archive/refs/heads/master.zip';
+                                    link.download = 'Mael_RABOT_Portfolio.zip';
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                }}
+                            >
+                                <Typography className="terminal-prompt" sx={{ mb: 1 }}>{t('download.portfolio.command')}</Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.portfolio.description')}</Typography>
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button 
+                                fullWidth 
+                                variant="outlined" 
+                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
+                                onClick={() => navigate('/contact')}
+                            >
+                                <Typography className="terminal-prompt" sx={{ mb: 1 }}>{t('download.contact.command')}</Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.contact.description')}</Typography>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
 
             {/* Footer */}
-            <div className="terminal-text" style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Typography align="center" sx={{ mt: 4 }}>
                 <span className="blinking-cursor">{t('footer.ready')}</span>
-            </div>
-        </div>
+            </Typography>
+        </Box>
     );
 };
 
