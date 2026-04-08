@@ -55,7 +55,8 @@ class PortfolioApiService {
     private async fetchFromApi<T>(endpoint: string): Promise<T> {
         const response = await fetch(`${API_BASE}/${endpoint}`, {
             headers: {
-                'accept': 'application/ld+json'
+                'accept': 'application/ld+json',
+                'origin': 'https://maelrabot.com'
             }
         });
         if (!response.ok) {
