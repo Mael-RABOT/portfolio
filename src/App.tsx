@@ -8,6 +8,7 @@ import Home from "./Pages/Home";
 import Projects from "./Pages/Projects";
 import Resume from "./Pages/Resume";
 import Contact from "./Pages/Contact";
+import Accessibility from "./Pages/Accessibility";
 import NotFound from "./Pages/NotFound";
 
 const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -31,6 +32,10 @@ const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 case 'F4':
                     event.preventDefault();
                     navigate('/contact');
+                    break;
+                case 'F5':
+                    event.preventDefault();
+                    navigate('/accessibility');
                     break;
                 default:
                     break;
@@ -72,6 +77,7 @@ const App: React.FC = () => {
                             <Route path="/projects" element={<Projects />} />
                             <Route path="/resume" element={<Resume />} />
                             <Route path="/contact" element={<Contact />} />
+                            <Route path="/accessibility" element={<Accessibility />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </Terminal>

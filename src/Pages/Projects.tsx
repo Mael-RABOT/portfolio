@@ -93,13 +93,13 @@ const Projects: React.FC = () => {
     }
 
     return (
-        <Box>
+        <Box component="main" aria-label="Projects">
             {/* Header */}
             <Card sx={{ mb: 4 }}>
                 <CardHeader title={t('header.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 1 }}>{t('header.command')}{projects.length}</Typography>
-                    <Box>
+                    <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('header.command')}{projects.length}</Typography>
+                    <Box aria-live="polite">
                         {terminalOutput.map((line, index) => (
                             <Typography key={index} variant="body1">&gt; {line}</Typography>
                         ))}
@@ -109,7 +109,7 @@ const Projects: React.FC = () => {
 
             {/* Selected Project Details */}
             {selectedProject && (
-                <Card sx={{ mb: 4, borderColor: 'primary.main', borderWidth: 1 }}>
+                <Card sx={{ mb: 4, borderColor: 'primary.main', borderWidth: 1 }} component="section" aria-label={`Details of ${selectedProject.name}`}>
                     <CardHeader 
                         title={`${t('details.title')} - ${selectedProject.name?.toUpperCase()}`} 
                         action={
@@ -117,6 +117,7 @@ const Projects: React.FC = () => {
                                 color="inherit" 
                                 onClick={() => setSelectedProject(null)}
                                 sx={{ minWidth: 'auto', px: 2, fontSize: '1.2rem', fontWeight: 'bold' }}
+                                aria-label="Close project details"
                             >
                                 ×
                             </Button>
@@ -125,15 +126,15 @@ const Projects: React.FC = () => {
                     <CardContent>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <Typography className="terminal-prompt" sx={{ mb: 2 }}>{t('details.info.command')}</Typography>
+                                <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">{t('details.info.command')}</Typography>
                                 {selectedProject.images && selectedProject.images.length > 0 && (
-                                    <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 3, pb: 1 }}>
+                                    <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 3, pb: 1 }} role="region" aria-label={`Images for ${selectedProject.name}`}>
                                         {selectedProject.images.map((img, imgIndex) => (
                                             <Box 
                                                 component="img"
                                                 key={imgIndex}
                                                 src={img.url} 
-                                                alt={`${selectedProject.name} ${imgIndex + 1}`} 
+                                                alt={`Screenshot ${imgIndex + 1} of project ${selectedProject.name}`} 
                                                 sx={{ 
                                                     maxHeight: '300px', 
                                                     maxWidth: '90%',
@@ -203,10 +204,10 @@ const Projects: React.FC = () => {
 
                             {selectedProject.technologies && selectedProject.technologies.length > 0 && (
                                 <Grid item xs={12}>
-                                    <Typography className="terminal-prompt" sx={{ mt: 1, mb: 2 }}>{t('details.stack.command')}</Typography>
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                    <Typography className="terminal-prompt" sx={{ mt: 1, mb: 2 }} aria-hidden="true">{t('details.stack.command')}</Typography>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} role="list" aria-label="Technologies used">
                                         {selectedProject.technologies.map((tech, index) => (
-                                            <Chip key={index} label={tech} variant="outlined" />
+                                            <Chip role="listitem" key={index} label={tech} variant="outlined" />
                                         ))}
                                     </Box>
                                 </Grid>
@@ -217,34 +218,49 @@ const Projects: React.FC = () => {
             )}
 
             {/* Project Grid */}
-            <Card sx={{ mb: 4 }}>
+            <Card sx={{ mb: 4 }} component="section" aria-label="Projects List">
                 <CardHeader title={t('listing.title')} />
                 <CardContent>
                     {isLoading ? (
-                        <Typography>Loading projects...</Typography>
+                        <Typography aria-live="polite">Loading projects...</Typography>
                     ) : (
                         <Grid container spacing={2}>
                             {projects.map((project, index) => (
                                 <Grid item xs={12} sm={6} md={4} key={index}>
                                     <Card 
                                         variant="outlined" 
+                                        component="button"
+                                        aria-label={`View details for ${project.name}`}
                                         sx={{ 
                                             height: '100%', 
                                             display: 'flex', 
                                             flexDirection: 'column',
                                             cursor: 'pointer',
                                             transition: 'all 0.2s ease',
+                                            textAlign: 'left',
+                                            width: '100%',
                                             '&:hover': {
                                                 borderColor: 'primary.main',
                                                 bgcolor: 'rgba(0, 255, 65, 0.05)'
+                                            },
+                                            '&:focus-visible': {
+                                                outline: '2px solid #00FF41',
+                                                outlineOffset: '2px'
                                             }
                                         }}
                                         onClick={() => handleProjectSelect(project)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                handleProjectSelect(project);
+                                            }
+                                        }}
                                     >
                                         <CardHeader 
                                             title={
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                                                     <Box 
+                                                        aria-hidden="true"
                                                         sx={{ 
                                                             width: 10, 
                                                             height: 10, 
@@ -259,7 +275,7 @@ const Projects: React.FC = () => {
                                         <CardContent sx={{ flexGrow: 1, pt: 0 }}>
                                             <Typography className="terminal-prompt" variant="body2" sx={{ mb: 1.5 }}>
                                                 {/* eslint-disable-next-line */}
-                                                {t('meta.gitStatus')} {t(`status.${project.status?.toLowerCase()}` as any)}
+                                                <span aria-hidden="true">{t('meta.gitStatus')}</span> <span className="sr-only">Status:</span> {t(`status.${project.status?.toLowerCase()}` as any)}
                                             </Typography>
                                             <Typography variant="body2" sx={{ mb: 0.5 }}>
                                                 <strong>{t('meta.type')}</strong> {project.type}
@@ -268,7 +284,7 @@ const Projects: React.FC = () => {
                                                 <strong>{t('meta.lang')}</strong> {project.language}
                                             </Typography>
                                             {project.technologies && project.technologies.length > 0 && (
-                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} aria-label="Key technologies">
                                                     {project.technologies.slice(0, 3).map((tech, techIndex) => (
                                                         <Chip key={techIndex} label={tech} size="small" variant="outlined" />
                                                     ))}
@@ -289,10 +305,10 @@ const Projects: React.FC = () => {
             </Card>
 
             {/* Group Projects Section */}
-            <Card sx={{ mb: 4 }}>
+            <Card sx={{ mb: 4 }} component="section" aria-label="Organizations">
                 <CardHeader title={t('organizations.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 3 }}>{t('organizations.command')}</Typography>
+                    <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('organizations.command')}</Typography>
                     
                     <Box sx={{ mb: 3 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>📦 {t('organizations.personal.title')}</Typography>
@@ -303,7 +319,7 @@ const Projects: React.FC = () => {
                         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>🏢 ASM Studios</Typography>
                         <Typography sx={{ mt: 0.5 }}>{t('organizations.asm.description')}</Typography>
                         <Box sx={{ mt: 1 }}>
-                            <Link href="https://github.com/ASM-Studios/" target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                            <Link href="https://github.com/ASM-Studios/" target="_blank" rel="noopener noreferrer" color="primary" underline="hover" aria-label="Visit ASM Studios on GitHub">
                                 → github.com/ASM-Studios
                             </Link>
                         </Box>
@@ -313,18 +329,18 @@ const Projects: React.FC = () => {
                         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>🤖 Sentience Robotics</Typography>
                         <Typography sx={{ mt: 0.5 }}>{t('organizations.sentience.description')}</Typography>
                         <Box sx={{ mt: 1 }}>
-                            <Link href="https://github.com/Sentience-Robotics" target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                            <Link href="https://github.com/Sentience-Robotics" target="_blank" rel="noopener noreferrer" color="primary" underline="hover" aria-label="Visit Sentience Robotics on GitHub">
                                 → github.com/Sentience-Robotics
                             </Link>
                         </Box>
                     </Box>
 
-                    <Typography className="terminal-prompt">{t('organizations.stats')}</Typography>
+                    <Typography className="terminal-prompt" aria-hidden="true">{t('organizations.stats')}</Typography>
                 </CardContent>
             </Card>
 
             {/* Footer */}
-            <Typography align="center" sx={{ mt: 4 }}>
+            <Typography align="center" sx={{ mt: 4 }} aria-hidden="true">
                 <span className="blinking-cursor">{t('footer.select')}</span>
             </Typography>
         </Box>

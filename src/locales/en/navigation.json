@@ -3,7 +3,8 @@
     "home": "[F1] Home",
     "projects": "[F2] Projects",
     "resume": "[F3] Resume",
-    "contact": "[F4] Contact"
+    "contact": "[F4] Contact",
+    "accessibility": "[F5] Accessibility"
   },
   "titles": {
     "home": "HOME",

@@ -1,0 +1,29 @@
+{
+  "title": "Déclaration d'accessibilité",
+  "compliance_status": {
+    "title": "État de conformité",
+    "description": "Ce site est partiellement conforme avec les recommandations d'accessibilité WCAG 2.1 (niveau AA) / RGAA. Des efforts continus sont réalisés pour améliorer l'accessibilité de cette présence numérique."
+  },
+  "measures": {
+    "title": "Mesures d'accessibilité",
+    "intro": "Les mesures suivantes ont été mises en place pour garantir l'accessibilité :",
+    "item1": "Textes alternatifs (alt) explicites pour les images.",
+    "item2": "Attributs ARIA (aria-label) pour les éléments interactifs comme les boutons et les liens.",
+    "item3": "Utilisation de balises sémantiques HTML5 pour clarifier la structure.",
+    "item4": "Contraste de couleurs élevé conformément au thème du terminal.",
+    "item5": "Support de la navigation au clavier."
+  },
+  "non_accessible": {
+    "title": "Contenus non accessibles",
+    "description": "Certains documents historiques ou liens externes peuvent ne pas être totalement accessibles. Si des obstacles sont rencontrés, il est possible de le signaler pour obtenir de l'aide."
+  },
+  "feedback": {
+    "title": "Retour d'information et contact",
+    "description": "Les retours sur l'accessibilité de ce site sont les bienvenus. Merci de prendre contact si des obstacles d'accessibilité sont rencontrés :",
+    "email": "E-mail"
+  },
+  "enforcement": {
+    "title": "Voies de recours",
+    "description": "Si un défaut d'accessibilité empêche d'accéder à un contenu ou à une fonctionnalité du site, et qu'il est signalé sans obtenir de réponse rapide, il est possible d'adresser des plaintes ou une demande de saisine à l'autorité de régulation compétente (ex: le Défenseur des droits en France)."
+  }
+}

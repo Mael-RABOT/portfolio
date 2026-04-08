@@ -17,6 +17,8 @@ import enNavigation from '../locales/en/navigation.json';
 import frNavigation from '../locales/fr/navigation.json';
 import enData from '../locales/en/data.json';
 import frData from '../locales/fr/data.json';
+import enAccessibility from '../locales/en/accessibility.json';
+import frAccessibility from '../locales/fr/accessibility.json';
 
 i18n
   .use(LanguageDetector)
@@ -30,7 +32,8 @@ i18n
         contact: enContact,
         resume: enResume,
         navigation: enNavigation,
-        data: enData
+        data: enData,
+        accessibility: enAccessibility
       },
       fr: {
         translation: frTranslations,
@@ -39,7 +42,8 @@ i18n
         contact: frContact,
         resume: frResume,
         navigation: frNavigation,
-        data: frData
+        data: frData,
+        accessibility: frAccessibility
       }
     },
     fallbackLng: 'en',

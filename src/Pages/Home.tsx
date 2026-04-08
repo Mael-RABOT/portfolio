@@ -119,31 +119,31 @@ const Home: React.FC = () => {
     }
 
     return (
-        <Box>
-            <Card sx={{ mb: 4 }}>
+        <Box component="main" aria-label="Home">
+            <Card sx={{ mb: 4 }} component="section" aria-label="System Information">
                 <CardHeader title={`${t('systemInfo.title')} - ${t('systemInfo.welcome').toUpperCase()}`} />
                 <CardContent>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>
                             <TableContainer component={Paper} variant="outlined">
-                                <Table size="small">
+                                <Table size="small" aria-label="Host Information">
                                     <TableBody>
-                                        <TableRow><TableCell>{t('systemInfo.hostInfo.hostname')}</TableCell><TableCell>{systemInfo.hostname}</TableCell></TableRow>
-                                        <TableRow><TableCell>{t('systemInfo.hostInfo.user')}</TableCell><TableCell>{systemInfo.user}</TableCell></TableRow>
-                                        <TableRow><TableCell>{t('systemInfo.hostInfo.kernel')}</TableCell><TableCell>{systemInfo.kernel}</TableCell></TableRow>
-                                        <TableRow><TableCell>{t('systemInfo.hostInfo.shell')}</TableCell><TableCell>{systemInfo.shell}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.hostname')}</TableCell><TableCell>{systemInfo.hostname}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.user')}</TableCell><TableCell>{systemInfo.user}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.kernel')}</TableCell><TableCell>{systemInfo.kernel}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.shell')}</TableCell><TableCell>{systemInfo.shell}</TableCell></TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TableContainer component={Paper} variant="outlined">
-                                <Table size="small">
+                                <Table size="small" aria-label="Performance Information">
                                     <TableBody>
-                                        <TableRow><TableCell>{t('systemInfo.performance.uptime')}</TableCell><TableCell>{systemInfo.uptime}</TableCell></TableRow>
-                                        <TableRow><TableCell>{t('systemInfo.performance.loadAvg')}</TableCell><TableCell>{systemInfo.load}</TableCell></TableRow>
-                                        <TableRow><TableCell>{t('systemInfo.performance.memory')}</TableCell><TableCell>{systemInfo.memory}</TableCell></TableRow>
-                                        <TableRow><TableCell>{t('systemInfo.performance.processes')}</TableCell><TableCell>{systemInfo.processes}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.uptime')}</TableCell><TableCell>{systemInfo.uptime}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.loadAvg')}</TableCell><TableCell>{systemInfo.load}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.memory')}</TableCell><TableCell>{systemInfo.memory}</TableCell></TableRow>
+                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.processes')}</TableCell><TableCell>{systemInfo.processes}</TableCell></TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
@@ -152,32 +152,32 @@ const Home: React.FC = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }}>
+            <Card sx={{ mb: 4 }} component="section" aria-label="Highlights">
                 <CardHeader title={t('highlight.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt">{t('highlight.command')}</Typography>
+                    <Typography className="terminal-prompt" aria-hidden="true">{t('highlight.command')}</Typography>
                     <Box sx={{ mt: 2 }}>
                         <Typography variant="body1">{t('highlight.description')}</Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }} aria-label="Project Status">
                             <Chip label={t('highlight.techStack')} variant="outlined" />
                             <Chip label={t('highlight.status')} color="primary" />
                         </Box>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/projects')}>
+                        <Button variant="contained" color="primary" onClick={() => navigate('/projects')} aria-label="View Projects Page">
                             {t('highlight.viewProject')}
                         </Button>
-                        <Button variant="contained" color="secondary" onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')}>
+                        <Button variant="contained" color="secondary" onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')} aria-label="View Sentience Robotics on GitHub">
                             {t('highlight.viewGitHub')}
                         </Button>
                     </Box>
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }}>
+            <Card sx={{ mb: 4 }} component="section" aria-label="Profile">
                 <CardHeader title={t('profile.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt">{t('profile.command')}</Typography>
+                    <Typography className="terminal-prompt" aria-hidden="true">{t('profile.command')}</Typography>
                     <Box sx={{ mt: 2 }}>
                         <Typography variant="h3" component="h2" className="terminal-command">{t('profile.aboutMe').toUpperCase()}.EXE</Typography>
                         <Typography sx={{ mt: 1 }}>&gt; {t('profile.description1')}</Typography>
@@ -188,17 +188,17 @@ const Home: React.FC = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }}>
+            <Card sx={{ mb: 4 }} component="section" aria-label="Skills Summary">
                 <CardHeader title={t('skills.title')} />
                 <CardContent>
                     <Grid container spacing={2}>
                         {programmingSkills.map((category, index) => (
                             <Grid item xs={12} md={6} key={index}>
-                                <Card variant="outlined">
+                                <Card variant="outlined" component="article" aria-label={category.title}>
                                     <CardHeader title={category.title} subheader={category.command} />
-                                    <CardContent>
+                                    <CardContent role="list" aria-label={`Skills in ${category.title}`}>
                                         {category.skills.map((skill, skillIndex) => (
-                                            <Chip key={skillIndex} label={skill} variant="outlined" sx={{ m: 0.5 }} />
+                                            <Chip role="listitem" key={skillIndex} label={skill} variant="outlined" sx={{ m: 0.5 }} />
                                         ))}
                                     </CardContent>
                                 </Card>
@@ -208,42 +208,54 @@ const Home: React.FC = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }}>
+            <Card sx={{ mb: 4 }} component="section" aria-label="Passions">
                 <CardHeader title={t('passions.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt">{t('passions.command')}</Typography>
-                    <Box sx={{ mt: 2 }}>
+                    <Typography className="terminal-prompt" aria-hidden="true">{t('passions.command')}</Typography>
+                    <Box sx={{ mt: 2 }} role="list" aria-label="List of passions">
                         {(Array.isArray(t('passions.list', { returnObjects: true }))
                             ? t('passions.list', { returnObjects: true }) as string[]
                             : []
                         ).map((passion, index) => (
-                            <Chip key={index} label={passion} sx={{ m: 0.5 }} />
+                            <Chip role="listitem" key={index} label={passion} sx={{ m: 0.5 }} />
                         ))}
                     </Box>
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }}>
+            <Card sx={{ mb: 4 }} component="section" aria-label="Quick Actions">
                 <CardHeader title={t('quickActions.title')} />
                 <CardContent>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => navigate('/projects')}>{t('quickActions.viewProjects.command')}</Button>
+                            <Button fullWidth variant="outlined" onClick={() => navigate('/projects')} aria-label="Navigate to Projects">
+                                <span aria-hidden="true">{t('quickActions.viewProjects.command')}</span>
+                                <span className="sr-only">View Projects</span>
+                            </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => navigate('/resume')}>{t('quickActions.viewResume.command')}</Button>
+                            <Button fullWidth variant="outlined" onClick={() => navigate('/resume')} aria-label="Navigate to Resume">
+                                <span aria-hidden="true">{t('quickActions.viewResume.command')}</span>
+                                <span className="sr-only">View Resume</span>
+                            </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => navigate('/contact')}>{t('quickActions.sendMessage.command')}</Button>
+                            <Button fullWidth variant="outlined" onClick={() => navigate('/contact')} aria-label="Navigate to Contact">
+                                <span aria-hidden="true">{t('quickActions.sendMessage.command')}</span>
+                                <span className="sr-only">Send Message</span>
+                            </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')}>{t('quickActions.gitStatus.command')}</Button>
+                            <Button fullWidth variant="outlined" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')} aria-label="Open GitHub Profile">
+                                <span aria-hidden="true">{t('quickActions.gitStatus.command')}</span>
+                                <span className="sr-only">GitHub Profile</span>
+                            </Button>
                         </Grid>
                     </Grid>
                 </CardContent>
             </Card>
 
-            <Typography align="center" sx={{ mt: 4 }}>
+            <Typography align="center" sx={{ mt: 4 }} aria-hidden="true">
                 <span className="blinking-cursor">{t('footer.ready')}</span>
             </Typography>
         </Box>

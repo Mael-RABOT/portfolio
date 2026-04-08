@@ -1,0 +1,29 @@
+{
+  "title": "Accessibility Statement",
+  "compliance_status": {
+    "title": "Compliance Status",
+    "description": "This website is partially compliant with the Web Content Accessibility Guidelines (WCAG) 2.1 level AA. Continuous efforts are being made to improve the accessibility of this digital presence."
+  },
+  "measures": {
+    "title": "Accessibility Measures",
+    "intro": "The following measures have been implemented to ensure accessibility:",
+    "item1": "Meaningful alternative text (alt) for images.",
+    "item2": "ARIA labels (aria-label) for interactive elements like buttons and links.",
+    "item3": "Semantic HTML5 markup for structural clarity.",
+    "item4": "High color contrast in accordance with the terminal theme.",
+    "item5": "Keyboard navigation support."
+  },
+  "non_accessible": {
+    "title": "Non-accessible Content",
+    "description": "Some historical documents or external project links may not be fully accessible. If any barriers are encountered, please reach out for assistance."
+  },
+  "feedback": {
+    "title": "Feedback and Contact Information",
+    "description": "Feedback on the accessibility of this website is welcome. Please reach out if accessibility barriers are encountered:",
+    "email": "E-mail"
+  },
+  "enforcement": {
+    "title": "Enforcement Procedure",
+    "description": "If a lack of accessibility prevents access to a content or functionality of the site, and it is reported without a rapid response, there is an entitlement to send complaints or a request for referral to the relevant regulatory authority (e.g., the Defender of Rights in France for RGAA)."
+  }
+}

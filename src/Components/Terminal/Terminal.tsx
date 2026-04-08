@@ -36,6 +36,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
       case '/projects': return t('titles.projects');
       case '/resume': return t('titles.resume');
       case '/contact': return t('titles.contact');
+      case '/accessibility': return t('titles.accessibility', 'Accessibility');
       default: return t('titles.portfolio');
     }
   };
@@ -215,6 +216,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
                   className={`terminal-control ${isMinimized ? 'active' : ''}`}
                   onClick={handleMinimize}
                   title="Minimize (Easter Egg!)"
+                  aria-label="Minimize terminal window"
                 >
                   −
                 </button>
@@ -222,6 +224,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
                   className={`terminal-control ${isMaximized ? 'active' : ''}`}
                   onClick={handleMaximize}
                   title="Maximize (Easter Egg!)"
+                  aria-label="Maximize terminal window"
                 >
                   □
                 </button>
@@ -229,6 +232,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
                   className="terminal-control"
                   onClick={handleClose}
                   title="Close (Easter Egg!)"
+                  aria-label="Close terminal window"
                 >
                   ×
                 </button>
@@ -237,7 +241,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
           </div>
 
           {/* Terminal Navigation */}
-          <nav className={`terminal-nav ${isMobileNavVisible ? 'visible' : 'hidden'}`}>
+          <nav className={`terminal-nav ${isMobileNavVisible ? 'visible' : 'hidden'}`} aria-label="Main Navigation">
             <div className="nav-menu">
               <Link
                 to="/"
@@ -247,6 +251,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
                     setIsMobileNavVisible(false);
                   }
                 }}
+                aria-current={location.pathname === '/' ? 'page' : undefined}
               >
                 {t('menu.home')}
               </Link>
@@ -258,6 +263,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
                     setIsMobileNavVisible(false);
                   }
                 }}
+                aria-current={location.pathname === '/projects' ? 'page' : undefined}
               >
                 {t('menu.projects')}
               </Link>
@@ -269,6 +275,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
                     setIsMobileNavVisible(false);
                   }
                 }}
+                aria-current={location.pathname === '/resume' ? 'page' : undefined}
               >
                 {t('menu.resume')}
               </Link>
@@ -280,9 +287,22 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
                     setIsMobileNavVisible(false);
                   }
                 }}
+                aria-current={location.pathname === '/contact' ? 'page' : undefined}
               >
                 {t('menu.contact')}
               </Link>
+                <Link
+                    to="/accessibility"
+                    className={`nav-item ${location.pathname === '/accessibility' ? 'active' : ''}`}
+                    onClick={() => {
+                        if (window.innerWidth <= 768) {
+                            setIsMobileNavVisible(false);
+                        }
+                    }}
+                    aria-current={location.pathname === '/accessibility' ? 'page' : undefined}
+                >
+                    {t('menu.accessibility')}
+                </Link>
             </div>
           </nav>
 
@@ -290,17 +310,18 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
           <button
             className="mobile-nav-toggle"
             onClick={() => setIsMobileNavVisible(!isMobileNavVisible)}
-            aria-label="Toggle navigation menu"
+            aria-label={isMobileNavVisible ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMobileNavVisible}
           >
-            <span className="nav-toggle-icon">
+            <span className="nav-toggle-icon" aria-hidden="true">
               {isMobileNavVisible ? '×' : '☰'}
             </span>
           </button>
 
           {/* Terminal Content */}
-          <div className="terminal-content">
+          <main className="terminal-content">
             {/* Command Line Indicator */}
-            <div className="terminal-prompt">
+            <div className="terminal-prompt" aria-hidden="true">
               user@portfolio:~$ {t('command', { page: getPageTitle(location.pathname).toLowerCase() })}
             </div>
 
@@ -313,17 +334,20 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
             </div>
 
             {/* Footer */}
-            <div className="terminal-footer">
+            <footer className="terminal-footer">
               <div className="terminal-status-bar">
                 <span className="status-left">
                   STATUS: ONLINE | LOAD: {Math.random().toFixed(2)} | MEM: {(Math.random() * 100).toFixed(0)}%
                 </span>
-                <span className="status-right">
-                  [{formatTime(currentTime)}] | ESC: EXIT
+                <span className="status-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Link to="/accessibility" style={{ color: 'inherit', textDecoration: 'none' }} aria-label="Accessibility Statement">
+                    {t('footer.accessibility', 'Accessibility')}
+                  </Link>
+                  <span>| [{formatTime(currentTime)}] | ESC: EXIT</span>
                 </span>
               </div>
-            </div>
-          </div>
+            </footer>
+          </main>
         </>
       )}
 
@@ -335,6 +359,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
               className={`terminal-control ${isMinimized ? 'active' : ''}`}
               onClick={handleMinimize}
               title="Restore (Easter Egg!)"
+              aria-label="Restore terminal window"
             >
               −
             </button>
@@ -342,6 +367,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
               className={`terminal-control ${isMaximized ? 'active' : ''}`}
               onClick={handleMaximize}
               title="Maximize (Easter Egg!)"
+              aria-label="Maximize terminal window"
             >
               □
             </button>
@@ -349,6 +375,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
               className="terminal-control"
               onClick={handleClose}
               title="Close (Easter Egg!)"
+              aria-label="Close terminal window"
             >
               ×
             </button>
