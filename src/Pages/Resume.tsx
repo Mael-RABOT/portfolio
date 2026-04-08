@@ -309,8 +309,8 @@ const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem
                                 sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
                                 onClick={() => {
                                     const link = document.createElement('a');
-                                    link.href = '/resume.pdf';
-                                    link.download = 'Mael_RABOT_Resume.pdf';
+                                    link.href = '/resume_en.pdf';
+                                    link.download = 'Mael_RABOT_Resume_en.pdf';
                                     document.body.appendChild(link);
                                     link.click();
                                     document.body.removeChild(link);

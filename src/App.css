@@ -59,7 +59,7 @@ h2 {
 /* Terminal Window Styles */
 .terminal-window {
   background-color: var(--page-bg);
-  border: 1px solid var(--border-color);
+  border: 2px solid #00FF41;
   position: relative;
   overflow: hidden;
 }

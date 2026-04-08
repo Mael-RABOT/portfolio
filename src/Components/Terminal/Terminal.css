@@ -32,12 +32,8 @@
 
 /* Enhanced Terminal Window */
 .terminal-window {
-  max-width: 1200px;
-  margin: 20px auto;
-  box-shadow:
-    0 0 30px rgba(0, 255, 65, 0.4),
-    inset 0 0 30px rgba(0, 255, 65, 0.1),
-    0 0 100px rgba(0, 255, 65, 0.2);
+    max-width: 1200px;
+    margin: 20px auto;
 }
 
 /* Enhanced Navigation */

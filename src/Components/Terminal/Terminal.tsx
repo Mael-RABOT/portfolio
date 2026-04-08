@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import MatrixRain from '../Effects/MatrixRain';
 import LanguageSwitch from '../LanguageSwitch/LanguageSwitch';
 import './Terminal.css';
 
@@ -126,7 +125,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
   }, [showShutdown, shutdownStep, shutdownMessages.length]);
 
   return (
-    <div className="terminal-window">
+    <div className="terminal-window" style={{ outline: "5px", outlineColor: "#00FF41"}}>
       {/* Minimized Page Overlay */}
       {isMinimized && (
         <div className="minimized-overlay" onClick={() => setIsMinimized(false)}>
@@ -324,9 +323,6 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
             <div className="terminal-prompt" aria-hidden="true">
               user@portfolio:~$ {t('command', { page: getPageTitle(location.pathname).toLowerCase() })}
             </div>
-
-            {/* Matrix Rain Background Effect */}
-            <MatrixRain />
 
             {/* Main Content */}
             <div className="terminal-main">

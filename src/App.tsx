@@ -11,6 +11,7 @@ import Resume from "./Pages/Resume";
 import Contact from "./Pages/Contact";
 import Accessibility from "./Pages/Accessibility";
 import NotFound from "./Pages/NotFound";
+import MatrixRain from "./Components/Effects/MatrixRain.tsx";
 
 const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const navigate = useNavigate();
@@ -83,6 +84,7 @@ const App: React.FC = () => {
 
     return (
         <div className="terminal-app">
+            <MatrixRain />
             <Router>
                 <NavigationProvider>
                     <Terminal currentTime={currentTime}>

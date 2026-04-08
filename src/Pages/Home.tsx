@@ -229,26 +229,22 @@ const Home: React.FC = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <Button fullWidth variant="outlined" onClick={() => navigate('/projects')} aria-label="Navigate to Projects">
-                                <span aria-hidden="true">{t('quickActions.viewProjects.command')}</span>
-                                <span className="sr-only">View Projects</span>
+                                <span>{t('quickActions.viewProjects.command')}</span>
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Button fullWidth variant="outlined" onClick={() => navigate('/resume')} aria-label="Navigate to Resume">
-                                <span aria-hidden="true">{t('quickActions.viewResume.command')}</span>
-                                <span className="sr-only">View Resume</span>
+                                <span>{t('quickActions.viewResume.command')}</span>
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Button fullWidth variant="outlined" onClick={() => navigate('/contact')} aria-label="Navigate to Contact">
-                                <span aria-hidden="true">{t('quickActions.sendMessage.command')}</span>
-                                <span className="sr-only">Send Message</span>
+                                <span>{t('quickActions.sendMessage.command')}</span>
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Button fullWidth variant="outlined" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')} aria-label="Open GitHub Profile">
-                                <span aria-hidden="true">{t('quickActions.gitStatus.command')}</span>
-                                <span className="sr-only">GitHub Profile</span>
+                                <span>{t('quickActions.gitStatus.command')}</span>
                             </Button>
                         </Grid>
                     </Grid>
