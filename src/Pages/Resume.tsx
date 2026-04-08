@@ -348,52 +348,6 @@ const Resume: React.FC = () => {
                 </CardContent>
             </Card>
 
-            {/* Technical Skills Matrix */}
-            <Card sx={{ mb: 4 }} component="section" aria-label="Technical Skills">
-                <CardHeader title={t('skills.title')} />
-                <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('skills.command')}</Typography>
-                    <TableContainer component={Paper} variant="outlined">
-                        <Table aria-label="Technical Skills Matrix">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>{t('skills.headers.category')}</TableCell>
-                                    <TableCell>{t('skills.headers.technologies')}</TableCell>
-                                    <TableCell>{t('skills.headers.years')}</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell>{t('skills.categories.frontend')}</TableCell>
-                                    <TableCell>{t('skills.techStacks.frontend')}</TableCell>
-                                    <TableCell>5+</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>{t('skills.categories.backend')}</TableCell>
-                                    <TableCell>{t('skills.techStacks.backend')}</TableCell>
-                                    <TableCell>5+</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>{t('skills.categories.database')}</TableCell>
-                                    <TableCell>{t('skills.techStacks.database')}</TableCell>
-                                    <TableCell>4+</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>{t('skills.categories.devops')}</TableCell>
-                                    <TableCell>{t('skills.techStacks.devops')}</TableCell>
-                                    <TableCell>3+</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>{t('skills.categories.mobile')}</TableCell>
-                                    <TableCell>{t('skills.techStacks.mobile')}</TableCell>
-                                    <TableCell>2+</TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </CardContent>
-            </Card>
-
             {/* Download Options */}
             <Card sx={{ mb: 4 }} component="section" aria-label="Download and Navigation Options">
                 <CardHeader title={t('download.title')} />
