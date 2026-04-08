@@ -9,7 +9,6 @@ import {
     CardContent,
     Grid,
     Button,
-    LinearProgress,
     Table,
     TableBody,
     TableRow,
@@ -18,7 +17,7 @@ import {
     Paper,
     TableContainer
 } from "@mui/material";
-import ASCIIArt from "../Components/ASCII/ASCIIArt";
+import SystemLoading from "../Components/Loading/SystemLoading";
 
 interface SkillCategory {
     title: string;
@@ -115,19 +114,8 @@ const Home: React.FC = () => {
         shell: "/bin/coding_passion"
     };
 
-    if (!systemReady) {
-        return (
-            <Card sx={{ mb: 4 }}>
-                <CardHeader title={t('systemBoot.title')} />
-                <CardContent sx={{ textAlign: 'center' }}>
-                    <ASCIIArt type="loading" size="medium" />
-                    <Typography variant="body1" className="terminal-prompt" sx={{ mt: 2 }}>
-                        {t('systemBoot.loading')} [{Math.round(loadingProgress)}%]
-                    </Typography>
-                    <LinearProgress variant="determinate" value={loadingProgress} sx={{ mt: 1 }} />
-                </CardContent>
-            </Card>
-        );
+    if (false && !systemReady) { // Disable for now
+        return <SystemLoading progress={loadingProgress} />;
     }
 
     return (
