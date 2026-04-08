@@ -2,6 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './LanguageSwitch.css';
 
+const is_french_enabled = false; // Disabled for now
+
 const LanguageSwitch: React.FC = () => {
   const { i18n, t } = useTranslation('navigation');
 
@@ -20,13 +22,17 @@ const LanguageSwitch: React.FC = () => {
       >
         {t('languageSwitch.en')}
       </button>
-      <span className="language-separator">|</span>
-      <button
-        className={`language-btn ${currentLanguage === 'fr' ? 'active' : ''}`}
-        onClick={() => changeLanguage('fr')}
-      >
-        {t('languageSwitch.fr')}
-      </button>
+        { is_french_enabled && (
+            <div>
+                <span className="language-separator">|</span>
+                <button
+                className={`language-btn ${currentLanguage === 'fr' ? 'active' : ''}`}
+                    onClick={() => changeLanguage('fr')}
+                >
+                    {t('languageSwitch.fr')}
+                </button>
+            </div>
+        )}
     </div>
   );
 };

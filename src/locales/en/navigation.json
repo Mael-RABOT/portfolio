@@ -1,9 +1,9 @@
 {
   "menu": {
-    "home": "[F1] HOME",
-    "projects": "[F2] PROJECTS",
-    "resume": "[F3] RESUME",
-    "contact": "[F4] CONTACT"
+    "home": "[F1] Home",
+    "projects": "[F2] Projects",
+    "resume": "[F3] Resume",
+    "contact": "[F4] Contact"
   },
   "titles": {
     "home": "HOME",
