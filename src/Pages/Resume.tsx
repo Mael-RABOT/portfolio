@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { portfolioApi, PortfolioItem } from "../services/portfolioApi";
+import { PortfolioItem } from "../services/portfolioApi";
 import {
     Box,
     Typography,
@@ -25,63 +25,13 @@ import {
 } from "@mui/material";
 /* eslint-disable */
 
-const Resume: React.FC = () => {
+const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem[]}> = ({ experiences, educations }) => {
     const navigate = useNavigate();
     const { t } = useTranslation('resume');
     const { t: tData } = useTranslation('data');
 
-    const [experience, setExperience] = useState<PortfolioItem[]>([]);
-    const [education, setEducation] = useState<PortfolioItem[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchPortfolioData = async () => {
-            setIsLoading(true);
-            try {
-                const data = await portfolioApi.getAllData();
-                setExperience(data.experiences);
-                setEducation(data.educations);
-            } catch (error) {
-                console.error('Failed to fetch portfolio data:', error);
-                
-                // Fallback to static data if API fails
-                const resumeData = tData('resume', { returnObjects: true }) as any;
-                
-                if (resumeData && resumeData.experiences) {
-                    setExperience(resumeData.experiences.map((exp: any) => ({
-                        position: exp.jobTitle,
-                        company: exp.company,
-                        duration: `${exp.startDate} - ${exp.endDate}`,
-                        location: exp.location,
-                        contractType: exp.contractType,
-                        responsibilities: exp.bullets,
-                        itemType: 'experience'
-                    })));
-                }
-                
-                if (resumeData && resumeData.educations) {
-                    setEducation(resumeData.educations.map((edu: any) => ({
-                        degree: edu.degree,
-                        institution: edu.school,
-                        year: `${edu.startDate} - ${edu.endDate}`,
-                        bullets: edu.bullets || [],
-                        itemType: 'education'
-                    })));
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchPortfolioData();
-    }, [tData]);
-
     const resumeData = tData('resume', { returnObjects: true }) as any;
     const certifications: string[] = resumeData?.certifications?.map((cert: any) => cert.name) || [];
-
-    if (isLoading) {
-        return <Typography aria-live="polite">Loading resume data...</Typography>;
-    }
 
     return (
         <Box component="main" aria-label="Resume">
@@ -89,7 +39,7 @@ const Resume: React.FC = () => {
             <Card sx={{ mb: 4 }} component="section" aria-label="Profile Summary">
                 <CardHeader title={t('header.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">{t('header.command')}{experience.length + education.length}</Typography>
+                    <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">{t('header.command')}{experiences.length + educations.length}</Typography>
                     <Grid container spacing={1}>
                         <Grid item xs={12} sm={6}>
                             <Typography><strong>{t('profile.name')}</strong> {t('profile.nameValue')}</Typography>
@@ -113,7 +63,7 @@ const Resume: React.FC = () => {
                 <CardContent>
                     <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('experience.command')}</Typography>
                     
-                    {experience.map((job: PortfolioItem, index: number) => (
+                    {experiences.map((job: PortfolioItem, index: number) => (
                         <Card key={index} variant="outlined" sx={{ mb: 3 }} component="article" aria-label={`${job.position} at ${job.company}`}>
                             <CardHeader title={`${job.position} @ ${job.company}`} sx={{ pb: 0 }} />
                             <CardContent>
@@ -231,8 +181,8 @@ const Resume: React.FC = () => {
                                 <CardContent>
                                     <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('education.educationCommand')}</Typography>
                                     
-                                    {education.map((edu: PortfolioItem, index: number) => (
-                                        <Box key={index} sx={{ mb: index < education.length - 1 ? 4 : 0 }} component="article" aria-label={`${edu.degree} from ${edu.institution}`}>
+                                    {educations.map((edu: PortfolioItem, index: number) => (
+                                        <Box key={index} sx={{ mb: index < educations.length - 1 ? 4 : 0 }} component="article" aria-label={`${edu.degree} from ${edu.institution}`}>
                                             <Typography variant="h6">{edu.degree}</Typography>
                                             <Typography className="terminal-command" sx={{ display: 'inline-block', mb: 1 }}>{edu.institution}</Typography>
                                             <Typography sx={{ mb: 2 }}>{t('education.year')} {edu.year || `${edu.startDate} - ${edu.endDate}`}</Typography>
@@ -311,7 +261,7 @@ const Resume: React.FC = () => {
                                                 </Box>
                                             )}
                                             
-                                            {index < education.length - 1 && <Divider sx={{ mt: 3, mb: 1 }} />}
+                                            {index < educations.length - 1 && <Divider sx={{ mt: 3, mb: 1 }} />}
                                         </Box>
                                     ))}
                                 </CardContent>

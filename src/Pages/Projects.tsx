@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { portfolioApi, PortfolioItem } from "../services/portfolioApi";
+import { PortfolioItem } from "../services/portfolioApi";
 import {
     Box,
     Typography,
@@ -13,45 +13,10 @@ import {
     Link
 } from "@mui/material";
 
-const Projects: React.FC = () => {
+const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
     const { t } = useTranslation('projects');
     const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
-    const [projects, setProjects] = useState<PortfolioItem[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
-
-    useEffect(() => {
-        const fetchPortfolioData = async () => {
-            setIsLoading(true);
-            setTerminalOutput([
-                t('terminal.scanning'),
-                'Connecting to portfolio API...',
-                'Fetching live data...'
-            ]);
-
-            try {
-                const data = await portfolioApi.getAllData();
-                setProjects(data.projects);
-                setTerminalOutput([
-                    t('terminal.scanning'),
-                    t('terminal.found', { count: data.projects.length }),
-                    'Successfully loaded live data',
-                    t('terminal.ready')
-                ]);
-            } catch (error) {
-                console.error('Failed to fetch portfolio data:', error);
-                setTerminalOutput([
-                    t('terminal.scanning'),
-                    'Warning: Could not fetch live data',
-                    t('terminal.ready')
-                ]);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchPortfolioData();
-    }, [t]);
 
     const handleProjectSelect = (project: PortfolioItem) => {
         setSelectedProject(project);
@@ -98,7 +63,7 @@ const Projects: React.FC = () => {
             <Card sx={{ mb: 4 }}>
                 <CardHeader title={t('header.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('header.command')}{projects.length}</Typography>
+                    <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('header.command')}{projects?.length}</Typography>
                     <Box aria-live="polite">
                         {terminalOutput.map((line, index) => (
                             <Typography key={index} variant="body1">&gt; {line}</Typography>
@@ -221,86 +186,82 @@ const Projects: React.FC = () => {
             <Card sx={{ mb: 4 }} component="section" aria-label="Projects List">
                 <CardHeader title={t('listing.title')} />
                 <CardContent>
-                    {isLoading ? (
-                        <Typography aria-live="polite">Loading projects...</Typography>
-                    ) : (
-                        <Grid container spacing={2}>
-                            {projects.map((project, index) => (
-                                <Grid item xs={12} sm={6} md={4} key={index}>
-                                    <Card 
-                                        variant="outlined" 
-                                        component="button"
-                                        aria-label={`View details for ${project.name}`}
-                                        sx={{ 
-                                            height: '100%', 
-                                            display: 'flex', 
-                                            flexDirection: 'column',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.2s ease',
-                                            textAlign: 'left',
-                                            width: '100%',
-                                            '&:hover': {
-                                                borderColor: 'primary.main',
-                                                bgcolor: 'rgba(0, 255, 65, 0.05)'
-                                            },
-                                            '&:focus-visible': {
-                                                outline: '2px solid #00FF41',
-                                                outlineOffset: '2px'
-                                            }
-                                        }}
-                                        onClick={() => handleProjectSelect(project)}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter' || e.key === ' ') {
-                                                e.preventDefault();
-                                                handleProjectSelect(project);
-                                            }
-                                        }}
-                                    >
-                                        <CardHeader 
-                                            title={
-                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                                    <Box 
-                                                        aria-hidden="true"
-                                                        sx={{ 
-                                                            width: 10, 
-                                                            height: 10, 
-                                                            bgcolor: getStatusColor(project.status),
-                                                            borderRadius: '50%' 
-                                                        }} 
-                                                    />
-                                                    <Typography variant="h6" sx={{ fontSize: '1.1rem' }}>{project.name}</Typography>
-                                                </Box>
-                                            } 
-                                        />
-                                        <CardContent sx={{ flexGrow: 1, pt: 0 }}>
-                                            <Typography className="terminal-prompt" variant="body2" sx={{ mb: 1.5 }}>
-                                                {/* eslint-disable-next-line */}
-                                                <span aria-hidden="true">{t('meta.gitStatus')}</span> <span className="sr-only">Status:</span> {t(`status.${project.status?.toLowerCase()}` as any)}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ mb: 0.5 }}>
-                                                <strong>{t('meta.type')}</strong> {project.type}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ mb: 2 }}>
-                                                <strong>{t('meta.lang')}</strong> {project.language}
-                                            </Typography>
-                                            {project.technologies && project.technologies.length > 0 && (
-                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} aria-label="Key technologies">
-                                                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
-                                                        <Chip key={techIndex} label={tech} size="small" variant="outlined" />
-                                                    ))}
-                                                    {project.technologies.length > 3 && (
-                                                        <Typography variant="caption" sx={{ alignSelf: 'center', ml: 0.5 }}>
-                                                            +{project.technologies.length - 3}
-                                                        </Typography>
-                                                    )}
-                                                </Box>
-                                            )}
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    )}
+                    <Grid container spacing={2}>
+                        {projects?.map((project, index) => (
+                            <Grid item xs={12} sm={6} md={4} key={index}>
+                                <Card
+                                    variant="outlined"
+                                    component="button"
+                                    aria-label={`View details for ${project.name}`}
+                                    sx={{
+                                        height: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s ease',
+                                        textAlign: 'left',
+                                        width: '100%',
+                                        '&:hover': {
+                                            borderColor: 'primary.main',
+                                            bgcolor: 'rgba(0, 255, 65, 0.05)'
+                                        },
+                                        '&:focus-visible': {
+                                            outline: '2px solid #00FF41',
+                                            outlineOffset: '2px'
+                                        }
+                                    }}
+                                    onClick={() => handleProjectSelect(project)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            handleProjectSelect(project);
+                                        }
+                                    }}
+                                >
+                                    <CardHeader
+                                        title={
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                                <Box
+                                                    aria-hidden="true"
+                                                    sx={{
+                                                        width: 10,
+                                                        height: 10,
+                                                        bgcolor: getStatusColor(project.status),
+                                                        borderRadius: '50%'
+                                                    }}
+                                                />
+                                                <Typography variant="h6" sx={{ fontSize: '1.1rem' }}>{project.name}</Typography>
+                                            </Box>
+                                        }
+                                    />
+                                    <CardContent sx={{ flexGrow: 1, pt: 0 }}>
+                                        <Typography className="terminal-prompt" variant="body2" sx={{ mb: 1.5 }}>
+                                            {/* eslint-disable-next-line */}
+                                            <span aria-hidden="true">{t('meta.gitStatus')}</span> <span className="sr-only">Status:</span> {t(`status.${project.status?.toLowerCase()}` as any)}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ mb: 0.5 }}>
+                                            <strong>{t('meta.type')}</strong> {project.type}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ mb: 2 }}>
+                                            <strong>{t('meta.lang')}</strong> {project.language}
+                                        </Typography>
+                                        {project.technologies && project.technologies.length > 0 && (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} aria-label="Key technologies">
+                                                {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                                                    <Chip key={techIndex} label={tech} size="small" variant="outlined" />
+                                                ))}
+                                                {project.technologies.length > 3 && (
+                                                    <Typography variant="caption" sx={{ alignSelf: 'center', ml: 0.5 }}>
+                                                        +{project.technologies.length - 3}
+                                                    </Typography>
+                                                )}
+                                            </Box>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
                 </CardContent>
             </Card>
 

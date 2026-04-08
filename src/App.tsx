@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import './App.css';
 import './i18n/i18n';
+import { portfolioApi, PortfolioItem } from "../src/services/portfolioApi";
 
 import Terminal from "./Components/Terminal/Terminal";
 import Home from "./Pages/Home";
@@ -56,6 +57,7 @@ const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 const App: React.FC = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [data, setData] = useState<{ projects: PortfolioItem[], experiences: PortfolioItem[], educations: PortfolioItem[] }>({ projects: [], experiences: [], educations: [] });
 
     useEffect(() => {
         const updateTime = () => {
@@ -67,6 +69,18 @@ const App: React.FC = () => {
         return () => clearInterval(intervalId);
     }, []);
 
+    useEffect(() => {
+        const fetchPortfolioData = async () => {
+            try {
+                setData(await portfolioApi.getAllData());
+            } catch (error) {
+                console.error('Failed to fetch portfolio data:', error);
+            }
+        };
+
+        fetchPortfolioData();
+    }, []);
+
     return (
         <div className="terminal-app">
             <Router>
@@ -74,8 +88,8 @@ const App: React.FC = () => {
                     <Terminal currentTime={currentTime}>
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="/projects" element={<Projects />} />
-                            <Route path="/resume" element={<Resume />} />
+                            <Route path="/projects" element={<Projects projects={data.projects} />} />
+                            <Route path="/resume" element={<Resume experiences={data.experiences} educations={data.educations} />} />
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/accessibility" element={<Accessibility />} />
                             <Route path="*" element={<NotFound />} />
