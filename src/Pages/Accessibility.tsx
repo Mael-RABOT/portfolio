@@ -23,8 +23,8 @@ const Accessibility: React.FC = () => {
             <Card sx={{ mb: 4 }} component="section" aria-label={t('title')}>
                 <CardHeader title={t('title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">&gt; cat accessibility_report.txt</Typography>
-                    
+                    <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">cat accessibility_report.txt</Typography>
+
                     <Typography variant="h6" sx={{ mt: 3, mb: 1 }}>{t('compliance_status.title')}</Typography>
                     <Typography sx={{ mb: 2 }}>
                         {t('compliance_status.description')}

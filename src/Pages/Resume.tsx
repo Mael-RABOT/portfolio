@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { PortfolioItem } from "../services/portfolioApi";
 import {
     Box,
@@ -26,7 +25,6 @@ import {
 /* eslint-disable */
 
 const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem[]}> = ({ experiences, educations }) => {
-    const navigate = useNavigate();
     const { t } = useTranslation('resume');
     const { t: tData } = useTranslation('data');
 
@@ -298,7 +296,7 @@ const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem
             </Card>
 
             {/* Download Options */}
-            <Card sx={{ mb: 4 }} component="section" aria-label="Download and Navigation Options">
+            <Card sx={{ mb: 4 }} component="section" aria-label="Download Options">
                 <CardHeader title={t('download.title')} />
                 <CardContent>
                     <Grid container spacing={2}>
@@ -326,18 +324,6 @@ const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem
                                 fullWidth 
                                 variant="outlined" 
                                 sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
-                                onClick={() => navigate('/')}
-                                aria-label="Navigate to Home Page"
-                            >
-                                <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('download.home.command')}</Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.home.description')}</Typography>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Button 
-                                fullWidth 
-                                variant="outlined" 
-                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
                                 onClick={() => {
                                     const link = document.createElement('a');
                                     link.href = 'https://github.com/Mael-RABOT/portfolio/archive/refs/heads/master.zip';
@@ -350,18 +336,6 @@ const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem
                             >
                                 <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('download.portfolio.command')}</Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.portfolio.description')}</Typography>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Button 
-                                fullWidth 
-                                variant="outlined" 
-                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
-                                onClick={() => navigate('/contact')}
-                                aria-label="Navigate to Contact Page"
-                            >
-                                <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('download.contact.command')}</Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.contact.description')}</Typography>
                             </Button>
                         </Grid>
                     </Grid>

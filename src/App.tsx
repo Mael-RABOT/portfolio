@@ -58,7 +58,7 @@ const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 const App: React.FC = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [data, setData] = useState<{ projects: PortfolioItem[], experiences: PortfolioItem[], educations: PortfolioItem[] }>({ projects: [], experiences: [], educations: [] });
+    const [data, setData] = useState<{ projects: PortfolioItem[], experiences: PortfolioItem[], educations: PortfolioItem[] }>(() => portfolioApi.getAllDataSync());
 
     useEffect(() => {
         const updateTime = () => {

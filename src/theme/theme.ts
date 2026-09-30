@@ -18,13 +18,13 @@ const techThemeOptions: ThemeOptions = {
       main: colors.highlight.base,      // #00FF41 (10% Highlight)
       light: colors.highlight.light,
       dark: colors.highlight.dark,
-      contrastText: colors.highlight.contrastText,
+      contrastText: colors.main.base,   // #141414 (Main color in highlight contrast)
     },
     secondary: {
       main: colors.secondary.base,      // #41658A (30% Secondary)
       light: colors.secondary.light,
       dark: colors.secondary.dark,
-      contrastText: colors.secondary.contrastText,
+      contrastText: colors.main.contrastText,
     },
     error: {
       main: colors.status.error,
@@ -34,11 +34,11 @@ const techThemeOptions: ThemeOptions = {
     },
     background: {
       default: colors.main.base,        // #141414 (60% Main)
-      paper: colors.main.surface,       // #141414
+      paper: colors.main.surface,       // #141414 (60% Main)
     },
     text: {
-      primary: colors.text.primary,     // #FFFFFF
-      secondary: colors.text.secondary, // #8BA5C2 (harmonized with #41658A)
+      primary: colors.text.primary,     // #F7F1E5 (Warm parchment primary text)
+      secondary: colors.text.secondary, // #8BA5C2 (Secondary blue text)
       disabled: colors.text.muted,
     },
     divider: colors.secondary.subtleBorder,
@@ -107,14 +107,14 @@ const techThemeOptions: ThemeOptions = {
       fontFamily: fonts.mono,
       fontSize: fontSizes.md,
       fontWeight: fontWeights.regular,
-      color: colors.text.secondary,
+      color: colors.text.primary, // #F7F1E5 for high readability on #141414
       lineHeight: lineHeights.normal,
     },
     body2: {
       fontFamily: fonts.mono,
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.regular,
-      color: colors.text.secondary,
+      color: colors.text.primary, // #F7F1E5
       lineHeight: lineHeights.normal,
     },
     caption: {
@@ -156,7 +156,7 @@ const techThemeOptions: ThemeOptions = {
         },
         containedPrimary: {
           backgroundColor: colors.highlight.base,
-          color: colors.highlight.contrastText,
+          color: colors.main.base, // #141414 text on #00FF41 highlight
           border: `1px solid ${colors.highlight.base}`,
           '&:hover': {
             backgroundColor: colors.highlight.dark,
@@ -169,12 +169,12 @@ const techThemeOptions: ThemeOptions = {
           },
         },
         containedSecondary: {
-          backgroundColor: colors.secondary.base,
-          color: colors.secondary.contrastText,
-          border: `1px solid ${colors.secondary.border}`,
+          backgroundColor: colors.main.base, // #141414 solid presence
+          color: colors.text.primary,        // #F7F1E5
+          border: `1px solid ${colors.secondary.border}`, // #41658A
           '&:hover': {
-            backgroundColor: colors.secondary.light,
-            borderColor: colors.secondary.light,
+            backgroundColor: colors.secondary.base,
+            color: '#FFFFFF',
           },
           '&.Mui-disabled': {
             backgroundColor: colors.main.base,
@@ -183,13 +183,13 @@ const techThemeOptions: ThemeOptions = {
           },
         },
         outlined: {
+          backgroundColor: colors.main.base, // #141414
           border: `1px solid ${colors.secondary.border}`,
-          color: colors.secondary.text,
-          backgroundColor: 'transparent',
+          color: colors.text.primary,
           '&:hover': {
             borderColor: colors.highlight.base,
             color: colors.highlight.base,
-            backgroundColor: 'rgba(0, 255, 65, 0.05)',
+            backgroundColor: colors.main.base,
             boxShadow: `0 0 8px ${colors.highlight.glow}`,
           },
         },
@@ -198,7 +198,7 @@ const techThemeOptions: ThemeOptions = {
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: colors.main.surface,
+          backgroundColor: colors.main.base, // Solid #141414
           border: `1px solid ${colors.secondary.subtleBorder}`,
           borderRadius: 0,
           backgroundImage: 'none',
@@ -214,7 +214,7 @@ const techThemeOptions: ThemeOptions = {
         root: {
           borderBottom: `1px solid ${colors.secondary.subtleBorder}`,
           padding: '12px 16px',
-          backgroundColor: 'rgba(65, 101, 138, 0.06)',
+          backgroundColor: colors.main.base, // Pure #141414
         },
         title: {
           fontFamily: fonts.title,
@@ -233,6 +233,7 @@ const techThemeOptions: ThemeOptions = {
     MuiCardContent: {
       styleOverrides: {
         root: {
+          backgroundColor: colors.main.base, // Pure #141414
           padding: '16px',
           '&:last-child': {
             paddingBottom: '16px',
@@ -243,7 +244,7 @@ const techThemeOptions: ThemeOptions = {
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: colors.main.surface,
+          backgroundColor: colors.main.base, // Pure #141414
           backgroundImage: 'none',
           borderRadius: 0,
           border: `1px solid ${colors.secondary.subtleBorder}`,
@@ -253,7 +254,7 @@ const techThemeOptions: ThemeOptions = {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: colors.main.base,
+          backgroundColor: colors.main.base, // Pure #141414
           borderBottom: `1px solid ${colors.secondary.border}`,
           backgroundImage: 'none',
         },
@@ -266,20 +267,22 @@ const techThemeOptions: ThemeOptions = {
           fontFamily: fonts.mono,
           fontSize: fontSizes.xs,
           height: '26px',
+          backgroundColor: colors.main.base, // Pure #141414
         },
         outlined: {
           borderColor: colors.secondary.border,
-          color: colors.secondary.text,
-          backgroundColor: 'rgba(65, 101, 138, 0.08)',
+          color: colors.text.primary,
+          backgroundColor: colors.main.base, // Pure #141414
         },
         colorPrimary: {
           backgroundColor: colors.highlight.base,
-          color: colors.highlight.contrastText,
+          color: colors.main.base, // #141414 contrast on highlight
           fontWeight: fontWeights.bold,
         },
         colorSecondary: {
-          backgroundColor: colors.secondary.base,
-          color: colors.secondary.contrastText,
+          backgroundColor: colors.main.base,
+          borderColor: colors.secondary.border,
+          color: colors.text.primary,
         },
       },
     },
@@ -287,13 +290,14 @@ const techThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           fontFamily: fonts.mono,
+          backgroundColor: colors.main.base, // Pure #141414
         },
       },
     },
     MuiTableHead: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(65, 101, 138, 0.12)',
+          backgroundColor: colors.main.base, // Pure #141414
         },
       },
     },
@@ -302,7 +306,8 @@ const techThemeOptions: ThemeOptions = {
         root: {
           fontFamily: fonts.mono,
           borderColor: colors.secondary.subtleBorder,
-          color: colors.text.secondary,
+          color: colors.text.primary, // #F7F1E5
+          backgroundColor: colors.main.base, // Pure #141414
           padding: '10px 14px',
           fontSize: fontSizes.sm,
         },
@@ -310,15 +315,27 @@ const techThemeOptions: ThemeOptions = {
           fontFamily: fonts.title,
           fontWeight: fontWeights.bold,
           color: colors.text.primary,
+          backgroundColor: colors.main.base, // Pure #141414
           fontSize: fontSizes.xs,
           letterSpacing: letterSpacing.wide,
+          borderColor: colors.secondary.border,
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.main.base,
+          '&:hover': {
+            backgroundColor: '#1a1a1a !important',
+          },
         },
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          backgroundColor: colors.main.base,
+          backgroundColor: colors.main.base, // Pure #141414
           borderRadius: 0,
           fontFamily: fonts.mono,
           '& .MuiOutlinedInput-notchedOutline': {

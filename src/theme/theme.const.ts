@@ -41,22 +41,22 @@ export const colors = {
   main: {
     base: '#141414',
     surface: '#141414',
-    elevated: '#1a1b1e',
-    deep: '#0e0e0e',
-    contrastText: '#FFFFFF',
+    elevated: '#1a1a1a',
+    deep: '#0d0d0d',
+    contrastText: '#F7F1E5',
   },
 
-  // 30% Secondary - Structure, Frame, Table Headers, Borders, Secondary Buttons
+  // 30% Secondary - Structure, Frame, Table Headers, Borders, Secondary Actions
   secondary: {
     base: '#41658A',
     light: '#597fa6',
     dark: '#2d4661',
     border: '#41658A',
     subtleBorder: 'rgba(65, 101, 138, 0.35)',
-    panel: 'rgba(65, 101, 138, 0.12)',
-    hover: 'rgba(65, 101, 138, 0.25)',
-    contrastText: '#FFFFFF',
-    text: '#8BA5C2',
+    panel: '#141414',
+    hover: '#1c1c1c',
+    contrastText: '#F7F1E5',
+    text: '#F7F1E5',
   },
 
   // 10% Highlight - Active links, Primary CTA, Prompts, Terminal Green Focus
@@ -72,7 +72,7 @@ export const colors = {
   // Functional & Semantic Colors
   text: {
     primary: '#F7F1E5',
-    secondary: '#8BA5C2', // Harmonized with secondary #41658A
+    secondary: '#F7F1E5',
     muted: '#52677F',
     inverse: '#141414',
   },

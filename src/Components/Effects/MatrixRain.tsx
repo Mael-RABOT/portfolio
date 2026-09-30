@@ -14,6 +14,8 @@ const MatrixRain: React.FC = () => {
         const setCanvasSize = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            ctx.fillStyle = colors.main.base;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         };
 
         setCanvasSize();

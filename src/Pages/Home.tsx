@@ -9,15 +9,8 @@ import {
     CardContent,
     Grid,
     Button,
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
     Chip,
-    Paper,
-    TableContainer
 } from "@mui/material";
-import SystemLoading from "../Components/Loading/SystemLoading";
 
 interface SkillCategory {
     title: string;
@@ -28,30 +21,7 @@ interface SkillCategory {
 const Home: React.FC = () => {
     const { t } = useTranslation('home');
     const navigate = useNavigate();
-    const [loadingProgress, setLoadingProgress] = useState<number>(0);
-    const [systemReady, setSystemReady] = useState<boolean>(false);
     const [uptime, setUptime] = useState<string>("");
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setSystemReady(true);
-        }, 1500);
-
-        const progressTimer = setInterval(() => {
-            setLoadingProgress(prev => {
-                if (prev >= 100) {
-                    clearInterval(progressTimer);
-                    return 100;
-                }
-                return Math.min(100, prev + Math.random() * 15);
-            });
-        }, 100);
-
-        return () => {
-            clearTimeout(timer);
-            clearInterval(progressTimer);
-        };
-    }, []);
 
     useEffect(() => {
         const calculateUptime = () => {
@@ -63,7 +33,7 @@ const Home: React.FC = () => {
             const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
-            setUptime(`${days}d ${hours}h ${minutes}m - (${Math.floor(days / 365)} years)`);
+            setUptime(`${days}d ${hours}h ${minutes}m (${Math.floor(days / 365)}y)`);
         };
 
         calculateUptime();
@@ -103,56 +73,62 @@ const Home: React.FC = () => {
         }
     ], [t]);
 
-    const systemInfo = {
-        hostname: "maelrabot.com",
-        user: "mael_rabot",
-        kernel: "Linux-Portfolio 5.4.0",
-        uptime: uptime,
-        load: "3.5",
-        memory: "8.1GB / 16GB",
-        processes: "156",
-        shell: "/bin/coding_passion"
-    };
-
-    if (false && !systemReady) { // Disable for now
-        return <SystemLoading progress={loadingProgress} />;
-    }
-
     return (
         <Box component="main" aria-label="Home">
-            <Card sx={{ mb: 4 }} component="section" aria-label="System Information">
-                <CardHeader title={`${t('systemInfo.title')} - ${t('systemInfo.welcome').toUpperCase()}`} />
+            {/* System Status - Clean, uncrowded telemetry */}
+            <Card sx={{ mb: 3 }} component="section" aria-label="System Telemetry">
+                <CardHeader title="SYSTEM TELEMETRY // MAËL RABOT" />
                 <CardContent>
+                    <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">
+                        sysinfo --summary
+                    </Typography>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <TableContainer component={Paper} variant="outlined">
-                                <Table size="small" aria-label="Host Information">
-                                    <TableBody>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.hostname')}</TableCell><TableCell>{systemInfo.hostname}</TableCell></TableRow>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.user')}</TableCell><TableCell>{systemInfo.user}</TableCell></TableRow>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.kernel')}</TableCell><TableCell>{systemInfo.kernel}</TableCell></TableRow>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.hostInfo.shell')}</TableCell><TableCell>{systemInfo.shell}</TableCell></TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                                <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
+                                    OPERATOR
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                                    mael_rabot
+                                </Typography>
+                            </Box>
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TableContainer component={Paper} variant="outlined">
-                                <Table size="small" aria-label="Performance Information">
-                                    <TableBody>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.uptime')}</TableCell><TableCell>{systemInfo.uptime}</TableCell></TableRow>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.loadAvg')}</TableCell><TableCell>{systemInfo.load}</TableCell></TableRow>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.memory')}</TableCell><TableCell>{systemInfo.memory}</TableCell></TableRow>
-                                        <TableRow><TableCell component="th" scope="row">{t('systemInfo.performance.processes')}</TableCell><TableCell>{systemInfo.processes}</TableCell></TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                                <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
+                                    DISCIPLINE
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                                    Software & Robotics
+                                </Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                                <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
+                                    STATUS
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                                    ● READY // ONLINE
+                                </Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                                <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
+                                    UPTIME
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                                    {uptime}
+                                </Typography>
+                            </Box>
                         </Grid>
                     </Grid>
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }} component="section" aria-label="Highlights">
+            {/* Highlights */}
+            <Card sx={{ mb: 3 }} component="section" aria-label="Highlights">
                 <CardHeader title={t('highlight.title')} />
                 <CardContent>
                     <Typography className="terminal-prompt" aria-hidden="true">{t('highlight.command')}</Typography>
@@ -174,31 +150,92 @@ const Home: React.FC = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }} component="section" aria-label="Profile">
+            {/* Profile Overview */}
+            <Card sx={{ mb: 3 }} component="section" aria-label="Profile">
                 <CardHeader title={t('profile.title')} />
                 <CardContent>
                     <Typography className="terminal-prompt" aria-hidden="true">{t('profile.command')}</Typography>
                     <Box sx={{ mt: 2 }}>
-                        <Typography variant="h3" component="h2" className="terminal-command">{t('profile.aboutMe').toUpperCase()}.EXE</Typography>
-                        <Typography sx={{ mt: 1 }}>&gt; {t('profile.description1')}</Typography>
+                        {/* Smaller, properly proportioned badges */}
+                        <Typography
+                            component="h3"
+                            sx={{
+                                fontSize: '13px',
+                                fontWeight: 600,
+                                display: 'inline-block',
+                                py: 0.5,
+                                px: 1.25,
+                                color: 'primary.main',
+                                border: '1px solid',
+                                borderColor: 'secondary.border',
+                                bgcolor: 'background.default',
+                                fontFamily: 'inherit',
+                                letterSpacing: '0.5px',
+                                mb: 1,
+                            }}
+                        >
+                            {t('profile.aboutMe').toUpperCase()}.EXE
+                        </Typography>
+                        <Typography sx={{ mt: 0.5 }}>&gt; {t('profile.description1')}</Typography>
                         <Typography>&gt; {t('profile.description2')}</Typography>
-                        <Typography variant="h3" component="h2" className="terminal-command" sx={{ mt: 2 }}>{t('profile.involvement').toUpperCase()}.txt</Typography>
-                        <Typography sx={{ mt: 1 }}>&gt; {t('profile.description3')}</Typography>
+
+                        <Typography
+                            component="h3"
+                            sx={{
+                                fontSize: '13px',
+                                fontWeight: 600,
+                                display: 'inline-block',
+                                py: 0.5,
+                                px: 1.25,
+                                color: 'primary.main',
+                                border: '1px solid',
+                                borderColor: 'secondary.border',
+                                bgcolor: 'background.default',
+                                fontFamily: 'inherit',
+                                letterSpacing: '0.5px',
+                                mt: 2.5,
+                                mb: 1,
+                            }}
+                        >
+                            {t('profile.involvement').toUpperCase()}.txt
+                        </Typography>
+                        <Typography sx={{ mt: 0.5 }}>&gt; {t('profile.description3')}</Typography>
                     </Box>
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }} component="section" aria-label="Skills Summary">
+            {/* Skills Summary - All 4 boxes strictly equal in height and size */}
+            <Card sx={{ mb: 3 }} component="section" aria-label="Skills Summary">
                 <CardHeader title={t('skills.title')} />
                 <CardContent>
                     <Grid container spacing={2}>
                         {programmingSkills.map((category, index) => (
-                            <Grid item xs={12} md={6} key={index}>
-                                <Card variant="outlined" component="article" aria-label={category.title}>
+                            <Grid item xs={12} md={6} key={index} sx={{ display: 'flex' }}>
+                                <Card
+                                    variant="outlined"
+                                    component="article"
+                                    aria-label={category.title}
+                                    sx={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}
+                                >
                                     <CardHeader title={category.title} subheader={category.command} />
-                                    <CardContent role="list" aria-label={`Skills in ${category.title}`}>
+                                    <CardContent
+                                        role="list"
+                                        aria-label={`Skills in ${category.title}`}
+                                        sx={{
+                                            flexGrow: 1,
+                                            minHeight: '140px',
+                                            display: 'flex',
+                                            flexWrap: 'wrap',
+                                            alignContent: 'flex-start',
+                                            gap: 0.5,
+                                        }}
+                                    >
                                         {category.skills.map((skill, skillIndex) => (
-                                            <Chip role="listitem" key={skillIndex} label={skill} variant="outlined" sx={{ m: 0.5 }} />
+                                            <Chip role="listitem" key={skillIndex} label={skill} variant="outlined" />
                                         ))}
                                     </CardContent>
                                 </Card>
@@ -208,50 +245,10 @@ const Home: React.FC = () => {
                 </CardContent>
             </Card>
 
-            <Card sx={{ mb: 4 }} component="section" aria-label="Passions">
-                <CardHeader title={t('passions.title')} />
-                <CardContent>
-                    <Typography className="terminal-prompt" aria-hidden="true">{t('passions.command')}</Typography>
-                    <Box sx={{ mt: 2 }} role="list" aria-label="List of passions">
-                        {(Array.isArray(t('passions.list', { returnObjects: true }))
-                            ? t('passions.list', { returnObjects: true }) as string[]
-                            : []
-                        ).map((passion, index) => (
-                            <Chip role="listitem" key={index} label={passion} sx={{ m: 0.5 }} />
-                        ))}
-                    </Box>
-                </CardContent>
-            </Card>
+            {/* Note: Passions section is hidden per user request */}
+            {/* Note: Quick actions navigation buttons at the bottom removed per user request */}
 
-            <Card sx={{ mb: 4 }} component="section" aria-label="Quick Actions">
-                <CardHeader title={t('quickActions.title')} />
-                <CardContent>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => navigate('/projects')} aria-label="Navigate to Projects">
-                                <span>{t('quickActions.viewProjects.command')}</span>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => navigate('/resume')} aria-label="Navigate to Resume">
-                                <span>{t('quickActions.viewResume.command')}</span>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => navigate('/contact')} aria-label="Navigate to Contact">
-                                <span>{t('quickActions.sendMessage.command')}</span>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Button fullWidth variant="outlined" onClick={() => window.open('https://github.com/Mael-RABOT', '_blank')} aria-label="Open GitHub Profile">
-                                <span>{t('quickActions.gitStatus.command')}</span>
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </Card>
-
-            <Typography align="center" sx={{ mt: 4 }} aria-hidden="true">
+            <Typography align="center" sx={{ mt: 3, mb: 1 }} aria-hidden="true">
                 <span className="blinking-cursor">{t('footer.ready')}</span>
             </Typography>
         </Box>
