@@ -11,7 +11,7 @@ export const LOCAL_PROJECTS: PortfolioItem[] = [
     name: 'Lucy',
     type: 'Humanoid Robotics Framework',
     status: 'active',
-    language: 'C++ / ROS 2 / Python / React',
+    language: 'Rust / C++ / ROS 2 / Python / React / TypeScript',
     description: `Welcome to Sentience Robotics & Project Lucy.
 An open-source initiative dedicated to developing a modular, full-stack framework for humanoid interaction and control.
 
