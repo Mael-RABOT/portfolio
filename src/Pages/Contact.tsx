@@ -500,7 +500,7 @@ curl -X POST https://api.maelrabot.com/contact \\
                     <CardHeader title={t('commands.ping.title')} />
                     <CardContent>
                         <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">ping -c 4 portfolio.dev</Typography>
-                        <Box sx={{ fontFamily: 'monospace' }}>
+                        <Box sx={{ fontFamily: 'inherit' }}>
                             {pingStatus.map((line, index) => (
                                 <Typography 
                                     key={index} 

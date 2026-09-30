@@ -125,7 +125,7 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
   }, [showShutdown, shutdownStep, shutdownMessages.length]);
 
   return (
-    <div className="terminal-window" style={{ outline: "5px", outlineColor: "#00FF41"}}>
+    <div className="terminal-window">
       {/* Minimized Page Overlay */}
       {isMinimized && (
         <div className="minimized-overlay" onClick={() => setIsMinimized(false)}>

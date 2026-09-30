@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { colors, fonts } from '../../theme/theme.const';
 
 const MatrixRain: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -11,43 +12,44 @@ const MatrixRain: React.FC = () => {
         if (!ctx) return;
 
         const setCanvasSize = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    };
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
 
-    setCanvasSize();
-    window.addEventListener('resize', setCanvasSize);
+        setCanvasSize();
+        window.addEventListener('resize', setCanvasSize);
 
-    const matrixChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*()_+-=[]{}|;:,.<>?~`';
-    const fontSize = 14;
-    const columns = Math.floor(canvas.width / fontSize);
+        const matrixChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*()_+-=[]{}|;:,.<>?~`';
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
 
-    const drops: number[] = Array(columns).fill(1000); // Initial value to clear screen
+        const drops: number[] = Array(columns).fill(1000); // Initial value to clear screen
 
-    const drawMatrix = () => {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const drawMatrix = () => {
+            // Fade towards dark theme main color #141414
+            ctx.fillStyle = colors.decorations.matrixFade;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#00ff41';
-        ctx.font = `${fontSize}px monospace`;
+            ctx.fillStyle = colors.decorations.matrixGreen;
+            ctx.font = `${fontSize}px ${fonts.mono}`;
 
-        for (let i = 0; i < drops.length; i++) {
-            const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+            for (let i = 0; i < drops.length; i++) {
+                const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
 
-            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
             }
+        };
 
-            drops[i]++;
-        }
-    };
+        const interval = setInterval(drawMatrix, 50);
 
-    const interval = setInterval(drawMatrix, 50);
-
-    return () => {
-        clearInterval(interval);
+        return () => {
+            clearInterval(interval);
             window.removeEventListener('resize', setCanvasSize);
         };
     }, []);
@@ -55,6 +57,7 @@ const MatrixRain: React.FC = () => {
     return (
         <canvas
             ref={canvasRef}
+            aria-hidden="true"
             style={{
                 position: 'fixed',
                 top: 0,
@@ -63,7 +66,7 @@ const MatrixRain: React.FC = () => {
                 height: '100%',
                 pointerEvents: 'none',
                 zIndex: 0,
-                opacity: 0.5,
+                opacity: colors.decorations.matrixOpacity,
             }}
         />
     );

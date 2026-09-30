@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PortfolioItem } from "../services/portfolioApi";
+import { colors } from "../theme/theme.const";
 import {
     Box,
     Typography,
@@ -40,10 +41,10 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
 
     const getStatusColor = (status?: string) => {
         switch (status?.toLowerCase()) {
-            case 'active': return '#00CC34'; // Highlight Hover
-            case 'completed': return '#00FF41'; // Highlight
-            case 'archived': return '#B7B7B7'; // Neutral
-            default: return '#00FF41';
+            case 'active': return colors.status.active;
+            case 'completed': return colors.status.completed;
+            case 'archived': return colors.secondary.base;
+            default: return colors.status.active;
         }
     };
 
@@ -206,7 +207,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                             bgcolor: 'rgba(0, 255, 65, 0.05)'
                                         },
                                         '&:focus-visible': {
-                                            outline: '2px solid #00FF41',
+                                            outline: `2px solid ${colors.highlight.base}`,
                                             outlineOffset: '2px'
                                         }
                                     }}
