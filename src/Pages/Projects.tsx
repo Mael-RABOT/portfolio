@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { PortfolioItem } from "../services/portfolioApi";
 import { colors } from "../theme/theme.const";
@@ -16,8 +17,24 @@ import {
 } from "@mui/material";
 
 const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
+    const location = useLocation();
     const { t, i18n } = useTranslation('projects');
-    const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
+    const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(() => {
+        if (location.state?.selectedProjectId) {
+            return projects?.find(p => p.id === location.state.selectedProjectId) || null;
+        }
+        return null;
+    });
+
+    useEffect(() => {
+        if (location.state?.selectedProjectId) {
+            const found = projects?.find(p => p.id === location.state.selectedProjectId);
+            if (found) {
+                setSelectedProject(found);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    }, [location.state, projects]);
 
     const handleProjectSelect = (project: PortfolioItem) => {
         setSelectedProject(project);
@@ -50,48 +67,48 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
         <Box component="main" aria-label="Projects">
             {/* Selected Project Details */}
             {selectedProject && (
-                <Card 
-                    sx={{ 
-                        mb: 4, 
-                        borderColor: 'primary.main', 
+                <Card
+                    sx={{
+                        mb: 4,
+                        borderColor: 'primary.main',
                         borderWidth: 1,
                         bgcolor: 'background.paper'
-                    }} 
-                    component="section" 
+                    }}
+                    component="section"
                     aria-label={`Details of ${selectedProject.name}`}
                 >
-                    <CardHeader 
+                    <CardHeader
                         title={
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
                                 <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
                                     {selectedProject.name}
                                 </Typography>
-                                <Chip 
-                                    label={t(`status.${selectedProject.status?.toLowerCase() || 'active'}` as any)} 
+                                <Chip
+                                    label={t(`status.${selectedProject.status?.toLowerCase() || 'active'}` as any)}
                                     size="small"
                                     color="primary"
                                     sx={{ fontWeight: 'bold' }}
                                 />
                                 {selectedProject.type && (
-                                    <Chip 
-                                        label={selectedProject.type} 
-                                        size="small" 
-                                        variant="outlined" 
+                                    <Chip
+                                        label={selectedProject.type}
+                                        size="small"
+                                        variant="outlined"
                                     />
                                 )}
                                 {selectedProject.language && (
-                                    <Chip 
-                                        label={selectedProject.language} 
-                                        size="small" 
+                                    <Chip
+                                        label={selectedProject.language}
+                                        size="small"
                                         variant="outlined"
                                         sx={{ borderColor: colors.secondary.border }}
                                     />
                                 )}
                             </Box>
-                        } 
+                        }
                         action={
-                            <Button 
-                                color="inherit" 
+                            <Button
+                                color="inherit"
                                 onClick={() => setSelectedProject(null)}
                                 sx={{ minWidth: 'auto', px: 2, fontSize: '1.4rem', fontWeight: 'bold' }}
                                 aria-label="Close project details"
@@ -105,25 +122,25 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                             {/* Images if available */}
                             {selectedProject.images && selectedProject.images.length > 0 && (
                                 <Grid item xs={12}>
-                                    <Box 
-                                        sx={{ display: 'flex', overflowX: 'auto', gap: 2, pb: 1 }} 
-                                        role="region" 
+                                    <Box
+                                        sx={{ display: 'flex', overflowX: 'auto', gap: 2, pb: 1 }}
+                                        role="region"
                                         aria-label={`Images for ${selectedProject.name}`}
                                     >
                                         {selectedProject.images.map((img, imgIndex) => (
-                                            <Box 
+                                            <Box
                                                 component="img"
                                                 key={imgIndex}
-                                                src={img.url} 
-                                                alt={`Screenshot ${imgIndex + 1} of project ${selectedProject.name}`} 
-                                                sx={{ 
-                                                    maxHeight: '320px', 
+                                                src={img.url}
+                                                alt={`Screenshot ${imgIndex + 1} of project ${selectedProject.name}`}
+                                                sx={{
+                                                    maxHeight: '320px',
                                                     maxWidth: '100%',
                                                     objectFit: 'contain',
                                                     border: '1px solid',
                                                     borderColor: 'divider',
                                                     flexShrink: 0
-                                                }} 
+                                                }}
                                             />
                                         ))}
                                     </Box>
@@ -180,7 +197,8 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                             {selectedProject.links.map((link, index) => (
                                                 <Box component="li" key={index} sx={{ mb: 0.5 }}>
                                                     <Link href={link.url} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
-                                                        {link.url}
+                                                        {link.item ? <strong>{link.item}: </strong> : null}
+                                                        {link.url} ↗
                                                     </Link>
                                                 </Box>
                                             ))}
@@ -237,12 +255,12 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                     </Typography>
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} role="list" aria-label="Technologies used">
                                         {selectedProject.technologies.map((tech, index) => (
-                                            <Chip 
-                                                role="listitem" 
-                                                key={index} 
-                                                label={tech} 
-                                                variant="outlined" 
-                                                sx={{ 
+                                            <Chip
+                                                role="listitem"
+                                                key={index}
+                                                label={tech}
+                                                variant="outlined"
+                                                sx={{
                                                     borderColor: colors.secondary.border,
                                                     color: 'text.primary',
                                                 }}
@@ -313,6 +331,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                         }
                                     />
                                     <CardContent sx={{ flexGrow: 1, pt: 0 }}>
+                                        <br />
                                         <Typography className="terminal-prompt" variant="body2" sx={{ mb: 1.5 }}>
                                             <span aria-hidden="true">{t('meta.gitStatus')}</span> <span className="sr-only">Status:</span> {t(`status.${project.status?.toLowerCase() || 'active'}` as any)}
                                         </Typography>
@@ -349,7 +368,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                     <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">
                         ls /organizations/
                     </Typography>
-                    
+
                     {/* Personal */}
                     <Box sx={{ mb: 3 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
@@ -371,12 +390,12 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                             {t('organizations.asm.description')}
                         </Typography>
                         <Box sx={{ mt: 1 }}>
-                            <Link 
-                                href="https://github.com/ASM-Studios/" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                color="primary" 
-                                underline="hover" 
+                            <Link
+                                href="https://github.com/ASM-Studios/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                color="primary"
+                                underline="hover"
                                 aria-label="Visit ASM Studios on GitHub"
                             >
                                 → github.com/ASM-Studios
@@ -435,7 +454,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                         </Box>
 
                         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 2 }}>
-                            <Button 
+                            <Button
                                 variant="contained"
                                 color="primary"
                                 component="a"
@@ -446,7 +465,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                             >
                                 Sentience GitHub →
                             </Button>
-                            <Button 
+                            <Button
                                 variant="outlined"
                                 component="a"
                                 href="https://discord.gg/g4KNZ3eeBd"

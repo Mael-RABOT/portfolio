@@ -139,8 +139,170 @@ const Home: React.FC = () => {
                             <Chip label={t('highlight.status')} color="primary" />
                         </Box>
                     </Box>
+
+                    {/* Ecosystem & Community Links */}
+                    <Box sx={{ mt: 3, pt: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+                        <Typography className="terminal-prompt" sx={{ mb: 1.5, fontSize: 'var(--font-size-xs)' }} aria-hidden="true">
+                            cat /projects/Lucy/RESOURCES.md
+                        </Typography>
+                        <Grid container spacing={1.5}>
+                            <Grid item xs={12} sm={6}>
+                                <Box
+                                    component="a"
+                                    href="https://docs.sentience-robotics.fr/share/p1x9ikjkhf/p/public-documentation-EExgMX2REV"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    sx={{
+                                        display: 'block',
+                                        p: 1.5,
+                                        height: '100%',
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                        bgcolor: 'background.default',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            borderColor: 'primary.main',
+                                            bgcolor: 'rgba(0, 255, 65, 0.05)',
+                                        },
+                                        '&:focus-visible': {
+                                            outline: '2px solid var(--color-highlight)',
+                                            outlineOffset: '2px',
+                                        }
+                                    }}
+                                    aria-label="Public Documentation - Open official public documentation in new tab"
+                                >
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+                                        <Typography variant="body2" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                                            📖 {t('highlight.links.docs')}
+                                        </Typography>
+                                        <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 'bold' }}>↗</Typography>
+                                    </Box>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.4 }}>
+                                        {t('highlight.links.docsDesc')}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Box
+                                    component="a"
+                                    href="https://projects.sentience-robotics.fr/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    sx={{
+                                        display: 'block',
+                                        p: 1.5,
+                                        height: '100%',
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                        bgcolor: 'background.default',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            borderColor: 'primary.main',
+                                            bgcolor: 'rgba(0, 255, 65, 0.05)',
+                                        },
+                                        '&:focus-visible': {
+                                            outline: '2px solid var(--color-highlight)',
+                                            outlineOffset: '2px',
+                                        }
+                                    }}
+                                    aria-label="Project Manager - Follow current development cycle in new tab"
+                                >
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+                                        <Typography variant="body2" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                                            📊 {t('highlight.links.projects')}
+                                        </Typography>
+                                        <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 'bold' }}>↗</Typography>
+                                    </Box>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.4 }}>
+                                        {t('highlight.links.projectsDesc')}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Box
+                                    component="a"
+                                    href="https://github.com/Sentience-Robotics"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    sx={{
+                                        display: 'block',
+                                        p: 1.5,
+                                        height: '100%',
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                        bgcolor: 'background.default',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            borderColor: 'primary.main',
+                                            bgcolor: 'rgba(0, 255, 65, 0.05)',
+                                        },
+                                        '&:focus-visible': {
+                                            outline: '2px solid var(--color-highlight)',
+                                            outlineOffset: '2px',
+                                        }
+                                    }}
+                                    aria-label="GitHub Organization - Open Sentience Robotics organization in new tab"
+                                >
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+                                        <Typography variant="body2" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                                            💻 {t('highlight.links.github')}
+                                        </Typography>
+                                        <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 'bold' }}>↗</Typography>
+                                    </Box>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.4 }}>
+                                        {t('highlight.links.githubDesc')}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Box
+                                    component="a"
+                                    href="https://discord.gg/g4KNZ3eeBd"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    sx={{
+                                        display: 'block',
+                                        p: 1.5,
+                                        height: '100%',
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                        bgcolor: 'background.default',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            borderColor: 'primary.main',
+                                            bgcolor: 'rgba(0, 255, 65, 0.05)',
+                                        },
+                                        '&:focus-visible': {
+                                            outline: '2px solid var(--color-highlight)',
+                                            outlineOffset: '2px',
+                                        }
+                                    }}
+                                    aria-label="Community Discord - Join Discord community to exchange about the project in new tab"
+                                >
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+                                        <Typography variant="body2" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                                            💬 {t('highlight.links.discord')}
+                                        </Typography>
+                                        <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 'bold' }}>↗</Typography>
+                                    </Box>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.4 }}>
+                                        {t('highlight.links.discordDesc')}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Box>
+
                     <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3, flexDirection: { xs: 'column', sm: 'row' } }}>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/projects')} aria-label="View Projects Page" sx={{ width: { xs: '100%', sm: 'auto' } }}>
+                        <Button variant="contained" color="primary" onClick={() => navigate('/projects', { state: { selectedProjectId: 'lucy' } })} aria-label="Explore Lucy in Projects Page" sx={{ width: { xs: '100%', sm: 'auto' } }}>
                             {t('highlight.viewProject')}
                         </Button>
                         <Button variant="contained" color="secondary" onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')} aria-label="View Sentience Robotics on GitHub" sx={{ width: { xs: '100%', sm: 'auto' } }}>

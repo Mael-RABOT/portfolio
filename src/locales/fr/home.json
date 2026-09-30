@@ -73,11 +73,22 @@
   "highlight": {
     "title": "PROJET EN VEDETTE - Lucy",
     "command": "cd /projects/Lucy && ./launch.sh",
-    "description": "Une API de controle open source pour les platformes robotiques.",
-    "techStack": "C++, ROS2, React",
+    "description": "Plateforme robotique modulaire open source pour l'interaction humanoïde et le contrôle moteur.",
+    "techStack": "C++, ROS 2, Python, React",
     "status": "DÉVELOPPEMENT ACTIF",
-    "viewProject": "EXÉCUTER LE PROJET",
-    "viewGitHub": "VOIR SUR GITHUB"
+    "viewProject": "EXPLORER LUCY DANS PROJETS",
+    "viewGitHub": "ORGANISATION GITHUB",
+    "linksTitle": "RESSOURCES & POINTS DE CONTACT",
+    "links": {
+      "docs": "Documentation Publique",
+      "docsDesc": "Notre documentation publique & guide d'architecture",
+      "projects": "Gestionnaire de Projet",
+      "projectsDesc": "Suivre le cycle de développement actuel & la feuille de route",
+      "github": "Organisation GitHub",
+      "githubDesc": "Notre organisation GitHub & code source",
+      "discord": "Discord Communautaire",
+      "discordDesc": "Notre Discord communautaire pour échanger sur le projet"
+    }
   },
   "quickActions": {
     "title": "COMMANDES D'ACCÈS RAPIDE",

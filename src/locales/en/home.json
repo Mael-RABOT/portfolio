@@ -42,42 +42,87 @@
     "programmingLanguages": {
       "title": "PROGRAMMING_LANGUAGES",
       "command": "ls /usr/local/languages/",
-      "list": ["C", "C++", "Python", "JavaScript", "TypeScript", "PHP", "SQL", "Bash"]
+      "list": [
+        "C",
+        "C++",
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "PHP",
+        "SQL",
+        "Bash"
+      ]
     },
     "tools": {
       "title": "TOOLS_&_FRAMEWORKS",
       "command": "cat /etc/tools.conf",
-      "list": ["Git", "React", "Docker", "Node.js", "MariaDB", "ROS 2"]
+      "list": [
+        "Git",
+        "React",
+        "Docker",
+        "Node.js",
+        "MariaDB",
+        "ROS 2"
+      ]
     },
     "softSkills": {
       "title": "SOFT_SKILLS",
       "command": "whoami --extended",
-      "list": ["Team Work", "Autonomy", "Problem Solving", "Continuous Learning"]
+      "list": [
+        "Team Work",
+        "Autonomy",
+        "Problem Solving",
+        "Continuous Learning"
+      ]
     },
     "others": {
       "title": "OTHERS",
       "command": "cat /etc/others.conf",
-      "list": ["3D Printing", "Robotics", "TUI", "Open Source", "Client Relations"]
+      "list": [
+        "3D Printing",
+        "Robotics",
+        "TUI",
+        "Open Source",
+        "Client Relations"
+      ]
     },
     "languages": {
       "title": "LANGUAGES",
       "command": "locale -a",
-      "list": ["French (Native)", "English (C1)"]
+      "list": [
+        "French (Native)",
+        "English (C1)"
+      ]
     }
   },
   "passions": {
     "title": "PERSONAL INTERESTS - PASSIONS",
     "command": "cat /etc/interests.conf",
-    "list": ["Aviation", "Cooking", "President of a sports association"]
+    "list": [
+      "Teaching",
+      "Robotic",
+      "Aviation"
+    ]
   },
   "highlight": {
     "title": "FEATURED PROJECT - Lucy",
     "command": "cd /projects/Lucy && ./launch.sh",
-    "description": "An Open Source Robot platform API.",
-    "techStack": "C++, ROS2, React",
+    "description": "An Open Source modular robotics platform for humanoid interaction and control.",
+    "techStack": "Rust, C++, ROS 2, ros2_control, Python, TypeScript, React, InMoov, Blender, URDF",
     "status": "ACTIVE DEVELOPMENT",
-    "viewProject": "EXECUTE PROJECT",
-    "viewGitHub": "VIEW ON GITHUB"
+    "viewProject": "EXPLORE LUCY IN PROJECTS",
+    "viewGitHub": "GITHUB ORGANIZATION",
+    "linksTitle": "RESOURCES & EXTERNAL ENDPOINTS",
+    "links": {
+      "docs": "Public Documentation",
+      "docsDesc": "Our public documentation & architecture guide",
+      "projects": "Project Manager",
+      "projectsDesc": "Follow the current development cycle & roadmap",
+      "github": "GitHub Organization",
+      "githubDesc": "Our GitHub organization & source code",
+      "discord": "Community Discord",
+      "discordDesc": "Our community Discord to exchange about the project"
+    }
   },
   "quickActions": {
     "title": "QUICK ACCESS COMMANDS",

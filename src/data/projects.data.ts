@@ -6,6 +6,55 @@ import { PortfolioItem } from '../services/portfolioApi';
  */
 export const LOCAL_PROJECTS: PortfolioItem[] = [
   {
+    '@id': '/api/items/lucy',
+    id: 'lucy',
+    name: 'Lucy',
+    type: 'Humanoid Robotics Framework',
+    status: 'active',
+    language: 'C++ / ROS 2 / Python / React',
+    description: `Welcome to Sentience Robotics & Project Lucy.
+An open-source initiative dedicated to developing a modular, full-stack framework for humanoid interaction and control.
+
+Our mission is to bridge the gap between high-level AI-driven cognition and robust, real-time hardware execution. Built primarily on the InMoov platform, Lucy acts as a universal brain and nervous system adaptable to any humanoid robotics hardware.
+
+Key Pillars:
+• LUCY (Platform Bridge): ROS 2-based interface layer with C++ core and ros2_control to allow external web clients or AI models to command robotic actuators seamlessly.
+• HuRI (Human-Robot Interaction): Speech-to-Speech (S2S) pipelines, multi-layer cognitive memory (short, medium, and long-term), and kinematic grounding.
+• Web Control Panel: Real-time telemetry, actuator control, and cloud-assisted teleoperation.`,
+    technologies: ['Rust', 'C++', 'ROS 2', 'ros2_control', 'Python', 'TypeScript', 'React', 'InMoov', 'Blender', 'URDF'],
+    repository: 'https://github.com/Sentience-Robotics',
+    demo: 'https://docs.sentience-robotics.fr/share/p1x9ikjkhf/p/public-documentation-EExgMX2REV',
+    links: [
+      {
+        id: 1,
+        url: 'https://docs.sentience-robotics.fr/share/p1x9ikjkhf/p/public-documentation-EExgMX2REV',
+        item: 'Public Documentation'
+      },
+      {
+        id: 2,
+        url: 'https://projects.sentience-robotics.fr/',
+        item: 'Project Manager (Development Cycle)'
+      },
+      {
+        id: 3,
+        url: 'https://github.com/Sentience-Robotics',
+        item: 'GitHub Organization'
+      },
+      {
+        id: 4,
+        url: 'https://discord.gg/g4KNZ3eeBd',
+        item: 'Community Discord'
+      }
+    ],
+    responsibilities: [
+      'Architecting modular full-stack humanoid interaction and motor control framework in ROS 2',
+      'Designing hardware abstraction with C++ and ros2_control for real-time actuator control on InMoov hardware',
+      'Developing AI cognition pipeline with speech-to-speech, cognitive memory, and kinematic grounding',
+      'Directing open-source community ecosystem, public documentation, project roadmap, and issue tracking'
+    ],
+    itemType: 'project',
+  },
+  {
     '@id': '/api/items/not-a-rhythm-game',
     id: 'not-a-rhythm-game',
     name: 'Not A Rhythm Game',
@@ -49,7 +98,7 @@ export const LOCAL_PROJECTS: PortfolioItem[] = [
     status: 'active',
     language: 'C++ / ROS 2',
     description: 'The Platform Bridge for Sentience Robotics: ROS 2-based interface layer abstracting hardware complexity with a C++ core and ros2_control to allow external web clients or AI models to command robotic actuators seamlessly on humanoid platforms (InMoov).',
-    technologies: ['ROS 2', 'C++', 'ros2_control', 'InMoov', 'Hardware Abstraction', 'Robotics Middleware'],
+    technologies: ['Rust', 'C++', 'ROS 2', 'ros2_control', 'Python', 'TypeScript', 'React', 'InMoov', 'Blender', 'URDF'],
     repository: 'https://github.com/Sentience-Robotics/lucy_ws',
     itemType: 'project',
   },
