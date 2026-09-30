@@ -48,7 +48,7 @@ const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem
                             <Typography><strong>{t('profile.specialization')}</strong> {t('profile.specializationValue')}</Typography>
                             <Typography>
                                 <strong>{t('profile.contact')}</strong> {t('profile.contactValue')} 
-                                <Link href="mailto:contact@maelrabot.com" sx={{ ml: 1 }} aria-label="Send an email to Mael Rabot">contact@maelrabot.com</Link>
+                                <Link href="mailto:contact@maelrabot.com" sx={{ ml: 1, wordBreak: 'break-all' }} aria-label="Send an email to Mael Rabot">contact@maelrabot.com</Link>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -69,7 +69,7 @@ const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem
                                     <Table size="small" aria-label={`Details for ${job.position}`}>
                                         <TableBody>
                                             <TableRow>
-                                                <TableCell component="th" scope="row" sx={{ width: '150px' }}>{t('experience.duration')}</TableCell>
+                                                <TableCell component="th" scope="row" sx={{ width: { xs: '110px', sm: '150px' } }}>{t('experience.duration')}</TableCell>
                                                 <TableCell>{job.duration || `${job.startDate} - ${job.endDate}`}</TableCell>
                                             </TableRow>
                                             <TableRow>

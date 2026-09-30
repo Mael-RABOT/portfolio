@@ -4,7 +4,8 @@
     "projects": "[F2] Projects",
     "resume": "[F3] Resume",
     "contact": "[F4] Contact",
-    "accessibility": "[F5] Accessibility"
+    "accessibility": "[F5] Accessibility",
+    "a11y": "A11Y"
   },
   "titles": {
     "home": "HOME",

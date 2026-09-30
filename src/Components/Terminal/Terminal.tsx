@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LanguageSwitch from '../LanguageSwitch/LanguageSwitch';
+import {
+  HomeIcon,
+  CodeBracketIcon,
+  DocumentTextIcon,
+  EnvelopeIcon,
+  EyeIcon,
+} from '@heroicons/react/24/outline';
 import './Terminal.css';
 
 interface TerminalProps {
@@ -13,13 +19,17 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
   const location = useLocation();
   const { t } = useTranslation('navigation');
   const [isMaximized, setIsMaximized] = useState(false);
+  const [systemStats] = useState(() => ({
+    load: (0.12 + Math.random() * 0.15).toFixed(2),
+    mem: Math.floor(18 + Math.random() * 12),
+  }));
 
+  // Show time formatted according to the user's system locale and settings
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour12: false,
+    return date.toLocaleTimeString(undefined, {
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
+      second: '2-digit',
     });
   };
 
@@ -45,6 +55,44 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
     }
   };
 
+  const navItems = [
+    {
+      path: '/',
+      shortcut: 'F1',
+      mobileLabel: t('titles.home', 'HOME'),
+      desktopLabel: t('menu.home', '[F1] HOME'),
+      icon: HomeIcon,
+    },
+    {
+      path: '/projects',
+      shortcut: 'F2',
+      mobileLabel: t('titles.projects', 'PROJECTS'),
+      desktopLabel: t('menu.projects', '[F2] PROJECTS'),
+      icon: CodeBracketIcon,
+    },
+    {
+      path: '/resume',
+      shortcut: 'F3',
+      mobileLabel: t('titles.resume', 'RESUME'),
+      desktopLabel: t('menu.resume', '[F3] RESUME'),
+      icon: DocumentTextIcon,
+    },
+    {
+      path: '/contact',
+      shortcut: 'F4',
+      mobileLabel: t('titles.contact', 'CONTACT'),
+      desktopLabel: t('menu.contact', '[F4] CONTACT'),
+      icon: EnvelopeIcon,
+    },
+    {
+      path: '/accessibility',
+      shortcut: 'F5',
+      mobileLabel: t('menu.a11y', 'A11Y'),
+      desktopLabel: t('menu.accessibility', '[F5] ACCESSIBILITY'),
+      icon: EyeIcon,
+    },
+  ];
+
   return (
     <div className="terminal-window">
       <>
@@ -55,7 +103,6 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
             {getPageTitle(location.pathname)} - PORTFOLIO.EXE - [{formatTime(currentTime)}]
           </div>
           <div className="terminal-header-right">
-            <LanguageSwitch />
             <div className="terminal-controls">
               <p>
                 −
@@ -76,52 +123,39 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
           </div>
         </div>
 
-        {/* Sidebar Navigation */}
+        {/* Navigation */}
         <nav className="terminal-nav" aria-label="Main Navigation">
           <div className="nav-menu">
-            <Link
-              to="/"
-              className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}
-              aria-current={location.pathname === '/' ? 'page' : undefined}
-            >
-              {t('menu.home')}
-            </Link>
-            <Link
-              to="/projects"
-              className={`nav-item ${location.pathname === '/projects' ? 'active' : ''}`}
-              aria-current={location.pathname === '/projects' ? 'page' : undefined}
-            >
-              {t('menu.projects')}
-            </Link>
-            <Link
-              to="/resume"
-              className={`nav-item ${location.pathname === '/resume' ? 'active' : ''}`}
-              aria-current={location.pathname === '/resume' ? 'page' : undefined}
-            >
-              {t('menu.resume')}
-            </Link>
-            <Link
-              to="/contact"
-              className={`nav-item ${location.pathname === '/contact' ? 'active' : ''}`}
-              aria-current={location.pathname === '/contact' ? 'page' : undefined}
-            >
-              {t('menu.contact')}
-            </Link>
-            <Link
-              to="/accessibility"
-              className={`nav-item ${location.pathname === '/accessibility' ? 'active' : ''}`}
-              aria-current={location.pathname === '/accessibility' ? 'page' : undefined}
-            >
-              {t('menu.accessibility')}
-            </Link>
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              const IconComponent = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`nav-item ${isActive ? 'active' : ''}`}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-keyshortcuts={item.shortcut}
+                  aria-label={item.desktopLabel}
+                >
+                  <span className="nav-icon" aria-hidden="true">
+                    <IconComponent className="nav-heroicon" />
+                  </span>
+                  <span className="nav-label nav-label-desktop">{item.desktopLabel}</span>
+                  <span className="nav-label nav-label-mobile">{item.mobileLabel}</span>
+                </Link>
+              );
+            })}
           </div>
         </nav>
 
         {/* Terminal Content */}
         <main className="terminal-content">
           {/* Command Line Indicator */}
-          <div className="terminal-prompt" aria-hidden="true">
-            user@portfolio:~$ {t('command', { page: getPageTitle(location.pathname).toLowerCase() })}
+          <div className="terminal-prompt-bar">
+            <div className="terminal-prompt" aria-hidden="true">
+              user@portfolio:~$ {t('command', { page: getPageTitle(location.pathname).toLowerCase() })}
+            </div>
           </div>
 
           {/* Main Content */}
@@ -133,13 +167,13 @@ const Terminal: React.FC<TerminalProps> = ({ children, currentTime }) => {
           <footer className="terminal-footer">
             <div className="terminal-status-bar">
               <span className="status-left">
-                STATUS: ONLINE | LOAD: {Math.random().toFixed(2)} | MEM: {(Math.random() * 100).toFixed(0)}%
+                STATUS: ONLINE | LOAD: {systemStats.load} | MEM: {systemStats.mem}%
               </span>
               <span className="status-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Link to="/accessibility" style={{ color: 'inherit', textDecoration: 'none' }} aria-label="Accessibility Statement">
                   {t('footer.accessibility', 'Accessibility')}
                 </Link>
-                <span>| [{formatTime(currentTime)}] | ESC: EXIT</span>
+                <span>| [{formatTime(currentTime)}]</span>
               </span>
             </div>
           </footer>

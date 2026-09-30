@@ -140,7 +140,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                 </Typography>
 
                                 {/* Action Buttons: Repository & Demo */}
-                                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 3 }}>
+                                <Box sx={{ display: 'flex', gap: 1.5, flexDirection: { xs: 'column', sm: 'row' }, mb: 3 }}>
                                     {projectRepoUrl && isUrl(projectRepoUrl) && (
                                         <Button
                                             variant="contained"
@@ -150,6 +150,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             aria-label={`Open source code repository for ${selectedProject.name}`}
+                                            sx={{ width: { xs: '100%', sm: 'auto' } }}
                                         >
                                             View Source Repository →
                                         </Button>
@@ -162,6 +163,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             aria-label={`Open live demo for ${selectedProject.name}`}
+                                            sx={{ width: { xs: '100%', sm: 'auto' } }}
                                         >
                                             Launch Live Demo ↗
                                         </Button>

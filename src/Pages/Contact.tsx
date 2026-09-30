@@ -66,13 +66,14 @@ const Contact: React.FC = () => {
                                     Recommended channel for project inquiries, technical specifications, and detailed proposals.
                                 </Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mt: 2 }}>
+                            <Box sx={{ display: 'flex', gap: 1.5, flexDirection: { xs: 'column', sm: 'row' }, mt: 2 }}>
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     component="a"
                                     href={`mailto:${emailAddress}`}
                                     aria-label="Send email to Mael Rabot"
+                                    sx={{ width: { xs: '100%', sm: 'auto' } }}
                                 >
                                     Open Mailer
                                 </Button>
@@ -80,6 +81,7 @@ const Contact: React.FC = () => {
                                     variant="outlined"
                                     onClick={handleCopyEmail}
                                     aria-label="Copy email address to clipboard"
+                                    sx={{ width: { xs: '100%', sm: 'auto' } }}
                                 >
                                     {copiedEmail ? "✓ Copied to Clipboard" : "Copy Address"}
                                 </Button>
@@ -118,6 +120,7 @@ const Contact: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Open LinkedIn profile"
+                                    sx={{ width: { xs: '100%', sm: 'auto' } }}
                                 >
                                     Connect on LinkedIn →
                                 </Button>
@@ -156,6 +159,7 @@ const Contact: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Open GitHub profile"
+                                    sx={{ width: { xs: '100%', sm: 'auto' } }}
                                 >
                                     Explore GitHub →
                                 </Button>

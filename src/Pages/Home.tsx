@@ -82,43 +82,43 @@ const Home: React.FC = () => {
                     <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">
                         sysinfo --summary
                     </Typography>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                    <Grid container spacing={1.5}>
+                        <Grid item xs={6} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
                                     OPERATOR
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                                <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, color: 'text.primary', overflowWrap: 'break-word' }}>
                                     mael_rabot
                                 </Typography>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                        <Grid item xs={6} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
                                     DISCIPLINE
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                                <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, color: 'text.primary', overflowWrap: 'break-word' }}>
                                     Software & Robotics
                                 </Typography>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                        <Grid item xs={6} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
                                     STATUS
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                                <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, color: 'primary.main', overflowWrap: 'break-word' }}>
                                     ● READY // ONLINE
                                 </Typography>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                        <Grid item xs={6} sm={6} md={3}>
+                            <Box sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block', mb: 0.5 }}>
                                     UPTIME
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                                <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, fontWeight: 600, color: 'text.primary', overflowWrap: 'break-word' }}>
                                     {uptime}
                                 </Typography>
                             </Box>
@@ -139,11 +139,11 @@ const Home: React.FC = () => {
                             <Chip label={t('highlight.status')} color="primary" />
                         </Box>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
-                        <Button variant="contained" color="primary" onClick={() => navigate('/projects')} aria-label="View Projects Page">
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3, flexDirection: { xs: 'column', sm: 'row' } }}>
+                        <Button variant="contained" color="primary" onClick={() => navigate('/projects')} aria-label="View Projects Page" sx={{ width: { xs: '100%', sm: 'auto' } }}>
                             {t('highlight.viewProject')}
                         </Button>
-                        <Button variant="contained" color="secondary" onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')} aria-label="View Sentience Robotics on GitHub">
+                        <Button variant="contained" color="secondary" onClick={() => window.open('https://github.com/Sentience-Robotics', '_blank')} aria-label="View Sentience Robotics on GitHub" sx={{ width: { xs: '100%', sm: 'auto' } }}>
                             {t('highlight.viewGitHub')}
                         </Button>
                     </Box>
@@ -228,7 +228,7 @@ const Home: React.FC = () => {
                                         aria-label={`Skills in ${category.title}`}
                                         sx={{
                                             flexGrow: 1,
-                                            minHeight: '140px',
+                                            minHeight: { xs: 'auto', md: '140px' },
                                             display: 'flex',
                                             flexWrap: 'wrap',
                                             alignContent: 'flex-start',
