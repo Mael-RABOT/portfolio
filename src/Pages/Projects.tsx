@@ -11,32 +11,18 @@ import {
     Grid,
     Chip,
     Button,
-    Link
+    Link,
+    Divider
 } from "@mui/material";
 
 const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
-    const { t } = useTranslation('projects');
+    const { t, i18n } = useTranslation('projects');
     const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
-    const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
     const handleProjectSelect = (project: PortfolioItem) => {
         setSelectedProject(project);
-        setTerminalOutput([
-            `> cd /projects/${project.name}`,
-            `> ls -la`,
-            t('terminal.loadingProject', { name: project.name }),
-            `${t('meta.type')} ${project.type}`,
-            // eslint-disable-next-line
-            `${t('meta.gitStatus')} ${t(`status.${project.status?.toLowerCase()}` as any)}`,
-            `${t('meta.lang')} ${project.language}`,
-            t('terminal.readyInspection')
-        ]);
-
-        if (window.innerWidth <= 768) {
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
-        }
+        // Scroll to top immediately when a project is selected
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const getStatusColor = (status?: string) => {
@@ -52,37 +38,62 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
         try {
             new URL(text);
             return true;
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (_) {
             return false;
         }
-    }
+    };
+
+    const projectRepoUrl = selectedProject?.repository || selectedProject?.dataSource;
+    const isFrench = i18n.language?.startsWith('fr');
 
     return (
         <Box component="main" aria-label="Projects">
-            {/* Header */}
-            <Card sx={{ mb: 4 }}>
-                <CardHeader title={t('header.title')} />
-                <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('header.command')}{projects?.length}</Typography>
-                    <Box aria-live="polite">
-                        {terminalOutput.map((line, index) => (
-                            <Typography key={index} variant="body1">&gt; {line}</Typography>
-                        ))}
-                    </Box>
-                </CardContent>
-            </Card>
-
             {/* Selected Project Details */}
             {selectedProject && (
-                <Card sx={{ mb: 4, borderColor: 'primary.main', borderWidth: 1 }} component="section" aria-label={`Details of ${selectedProject.name}`}>
+                <Card 
+                    sx={{ 
+                        mb: 4, 
+                        borderColor: 'primary.main', 
+                        borderWidth: 1,
+                        bgcolor: 'background.paper'
+                    }} 
+                    component="section" 
+                    aria-label={`Details of ${selectedProject.name}`}
+                >
                     <CardHeader 
-                        title={`${t('details.title')} - ${selectedProject.name?.toUpperCase()}`} 
+                        title={
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
+                                <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+                                    {selectedProject.name}
+                                </Typography>
+                                <Chip 
+                                    label={t(`status.${selectedProject.status?.toLowerCase() || 'active'}` as any)} 
+                                    size="small"
+                                    color="primary"
+                                    sx={{ fontWeight: 'bold' }}
+                                />
+                                {selectedProject.type && (
+                                    <Chip 
+                                        label={selectedProject.type} 
+                                        size="small" 
+                                        variant="outlined" 
+                                    />
+                                )}
+                                {selectedProject.language && (
+                                    <Chip 
+                                        label={selectedProject.language} 
+                                        size="small" 
+                                        variant="outlined"
+                                        sx={{ borderColor: colors.secondary.border }}
+                                    />
+                                )}
+                            </Box>
+                        } 
                         action={
                             <Button 
                                 color="inherit" 
                                 onClick={() => setSelectedProject(null)}
-                                sx={{ minWidth: 'auto', px: 2, fontSize: '1.2rem', fontWeight: 'bold' }}
+                                sx={{ minWidth: 'auto', px: 2, fontSize: '1.4rem', fontWeight: 'bold' }}
                                 aria-label="Close project details"
                             >
                                 ×
@@ -90,11 +101,15 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                         }
                     />
                     <CardContent>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">{t('details.info.command')}</Typography>
-                                {selectedProject.images && selectedProject.images.length > 0 && (
-                                    <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 3, pb: 1 }} role="region" aria-label={`Images for ${selectedProject.name}`}>
+                        <Grid container spacing={3}>
+                            {/* Images if available */}
+                            {selectedProject.images && selectedProject.images.length > 0 && (
+                                <Grid item xs={12}>
+                                    <Box 
+                                        sx={{ display: 'flex', overflowX: 'auto', gap: 2, pb: 1 }} 
+                                        role="region" 
+                                        aria-label={`Images for ${selectedProject.name}`}
+                                    >
                                         {selectedProject.images.map((img, imgIndex) => (
                                             <Box 
                                                 component="img"
@@ -102,8 +117,8 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                                 src={img.url} 
                                                 alt={`Screenshot ${imgIndex + 1} of project ${selectedProject.name}`} 
                                                 sx={{ 
-                                                    maxHeight: '300px', 
-                                                    maxWidth: '90%',
+                                                    maxHeight: '320px', 
+                                                    maxWidth: '100%',
                                                     objectFit: 'contain',
                                                     border: '1px solid',
                                                     borderColor: 'divider',
@@ -112,16 +127,56 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                             />
                                         ))}
                                     </Box>
-                                )}
-                                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('details.info.description')}</Typography>
-                                <Typography sx={{ whiteSpace: 'pre-wrap', mb: 3 }}>{selectedProject.description}</Typography>
-                                
+                                </Grid>
+                            )}
+
+                            {/* Description & Overview */}
+                            <Grid item xs={12}>
+                                <Typography variant="subtitle2" sx={{ color: 'secondary.text', mb: 1, letterSpacing: '1px' }}>
+                                    OVERVIEW // DESCRIPTION
+                                </Typography>
+                                <Typography sx={{ whiteSpace: 'pre-wrap', mb: 3, lineHeight: 1.7, fontSize: 'var(--font-size-md)' }}>
+                                    {selectedProject.description}
+                                </Typography>
+
+                                {/* Action Buttons: Repository & Demo */}
+                                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 3 }}>
+                                    {projectRepoUrl && isUrl(projectRepoUrl) && (
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            component="a"
+                                            href={projectRepoUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={`Open source code repository for ${selectedProject.name}`}
+                                        >
+                                            View Source Repository →
+                                        </Button>
+                                    )}
+                                    {selectedProject.demo && isUrl(selectedProject.demo) && (
+                                        <Button
+                                            variant="outlined"
+                                            component="a"
+                                            href={selectedProject.demo}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={`Open live demo for ${selectedProject.name}`}
+                                        >
+                                            Launch Live Demo ↗
+                                        </Button>
+                                    )}
+                                </Box>
+
+                                {/* Associated External Links */}
                                 {selectedProject.links && selectedProject.links.length > 0 && (
                                     <Box sx={{ mb: 3 }}>
-                                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Associated Links:</Typography>
-                                        <Box component="ul" sx={{ mt: 0.5, pl: 3 }}>
+                                        <Typography variant="subtitle2" sx={{ color: 'secondary.text', mb: 1 }}>
+                                            ASSOCIATED LINKS
+                                        </Typography>
+                                        <Box component="ul" sx={{ m: 0, pl: 3 }}>
                                             {selectedProject.links.map((link, index) => (
-                                                <Box component="li" key={index}>
+                                                <Box component="li" key={index} sx={{ mb: 0.5 }}>
                                                     <Link href={link.url} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
                                                         {link.url}
                                                     </Link>
@@ -131,49 +186,65 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                     </Box>
                                 )}
 
-                                <Box sx={{ mb: 3 }}>
-                                    <Typography component="span" variant="subtitle1" sx={{ fontWeight: 'bold' }}>Explore the code: </Typography>
-                                    {selectedProject.dataSource ? (
-                                        isUrl(selectedProject.dataSource) ? (
-                                            <Link href={selectedProject.dataSource} target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
-                                                {selectedProject.dataSource}
-                                            </Link>
-                                        ) : (
-                                            <Typography component="span">{selectedProject.dataSource}</Typography>
-                                        )
-                                    ) : (
-                                        <Typography component="span">none</Typography>
-                                    )}
-                                </Box>
+                                {/* Key Features / Responsibilities */}
+                                {(selectedProject.responsibilities || selectedProject.bullets) && (
+                                    <Box sx={{ mb: 3 }}>
+                                        <Typography variant="subtitle2" sx={{ color: 'secondary.text', mb: 1 }}>
+                                            KEY HIGHLIGHTS & ARCHITECTURE
+                                        </Typography>
+                                        <Box component="ul" sx={{ m: 0, pl: 3 }}>
+                                            {(selectedProject.responsibilities || selectedProject.bullets)?.map((bullet, idx) => (
+                                                <Box component="li" key={idx} sx={{ mb: 0.5 }}>
+                                                    <Typography variant="body2">{bullet}</Typography>
+                                                </Box>
+                                            ))}
+                                        </Box>
+                                    </Box>
+                                )}
 
+                                {/* Additional Info Key/Values */}
                                 {selectedProject.additionalInfo && Object.keys(selectedProject.additionalInfo).length > 0 && (
-                                    <Box sx={{ mt: 2 }}>
-                                        {Object.entries(selectedProject.additionalInfo).map(([key, value], index) => (
-                                            <Box key={index} sx={{ mb: 2 }}>
-                                                <Typography component="span" sx={{ fontWeight: 'bold' }}>{key}:</Typography>
-                                                {Array.isArray(value) ? (
-                                                    <Box component="ul" sx={{ mt: 0.5, pl: 3 }}>
-                                                        {value.map((item, itemIndex) => (
-                                                            <Box component="li" key={itemIndex}>
-                                                                <Typography component="span">{item}</Typography>
-                                                            </Box>
-                                                        ))}
+                                    <Box sx={{ mb: 3 }}>
+                                        <Typography variant="subtitle2" sx={{ color: 'secondary.text', mb: 1 }}>
+                                            SYSTEM METADATA
+                                        </Typography>
+                                        <Grid container spacing={1}>
+                                            {Object.entries(selectedProject.additionalInfo).map(([key, value], idx) => (
+                                                <Grid item xs={12} sm={6} key={idx}>
+                                                    <Box sx={{ p: 1, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}>
+                                                        <Typography variant="caption" sx={{ color: 'secondary.text', display: 'block' }}>
+                                                            {key.toUpperCase()}
+                                                        </Typography>
+                                                        <Typography variant="body2">
+                                                            {Array.isArray(value) ? value.join(', ') : String(value)}
+                                                        </Typography>
                                                     </Box>
-                                                ) : (
-                                                    <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}> {value}</Typography>
-                                                )}
-                                            </Box>
-                                        ))}
+                                                </Grid>
+                                            ))}
+                                        </Grid>
                                     </Box>
                                 )}
                             </Grid>
 
+                            {/* Tech Stack */}
                             {selectedProject.technologies && selectedProject.technologies.length > 0 && (
                                 <Grid item xs={12}>
-                                    <Typography className="terminal-prompt" sx={{ mt: 1, mb: 2 }} aria-hidden="true">{t('details.stack.command')}</Typography>
+                                    <Divider sx={{ mb: 2, borderColor: 'divider' }} />
+                                    <Typography variant="subtitle2" sx={{ color: 'secondary.text', mb: 1.5 }}>
+                                        {t('details.stack.title') || 'TECHNOLOGY STACK'}
+                                    </Typography>
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} role="list" aria-label="Technologies used">
                                         {selectedProject.technologies.map((tech, index) => (
-                                            <Chip role="listitem" key={index} label={tech} variant="outlined" />
+                                            <Chip 
+                                                role="listitem" 
+                                                key={index} 
+                                                label={tech} 
+                                                variant="outlined" 
+                                                sx={{ 
+                                                    borderColor: colors.secondary.border,
+                                                    color: 'text.primary',
+                                                }}
+                                            />
                                         ))}
                                     </Box>
                                 </Grid>
@@ -202,6 +273,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                         transition: 'all 0.2s ease',
                                         textAlign: 'left',
                                         width: '100%',
+                                        bgcolor: 'background.paper',
                                         '&:hover': {
                                             borderColor: 'primary.main',
                                             bgcolor: 'rgba(0, 255, 65, 0.05)'
@@ -228,17 +300,19 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                                         width: 10,
                                                         height: 10,
                                                         bgcolor: getStatusColor(project.status),
-                                                        borderRadius: '50%'
+                                                        borderRadius: '50%',
+                                                        flexShrink: 0
                                                     }}
                                                 />
-                                                <Typography variant="h6" sx={{ fontSize: '1.1rem' }}>{project.name}</Typography>
+                                                <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 600 }}>
+                                                    {project.name}
+                                                </Typography>
                                             </Box>
                                         }
                                     />
                                     <CardContent sx={{ flexGrow: 1, pt: 0 }}>
                                         <Typography className="terminal-prompt" variant="body2" sx={{ mb: 1.5 }}>
-                                            {/* eslint-disable-next-line */}
-                                            <span aria-hidden="true">{t('meta.gitStatus')}</span> <span className="sr-only">Status:</span> {t(`status.${project.status?.toLowerCase()}` as any)}
+                                            <span aria-hidden="true">{t('meta.gitStatus')}</span> <span className="sr-only">Status:</span> {t(`status.${project.status?.toLowerCase() || 'active'}` as any)}
                                         </Typography>
                                         <Typography variant="body2" sx={{ mb: 0.5 }}>
                                             <strong>{t('meta.type')}</strong> {project.type}
@@ -252,7 +326,7 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                                                     <Chip key={techIndex} label={tech} size="small" variant="outlined" />
                                                 ))}
                                                 {project.technologies.length > 3 && (
-                                                    <Typography variant="caption" sx={{ alignSelf: 'center', ml: 0.5 }}>
+                                                    <Typography variant="caption" sx={{ alignSelf: 'center', ml: 0.5, color: 'text.secondary' }}>
                                                         +{project.technologies.length - 3}
                                                     </Typography>
                                                 )}
@@ -266,42 +340,134 @@ const Projects: React.FC<{ projects: PortfolioItem[] }> = ({ projects }) => {
                 </CardContent>
             </Card>
 
-            {/* Group Projects Section */}
+            {/* Organizations & Group Projects */}
             <Card sx={{ mb: 4 }} component="section" aria-label="Organizations">
                 <CardHeader title={t('organizations.title')} />
                 <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('organizations.command')}</Typography>
+                    <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">
+                        ls /organizations/
+                    </Typography>
                     
+                    {/* Personal */}
                     <Box sx={{ mb: 3 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>📦 {t('organizations.personal.title')}</Typography>
-                        <Typography sx={{ mt: 0.5 }}>{t('organizations.personal.description')}</Typography>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                            📦 {t('organizations.personal.title')}
+                        </Typography>
+                        <Typography sx={{ mt: 0.5 }}>
+                            {t('organizations.personal.description')}
+                        </Typography>
                     </Box>
 
+                    <Divider sx={{ mb: 3, borderColor: 'divider' }} />
+
+                    {/* ASM Studios */}
                     <Box sx={{ mb: 3 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>🏢 ASM Studios</Typography>
-                        <Typography sx={{ mt: 0.5 }}>{t('organizations.asm.description')}</Typography>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                            🏢 ASM Studios
+                        </Typography>
+                        <Typography sx={{ mt: 0.5 }}>
+                            {t('organizations.asm.description')}
+                        </Typography>
                         <Box sx={{ mt: 1 }}>
-                            <Link href="https://github.com/ASM-Studios/" target="_blank" rel="noopener noreferrer" color="primary" underline="hover" aria-label="Visit ASM Studios on GitHub">
+                            <Link 
+                                href="https://github.com/ASM-Studios/" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                color="primary" 
+                                underline="hover" 
+                                aria-label="Visit ASM Studios on GitHub"
+                            >
                                 → github.com/ASM-Studios
                             </Link>
                         </Box>
                     </Box>
 
-                    <Box sx={{ mb: 4 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>🤖 Sentience Robotics</Typography>
-                        <Typography sx={{ mt: 0.5 }}>{t('organizations.sentience.description')}</Typography>
-                        <Box sx={{ mt: 1 }}>
-                            <Link href="https://github.com/Sentience-Robotics" target="_blank" rel="noopener noreferrer" color="primary" underline="hover" aria-label="Visit Sentience Robotics on GitHub">
-                                → github.com/Sentience-Robotics
-                            </Link>
+                    <Divider sx={{ mb: 3, borderColor: 'divider' }} />
+
+                    {/* Sentience Robotics */}
+                    <Box sx={{ mb: 3 }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                            🤖 Sentience Robotics
+                        </Typography>
+
+                        {isFrench ? (
+                            <Box sx={{ mt: 1 }}>
+                                <Typography sx={{ mb: 1.5, lineHeight: 1.7 }}>
+                                    Notre suite logicielle simplifie l'intégration et le prototypage en robotique. Nous rendons possible en quelques clics la connexion de n'importe quel robot à une application web, une IA, ou tout autre interface.
+                                </Typography>
+                                <Typography sx={{ mb: 1.5, lineHeight: 1.7 }}>
+                                    Fondamentalement open source, la force principale de notre projet est la communauté de passionné·e·s du monde de la robotique.
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <Box sx={{ mt: 1 }}>
+                                <Typography sx={{ mb: 1.5, lineHeight: 1.7 }}>
+                                    An open-source initiative dedicated to developing a modular, full-stack framework for humanoid interaction and control. Our mission is to bridge the gap between high-level AI-driven cognition and robust, real-time hardware execution. While primary development thrives on the InMoov platform, our architecture serves as a universal &quot;brain and nervous system&quot; adaptable to any humanoid hardware.
+                                </Typography>
+                            </Box>
+                        )}
+
+                        {/* Core Pillars */}
+                        <Box sx={{ p: 2, bgcolor: 'background.default', border: '1px solid', borderColor: 'divider', my: 2 }}>
+                            <Typography variant="subtitle2" sx={{ color: 'primary.main', mb: 1 }}>
+                                CORE PILLARS & REPOSITORIES:
+                            </Typography>
+                            <Box component="ul" sx={{ m: 0, pl: 2.5 }}>
+                                <Box component="li" sx={{ mb: 1 }}>
+                                    <Link href="https://github.com/Sentience-Robotics/lucy_ws" target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                                        <strong>LUCY | The Platform Bridge</strong>
+                                    </Link>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.2 }}>
+                                        ROS 2-based interface layer with C++ core and ros2_control to seamlessly command actuators from web clients or AI.
+                                    </Typography>
+                                </Box>
+                                <Box component="li">
+                                    <Link href="https://github.com/Sentience-Robotics/HuRI" target="_blank" rel="noopener noreferrer" color="primary" underline="hover">
+                                        <strong>HuRI | Human-Robot Interaction</strong>
+                                    </Link>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.2 }}>
+                                        AI framework focusing on Speech-to-Speech (S2S), multi-layer cognitive memory, and kinematic grounding.
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 2 }}>
+                            <Button 
+                                variant="contained"
+                                color="primary"
+                                component="a"
+                                href="https://github.com/Sentience-Robotics"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Visit Sentience Robotics on GitHub"
+                            >
+                                Sentience GitHub →
+                            </Button>
+                            <Button 
+                                variant="outlined"
+                                component="a"
+                                href="https://discord.gg/g4KNZ3eeBd"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Join Sentience Robotics Discord Community"
+                                sx={{
+                                    borderColor: colors.secondary.border,
+                                    color: colors.text.primary,
+                                }}
+                            >
+                                Join Discord Community 💬
+                            </Button>
                         </Box>
                     </Box>
 
-                    <Typography className="terminal-prompt" aria-hidden="true">{t('organizations.stats')}</Typography>
+                    <Typography className="terminal-prompt" sx={{ mt: 3 }} aria-hidden="true">
+                        Total: 3 GitHub organizations | 30+ repositories | 50+ contributors
+                    </Typography>
                 </CardContent>
             </Card>
 
-            {/* Footer */}
+            {/* Standby cue */}
             <Typography align="center" sx={{ mt: 4 }} aria-hidden="true">
                 <span className="blinking-cursor">{t('footer.select')}</span>
             </Typography>

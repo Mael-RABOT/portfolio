@@ -28,7 +28,7 @@ const MatrixRain: React.FC = () => {
         const drops: number[] = Array(columns).fill(1000); // Initial value to clear screen
 
         const drawMatrix = () => {
-            // Fade towards dark theme main color #141414
+            // Fade towards main theme background
             ctx.fillStyle = colors.decorations.matrixFade;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 

@@ -1,8 +1,8 @@
 /* ============================================================================
    Tech Theme Stylesheet
-   Palette: 60% Main (#141414) | 30% Secondary (#41658A) | 10% Highlight (#00FF41)
    Typography: IBM Plex Mono for all text, Orbitron bold for titles
    Layout: Controlled uniformly by --theme-spacing-base (16px)
+   Colors: Injected dynamically from src/theme/theme.const.ts (Single Source of Truth)
    ============================================================================ */
 
 * {
@@ -12,34 +12,8 @@
 }
 
 :root {
-  /* 60% Main - Dominant Dark Canvas & Solid Surfaces */
-  --color-main: #141414;
-  --color-main-surface: #141414;
-  --color-main-elevated: #1a1a1a;
-  --color-main-deep: #0d0d0d;
-
-  /* 30% Secondary - Structure, Frame, Table Borders, Outlines */
-  --color-secondary: #41658A;
-  --color-secondary-light: #597fa6;
-  --color-secondary-dark: #2d4661;
-  --color-secondary-border: #41658A;
-  --color-secondary-subtle: rgba(65, 101, 138, 0.35);
-  --color-secondary-panel: #141414;
-  --color-secondary-hover: #1c1c1c;
-  --color-secondary-text: #8BA5C2;
-
-  /* 10% Highlight - Primary Actions, Active States, Prompts, Terminal Green */
-  --color-highlight: #00FF41;
-  --color-highlight-light: #33ff67;
-  --color-highlight-dark: #00cc34;
-  --color-highlight-glow: rgba(0, 255, 65, 0.2);
-  --color-highlight-glow-hover: rgba(0, 255, 65, 0.4);
-
-  /* Functional Colors */
-  --color-text-primary: #F7F1E5;
-  --color-text-secondary: #8BA5C2;
-  --color-text-muted: #52677F;
-  --color-alert: #FF4343;
+  /* Note: All --color-* variables are managed and injected dynamically 
+     from src/theme/theme.const.ts to guarantee a single source of truth. */
 
   /* Typography */
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
@@ -136,7 +110,7 @@ h4 {
   position: relative;
 }
 
-/* Terminal Window Styles - Solid #141414 frame */
+/* Terminal Window Styles */
 .terminal-window {
   background-color: var(--color-main);
   border: 1px solid var(--color-secondary-border);
@@ -206,14 +180,14 @@ h4 {
 }
 
 .terminal-control:hover {
-  background-color: #1c1c1c;
+  background-color: var(--color-secondary-hover);
   color: var(--color-text-primary);
   border-color: var(--color-secondary-light);
 }
 
 .terminal-control.active {
   background-color: var(--color-secondary);
-  color: #FFFFFF;
+  color: var(--color-text-primary);
 }
 
 .terminal-content {
@@ -224,7 +198,7 @@ h4 {
   min-height: calc(100vh - 120px);
 }
 
-/* Navigation Styles - Solid #141414 */
+/* Navigation Styles */
 .terminal-nav {
   position: fixed;
   top: var(--spacing-lg);
@@ -259,7 +233,7 @@ h4 {
 
 .nav-item:hover {
   color: var(--color-text-primary);
-  background-color: #1c1c1c;
+  background-color: var(--color-secondary-hover);
   border-color: var(--color-secondary-subtle);
 }
 
@@ -314,7 +288,7 @@ h4 {
   display: inline-block;
 }
 
-/* Terminal Sections & Cards - Pure #141414 */
+/* Terminal Sections & Cards */
 .terminal-section {
   margin: var(--spacing-lg) 0;
   border: 1px solid var(--color-secondary-subtle);
@@ -400,7 +374,7 @@ h4 {
   text-decoration: none;
 }
 
-/* Primary Highlight Button (10% ratio) - #00FF41 with #141414 text */
+/* Primary Highlight Button */
 .highlight-button,
 .terminal-button.primary {
   background-color: var(--color-highlight);
@@ -414,7 +388,7 @@ h4 {
   box-shadow: 0 0 10px var(--color-highlight-glow);
 }
 
-/* Secondary Button (Solid #141414 with #41658A border) */
+/* Secondary Button */
 .highlight-button.secondary,
 .terminal-button {
   background-color: var(--color-main);
@@ -425,7 +399,7 @@ h4 {
 .highlight-button.secondary:hover,
 .terminal-button:hover {
   background-color: var(--color-secondary);
-  color: #FFFFFF;
+  color: var(--color-text-primary);
 }
 
 .terminal-button:disabled {
@@ -435,7 +409,7 @@ h4 {
   cursor: not-allowed;
 }
 
-/* Grid & Cards - Pure #141414 */
+/* Grid & Cards */
 .terminal-grid {
   display: grid;
   gap: var(--spacing-md);
@@ -469,7 +443,7 @@ h4 {
 .terminal-link {
   color: var(--color-highlight);
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 255, 65, 0.4);
+  border-bottom: 1px solid var(--color-highlight-glow-hover);
   transition: all 0.2s ease;
   font-family: var(--font-mono);
 }
@@ -477,10 +451,10 @@ h4 {
 .terminal-link:hover {
   color: var(--color-highlight-light);
   border-color: var(--color-highlight);
-  background-color: rgba(0, 255, 65, 0.05);
+  background-color: var(--color-highlight-glow);
 }
 
-/* Inputs - Pure #141414 */
+/* Inputs */
 .terminal-input {
   background-color: var(--color-main);
   border: 1px solid var(--color-secondary-border);
@@ -500,7 +474,7 @@ h4 {
   box-shadow: 0 0 6px var(--color-highlight-glow);
 }
 
-/* Tables - Pure #141414 */
+/* Tables */
 .terminal-table {
   width: 100%;
   border-collapse: collapse;
@@ -530,7 +504,7 @@ h4 {
 }
 
 .terminal-table tbody tr:hover td {
-  background-color: #1a1a1a;
+  background-color: var(--color-main-elevated);
 }
 
 /* Blinking Cursor */
@@ -546,7 +520,7 @@ h4 {
   50%, 100% { opacity: 0; }
 }
 
-/* Tags and Chips - Solid #141414 */
+/* Tags and Chips */
 .tech-stack {
   margin-top: var(--spacing-md);
   display: flex;
@@ -572,7 +546,7 @@ h4 {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  background-color: rgba(255, 67, 67, 0.1);
+  background-color: var(--color-alert-subtle);
   border: 1px solid var(--color-alert);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: 0;

@@ -5,17 +5,19 @@ import { Button } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 
+import { colors } from "../../theme/theme.const";
+
 /* UNUSED */
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(Button)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   padding: '8px 16px',
-  backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
-  color: '#fff',
+  backgroundColor: colors.secondary.base,
+  color: colors.text.primary,
   '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#002d72' : '#001a33',
+    backgroundColor: colors.secondary.dark,
   },
 }));
 

@@ -1,6 +1,6 @@
 /* ============================================================================
    Terminal Component Specific Styles
-   Palette: 60% #141414 | 30% #41658A | 10% #00FF41
+   Colors: Injected dynamically from theme.const.ts via CSS variables
    Typography: IBM Plex Mono, Orbitron Bold
    Decorations: Minimal, refined, high technical competence
    ============================================================================ */
@@ -71,7 +71,7 @@
 
 .nav-item:hover {
   color: var(--color-text-primary);
-  background-color: #1c1c1c;
+  background-color: var(--color-secondary-hover);
 }
 
 .nav-item.active {
@@ -124,8 +124,8 @@
   bottom: 0;
   background: repeating-linear-gradient(
     0deg,
-    rgba(65, 101, 138, 0.03),
-    rgba(65, 101, 138, 0.03) 1px,
+    var(--color-secondary-subtle),
+    var(--color-secondary-subtle) 1px,
     transparent 1px,
     transparent 4px
   );

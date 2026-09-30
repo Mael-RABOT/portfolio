@@ -45,7 +45,6 @@
     "completed": "TERMINÉ",
     "archived": "ARCHIVÉ"
   },
-
   "organizations": {
     "title": "ORGANISATIONS & PROJETS DE GROUPE",
     "command": "ls /organisations/",
@@ -57,7 +56,7 @@
       "description": "Projets de groupe créés avec une équipe passionnée de développeurs. Inclut moteurs de jeu, outils d'automatisation et applications web innovantes."
     },
     "sentience": {
-      "description": "Mon plus grand projet - Un framework robotique piloté par IA pour robots humanoïdes. Développement robotique open-source avec ROS2, vision par ordinateur et systèmes de sécurité."
+      "description": "Notre suite logicielle simplifie l'intégration et le prototypage en robotique. Nous rendons possible en quelques clics la connection de n'importe quel robot à une application web, une IA, ou tout autre interface.\n\nFondamentalement open source, la force principale de notre projet est la communauté de passionné·e·s du monde de la robotique.\n\nBienvenue sur la documentation officielle de Sentience Robotics, une initiative open source dédiée au développement d'un framework modulaire et complet pour l'interaction et le contrôle d'humanoïdes.\nNotre mission est de combler le fossé entre la cognition de haut niveau pilotée par l'IA et l'exécution matérielle robuste en temps réel. Notre architecture est conçue comme un « cerveau et système nerveux » universel adaptable à tout matériel humanoïde (InMoov, etc.).\n\nNos piliers principaux :\n• LUCY | The Platform Bridge : Couche d'interface ROS 2 avec noyau C++ et ros2_control pour commander les actionneurs avec fluidité.\n• HuRI | Human-Robot Interaction : Framework IA axé sur les pipelines Speech-to-Speech (S2S), la mémoire cognitive multicouche et l'ancrage cinématique.\n\nRejoignez la communauté Sentience sur Discord (discord.gg/g4KNZ3eeBd) pour échanger, contribuer ou développer l'avenir de l'interaction humanoïde."
     },
     "stats": "Total : 3 organisations GitHub | 30+ dépôts | 50+ contributeurs"
   },

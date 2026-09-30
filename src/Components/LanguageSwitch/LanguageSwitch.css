@@ -33,7 +33,7 @@
   color: var(--color-highlight);
   font-weight: var(--font-weight-bold);
   border-color: var(--color-highlight);
-  background-color: rgba(0, 255, 65, 0.08);
+  background-color: var(--color-highlight-glow);
 }
 
 .language-separator {

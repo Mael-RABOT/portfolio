@@ -84,7 +84,7 @@ const App: React.FC = () => {
 
     return (
         <div className="terminal-app">
-            <MatrixRain />
+            {/* <MatrixRain /> */}
             <Router>
                 <NavigationProvider>
                     <Terminal currentTime={currentTime}>

@@ -34,65 +34,159 @@ export const spacing = {
 } as const;
 
 // ============================================================================
-// 2. COLOR PALETTE (60% Main / 30% Secondary / 10% Highlight)
+// 2. COLOR PALETTE - THE SINGLE SOURCE OF TRUTH FOR ALL COLORS IN THE APP
 // ============================================================================
+// Edit these main colors to retheme the entire application:
+export const MAIN_COLOR = '#141414';        // 60% Dominant (Dark background & surfaces)
+export const SECONDARY_COLOR = '#41658A';   // 30% Secondary (Structure, borders, framing)
+export const THEME_COLOR = '#00FF41';       // 10% Highlight / Theme (Terminal green, active states)
+export const TEXT_COLOR = '#F7F1E5';        // Main readable text (Warm parchment)
+export const MUTED_COLOR = '#52677F';       // Muted / secondary text
+export const ERROR_COLOR = '#FF4343';       // Error / alert status
+export const WARNING_COLOR = '#FFAA00';     // Warning status
+
+// Helper functions to derive shades and alpha transparencies dynamically
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const clean = hex.replace('#', '');
+  if (clean.length === 3) {
+    return {
+      r: parseInt(clean[0] + clean[0], 16),
+      g: parseInt(clean[1] + clean[1], 16),
+      b: parseInt(clean[2] + clean[2], 16),
+    };
+  }
+  return {
+    r: parseInt(clean.substring(0, 2), 16) || 0,
+    g: parseInt(clean.substring(2, 4), 16) || 0,
+    b: parseInt(clean.substring(4, 6), 16) || 0,
+  };
+}
+
+function rgba(hex: string, alpha: number): string {
+  const { r, g, b } = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function adjustBrightness(hex: string, percent: number): string {
+  const { r, g, b } = hexToRgb(hex);
+  const adjust = (c: number) => Math.min(255, Math.max(0, Math.round(c + (255 * percent) / 100)));
+  const toHex = (c: number) => c.toString(16).padStart(2, '0');
+  return `#${toHex(adjust(r))}${toHex(adjust(g))}${toHex(adjust(b))}`;
+}
+
 export const colors = {
+  // Direct shortcuts
+  mainColor: MAIN_COLOR,
+  secondaryColor: SECONDARY_COLOR,
+  themeColor: THEME_COLOR,
+
   // 60% Main - Dark Backgrounds & Main Canvas
   main: {
-    base: '#141414',
-    surface: '#141414',
-    elevated: '#1a1a1a',
-    deep: '#0d0d0d',
-    contrastText: '#F7F1E5',
+    base: MAIN_COLOR,
+    surface: MAIN_COLOR,
+    elevated: adjustBrightness(MAIN_COLOR, 3),
+    deep: adjustBrightness(MAIN_COLOR, -3),
+    contrastText: TEXT_COLOR,
   },
 
   // 30% Secondary - Structure, Frame, Table Headers, Borders, Secondary Actions
   secondary: {
-    base: '#41658A',
-    light: '#597fa6',
-    dark: '#2d4661',
-    border: '#41658A',
-    subtleBorder: 'rgba(65, 101, 138, 0.35)',
-    panel: '#141414',
-    hover: '#1c1c1c',
-    contrastText: '#F7F1E5',
-    text: '#F7F1E5',
+    base: SECONDARY_COLOR,
+    light: adjustBrightness(SECONDARY_COLOR, 15),
+    dark: adjustBrightness(SECONDARY_COLOR, -15),
+    border: SECONDARY_COLOR,
+    subtleBorder: rgba(SECONDARY_COLOR, 0.35),
+    panel: MAIN_COLOR,
+    hover: adjustBrightness(MAIN_COLOR, 5),
+    contrastText: TEXT_COLOR,
+    text: TEXT_COLOR,
   },
 
-  // 10% Highlight - Active links, Primary CTA, Prompts, Terminal Green Focus
+  // 10% Highlight / Theme Accent - Active links, Primary CTA, Prompts, Terminal Green Focus
   highlight: {
-    base: '#00FF41',
-    light: '#33ff67',
-    dark: '#00cc34',
-    glow: 'rgba(0, 255, 65, 0.2)',
-    glowHover: 'rgba(0, 255, 65, 0.4)',
-    contrastText: '#141414',
+    base: THEME_COLOR,
+    light: adjustBrightness(THEME_COLOR, 20),
+    dark: adjustBrightness(THEME_COLOR, -20),
+    glow: rgba(THEME_COLOR, 0.2),
+    glowHover: rgba(THEME_COLOR, 0.4),
+    contrastText: MAIN_COLOR,
+  },
+
+  // Alias for 'theme' color
+  theme: {
+    base: THEME_COLOR,
+    light: adjustBrightness(THEME_COLOR, 20),
+    dark: adjustBrightness(THEME_COLOR, -20),
+    glow: rgba(THEME_COLOR, 0.2),
+    glowHover: rgba(THEME_COLOR, 0.4),
+    contrastText: MAIN_COLOR,
   },
 
   // Functional & Semantic Colors
   text: {
-    primary: '#F7F1E5',
-    secondary: '#F7F1E5',
-    muted: '#52677F',
-    inverse: '#141414',
+    primary: TEXT_COLOR,
+    secondary: TEXT_COLOR,
+    muted: MUTED_COLOR,
+    inverse: MAIN_COLOR,
   },
 
   status: {
-    active: '#00FF41',
-    completed: '#00FF41',
-    pending: '#41658A',
-    error: '#FF4343',
-    warning: '#FFAA00',
+    active: THEME_COLOR,
+    completed: THEME_COLOR,
+    pending: SECONDARY_COLOR,
+    error: ERROR_COLOR,
+    warning: WARNING_COLOR,
   },
 
   decorations: {
-    matrixGreen: '#00FF41',
-    matrixFade: 'rgba(20, 20, 20, 0.08)',
-    matrixOpacity: 0.18, // Toned down, refined background ambience
-    divider: 'rgba(65, 101, 138, 0.3)',
-    scanlineOpacity: 0.015, // Barely perceptible, clean technical look
+    matrixGreen: THEME_COLOR,
+    matrixFade: rgba(MAIN_COLOR, 0.08),
+    matrixOpacity: 0.18,
+    divider: rgba(SECONDARY_COLOR, 0.3),
+    scanlineOpacity: 0.015,
   },
 } as const;
+
+/**
+ * Automatically inject CSS custom properties to the document root (:root)
+ * Ensures that CSS files never define hardcoded colors; theme.const.ts is the sole source of truth.
+ */
+export const injectThemeVariables = (): void => {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+
+  root.style.setProperty('--color-main', colors.main.base);
+  root.style.setProperty('--color-main-surface', colors.main.surface);
+  root.style.setProperty('--color-main-elevated', colors.main.elevated);
+  root.style.setProperty('--color-main-deep', colors.main.deep);
+
+  root.style.setProperty('--color-secondary', colors.secondary.base);
+  root.style.setProperty('--color-secondary-light', colors.secondary.light);
+  root.style.setProperty('--color-secondary-dark', colors.secondary.dark);
+  root.style.setProperty('--color-secondary-border', colors.secondary.border);
+  root.style.setProperty('--color-secondary-subtle', colors.secondary.subtleBorder);
+  root.style.setProperty('--color-secondary-panel', colors.secondary.panel);
+  root.style.setProperty('--color-secondary-hover', colors.secondary.hover);
+  root.style.setProperty('--color-secondary-text', colors.secondary.text);
+
+  root.style.setProperty('--color-highlight', colors.highlight.base);
+  root.style.setProperty('--color-highlight-light', colors.highlight.light);
+  root.style.setProperty('--color-highlight-dark', colors.highlight.dark);
+  root.style.setProperty('--color-highlight-glow', colors.highlight.glow);
+  root.style.setProperty('--color-highlight-glow-hover', colors.highlight.glowHover);
+
+  root.style.setProperty('--color-text-primary', colors.text.primary);
+  root.style.setProperty('--color-text-secondary', colors.text.secondary);
+  root.style.setProperty('--color-text-muted', colors.text.muted);
+  root.style.setProperty('--color-alert', colors.status.error);
+  root.style.setProperty('--color-alert-subtle', rgba(ERROR_COLOR, 0.1));
+  root.style.setProperty('--color-warning', colors.status.warning);
+};
+
+// Auto-inject immediately upon load in the browser
+if (typeof document !== 'undefined') {
+  injectThemeVariables();
+}
 
 // ============================================================================
 // 3. TYPOGRAPHY (Fonts, Sizes, Weights / Greases)

@@ -54,4 +54,12 @@ i18n
     }
   });
 
+// Keep document lang attribute in sync with current i18n language for accessibility (WCAG 3.1.1)
+if (typeof document !== 'undefined') {
+  document.documentElement.lang = i18n.language || 'en';
+  i18n.on('languageChanged', (lng) => {
+    document.documentElement.lang = lng;
+  });
+}
+
 export default i18n;
