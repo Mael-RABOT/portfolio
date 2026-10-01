@@ -110,8 +110,8 @@
       },
       {
         "degree": "International Program",
-        "school": "Chung-Ang University",
-        "location": "Seoul",
+        "school": "Chung-Ang University (CAU)",
+        "location": "Seoul, South Korea",
         "description": "Chung-Ang University is a private institution of higher education in South Korea, founded in 1918. It is one of the oldest universities in the country and is known for its strong emphasis on research and innovation.\n\nThe university offers a wide range of undergraduate and graduate programs in various fields, including arts, humanities, social sciences, natural sciences, and engineering. It is home to a diverse student body and a vibrant campus community, providing students with a rich and dynamic learning environment.",
         "startDate": "August 2025",
         "endDate": "June 2026",
@@ -126,8 +126,8 @@
       },
       {
         "degree": "Science high school diploma",
-        "school": "Lycée International",
-        "location": "Ferney-Voltaire",
+        "school": "Lycée International de Ferney-Voltaire",
+        "location": "Ferney-Voltaire, France",
         "description": "The Lycée International is a public secondary school located in Ferney-Voltaire, France. It offers a comprehensive curriculum that includes a strong focus on science, mathematics, and technology.\n\nThe school provides students with a rigorous academic program that prepares them for higher education and professional careers. It emphasizes critical thinking, problem-solving, and creativity, fostering a culture of intellectual curiosity and academic excellence.",
         "startDate": "September 2018",
         "endDate": "June 2021",

@@ -35,7 +35,7 @@ const Contact: React.FC = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', mb: 1 }}>
                         <Chip label="STATUS: ACCEPTING TRANSMISSIONS" color="primary" />
                         <Chip label="RESPONSE TIME: < 24 HOURS" variant="outlined" />
-                        <Chip label="LOCATION: LYON, FRANCE" variant="outlined" />
+                        <Chip label="LOCATION: PARIS, FRANCE" variant="outlined" />
                     </Box>
                     <Typography variant="body2" sx={{ mt: 1.5, color: 'text.secondary' }}>
                         Direct transmission endpoints are open for software engineering inquiries, robotics collaborations, and technical opportunities.
@@ -189,7 +189,7 @@ const Contact: React.FC = () => {
                                     </Typography>
                                 </Box>
                                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                    Based in Lyon, France (UTC+1 / CET). Available for on-site, hybrid, and remote workflows.
+                                    Based in Paris, France (UTC+1 / CET). Available for on-site, hybrid, and remote workflows.
                                 </Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>

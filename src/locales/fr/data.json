@@ -110,8 +110,8 @@
       },
       {
         "degree": "Programme International",
-        "school": "Université Chung-Ang",
-        "location": "Séoul",
+        "school": "Université Chung-Ang (CAU)",
+        "location": "Séoul, Corée du Sud",
         "description": "L'Université Chung-Ang est un établissement privé d'enseignement supérieur en Corée du Sud, fondé en 1918. C'est l'une des plus anciennes universités du pays et elle est connue pour son accent fort sur la recherche et l'innovation.\n\nL'université offre une large gamme de programmes de premier et deuxième cycles dans divers domaines, incluant les arts, humanités, sciences sociales, sciences naturelles et ingénierie. Elle abrite un corps étudiant diversifié et une communauté de campus dynamique, offrant aux étudiants un environnement d'apprentissage riche et dynamique.",
         "startDate": "Août 2025",
         "endDate": "Juin 2026",
@@ -126,8 +126,8 @@
       },
       {
         "degree": "Baccalauréat Scientifique",
-        "school": "Lycée International",
-        "location": "Ferney-Voltaire",
+        "school": "Lycée International de Ferney-Voltaire",
+        "location": "Ferney-Voltaire, France",
         "description": "Le Lycée International est un établissement d'enseignement secondaire public situé à Ferney-Voltaire, France. Il offre un curriculum complet qui inclut un fort accent sur les sciences, mathématiques et technologie.\n\nL'école fournit aux étudiants un programme académique rigoureux qui les prépare pour l'enseignement supérieur et les carrières professionnelles. Elle met l'accent sur la pensée critique, la résolution de problèmes et la créativité, favorisant une culture de curiosité intellectuelle et d'excellence académique.",
         "startDate": "Septembre 2018",
         "endDate": "Juin 2021",

@@ -10,7 +10,7 @@
     "specialization": "Spécialisation :",
     "contact": "Contact :",
     "nameValue": "Maël RABOT",
-    "locationValue": "Lyon, France",
+    "locationValue": "Paris, France",
     "statusValue": "Étudiant en informatique à Epitech",
     "specializationValue": "Développement Full-Stack, Robotique, Recherche IA",
     "contactValue": "Disponible pour des opportunités à"
@@ -30,6 +30,7 @@
     "educationCommand": "ls /etc/education/",
     "certCommand": "find /certs -name \"*.pem\" -type f",
     "year": "Année :",
+    "location": "Lieu :",
     "gpa": "Moyenne :",
     "valid": "[VALIDE]"
   },

@@ -183,7 +183,10 @@ const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem
                                         <Box key={index} sx={{ mb: index < educations.length - 1 ? 4 : 0 }} component="article" aria-label={`${edu.degree} from ${edu.institution}`}>
                                             <Typography variant="h6">{edu.degree}</Typography>
                                             <Typography className="terminal-command" sx={{ display: 'inline-block', mb: 1 }}>{edu.institution}</Typography>
-                                            <Typography sx={{ mb: 2 }}>{t('education.year')} {edu.year || `${edu.startDate} - ${edu.endDate}`}</Typography>
+                                            {edu.location && (
+                                                <Typography sx={{ mb: 0.5 }}><strong>{t('education.location')}</strong> {edu.location}</Typography>
+                                            )}
+                                            <Typography sx={{ mb: 2 }}><strong>{t('education.year')}</strong> {edu.year || `${edu.startDate} - ${edu.endDate}`}</Typography>
 
                                             {edu.images && edu.images.length > 0 && (
                                                 <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 2, pb: 1 }} role="region" aria-label={`Images for ${edu.institution}`}>
