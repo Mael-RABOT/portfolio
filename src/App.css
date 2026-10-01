@@ -341,7 +341,6 @@ h4 {
 .highlight-button:hover,
 .terminal-button.primary:hover {
   background-color: var(--color-highlight-dark);
-  box-shadow: 0 0 10px var(--color-highlight-glow);
 }
 
 /* Secondary Button */
@@ -399,7 +398,7 @@ h4 {
 .terminal-link {
   color: var(--color-highlight);
   text-decoration: none;
-  border-bottom: 1px solid var(--color-highlight-glow-hover);
+  border-bottom: 1px solid var(--color-highlight);
   transition: all 0.2s ease;
   font-family: var(--font-mono);
 }
@@ -421,13 +420,12 @@ h4 {
   width: 100%;
   margin: var(--spacing-xxs) 0;
   border-radius: 0;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .terminal-input:focus {
   outline: none;
   border-color: var(--color-highlight);
-  box-shadow: 0 0 6px var(--color-highlight-glow);
 }
 
 /* Tables */

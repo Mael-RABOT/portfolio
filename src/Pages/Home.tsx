@@ -339,7 +339,7 @@ const Home: React.FC = () => {
                             {t('profile.aboutMe').toUpperCase()}.EXE
                         </Typography>
                         <Typography sx={{ mt: 0.5 }}>&gt; {t('profile.description1')}</Typography>
-
+                        <br />
                         <Typography>&gt; {t('profile.description2')}</Typography>
 
                         <Typography

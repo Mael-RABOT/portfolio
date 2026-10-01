@@ -1,10 +1,10 @@
 /**
  * Theme Configuration Constants
  * 
- * Strict 60-30-10 Color System:
- * - 60% Dominant (Main Background & Surfaces): #141414 (Dark Theme)
- * - 30% Secondary (Structure, Borders, Secondary Actions, Panels): #41658A
- * - 10% Highlight (Accent, Active States, Key Terminal Cues): #00FF41
+ * Strict 75-10-15 Color System:
+ * - 75% Dominant (Main Background & Surfaces): #141414 (Dark Theme)
+ * - 10% Secondary (Subtle Structure, Framing & Accents): #2B3E50 (Toned down)
+ * - 15% Highlight (Accent, Active States, Key Terminal Cues): #00FF41
  * 
  * Typography:
  * - Body & Everything: 'IBM Plex Mono', monospace
@@ -37,9 +37,9 @@ export const spacing = {
 // 2. COLOR PALETTE - THE SINGLE SOURCE OF TRUTH FOR ALL COLORS IN THE APP
 // ============================================================================
 // Edit these main colors to retheme the entire application:
-export const MAIN_COLOR = '#141414';        // 60% Dominant (Dark background & surfaces)
-export const SECONDARY_COLOR = '#41658A';   // 30% Secondary (Structure, borders, framing)
-export const THEME_COLOR = '#00FF41';       // 10% Highlight / Theme (Terminal green, active states)
+export const MAIN_COLOR = '#141414';        // 75% Dominant (Dark background & surfaces)
+export const SECONDARY_COLOR = '#2B3E50';   // 10% Secondary (Subtle structure, borders, framing - toned down)
+export const THEME_COLOR = '#00FF41';       // 15% Highlight / Theme (Terminal green, active states)
 export const TEXT_COLOR = '#F7F1E5';        // Main readable text (Warm parchment)
 export const MUTED_COLOR = '#52677F';       // Muted / secondary text
 export const ERROR_COLOR = '#FF4343';       // Error / alert status
@@ -80,7 +80,7 @@ export const colors = {
   secondaryColor: SECONDARY_COLOR,
   themeColor: THEME_COLOR,
 
-  // 60% Main - Dark Backgrounds & Main Canvas
+  // 75% Main - Dark Backgrounds & Main Canvas
   main: {
     base: MAIN_COLOR,
     surface: MAIN_COLOR,
@@ -89,26 +89,26 @@ export const colors = {
     contrastText: TEXT_COLOR,
   },
 
-  // 30% Secondary - Structure, Frame, Table Headers, Borders, Secondary Actions
+  // 10% Secondary - Structure, Frame, Table Headers, Borders, Secondary Actions (Toned down)
   secondary: {
     base: SECONDARY_COLOR,
     light: adjustBrightness(SECONDARY_COLOR, 15),
     dark: adjustBrightness(SECONDARY_COLOR, -15),
     border: SECONDARY_COLOR,
-    subtleBorder: rgba(SECONDARY_COLOR, 0.35),
+    subtleBorder: rgba(SECONDARY_COLOR, 0.25),
     panel: MAIN_COLOR,
     hover: adjustBrightness(MAIN_COLOR, 5),
     contrastText: TEXT_COLOR,
     text: TEXT_COLOR,
   },
 
-  // 10% Highlight / Theme Accent - Active links, Primary CTA, Prompts, Terminal Green Focus
+  // 15% Highlight / Theme Accent - Active links, Primary CTA, Prompts, Terminal Green Focus
   highlight: {
     base: THEME_COLOR,
     light: adjustBrightness(THEME_COLOR, 20),
     dark: adjustBrightness(THEME_COLOR, -20),
-    glow: rgba(THEME_COLOR, 0.2),
-    glowHover: rgba(THEME_COLOR, 0.4),
+    glow: rgba(THEME_COLOR, 0.25),
+    glowHover: rgba(THEME_COLOR, 0.45),
     contrastText: MAIN_COLOR,
   },
 
@@ -117,8 +117,8 @@ export const colors = {
     base: THEME_COLOR,
     light: adjustBrightness(THEME_COLOR, 20),
     dark: adjustBrightness(THEME_COLOR, -20),
-    glow: rgba(THEME_COLOR, 0.2),
-    glowHover: rgba(THEME_COLOR, 0.4),
+    glow: rgba(THEME_COLOR, 0.25),
+    glowHover: rgba(THEME_COLOR, 0.45),
     contrastText: MAIN_COLOR,
   },
 
@@ -142,7 +142,7 @@ export const colors = {
     matrixGreen: THEME_COLOR,
     matrixFade: rgba(MAIN_COLOR, 0.08),
     matrixOpacity: 0.18,
-    divider: rgba(SECONDARY_COLOR, 0.3),
+    divider: rgba(SECONDARY_COLOR, 0.25),
     scanlineOpacity: 0.015,
   },
 } as const;

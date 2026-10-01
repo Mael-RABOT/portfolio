@@ -160,7 +160,6 @@ const techThemeOptions: ThemeOptions = {
           border: `1px solid ${colors.highlight.base}`,
           '&:hover': {
             backgroundColor: colors.highlight.dark,
-            boxShadow: `0 0 10px ${colors.highlight.glow}`,
           },
           '&.Mui-disabled': {
             backgroundColor: colors.main.base,
@@ -190,7 +189,6 @@ const techThemeOptions: ThemeOptions = {
             borderColor: colors.highlight.base,
             color: colors.highlight.base,
             backgroundColor: colors.main.base,
-            boxShadow: `0 0 8px ${colors.highlight.glow}`,
           },
         },
       },
@@ -204,7 +202,7 @@ const techThemeOptions: ThemeOptions = {
           backgroundImage: 'none',
           transition: 'border-color 0.2s ease',
           '&:hover': {
-            borderColor: colors.secondary.border,
+            borderColor: colors.highlight.base,
           },
         },
       },
@@ -270,9 +268,12 @@ const techThemeOptions: ThemeOptions = {
           backgroundColor: colors.main.base,
         },
         outlined: {
-          borderColor: colors.secondary.border,
+          borderColor: colors.secondary.subtleBorder,
           color: colors.text.primary,
           backgroundColor: colors.main.base,
+          '&:hover': {
+            borderColor: colors.highlight.base,
+          },
         },
         colorPrimary: {
           backgroundColor: colors.highlight.base,
@@ -348,7 +349,6 @@ const techThemeOptions: ThemeOptions = {
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderColor: colors.highlight.base,
             borderWidth: '1px',
-            boxShadow: `0px 0px 6px ${colors.highlight.glow}`,
           },
         },
         input: {
@@ -391,11 +391,11 @@ const techThemeOptions: ThemeOptions = {
           fontFamily: fonts.mono,
           color: colors.highlight.base,
           textDecoration: 'none',
-          borderBottom: `1px solid ${colors.highlight.glow}`,
+          borderBottom: `1px solid ${colors.highlight.base}`,
           transition: 'all 0.2s ease',
           '&:hover': {
             color: colors.highlight.light,
-            borderColor: colors.highlight.base,
+            borderColor: colors.highlight.light,
           },
         },
       },
