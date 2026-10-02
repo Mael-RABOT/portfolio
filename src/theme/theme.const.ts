@@ -38,7 +38,7 @@ export const spacing = {
 // ============================================================================
 // Edit these main colors to retheme the entire application:
 export const MAIN_COLOR = '#141414';        // 75% Dominant (Dark background & surfaces)
-export const SECONDARY_COLOR = '#2B3E50';   // 10% Secondary (Subtle structure, borders, framing - toned down)
+export const SECONDARY_COLOR = '#00d9ff';   // 10% Secondary (Subtle structure, borders, framing - toned down)
 export const THEME_COLOR = '#00FF41';       // 15% Highlight / Theme (Terminal green, active states)
 export const TEXT_COLOR = '#F7F1E5';        // Main readable text (Warm parchment)
 export const MUTED_COLOR = '#52677F';       // Muted / secondary text
