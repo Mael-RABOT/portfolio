@@ -1,66 +1,57 @@
 {
   "header": {
-    "title": "PROJECT REPOSITORY BROWSER - GIT STATUS",
-    "command": "git log --oneline | head -"
+    "eyebrow": "Projects",
+    "title": "Things I've built",
+    "intro": "A selection of school, personal and open-source projects, from game engines and web platforms to robotics."
   },
-  "terminal": {
-    "scanning": "Scanning project repositories...",
-    "found": "Found {{count}} active projects",
-    "loading": "Loading project metadata...",
-    "ready": "Ready for project exploration",
-    "loadingProject": "Loading project: {{name}}...",
-    "readyInspection": "Ready for inspection."
-  },
-  "listing": {
-    "title": "PROJECT LISTING - ACTIVE REPOSITORIES"
+  "list": {
+    "label": "Project list",
+    "count": "{{count}} projects"
   },
   "details": {
-    "title": "PROJECT DETAILS",
-    "info": {
-      "title": "PROJECT INFO",
-      "command": "cat README.md",
-      "description": "Description:",
-      "repository": "Repository:",
-      "demo": "Live Demo:"
-    },
-    "structure": {
-      "title": "FILE STRUCTURE",
-      "command": "tree -L 3"
-    },
-    "stack": {
-      "title": "TECHNOLOGY STACK",
-      "command": "npm list --depth=0"
-    }
-  },
-  "meta": {
-    "gitStatus": "git status:",
-    "type": "Type:",
-    "lang": "Technical Stack:",
-    "files": "Files:",
-    "last": "Last:",
-    "installed": "[INSTALLED]"
+    "overview": "Overview",
+    "highlights": "Highlights",
+    "info": "Key facts",
+    "links": "Links",
+    "stack": "Tech stack",
+    "repository": "Source code",
+    "demo": "Live demo",
+    "type": "Type",
+    "language": "Stack",
+    "images": "Screenshots of {{name}}",
+    "screenshot": "Screenshot {{index}} of {{name}}"
   },
   "status": {
-    "active": "ACTIVE",
-    "completed": "COMPLETED",
-    "archived": "ARCHIVED"
+    "active": "Active",
+    "completed": "Completed",
+    "archived": "Archived"
   },
   "organizations": {
-    "title": "ORGANIZATIONS & GROUP PROJECTS",
-    "command": "ls /organizations/",
-    "personal": {
-      "title": "Personal Projects",
-      "description": "Individual projects and personal development work displayed above."
-    },
+    "eyebrow": "Organizations",
+    "title": "Teams I build with",
+    "intro": "Most of my work happens in teams: an open-source robotics association, a student game studio and my own side projects.",
+    "stats": "3 GitHub organizations · 30+ repositories · 50+ contributors",
     "asm": {
-      "description": "Group projects created with a passionate team of developers. Includes game engines, automation tools, and innovative web applications."
+      "title": "ASM Studios",
+      "description": "Group projects built with a passionate team of developers: game engines, automation tools and web applications.",
+      "link": "ASM Studios on GitHub"
     },
-    "sentience": {
-      "description": "Welcome to Sentience Robotics\nWelcome to the official documentation for Sentience Robotics, an open-source initiative dedicated to developing a modular, full-stack framework for humanoid interaction and control.\nOur mission is to bridge the gap between high-level AI-driven cognition and robust, real-time hardware execution. While our primary development thrives on the InMoov platform (created by Gael Langevin), our architecture is built to be a universal \"brain and nervous system\" adaptable to any humanoid hardware.\n\nOur Core Projects\nThe Sentience ecosystem is powered by two specialized pillars:\n• LUCY | The Platform Bridge: Our ROS 2-based interface layer. Lucy abstracts hardware complexity, using a C++ core and ros2_control to allow external web clients or AI models to command robotic actuators seamlessly.\n• HuRI | Human-Robot Interaction: The AI framework focusing on Speech-to-Speech (S2S) pipelines, multi-layer cognitive memory (short, medium, and long-term), and kinematic grounding to ensure robot movements feel natural and context-aware.\n\nOur Open Source Pledge\nWe believe the future of robotics should not be locked behind proprietary doors. Sentience Robotics is committed to the Open Source movement.\n• Accessibility: We provide our tools, research, and documentation freely to lower the barrier to entry for researchers and makers.\n• Licensing: Our software is primarily licensed under GPL-3.0, while our hardware contributions respect the CC BY-NC roots of the InMoov project.\n\n💡 Join the Evolution\nWe aren't just building a robot; we are building a community. We are incredibly eager to hear your thoughts, critique our methods, and see how you implement our stack.\n• Contribute: Whether you are a ROS 2 expert, an AI researcher, or a 3D printing enthusiast, your contributions are welcome.\n• Feedback: Your insights help us iterate faster. We value every bug report, feature suggestion, and architectural discussion.\n• Connect: Join our Discord Community (discord.gg/g4KNZ3eeBd) to exchange ideas, share your own projects, or get involved with our teams.\n\nLet’s build the future of humanoid interaction together."
+    "personal": {
+      "title": "Personal projects",
+      "description": "Individual projects and experiments, listed above alongside the team projects."
     },
-    "stats": "Total: 3 GitHub organizations | 30+ repositories | 50+ contributors"
-  },
-  "footer": {
-    "select": "SELECT PROJECT TO EXPLORE"
+    "lucyRobotics": {
+      "title": "Lucy-Robotics",
+      "p1": "The association behind Lucy, an open-source robotics framework that makes robots simpler to use. One platform, any robot: a single ROS 2 core between the robots and the interfaces that drive them.",
+      "p2": "Lucy supports InMoov (the open-source humanoid by Gaël Langevin) and the SO-101 arm today, and new robots and interfaces join as the community grows. Software is licensed under GPL-3.0; hardware contributions follow InMoov's CC BY-NC licence.",
+      "pillars": "Projects",
+      "lucy": "Lucy · the framework",
+      "lucyDesc": "ROS 2 core (lucy_ros_packages, lucy_embedded_firmware) packaged in lucy_ws, with the Lucy Control Panel and a CLI as interfaces.",
+      "huri": "HuRI · human-robot interaction",
+      "huriDesc": "AI framework for speech-to-speech, multi-layer memory and kinematic grounding.",
+      "github": "Lucy-Robotics on GitHub",
+      "discord": "Join the Discord",
+      "website": "Website"
+    }
   }
 }

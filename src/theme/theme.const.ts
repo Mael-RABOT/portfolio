@@ -1,68 +1,31 @@
 /**
- * Theme Configuration Constants
- * 
- * Strict 75-10-15 Color System:
- * - 75% Dominant (Main Background & Surfaces): #141414 (Dark Theme)
- * - 10% Secondary (Subtle Structure, Framing & Accents): #2B3E50 (Toned down)
- * - 15% Highlight (Accent, Active States, Key Terminal Cues): #00FF41
- * 
- * Typography:
- * - Body & Everything: 'IBM Plex Mono', monospace
- * - Titles (Bolded): 'Orbitron', sans-serif
- * - All font sizes and weights (greases) centralized below.
- * 
- * Layout:
- * - Uniform spacing controlled by single constant (SPACING_BASE).
+ * Design tokens: the single source of truth for the whole UI.
+ *
+ * Edit the values below to retheme the site. Every token is:
+ *  - consumed by the MUI theme (src/theme/theme.ts), and
+ *  - exposed as a CSS custom property on :root (see `cssVariables` at the bottom),
+ *    so plain CSS files use `var(--color-accent)`, `var(--shape-chamfer)`, etc.
+ *    and never hold literal values.
+ *
+ * CSS variable naming: `--<group>-<key>` in kebab-case, e.g.
+ *   colors.accentSoft   -> --color-accent-soft
+ *   layout.navHeight    -> --layout-nav-height
  */
 
 // ============================================================================
-// 1. SPACING CONSTANT (Controls layout spacing globally)
+// 0. HELPERS
 // ============================================================================
-export const SPACING_BASE = 16; // base spacing in px (1rem)
-
-export const spacing = {
-  unit: SPACING_BASE,
-  none: 0,
-  xxs: `${SPACING_BASE * 0.25}px`, // 4px
-  xs: `${SPACING_BASE * 0.5}px`,   // 8px
-  sm: `${SPACING_BASE * 0.75}px`,  // 12px
-  md: `${SPACING_BASE}px`,         // 16px (standard spacing)
-  lg: `${SPACING_BASE * 1.5}px`,   // 24px
-  xl: `${SPACING_BASE * 2}px`,     // 32px
-  xxl: `${SPACING_BASE * 3}px`,    // 48px
-  layout: `${SPACING_BASE}px`,     // Unified layout spacing
-} as const;
-
-// ============================================================================
-// 2. COLOR PALETTE - THE SINGLE SOURCE OF TRUTH FOR ALL COLORS IN THE APP
-// ============================================================================
-// Edit these main colors to retheme the entire application:
-export const MAIN_COLOR = '#141414';        // 75% Dominant (Dark background & surfaces)
-export const SECONDARY_COLOR = '#00d9ff';   // 10% Secondary (Subtle structure, borders, framing - toned down)
-export const THEME_COLOR = '#00FF41';       // 15% Highlight / Theme (Terminal green, active states)
-export const TEXT_COLOR = '#F7F1E5';        // Main readable text (Warm parchment)
-export const MUTED_COLOR = '#52677F';       // Muted / secondary text
-export const ERROR_COLOR = '#FF4343';       // Error / alert status
-export const WARNING_COLOR = '#FFAA00';     // Warning status
-
-// Helper functions to derive shades and alpha transparencies dynamically
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const clean = hex.replace('#', '');
-  if (clean.length === 3) {
-    return {
-      r: parseInt(clean[0] + clean[0], 16),
-      g: parseInt(clean[1] + clean[1], 16),
-      b: parseInt(clean[2] + clean[2], 16),
-    };
-  }
+  const full = clean.length === 3 ? clean.split('').map((c) => c + c).join('') : clean;
   return {
-    r: parseInt(clean.substring(0, 2), 16) || 0,
-    g: parseInt(clean.substring(2, 4), 16) || 0,
-    b: parseInt(clean.substring(4, 6), 16) || 0,
+    r: parseInt(full.substring(0, 2), 16) || 0,
+    g: parseInt(full.substring(2, 4), 16) || 0,
+    b: parseInt(full.substring(4, 6), 16) || 0,
   };
 }
 
-function rgba(hex: string, alpha: number): string {
+export function rgba(hex: string, alpha: number): string {
   const { r, g, b } = hexToRgb(hex);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
@@ -74,197 +37,201 @@ function adjustBrightness(hex: string, percent: number): string {
   return `#${toHex(adjust(r))}${toHex(adjust(g))}${toHex(adjust(b))}`;
 }
 
+// ============================================================================
+// 1. BASE COLORS (change these to retheme everything)
+// ============================================================================
+const BACKGROUND = '#0E0E0F'; // Page canvas
+const SURFACE = '#151517';    // Boxes / cards
+const TEXT = '#F7F1E5';       // Warm parchment, all readable text
+const ACCENT = '#FF8A3D';     // Warm amber, links, CTAs, active states
+const ERROR = '#FF5C5C';
+const WARNING = '#FFC24B';
+
 export const colors = {
-  // Direct shortcuts
-  mainColor: MAIN_COLOR,
-  secondaryColor: SECONDARY_COLOR,
-  themeColor: THEME_COLOR,
+  bg: BACKGROUND,
+  surface: SURFACE,
+  surfaceRaised: adjustBrightness(SURFACE, 3),
 
-  // 75% Main - Dark Backgrounds & Main Canvas
-  main: {
-    base: MAIN_COLOR,
-    surface: MAIN_COLOR,
-    elevated: adjustBrightness(MAIN_COLOR, 3),
-    deep: adjustBrightness(MAIN_COLOR, -3),
-    contrastText: TEXT_COLOR,
-  },
+  text: TEXT,
+  textMuted: rgba(TEXT, 0.68),
+  textSubtle: rgba(TEXT, 0.45),
 
-  // 10% Secondary - Structure, Frame, Table Headers, Borders, Secondary Actions (Toned down)
-  secondary: {
-    base: SECONDARY_COLOR,
-    light: adjustBrightness(SECONDARY_COLOR, 15),
-    dark: adjustBrightness(SECONDARY_COLOR, -15),
-    border: SECONDARY_COLOR,
-    subtleBorder: rgba(SECONDARY_COLOR, 0.25),
-    panel: MAIN_COLOR,
-    hover: adjustBrightness(MAIN_COLOR, 5),
-    contrastText: TEXT_COLOR,
-    text: TEXT_COLOR,
-  },
+  accent: ACCENT,
+  accentLight: adjustBrightness(ACCENT, 10),
+  accentDark: adjustBrightness(ACCENT, -12),
+  accentSoft: rgba(ACCENT, 0.12),
+  onAccent: BACKGROUND,
 
-  // 15% Highlight / Theme Accent - Active links, Primary CTA, Prompts, Terminal Green Focus
-  highlight: {
-    base: THEME_COLOR,
-    light: adjustBrightness(THEME_COLOR, 20),
-    dark: adjustBrightness(THEME_COLOR, -20),
-    glow: rgba(THEME_COLOR, 0.25),
-    glowHover: rgba(THEME_COLOR, 0.45),
-    contrastText: MAIN_COLOR,
-  },
+  line: rgba(TEXT, 0.12),
+  lineStrong: rgba(TEXT, 0.24),
 
-  // Alias for 'theme' color
-  theme: {
-    base: THEME_COLOR,
-    light: adjustBrightness(THEME_COLOR, 20),
-    dark: adjustBrightness(THEME_COLOR, -20),
-    glow: rgba(THEME_COLOR, 0.25),
-    glowHover: rgba(THEME_COLOR, 0.45),
-    contrastText: MAIN_COLOR,
-  },
-
-  // Functional & Semantic Colors
-  text: {
-    primary: TEXT_COLOR,
-    secondary: TEXT_COLOR,
-    muted: MUTED_COLOR,
-    inverse: MAIN_COLOR,
-  },
-
-  status: {
-    active: THEME_COLOR,
-    completed: THEME_COLOR,
-    pending: SECONDARY_COLOR,
-    error: ERROR_COLOR,
-    warning: WARNING_COLOR,
-  },
-
-  decorations: {
-    matrixGreen: THEME_COLOR,
-    matrixFade: rgba(MAIN_COLOR, 0.08),
-    matrixOpacity: 0.18,
-    divider: rgba(SECONDARY_COLOR, 0.25),
-    scanlineOpacity: 0.015,
-  },
+  error: ERROR,
+  warning: WARNING,
 } as const;
 
-/**
- * Automatically inject CSS custom properties to the document root (:root)
- * Ensures that CSS files never define hardcoded colors; theme.const.ts is the sole source of truth.
- */
-export const injectThemeVariables = (): void => {
-  if (typeof document === 'undefined') return;
-  const root = document.documentElement;
-
-  root.style.setProperty('--color-main', colors.main.base);
-  root.style.setProperty('--color-main-surface', colors.main.surface);
-  root.style.setProperty('--color-main-elevated', colors.main.elevated);
-  root.style.setProperty('--color-main-deep', colors.main.deep);
-
-  root.style.setProperty('--color-secondary', colors.secondary.base);
-  root.style.setProperty('--color-secondary-light', colors.secondary.light);
-  root.style.setProperty('--color-secondary-dark', colors.secondary.dark);
-  root.style.setProperty('--color-secondary-border', colors.secondary.border);
-  root.style.setProperty('--color-secondary-subtle', colors.secondary.subtleBorder);
-  root.style.setProperty('--color-secondary-panel', colors.secondary.panel);
-  root.style.setProperty('--color-secondary-hover', colors.secondary.hover);
-  root.style.setProperty('--color-secondary-text', colors.secondary.text);
-
-  root.style.setProperty('--color-highlight', colors.highlight.base);
-  root.style.setProperty('--color-highlight-light', colors.highlight.light);
-  root.style.setProperty('--color-highlight-dark', colors.highlight.dark);
-  root.style.setProperty('--color-highlight-glow', colors.highlight.glow);
-  root.style.setProperty('--color-highlight-glow-hover', colors.highlight.glowHover);
-
-  root.style.setProperty('--color-text-primary', colors.text.primary);
-  root.style.setProperty('--color-text-secondary', colors.text.secondary);
-  root.style.setProperty('--color-text-muted', colors.text.muted);
-  root.style.setProperty('--color-alert', colors.status.error);
-  root.style.setProperty('--color-alert-subtle', rgba(ERROR_COLOR, 0.1));
-  root.style.setProperty('--color-warning', colors.status.warning);
-};
-
-// Auto-inject immediately upon load in the browser
-if (typeof document !== 'undefined') {
-  injectThemeVariables();
-}
-
 // ============================================================================
-// 3. TYPOGRAPHY (Fonts, Sizes, Weights / Greases)
+// 2. TYPOGRAPHY
 // ============================================================================
 export const fonts = {
-  // IBM Plex Mono for everything
-  mono: "'IBM Plex Mono', 'Courier New', monospace",
-  // Orbitron for titles
-  title: "'Orbitron', 'IBM Plex Mono', sans-serif",
+  mono: "'IBM Plex Mono', ui-monospace, 'Courier New', monospace",
 } as const;
 
-// Weights ("Greases")
 export const fontWeights = {
   light: 300,
   regular: 400,
   medium: 500,
   semiBold: 600,
   bold: 700,
-  extraBold: 800,
-  black: 900,
 } as const;
 
-// Font Sizes
 export const fontSizes = {
-  xxs: '10px',
-  xs: '12px',
-  sm: '14px',
-  md: '16px',
-  lg: '18px',
-  xl: '20px',
-  h4: '22px',
-  h3: '26px',
-  h2: '32px',
-  h1: '40px',
-  display: '48px',
+  xxs: '0.6875rem', // 11px
+  xs: '0.75rem',    // 12px
+  sm: '0.875rem',   // 14px
+  md: '1rem',       // 16px
+  lg: '1.125rem',   // 18px
+  xl: '1.375rem',   // 22px
+  h3: '1.75rem',    // 28px
+  h2: 'clamp(1.75rem, 1.2rem + 2vw, 2.5rem)',
+  h1: 'clamp(2.25rem, 1.4rem + 3.2vw, 3.5rem)',
+  display: 'clamp(2.75rem, 1.2rem + 6vw, 5.5rem)',
 } as const;
 
-// Line Heights
 export const lineHeights = {
-  tight: 1.2,
-  normal: 1.5,
-  relaxed: 1.7,
+  tight: 1.1,
+  snug: 1.3,
+  normal: 1.6,
+  relaxed: 1.75,
 } as const;
 
-// Letter Spacing
 export const letterSpacing = {
-  tight: '-0.5px',
-  normal: '0px',
-  wide: '0.5px',
-  wider: '1px',
-  title: '1.5px',
+  tight: '-0.03em',
+  normal: '0',
+  wide: '0.04em',
+  label: '0.14em',
 } as const;
 
 // ============================================================================
-// 4. BORDERS & SHAPES
+// 3. SPACING & LAYOUT
 // ============================================================================
-export const borders = {
-  radius: 0, // Strict crisp technical 0px
-  width: '1px',
-  standard: `1px solid ${colors.secondary.border}`,
-  subtle: `1px solid ${colors.secondary.subtleBorder}`,
-  active: `1px solid ${colors.highlight.base}`,
-  header: `1px solid ${colors.secondary.border}`,
+export const SPACING_BASE = 8; // MUI spacing unit: sx={{ p: 2 }} === 16px
+
+export const spacing = {
+  xxs: `${SPACING_BASE * 0.5}px`, // 4
+  xs: `${SPACING_BASE}px`,        // 8
+  sm: `${SPACING_BASE * 1.5}px`,  // 12
+  md: `${SPACING_BASE * 2}px`,    // 16
+  lg: `${SPACING_BASE * 3}px`,    // 24
+  xl: `${SPACING_BASE * 5}px`,    // 40
+  xxl: `${SPACING_BASE * 8}px`,   // 64
+  section: 'clamp(72px, 10vw, 136px)',
+} as const;
+
+export const layout = {
+  maxWidth: '1200px',
+  gutter: 'clamp(16px, 4vw, 40px)',
+  navHeight: '64px',
+  columnGap: 'clamp(32px, 6vw, 96px)',
 } as const;
 
 // ============================================================================
-// 5. UNIFIED THEME EXPORT
+// 4. SHAPE (chamfered corners: top-right & bottom-left)
 // ============================================================================
+export const shape = {
+  chamfer: '14px',      // Cards, panels
+  chamferSm: '8px',     // Buttons, small boxes
+  borderWidth: '1px',
+  radius: 0,
+} as const;
+
+// ============================================================================
+// 5. DECORATION (dotted grid background)
+// ============================================================================
+export const grid = {
+  size: 56,               // px between grid lines
+  dash: '1 5',            // SVG stroke-dasharray: dotted lines
+  color: rgba(TEXT, 0.16),
+  highlight: rgba(ACCENT, 0.55), // grid colour under the cursor spotlight
+  spotlightRadius: 240,   // px
+  markerColor: rgba(ACCENT, 0.5),
+  parallax: 0.12,         // background scroll speed relative to page
+} as const;
+
+// ============================================================================
+// 6. MOTION
+// ============================================================================
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+export const motion = {
+  fast: 0.15,     // seconds
+  base: 0.35,
+  slow: 0.7,
+  ease: EASE,     // framer-motion
+  easing: `cubic-bezier(${EASE.join(', ')})`, // CSS
+  revealDistance: 24, // px
+} as const;
+
+// ============================================================================
+// 7. CSS VARIABLES (generated, do not hand-edit)
+// ============================================================================
+const kebab = (s: string) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+
+const toCssValue = (group: string, key: string, value: unknown): string | null => {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number') {
+    // Unitless numbers stay unitless where CSS expects them, everything else in grid/motion is px/seconds
+    if (group === 'motion') return key === 'revealDistance' ? `${value}px` : `${value}s`;
+    if (group === 'grid') return key === 'parallax' ? String(value) : `${value}px`;
+    return String(value);
+  }
+  return null;
+};
+
+const groups: Record<string, Record<string, unknown>> = {
+  color: colors,
+  font: fonts,
+  weight: fontWeights,
+  size: fontSizes,
+  leading: lineHeights,
+  tracking: letterSpacing,
+  space: spacing,
+  layout,
+  shape,
+  grid,
+  motion,
+};
+
+export const cssVariables: Record<string, string> = Object.fromEntries(
+  Object.entries(groups).flatMap(([group, values]) =>
+    Object.entries(values)
+      .map(([key, value]): [string, string | null] => [`--${group}-${kebab(key)}`, toCssValue(group, key, value)])
+      .filter((entry): entry is [string, string] => entry[1] !== null)
+  )
+);
+
+/** Writes every token to :root as a CSS custom property. */
+export const injectThemeVariables = (): void => {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+  Object.entries(cssVariables).forEach(([name, value]) => root.style.setProperty(name, value));
+};
+
+if (typeof document !== 'undefined') {
+  injectThemeVariables();
+}
+
 export const THEME_CONFIG = {
-  spacing,
-  spacingUnit: SPACING_BASE,
   colors,
   fonts,
   fontWeights,
   fontSizes,
   lineHeights,
   letterSpacing,
-  borders,
+  spacing,
+  layout,
+  shape,
+  grid,
+  motion,
 } as const;
 
 export default THEME_CONFIG;

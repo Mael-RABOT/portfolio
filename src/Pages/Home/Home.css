@@ -1,0 +1,403 @@
+/* ---------------------------------------------------------------- Hero */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: var(--layout-nav-height) 0 var(--space-xxl);
+}
+
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero__title {
+  margin-top: var(--space-lg);
+  font-size: var(--size-display);
+  font-weight: var(--weight-semi-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.hero__tagline {
+  margin-top: var(--space-lg);
+  max-width: 46ch;
+  font-size: var(--size-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+.hero__tagline strong {
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.hero__actions {
+  margin-top: var(--space-xl);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-lg);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--size-xxs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-subtle);
+}
+
+.hero__scroll-line {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  background: var(--color-line);
+  overflow: hidden;
+}
+
+.hero__scroll-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -40%;
+  width: 100%;
+  height: 40%;
+  background: var(--color-accent);
+  animation: scroll-cue 2.2s var(--motion-easing) infinite;
+}
+
+@keyframes scroll-cue {
+  to { top: 100%; }
+}
+
+/* ---------------------------------------------------------------- Tracks */
+.stats {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.stats__item {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end; /* keeps values aligned on top when a label wraps */
+  gap: var(--space-xxs);
+}
+
+.stats__value {
+  font-size: var(--size-xl);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.stats__label {
+  font-size: var(--size-xs);
+  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
+}
+
+.track__points {
+  list-style: none;
+  padding-top: var(--space-lg); /* padding, not margin, so it collapses with the row */
+}
+
+.track__points li {
+  position: relative;
+  padding-left: var(--space-lg);
+  margin-bottom: var(--space-xs);
+  font-size: var(--size-sm);
+  color: var(--color-text-muted);
+}
+
+.track__points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 10px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.track__actions {
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+/* ---------------------------------------------------------------- Lucy diagram */
+.diagram {
+  --chamfer-bg: var(--color-bg);
+  padding: var(--space-lg);
+}
+
+.diagram__svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.diagram__node {
+  cursor: pointer;
+  outline: none;
+}
+
+/* draw-in when the diagram scrolls into view (class set by useInViewOnce) */
+.diagram__edge {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.8s var(--motion-easing) var(--d, 0s), stroke var(--motion-fast) var(--motion-easing);
+}
+
+.diagram__edge--ghost {
+  stroke-dasharray: 0.043 0.057; /* ≈ "3 4" on a 70-unit edge (pathLength = 1) */
+  stroke-dashoffset: 0;
+  opacity: 0;
+  transition: opacity var(--motion-slow) var(--motion-easing) var(--d, 0s);
+}
+
+.diagram.is-visible .diagram__edge {
+  stroke-dashoffset: 0;
+}
+
+.diagram.is-visible .diagram__edge--ghost {
+  opacity: 1;
+}
+
+.diagram__node--enter {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--motion-base) var(--motion-easing) var(--d, 0s),
+    transform var(--motion-base) var(--motion-easing) var(--d, 0s);
+}
+
+.diagram.is-visible .diagram__node--enter {
+  opacity: 1;
+  transform: none;
+}
+
+.diagram__caption-body {
+  animation: caption-in var(--motion-fast) var(--motion-easing) both;
+}
+
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagram__edge { stroke-dashoffset: 0; }
+  .diagram__edge--ghost,
+  .diagram__node--enter { opacity: 1; transform: none; }
+}
+
+.diagram__node polygon,
+.diagram__node text {
+  transition: fill var(--motion-fast) var(--motion-easing), stroke var(--motion-fast) var(--motion-easing);
+}
+
+.diagram__node:focus-visible polygon {
+  stroke: var(--color-text);
+}
+
+/* Mobile version of the diagram: stacked groups of chips */
+.diagram__stack {
+  display: none;
+}
+
+.diagram__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.diagram__group-label {
+  font-size: var(--size-xxs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.diagram__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.diagram__chip {
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--size-xs);
+  cursor: pointer;
+}
+
+.diagram__chip.is-ghost {
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.diagram__chip.is-active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.diagram__connector {
+  align-self: center;
+  width: 1px;
+  height: var(--space-lg);
+  margin: var(--space-xxs) 0;
+  background: var(--color-accent);
+}
+
+@media (max-width: 600px) {
+  .diagram__svg {
+    display: none;
+  }
+
+  .diagram__stack {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.diagram__caption {
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-line);
+  min-height: 8.5em;
+}
+
+.diagram__caption strong {
+  display: block;
+  font-weight: var(--weight-medium);
+  color: var(--color-accent);
+  margin-bottom: var(--space-xxs);
+}
+
+.diagram__caption p {
+  font-size: var(--size-sm);
+}
+
+.diagram__hint {
+  margin-top: var(--space-sm);
+  font-size: var(--size-xxs) !important;
+  color: var(--color-text-subtle);
+}
+
+/* ---------------------------------------------------------------- Skills */
+.skill-tabs {
+  margin-top: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-line);
+}
+
+.skill-tabs__tab {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-line);
+  font: inherit;
+  font-size: var(--size-sm);
+  color: var(--color-text-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--motion-fast) var(--motion-easing), padding var(--motion-base) var(--motion-easing);
+}
+
+.skill-tabs__tab:hover {
+  color: var(--color-text);
+}
+
+.skill-tabs__tab.is-active {
+  color: var(--color-accent);
+  padding-left: var(--space-sm);
+}
+
+.skill-tabs__count {
+  font-size: var(--size-xxs);
+  color: var(--color-text-subtle);
+}
+
+.skill-cloud {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.skill-cloud__item {
+  --chamfer-bg: var(--color-bg);
+  animation: chip-in var(--motion-base) var(--motion-easing) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--size-sm);
+  transition: color var(--motion-fast) var(--motion-easing);
+}
+
+.skill-cloud__item:hover {
+  --chamfer-border: var(--color-accent);
+  color: var(--color-accent);
+}
+
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* ---------------------------------------------------------------- About */
+.facts {
+  list-style: none;
+}
+
+.facts__index {
+  font-size: var(--size-xs);
+  color: var(--color-accent);
+}
+
+/* ---------------------------------------------------------------- CTA */
+.cta {
+  --chamfer-size: var(--shape-chamfer);
+  --chamfer-border: var(--color-line-strong);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: clamp(24px, 5vw, 64px);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}

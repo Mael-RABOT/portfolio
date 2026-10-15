@@ -1,66 +1,57 @@
 {
   "header": {
-    "title": "NAVIGATEUR DE DÉPÔTS PROJETS - STATUT GIT",
-    "command": "git log --oneline | head -"
+    "eyebrow": "Projets",
+    "title": "Ce que j'ai construit",
+    "intro": "Une sélection de projets scolaires, personnels et open source, des moteurs de jeu et plateformes web jusqu'à la robotique."
   },
-  "terminal": {
-    "scanning": "Analyse des dépôts de projets...",
-    "found": "{{count}} projets actifs trouvés",
-    "loading": "Chargement des métadonnées de projet...",
-    "ready": "Prêt pour l'exploration des projets",
-    "loadingProject": "Chargement du projet : {{name}}...",
-    "readyInspection": "Prêt pour l'inspection."
-  },
-  "listing": {
-    "title": "LISTE DES PROJETS - DÉPÔTS ACTIFS"
+  "list": {
+    "label": "Liste des projets",
+    "count": "{{count}} projets"
   },
   "details": {
-    "title": "DÉTAILS DU PROJET",
-    "info": {
-      "title": "INFO PROJET",
-      "command": "cat README.md",
-      "description": "Description :",
-      "repository": "Dépôt :",
-      "demo": "Démo en direct :"
-    },
-    "structure": {
-      "title": "STRUCTURE DES FICHIERS",
-      "command": "tree -L 3"
-    },
-    "stack": {
-      "title": "PILE TECHNOLOGIQUE",
-      "command": "npm list --depth=0"
-    }
-  },
-  "meta": {
-    "gitStatus": "statut git :",
-    "type": "Type :",
-    "lang": "Stack technique :",
-    "files": "Fichiers :",
-    "last": "Dernier :",
-    "installed": "[INSTALLÉ]"
+    "overview": "Présentation",
+    "highlights": "Points clés",
+    "info": "En bref",
+    "links": "Liens",
+    "stack": "Technologies",
+    "repository": "Code source",
+    "demo": "Démo en ligne",
+    "type": "Type",
+    "language": "Stack",
+    "images": "Captures d'écran de {{name}}",
+    "screenshot": "Capture {{index}} de {{name}}"
   },
   "status": {
-    "active": "ACTIF",
-    "completed": "TERMINÉ",
-    "archived": "ARCHIVÉ"
+    "active": "Actif",
+    "completed": "Terminé",
+    "archived": "Archivé"
   },
   "organizations": {
-    "title": "ORGANISATIONS & PROJETS DE GROUPE",
-    "command": "ls /organisations/",
-    "personal": {
-      "title": "Projets Personnels",
-      "description": "Projets individuels et travaux de développement personnel affichés ci-dessus."
-    },
+    "eyebrow": "Organisations",
+    "title": "Les équipes avec qui je construis",
+    "intro": "L'essentiel de mon travail se fait en équipe : une association de robotique open source, un studio étudiant et mes projets personnels.",
+    "stats": "3 organisations GitHub · 30+ dépôts · 50+ contributeurs",
     "asm": {
-      "description": "Projets de groupe créés avec une équipe passionnée de développeurs. Inclut moteurs de jeu, outils d'automatisation et applications web innovantes."
+      "title": "ASM Studios",
+      "description": "Projets de groupe menés avec une équipe de développeurs passionnés : moteurs de jeu, outils d'automatisation et applications web.",
+      "link": "ASM Studios sur GitHub"
     },
-    "sentience": {
-      "description": "Notre suite logicielle simplifie l'intégration et le prototypage en robotique. Nous rendons possible en quelques clics la connection de n'importe quel robot à une application web, une IA, ou tout autre interface.\n\nFondamentalement open source, la force principale de notre projet est la communauté de passionné·e·s du monde de la robotique.\n\nBienvenue sur la documentation officielle de Sentience Robotics, une initiative open source dédiée au développement d'un framework modulaire et complet pour l'interaction et le contrôle d'humanoïdes.\nNotre mission est de combler le fossé entre la cognition de haut niveau pilotée par l'IA et l'exécution matérielle robuste en temps réel. Notre architecture est conçue comme un « cerveau et système nerveux » universel adaptable à tout matériel humanoïde (InMoov, etc.).\n\nNos piliers principaux :\n• LUCY | The Platform Bridge : Couche d'interface ROS 2 avec noyau C++ et ros2_control pour commander les actionneurs avec fluidité.\n• HuRI | Human-Robot Interaction : Framework IA axé sur les pipelines Speech-to-Speech (S2S), la mémoire cognitive multicouche et l'ancrage cinématique.\n\nRejoignez la communauté Sentience sur Discord (discord.gg/g4KNZ3eeBd) pour échanger, contribuer ou développer l'avenir de l'interaction humanoïde."
+    "personal": {
+      "title": "Projets personnels",
+      "description": "Projets individuels et expérimentations, présentés ci-dessus avec les projets d'équipe."
     },
-    "stats": "Total : 3 organisations GitHub | 30+ dépôts | 50+ contributeurs"
-  },
-  "footer": {
-    "select": "SÉLECTIONNER UN PROJET À EXPLORER"
+    "lucyRobotics": {
+      "title": "Lucy-Robotics",
+      "p1": "L'association qui développe Lucy, un framework robotique open source qui simplifie l'utilisation des robots. Une plateforme, n'importe quel robot : un seul cœur ROS 2 entre les robots et les interfaces qui les pilotent.",
+      "p2": "Lucy prend aujourd'hui en charge InMoov (l'humanoïde open source de Gaël Langevin) et le bras SO-101, et de nouveaux robots et interfaces arrivent à mesure que la communauté grandit. Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la licence CC BY-NC d'InMoov.",
+      "pillars": "Projets",
+      "lucy": "Lucy · le framework",
+      "lucyDesc": "Cœur ROS 2 (lucy_ros_packages, lucy_embedded_firmware) réuni dans lucy_ws, avec le Lucy Control Panel et une CLI comme interfaces.",
+      "huri": "HuRI · interaction humain-robot",
+      "huriDesc": "Framework d'IA pour la conversation vocale, la mémoire multi-niveaux et l'ancrage cinématique.",
+      "github": "Lucy-Robotics sur GitHub",
+      "discord": "Rejoindre le Discord",
+      "website": "Site web"
+    }
   }
 }

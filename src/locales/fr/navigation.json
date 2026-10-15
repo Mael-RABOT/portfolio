@@ -1,23 +1,31 @@
 {
+  "label": "Navigation principale",
+  "brandLabel": "Maël Rabot, retour à l'accueil",
+  "skip": "Aller au contenu",
+  "openMenu": "Ouvrir le menu",
+  "closeMenu": "Fermer le menu",
   "menu": {
-    "home": "[F1] ACCUEIL",
-    "projects": "[F2] PROJETS",
-    "resume": "[F3] CV",
-    "contact": "[F4] CONTACT",
-    "accessibility": "[F5] Accessibilité",
-    "a11y": "A11Y"
-  },
-  "titles": {
-    "home": "ACCUEIL",
-    "projects": "PROJETS",
+    "home": "Accueil",
+    "projects": "Projets",
     "resume": "CV",
-    "contact": "CONTACT",
-    "portfolio": "PORTFOLIO"
+    "contact": "Contact"
   },
-  "command": "cat {{page}}.txt",
+  "footer": {
+    "label": "Liens de pied de page",
+    "email": "E-mail",
+    "accessibility": "Accessibilité"
+  },
   "languageSwitch": {
-    "title": "LANG",
+    "title": "Langue",
     "en": "EN",
-    "fr": "FR"
+    "fr": "FR",
+    "enLabel": "Switch to English",
+    "frLabel": "Passer en français"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "text": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "home": "Retour à l'accueil",
+    "back": "Revenir en arrière"
   }
 }

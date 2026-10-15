@@ -1,115 +1,237 @@
 {
-  "systemBoot": {
-    "title": "SÉQUENCE DE DÉMARRAGE SYSTÈME",
-    "loading": "CHARGEMENT..."
+  "hero": {
+    "eyebrow": "Ingénieur logiciel · Paris",
+    "name": "Maël Rabot",
+    "tagline": "J'accompagne des développeurs à <0>Epitech</0> et je construis <1>Lucy</1>, un framework open source qui simplifie l'utilisation des robots.",
+    "ctaWork": "Voir mes projets",
+    "ctaContact": "Me contacter",
+    "scroll": "Défiler"
   },
-  "banner": {
-    "title": "SYSTÈME PORTFOLIO v2.1.0 - INTERFACE PRINCIPALE",
-    "initializing": "INITIALISATION DU SYSTÈME PORTFOLIO...",
-    "loadingUserData": "CHARGEMENT DES DONNÉES UTILISATEUR...",
-    "securingConnection": "ÉTABLISSEMENT D'UNE CONNEXION SÉCURISÉE...",
-    "ready": "PRÊT POUR LA SAISIE."
-  },
-  "systemInfo": {
-    "title": "INFORMATIONS SYSTÈME",
-    "welcome": "Bienvenue, je suis Maël RABOT",
-    "hostInfo": {
-      "title": "INFO HÔTE",
-      "hostname": "NOM D'HÔTE:",
-      "user": "UTILISATEUR:",
-      "kernel": "NOYAU:",
-      "shell": "SHELL:"
+  "tracks": {
+    "eyebrow": "01 / Aujourd'hui",
+    "title": "Deux activités, un même métier.",
+    "intro": "Je partage mon temps entre l'accompagnement d'étudiants dans leurs projets à Epitech et le développement de Lucy, un framework robotique open source, avec Lucy-Robotics.",
+    "more": "Voir le détail",
+    "less": "Masquer le détail",
+    "mentoring": {
+      "label": "Accompagner",
+      "role": "Mentor pédagogique",
+      "org": "Epitech International · Paris",
+      "summary": "J'accompagne des étudiants internationaux en échange et des étudiants en Master of Science (MSc 1 & 2) tout au long de leurs projets : revues de code, soutenances et suivi individuel, en les aidant à trouver la réponse plutôt qu'en la leur donnant.",
+      "stats": [
+        {
+          "value": 150,
+          "suffix": "+",
+          "label": "étudiants en échange"
+        },
+        {
+          "value": 25,
+          "suffix": "",
+          "label": "nationalités"
+        },
+        {
+          "value": 6,
+          "suffix": "",
+          "label": "stacks techniques évaluées"
+        }
+      ],
+      "points": [
+        "Accompagnement d'étudiants internationaux en échange et d'étudiants en MSc 1 & 2, en anglais",
+        "Revues de code et soutenances en C, C++, Python, TypeScript/Vue.js, Elixir et DevOps",
+        "Mentorat socratique : autonomie, réflexion architecturale et méthodes de debug",
+        "Suivi individuel : organisation, méthodes de travail et bien-être",
+        "En coulisses : préparation des plannings d'activités et coordination avec les autres services (responsables Erasmus, professeurs de français, administration…)"
+      ],
+      "link": "Voir l'expérience complète"
     },
-    "performance": {
-      "title": "PERFORMANCES",
-      "uptime": "DURÉE DE FONCTIONNEMENT:",
-      "loadAvg": "CHARGE MOYENNE:",
-      "memory": "MÉMOIRE:",
-      "processes": "PROCESSUS:"
+    "building": {
+      "label": "Construire",
+      "role": "Co-fondateur & product manager",
+      "org": "Lucy-Robotics · Lucy",
+      "summary": "Avec Lucy-Robotics, nous développons Lucy : un framework open source qui simplifie l'utilisation des robots, quel que soit le robot. Je travaille sur l'architecture et je pilote la feuille de route produit.",
+      "stats": [
+        {
+          "value": 2024,
+          "suffix": "",
+          "label": "année de création"
+        },
+        {
+          "value": 2,
+          "suffix": "",
+          "label": "robots pris en charge, InMoov & SO-101"
+        },
+        {
+          "value": 100,
+          "suffix": "%",
+          "label": "open source"
+        }
+      ],
+      "points": [
+        "Architecture et développement du framework ROS 2 (C++, ros2_control)",
+        "Encadrement d'équipe, priorisation du backlog et planification des sprints",
+        "Intégration de matériel open source et prototypage en impression 3D",
+        "Documentation publique, feuille de route et animation de la communauté"
+      ],
+      "link": "Découvrir Lucy"
     }
   },
-  "profile": {
-    "title": "PROFIL UTILISATEUR - DOCUMENTATION DÉVELOPPEUR",
-    "command": "cat /home/mael_rabot/README.md",
-    "aboutMe": "À propos de moi",
-    "description1": "Je suis étudiant en cinquième année d'informatique à Epitech, en route vers un Master (Bac +5). Ma passion pour la technologie me pousse à explorer divers domaines informatiques, cherchant constamment de nouveaux défis et opportunités d'apprentissage.",
-    "description2": "Actuellement, je me concentre sur la programmation bas niveau, la Programmation Orientée Objet, le développement web et la robotique. Je suis également désireux d'étendre mes connaissances au développement de jeux vidéo et à la programmation graphique.",
-    "involvement": "Engagement Communautaire",
-    "description3": "Je suis activement impliqué dans le 'Coding Club', où nous promouvons l'informatique et le développement auprès des lycéens. De plus, je sers d'ambassadeur de l'école, représentant Epitech lors d'événements publics et partageant notre passion pour la technologie avec les futurs étudiants."
+  "lucy": {
+    "eyebrow": "02 / Projet phare",
+    "title": "Lucy",
+    "subtitle": "> Une plateforme // N'importe quel robot",
+    "description": "Lucy est un framework robotique open source qui simplifie l'utilisation des robots. Son cœur exécute toute la logique ROS 2 et s'installe en quelques commandes sur macOS, Windows ou Linux. D'un côté, les robots (InMoov et le bras SO-101 aujourd'hui) ; de l'autre, les interfaces de contrôle : le Lucy Control Panel, une CLI, ou celle que vous construirez.",
+    "status": "En développement actif",
+    "cta": "Explorer le projet",
+    "diagram": {
+      "label": "Architecture de la stack Lucy",
+      "hint": "Survolez ou sélectionnez un bloc pour en savoir plus.",
+      "install": "pixi + RoboStack · sans Docker",
+      "columns": {
+        "interfaces": "Interfaces",
+        "core": "Cœur de Lucy",
+        "robots": "Robots"
+      },
+      "nodes": {
+        "lcp": {
+          "title": "Lucy Control Panel",
+          "description": "L'interface principale : une application web pour piloter le robot, bouger chaque actionneur et suivre sa télémétrie en temps réel."
+        },
+        "cli": {
+          "title": "CLI",
+          "description": "Une interface en ligne de commande fournie avec Lucy, pour scripter et piloter rapidement depuis un terminal."
+        },
+        "huri": {
+          "title": "HuRI · IA",
+          "description": "Notre framework d'IA (conversation vocale, mémoire multi-niveaux, ancrage des gestes) transmet ses intentions au robot via Lucy."
+        },
+        "custom": {
+          "title": "+ Votre interface",
+          "description": "Tout est open source : branchez votre propre interface, ou créez-en une nouvelle au-dessus de Lucy."
+        },
+        "core": {
+          "title": "Cœur de Lucy",
+          "description": "Le cœur de la stack. Il exécute toute la logique ROS 2 (C++, Rust et Python) et expose chaque robot à chaque interface de la même manière."
+        },
+        "packages": {
+          "title": "lucy_ros_packages",
+          "description": "Les packages ROS 2 de Lucy, basés sur ros2_control : la couche commune entre les interfaces et le matériel."
+        },
+        "firmware": {
+          "title": "lucy_embedded_firmware",
+          "description": "Le firmware embarqué dans l'électronique du robot, qui relie la stack ROS 2 aux moteurs et aux capteurs."
+        },
+        "ws": {
+          "title": "lucy_ws",
+          "description": "Le workspace qui rassemble tout, avec scripts Python et installeurs : opérationnel en quelques commandes sur macOS, Windows ou Linux, sans Docker (pixi + RoboStack)."
+        },
+        "inmoov": {
+          "title": "InMoov",
+          "description": "L'humanoïde open source imprimé en 3D créé par Gaël Langevin, notre principale plateforme de développement."
+        },
+        "so101": {
+          "title": "Bras SO-101",
+          "description": "Un bras robotique open source, déjà pris en charge par Lucy."
+        },
+        "more": {
+          "title": "+ Votre robot",
+          "description": "Lucy est indépendante du robot : de nouveaux robots rejoignent la stack à mesure que la communauté grandit."
+        }
+      }
+    },
+    "links": {
+      "site": "Site web",
+      "siteDesc": "lucy-robotics.com",
+      "docs": "Documentation",
+      "docsDesc": "Architecture & guides",
+      "github": "GitHub",
+      "githubDesc": "Code source",
+      "discord": "Discord",
+      "discordDesc": "Rejoindre la communauté"
+    }
   },
   "skills": {
-    "title": "PACKAGES INSTALLÉS & CAPACITÉS - COMPÉTENCES TECHNIQUES",
+    "eyebrow": "03 / Boîte à outils",
+    "title": "Mes outils",
+    "intro": "Du C bas niveau aux interfaces web et à la robotique, sans oublier les compétences humaines qui font fonctionner une équipe.",
     "programmingLanguages": {
-      "title": "LANGAGES_DE_PROGRAMMATION",
-      "command": "ls /usr/local/languages/",
-      "list": ["C", "C++", "Python", "JavaScript", "TypeScript", "PHP", "SQL", "Bash"]
+      "title": "Langages",
+      "list": [
+        "C",
+        "C++",
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "PHP",
+        "SQL",
+        "Bash"
+      ]
     },
     "tools": {
-      "title": "OUTILS_ET_FRAMEWORKS",
-      "command": "cat /etc/tools.conf",
-      "list": ["Git", "React", "Docker", "Node.js", "MariaDB", "ROS 2"]
+      "title": "Outils & frameworks",
+      "list": [
+        "Git",
+        "React",
+        "Docker",
+        "Node.js",
+        "MariaDB",
+        "ROS 2",
+        "Blender",
+        "URDF"
+      ]
     },
     "softSkills": {
-      "title": "COMPÉTENCES_RELATIONNELLES",
-      "command": "whoami --extended",
-      "list": ["Travail d'équipe", "Autonomie", "Résolution de problèmes", "Apprentissage continu"]
+      "title": "Savoir-être",
+      "list": [
+        "Travail d'équipe",
+        "Autonomie",
+        "Résolution de problèmes",
+        "Apprentissage continu",
+        "Environnement international",
+        "Mentorat pédagogique"
+      ]
     },
     "others": {
-      "title": "AUTRES",
-      "command": "cat /etc/others.conf",
-      "list": ["Impression 3D", "Robotique", "TUI", "Open Source", "Relations Client"]
+      "title": "Autres centres d'intérêt",
+      "list": [
+        "Impression 3D",
+        "Robotique",
+        "Open source",
+        "Relation client",
+        "Aviation"
+      ]
     },
     "languages": {
-      "title": "LANGUES",
-      "command": "locale -a",
-      "list": ["Français (Natif)", "Anglais (C1)"]
+      "title": "Langues parlées",
+      "list": [
+        "Français (natif)",
+        "Anglais (C1)"
+      ]
     }
   },
-  "passions": {
-    "title": "INTÉRÊTS PERSONNELS - PASSIONS",
-    "command": "cat /etc/interests.conf",
-    "list": ["Aviation", "Cuisine", "Président d'une association sportive"]
+  "about": {
+    "eyebrow": "04 / À propos",
+    "title": "Au-delà du code",
+    "p1": "Je termine un Master en informatique à Epitech. Ma passion pour la technologie me pousse à explorer de nombreux domaines, toujours à la recherche de nouveaux défis et de choses à apprendre.",
+    "p2": "J'aime la programmation bas niveau, la conception orientée objet, le développement web et la robotique, et je m'intéresse au développement de jeux vidéo et à la programmation graphique.",
+    "facts": [
+      {
+        "title": "Coding Club",
+        "text": "Faire découvrir la programmation et les métiers du numérique aux lycéens."
+      },
+      {
+        "title": "Ambassadeur de l'école",
+        "text": "Représenter Epitech lors d'événements publics et partager notre passion avec les futurs étudiants."
+      },
+      {
+        "title": "International",
+        "text": "Année d'échange à l'université Chung-Ang de Séoul, et aujourd'hui mentor d'étudiants venus de 25 pays."
+      }
+    ]
   },
-  "highlight": {
-    "title": "PROJET EN VEDETTE - Lucy",
-    "command": "cd /projects/Lucy && ./launch.sh",
-    "description": "Plateforme robotique modulaire open source pour l'interaction humanoïde et le contrôle moteur.",
-    "techStack": "C++, ROS 2, Python, React",
-    "status": "DÉVELOPPEMENT ACTIF",
-    "viewProject": "EXPLORER LUCY DANS PROJETS",
-    "viewGitHub": "ORGANISATION GITHUB",
-    "linksTitle": "RESSOURCES & POINTS DE CONTACT",
-    "links": {
-      "docs": "Documentation Publique",
-      "docsDesc": "Notre documentation publique & guide d'architecture",
-      "projects": "Gestionnaire de Projet",
-      "projectsDesc": "Suivre le cycle de développement actuel & la feuille de route",
-      "github": "Organisation GitHub",
-      "githubDesc": "Notre organisation GitHub & code source",
-      "discord": "Discord Communautaire",
-      "discordDesc": "Notre Discord communautaire pour échanger sur le projet"
-    }
-  },
-  "quickActions": {
-    "title": "COMMANDES D'ACCÈS RAPIDE",
-    "viewProjects": {
-      "command": "./view_projects.sh",
-      "description": "Parcourir le portfolio de développement"
-    },
-    "viewResume": {
-      "command": "cat resume.odt",
-      "description": "Afficher l'expérience professionnelle"
-    },
-    "sendMessage": {
-      "command": "send_message.py",
-      "description": "Initier le protocole de contact"
-    },
-    "gitStatus": {
-      "command": "git status",
-      "description": "Vérifier le statut de développement actuel"
-    }
-  },
-  "footer": {
-    "ready": "SYSTÈME PRÊT POUR LA SAISIE"
+  "cta": {
+    "title": "Construisons quelque chose ensemble.",
+    "text": "Ouvert aux postes en ingénierie logicielle, aux collaborations autour du mentorat et de la pédagogie, et aux projets de robotique.",
+    "contact": "Me contacter",
+    "resume": "Télécharger mon CV"
   }
 }

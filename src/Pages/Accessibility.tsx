@@ -1,124 +1,51 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-    Box,
-    Typography,
-    Card,
-    CardHeader,
-    CardContent,
-    Link,
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
-    TableContainer,
-    Paper,
-    Chip,
-    Divider
-} from "@mui/material";
-import { fonts } from "../theme/theme.const";
+import { Chip, Link } from "@mui/material";
+import { SectionHeader, SplitSection } from "../Components/Section/Section";
+import { Reveal } from "../Components/Motion/Reveal";
+import { CONTACT } from "../data/contact.data";
+import "./Pages.css";
+
+const MEASURES = ['item1', 'item2', 'item3', 'item4', 'item5', 'item6'] as const;
 
 const Accessibility: React.FC = () => {
     const { t } = useTranslation('accessibility');
 
     return (
-        <Box component="main" aria-label={t('title')}>
-            <Card sx={{ mb: 4 }} component="article">
-                <CardHeader 
-                    title={
-                        <Typography 
-                            component="h1" 
-                            variant="h5" 
-                            sx={{ fontFamily: fonts.title, fontWeight: 'bold' }}
-                        >
-                            {t('title')}
-                        </Typography>
-                    }
-                    action={
-                        <Chip 
-                            label="WCAG 2.1 AA / RGAA" 
-                            color="primary" 
-                            size="small" 
-                            sx={{ fontWeight: 'bold' }} 
-                        />
-                    }
-                />
-                <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">
-                        cat accessibility_report.txt
-                    </Typography>
+        <SplitSection
+            tight
+            label={t('title')}
+            aside={
+                <SectionHeader level="h1" eyebrow={t('eyebrow')} title={t('title')} intro={t('intro')}>
+                    <Chip label="WCAG 2.1 AA · RGAA" color="primary" size="small" sx={{ mt: 3 }} />
+                </SectionHeader>
+            }
+        >
+            <Reveal from="right">
+                <article className="prose">
+                    <h2>{t('compliance_status.title')}</h2>
+                    <p>{t('compliance_status.description')}</p>
 
-                    <Typography component="h2" variant="h6" sx={{ mt: 3, mb: 1, color: 'primary.main' }}>
-                        {t('compliance_status.title')}
-                    </Typography>
-                    <Typography sx={{ mb: 2, lineHeight: 1.7 }}>
-                        {t('compliance_status.description')}
-                    </Typography>
+                    <h2>{t('measures.title')}</h2>
+                    <p>{t('measures.intro')}</p>
+                    <ul className="dash-list" style={{ marginTop: 'var(--space-md)' }}>
+                        {MEASURES.map((key) => <li key={key}>{t(`measures.${key}`)}</li>)}
+                    </ul>
 
-                    <Divider sx={{ my: 2, borderColor: 'divider' }} />
+                    <h2>{t('non_accessible.title')}</h2>
+                    <p>{t('non_accessible.description')}</p>
 
-                    <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1, color: 'primary.main' }}>
-                        {t('measures.title')}
-                    </Typography>
-                    <Typography sx={{ mb: 1 }}>{t('measures.intro')}</Typography>
-                    <Box component="ul" sx={{ pl: 3, mb: 3 }} aria-label={t('measures.title')}>
-                        <Box component="li" sx={{ mb: 0.5 }}><Typography>{t('measures.item1')}</Typography></Box>
-                        <Box component="li" sx={{ mb: 0.5 }}><Typography>{t('measures.item2')}</Typography></Box>
-                        <Box component="li" sx={{ mb: 0.5 }}><Typography>{t('measures.item3')}</Typography></Box>
-                        <Box component="li" sx={{ mb: 0.5 }}><Typography>{t('measures.item4')}</Typography></Box>
-                        <Box component="li" sx={{ mb: 0.5 }}><Typography>{t('measures.item5')}</Typography></Box>
-                    </Box>
+                    <h2>{t('feedback.title')}</h2>
+                    <p>{t('feedback.description')}</p>
+                    <p style={{ marginTop: 'var(--space-sm)' }}>
+                        {t('feedback.email')} · <Link href={`mailto:${CONTACT.email}`}>{CONTACT.email}</Link>
+                    </p>
 
-                    <Divider sx={{ my: 2, borderColor: 'divider' }} />
-
-                    <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1, color: 'primary.main' }}>
-                        {t('non_accessible.title')}
-                    </Typography>
-                    <Typography sx={{ mb: 2, lineHeight: 1.7 }}>
-                        {t('non_accessible.description')}
-                    </Typography>
-
-                    <Divider sx={{ my: 2, borderColor: 'divider' }} />
-
-                    <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1, color: 'primary.main' }}>
-                        {t('feedback.title')}
-                    </Typography>
-                    <Typography sx={{ mb: 2 }}>
-                        {t('feedback.description')}
-                    </Typography>
-                    <TableContainer component={Paper} variant="outlined" sx={{ mb: 3, maxWidth: 500 }}>
-                        <Table size="small" aria-label={t('feedback.title')}>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell component="th" scope="row" sx={{ fontWeight: 'bold', width: '35%' }}>
-                                        {t('feedback.email')}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Link 
-                                            href="mailto:contact@maelrabot.com" 
-                                            color="primary"
-                                            underline="hover"
-                                            aria-label="Send email to contact@maelrabot.com regarding accessibility feedback"
-                                        >
-                                            contact@maelrabot.com
-                                        </Link>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    <Divider sx={{ my: 2, borderColor: 'divider' }} />
-
-                    <Typography component="h2" variant="h6" sx={{ mt: 2, mb: 1, color: 'primary.main' }}>
-                        {t('enforcement.title')}
-                    </Typography>
-                    <Typography sx={{ mb: 2, lineHeight: 1.7 }}>
-                        {t('enforcement.description')}
-                    </Typography>
-                </CardContent>
-            </Card>
-        </Box>
+                    <h2>{t('enforcement.title')}</h2>
+                    <p>{t('enforcement.description')}</p>
+                </article>
+            </Reveal>
+        </SplitSection>
     );
 };
 

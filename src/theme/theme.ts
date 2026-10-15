@@ -1,4 +1,6 @@
-import { createTheme, ThemeOptions } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
+import type { CSSObject } from '@mui/material/styles';
+import type { TypographyStyleOptions } from '@mui/material/styles/createTypography';
 import {
   colors,
   fonts,
@@ -7,403 +9,225 @@ import {
   lineHeights,
   letterSpacing,
   SPACING_BASE,
-  borders,
+  shape,
+  motion,
 } from './theme.const';
 
-const techThemeOptions: ThemeOptions = {
+/**
+ * Polygon cutting the top-right and bottom-left corners.
+ * `size` is any CSS length (usually a `var(--shape-chamfer…)`).
+ */
+export const chamferPath = (size: string): string =>
+  `polygon(0 0, calc(100% - ${size}) 0, 100% ${size}, 100% 100%, ${size} 100%, 0 calc(100% - ${size}))`;
+
+/**
+ * Chamfered box with a 1px border that also follows the diagonal edges.
+ * The border is a `::before` layer clipped to the outer shape, the fill is an
+ * `::after` layer inset by the border width. Override `--chamfer-border` /
+ * `--chamfer-bg` to recolour (e.g. on hover).
+ */
+export const chamferBox = (size = 'var(--shape-chamfer)'): CSSObject => ({
+  position: 'relative',
+  isolation: 'isolate',
+  background: 'transparent',
+  border: 'none',
+  borderRadius: 0,
+  clipPath: chamferPath(size),
+  '--chamfer-border': colors.line,
+  '--chamfer-bg': colors.surface,
+  '&::before, &::after': {
+    content: '""',
+    position: 'absolute',
+    pointerEvents: 'none',
+    transition: `background-color ${motion.base}s ${motion.easing}`,
+  },
+  '&::before': {
+    inset: 0,
+    zIndex: -2,
+    backgroundColor: 'var(--chamfer-border)',
+    clipPath: chamferPath(size),
+  },
+  '&::after': {
+    inset: shape.borderWidth,
+    zIndex: -1,
+    backgroundColor: 'var(--chamfer-bg)',
+    // inner cut is ~0.6px smaller so the diagonal border is as thick as the straight ones
+    clipPath: chamferPath(`calc(${size} - 0.6px)`),
+  },
+});
+
+const heading = (fontSize: string): TypographyStyleOptions => ({
+  fontFamily: fonts.mono,
+  fontSize,
+  fontWeight: fontWeights.semiBold,
+  lineHeight: lineHeights.tight,
+  letterSpacing: letterSpacing.tight,
+  color: colors.text,
+});
+
+const theme = createTheme({
   spacing: SPACING_BASE,
   palette: {
     mode: 'dark',
     primary: {
-      main: colors.highlight.base,      // Highlight Theme Color
-      light: colors.highlight.light,
-      dark: colors.highlight.dark,
-      contrastText: colors.main.base,
+      main: colors.accent,
+      light: colors.accentLight,
+      dark: colors.accentDark,
+      contrastText: colors.onAccent,
     },
     secondary: {
-      main: colors.secondary.base,      // Secondary Structure Color
-      light: colors.secondary.light,
-      dark: colors.secondary.dark,
-      contrastText: colors.main.contrastText,
+      main: colors.text,
+      contrastText: colors.bg,
     },
-    error: {
-      main: colors.status.error,
-    },
-    warning: {
-      main: colors.status.warning,
-    },
+    error: { main: colors.error },
+    warning: { main: colors.warning },
     background: {
-      default: colors.main.base,        // Main Canvas Color
-      paper: colors.main.surface,       // Main Surface Color
+      default: colors.bg,
+      paper: colors.surface,
     },
     text: {
-      primary: colors.text.primary,     // Primary Text Color
-      secondary: colors.text.secondary, // Secondary Text Color
-      disabled: colors.text.muted,
+      primary: colors.text,
+      secondary: colors.textMuted,
+      disabled: colors.textSubtle,
     },
-    divider: colors.secondary.subtleBorder,
+    divider: colors.line,
   },
+  shape: { borderRadius: shape.radius },
   typography: {
-    fontFamily: fonts.mono, // IBM Plex Mono for everything
-    h1: {
-      fontFamily: fonts.title, // Orbitron bold
-      fontSize: fontSizes.h1,
-      fontWeight: fontWeights.bold,
-      color: colors.text.primary,
-      letterSpacing: letterSpacing.title,
-      lineHeight: lineHeights.tight,
-    },
-    h2: {
-      fontFamily: fonts.title, // Orbitron bold
-      fontSize: fontSizes.h2,
-      fontWeight: fontWeights.bold,
-      color: colors.text.primary,
-      letterSpacing: letterSpacing.title,
-      lineHeight: lineHeights.tight,
-    },
-    h3: {
-      fontFamily: fonts.title, // Orbitron bold
-      fontSize: fontSizes.h3,
-      fontWeight: fontWeights.bold,
-      color: colors.text.primary,
-      letterSpacing: letterSpacing.wide,
-      lineHeight: lineHeights.tight,
-    },
-    h4: {
-      fontFamily: fonts.title, // Orbitron bold
-      fontSize: fontSizes.h4,
-      fontWeight: fontWeights.bold,
-      color: colors.text.primary,
-      letterSpacing: letterSpacing.wide,
-    },
-    h5: {
-      fontFamily: fonts.title, // Orbitron bold
-      fontSize: fontSizes.xl,
-      fontWeight: fontWeights.bold,
-      color: colors.text.primary,
-      letterSpacing: letterSpacing.wide,
-    },
-    h6: {
-      fontFamily: fonts.title, // Orbitron bold
-      fontSize: fontSizes.lg,
-      fontWeight: fontWeights.bold,
-      color: colors.text.primary,
-      letterSpacing: letterSpacing.wide,
-    },
-    subtitle1: {
-      fontFamily: fonts.mono,
-      fontSize: fontSizes.md,
-      fontWeight: fontWeights.medium,
-      color: colors.text.secondary,
-      lineHeight: lineHeights.normal,
-    },
-    subtitle2: {
-      fontFamily: fonts.mono,
-      fontSize: fontSizes.sm,
-      fontWeight: fontWeights.medium,
-      color: colors.text.secondary,
-    },
-    body1: {
-      fontFamily: fonts.mono,
-      fontSize: fontSizes.md,
-      fontWeight: fontWeights.regular,
-      color: colors.text.primary,
-      lineHeight: lineHeights.normal,
-    },
-    body2: {
-      fontFamily: fonts.mono,
-      fontSize: fontSizes.sm,
-      fontWeight: fontWeights.regular,
-      color: colors.text.primary,
-      lineHeight: lineHeights.normal,
-    },
-    caption: {
-      fontFamily: fonts.mono,
-      fontSize: fontSizes.xs,
-      fontWeight: fontWeights.regular,
-      color: colors.text.muted,
-    },
+    fontFamily: fonts.mono,
+    h1: heading(fontSizes.h1),
+    h2: heading(fontSizes.h2),
+    h3: heading(fontSizes.h3),
+    h4: heading(fontSizes.xl),
+    h5: heading(fontSizes.lg),
+    h6: { ...heading(fontSizes.md), letterSpacing: letterSpacing.normal },
+    subtitle1: { fontSize: fontSizes.lg, lineHeight: lineHeights.normal, color: colors.textMuted },
+    subtitle2: { fontSize: fontSizes.sm, fontWeight: fontWeights.medium, color: colors.textMuted },
+    body1: { fontSize: fontSizes.md, lineHeight: lineHeights.relaxed },
+    body2: { fontSize: fontSizes.sm, lineHeight: lineHeights.normal },
+    caption: { fontSize: fontSizes.xs, color: colors.textMuted },
     overline: {
-      fontFamily: fonts.mono,
-      fontSize: fontSizes.xxs,
-      fontWeight: fontWeights.semiBold,
-      letterSpacing: letterSpacing.wider,
+      fontSize: fontSizes.xs,
+      fontWeight: fontWeights.medium,
+      letterSpacing: letterSpacing.label,
+      lineHeight: lineHeights.normal,
       textTransform: 'uppercase',
+      color: colors.accent,
     },
     button: {
-      fontFamily: fonts.mono,
       fontSize: fontSizes.sm,
-      fontWeight: fontWeights.semiBold,
-      textTransform: 'none',
+      fontWeight: fontWeights.medium,
       letterSpacing: letterSpacing.wide,
+      textTransform: 'none',
     },
   },
-  shape: {
-    borderRadius: borders.radius, // 0px
-  },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: { body: { backgroundColor: colors.bg } },
+    },
     MuiButton: {
-      defaultProps: {
-        disableElevation: true,
-      },
+      defaultProps: { disableElevation: true, disableRipple: true },
       styleOverrides: {
         root: {
-          borderRadius: 0,
-          fontFamily: fonts.mono,
-          fontWeight: fontWeights.semiBold,
-          padding: '8px 16px',
-          transition: 'all 0.2s ease-in-out',
+          ...chamferBox('var(--shape-chamfer-sm)'),
+          padding: '10px 20px',
+          color: colors.text,
+          transition: `color ${motion.fast}s ${motion.easing}`,
+          // neutralise MUI's own variant backgrounds/borders, the pseudo layers draw everything
+          '&, &:hover, &:active': { backgroundColor: 'transparent', border: 'none', boxShadow: 'none' },
+          '&:focus-visible': { outline: 'none', '--chamfer-border': colors.accent },
+          '&.Mui-disabled': { color: colors.textSubtle },
         },
-        containedPrimary: {
-          backgroundColor: colors.highlight.base,
-          color: colors.main.base,
-          border: `1px solid ${colors.highlight.base}`,
-          '&:hover': {
-            backgroundColor: colors.highlight.dark,
+        contained: {
+          '--chamfer-border': colors.accent,
+          '--chamfer-bg': colors.accent,
+          color: colors.onAccent,
+          '&:hover, &:focus-visible': {
+            '--chamfer-border': colors.accentLight,
+            '--chamfer-bg': colors.accentLight,
           },
-          '&.Mui-disabled': {
-            backgroundColor: colors.main.base,
-            color: colors.text.muted,
-            border: `1px solid ${colors.secondary.subtleBorder}`,
-          },
-        },
-        containedSecondary: {
-          backgroundColor: colors.main.base,
-          color: colors.text.primary,
-          border: `1px solid ${colors.secondary.border}`,
-          '&:hover': {
-            backgroundColor: colors.secondary.base,
-            color: colors.text.primary,
-          },
-          '&.Mui-disabled': {
-            backgroundColor: colors.main.base,
-            color: colors.text.muted,
-            border: `1px solid ${colors.secondary.subtleBorder}`,
-          },
+          '&:focus-visible': { '--chamfer-border': colors.text },
         },
         outlined: {
-          backgroundColor: colors.main.base,
-          border: `1px solid ${colors.secondary.border}`,
-          color: colors.text.primary,
-          '&:hover': {
-            borderColor: colors.highlight.base,
-            color: colors.highlight.base,
-            backgroundColor: colors.main.base,
-          },
+          '--chamfer-border': colors.lineStrong,
+          '--chamfer-bg': colors.bg,
+          '&:hover': { '--chamfer-border': colors.accent, color: colors.accent },
+        },
+        text: {
+          '--chamfer-border': 'transparent',
+          '--chamfer-bg': 'transparent',
+          '&:hover': { color: colors.accent },
         },
       },
     },
     MuiCard: {
+      defaultProps: { elevation: 0 },
       styleOverrides: {
         root: {
-          backgroundColor: colors.main.base,
-          border: `1px solid ${colors.secondary.subtleBorder}`,
-          borderRadius: 0,
-          backgroundImage: 'none',
-          transition: 'border-color 0.2s ease',
-          '&:hover': {
-            borderColor: colors.highlight.base,
-          },
+          ...chamferBox(),
+          overflow: 'visible',
         },
       },
     },
     MuiCardHeader: {
       styleOverrides: {
-        root: {
-          borderBottom: `1px solid ${colors.secondary.subtleBorder}`,
-          padding: '12px 16px',
-          backgroundColor: colors.main.base,
-        },
-        title: {
-          fontFamily: fonts.title,
-          fontWeight: fontWeights.bold,
-          fontSize: fontSizes.lg,
-          letterSpacing: letterSpacing.wide,
-          color: colors.text.primary,
-        },
-        subheader: {
-          fontFamily: fonts.mono,
-          fontSize: fontSizes.xs,
-          color: colors.secondary.text,
-        },
+        root: { padding: '20px 24px 0' },
+        title: { ...heading(fontSizes.lg), letterSpacing: letterSpacing.normal },
+        subheader: { fontSize: fontSizes.xs, color: colors.textMuted, marginTop: 4 },
       },
     },
     MuiCardContent: {
       styleOverrides: {
-        root: {
-          backgroundColor: colors.main.base,
-          padding: '16px',
-          '&:last-child': {
-            paddingBottom: '16px',
-          },
-        },
+        root: { padding: 24, '&:last-child': { paddingBottom: 24 } },
       },
     },
     MuiPaper: {
+      defaultProps: { elevation: 0 },
       styleOverrides: {
-        root: {
-          backgroundColor: colors.main.base,
-          backgroundImage: 'none',
-          borderRadius: 0,
-          border: `1px solid ${colors.secondary.subtleBorder}`,
-        },
-      },
-    },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colors.main.base,
-          borderBottom: `1px solid ${colors.secondary.border}`,
-          backgroundImage: 'none',
-        },
+        root: { backgroundImage: 'none', borderRadius: 0 },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
           borderRadius: 0,
-          fontFamily: fonts.mono,
           fontSize: fontSizes.xs,
-          height: '26px',
-          backgroundColor: colors.main.base,
+          height: 28,
         },
         outlined: {
-          borderColor: colors.secondary.subtleBorder,
-          color: colors.text.primary,
-          backgroundColor: colors.main.base,
-          '&:hover': {
-            borderColor: colors.highlight.base,
-          },
+          borderColor: colors.line,
+          color: colors.textMuted,
         },
-        colorPrimary: {
-          backgroundColor: colors.highlight.base,
-          color: colors.main.base,
-          fontWeight: fontWeights.bold,
-        },
-        colorSecondary: {
-          backgroundColor: colors.main.base,
-          borderColor: colors.secondary.border,
-          color: colors.text.primary,
-        },
-      },
-    },
-    MuiTable: {
-      styleOverrides: {
-        root: {
-          fontFamily: fonts.mono,
-          backgroundColor: colors.main.base,
-        },
-      },
-    },
-    MuiTableHead: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colors.main.base,
-        },
-      },
-    },
-    MuiTableCell: {
-      styleOverrides: {
-        root: {
-          fontFamily: fonts.mono,
-          borderColor: colors.secondary.subtleBorder,
-          color: colors.text.primary,
-          backgroundColor: colors.main.base,
-          padding: '10px 14px',
-          fontSize: fontSizes.sm,
-        },
-        head: {
-          fontFamily: fonts.title,
-          fontWeight: fontWeights.bold,
-          color: colors.text.primary,
-          backgroundColor: colors.main.base,
-          fontSize: fontSizes.xs,
-          letterSpacing: letterSpacing.wide,
-          borderColor: colors.secondary.border,
-        },
-      },
-    },
-    MuiTableRow: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colors.main.base,
-          '&:hover': {
-            backgroundColor: `${colors.main.elevated} !important`,
-          },
-        },
-      },
-    },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colors.main.base,
-          borderRadius: 0,
-          fontFamily: fonts.mono,
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderWidth: '1px',
-            borderColor: colors.secondary.border,
-          },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: colors.secondary.light,
-          },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: colors.highlight.base,
-            borderWidth: '1px',
-          },
-        },
-        input: {
-          color: colors.text.primary,
-          fontFamily: fonts.mono,
-          fontSize: fontSizes.sm,
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          fontFamily: fonts.mono,
-          color: colors.secondary.text,
-          fontSize: fontSizes.sm,
-          '&.Mui-focused': {
-            color: colors.highlight.base,
-          },
-        },
-      },
-    },
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colors.main.base,
-          fontFamily: fonts.mono,
+        filledPrimary: {
+          backgroundColor: colors.accentSoft,
+          color: colors.accent,
         },
       },
     },
     MuiDivider: {
+      styleOverrides: { root: { borderColor: colors.line } },
+    },
+    MuiLink: {
+      defaultProps: { underline: 'hover' },
       styleOverrides: {
         root: {
-          borderColor: colors.secondary.subtleBorder,
+          color: colors.accent,
+          textUnderlineOffset: '3px',
+          '&:hover': { color: colors.accentLight },
         },
       },
     },
-    MuiLink: {
+    MuiTooltip: {
       styleOverrides: {
-        root: {
-          fontFamily: fonts.mono,
-          color: colors.highlight.base,
-          textDecoration: 'none',
-          borderBottom: `1px solid ${colors.highlight.base}`,
-          transition: 'all 0.2s ease',
-          '&:hover': {
-            color: colors.highlight.light,
-            borderColor: colors.highlight.light,
-          },
+        tooltip: {
+          borderRadius: 0,
+          backgroundColor: colors.surfaceRaised,
+          border: `1px solid ${colors.line}`,
+          fontSize: fontSizes.xs,
         },
       },
     },
   },
-};
+});
 
-export const lightTheme = createTheme(techThemeOptions);
-export const darkTheme = createTheme(techThemeOptions);
-
-export default darkTheme;
+export default theme;

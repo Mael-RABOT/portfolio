@@ -1,23 +1,31 @@
 {
+  "label": "Main navigation",
+  "brandLabel": "Maël Rabot, back to home",
+  "skip": "Skip to content",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
   "menu": {
-    "home": "[F1] Home",
-    "projects": "[F2] Projects",
-    "resume": "[F3] Resume",
-    "contact": "[F4] Contact",
-    "accessibility": "[F5] Accessibility",
-    "a11y": "A11Y"
+    "home": "Home",
+    "projects": "Projects",
+    "resume": "Resume",
+    "contact": "Contact"
   },
-  "titles": {
-    "home": "HOME",
-    "projects": "PROJECTS",
-    "resume": "RESUME",
-    "contact": "CONTACT",
-    "portfolio": "PORTFOLIO"
+  "footer": {
+    "label": "Footer links",
+    "email": "Email",
+    "accessibility": "Accessibility"
   },
-  "command": "cat {{page}}.txt",
   "languageSwitch": {
-    "title": "LANG",
+    "title": "Language",
     "en": "EN",
-    "fr": "FR"
+    "fr": "FR",
+    "enLabel": "Switch to English",
+    "frLabel": "Passer en français"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or has moved.",
+    "home": "Back to home",
+    "back": "Go back"
   }
 }

@@ -1,355 +1,160 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { PortfolioItem } from "../services/portfolioApi";
-import {
-    Box,
-    Typography,
-    Card,
-    CardHeader,
-    CardContent,
-    Grid,
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
-    Paper,
-    TableContainer,
-    Button,
-    Link,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemIcon,
-    Divider
-} from "@mui/material";
-/* eslint-disable */
+import { Box, Button, Card, CardContent, Chip, Link, Typography } from "@mui/material";
+import type { Education, Experience } from "../data/types";
+import { Reveal } from "../Components/Motion/Reveal";
+import { SectionHeader, SplitSection } from "../Components/Section/Section";
+import { CONTACT, RESUME_PDF } from "../data/contact.data";
+import "./Pages.css";
 
-const Resume: React.FC<{ experiences: PortfolioItem[], educations: PortfolioItem[]}> = ({ experiences, educations }) => {
+type Item = Experience | Education;
+
+interface TimelineEntry {
+    item: Item;
+    title: string;
+    organisation: string;
+}
+
+const Details: React.FC<{ item: Item; name: string }> = ({ item, name }) => {
     const { t } = useTranslation('resume');
-    const { t: tData } = useTranslation('data');
-
-    const resumeData = tData('resume', { returnObjects: true }) as any;
-    const certifications: string[] = resumeData?.certifications?.map((cert: any) => cert.name) || [];
 
     return (
-        <Box component="main" aria-label="Resume">
-            {/* Header */}
-            <Card sx={{ mb: 4 }} component="section" aria-label="Profile Summary">
-                <CardHeader title={t('header.title')} />
-                <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 2 }} aria-hidden="true">{t('header.command')}{experiences.length + educations.length}</Typography>
-                    <Grid container spacing={1}>
-                        <Grid item xs={12} sm={6}>
-                            <Typography><strong>{t('profile.name')}</strong> {t('profile.nameValue')}</Typography>
-                            <Typography><strong>{t('profile.location')}</strong> {t('profile.locationValue')}</Typography>
-                            <Typography><strong>{t('profile.status')}</strong> {t('profile.statusValue')}</Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Typography><strong>{t('profile.specialization')}</strong> {t('profile.specializationValue')}</Typography>
-                            <Typography>
-                                <strong>{t('profile.contact')}</strong> {t('profile.contactValue')} 
-                                <Link href="mailto:contact@maelrabot.com" sx={{ ml: 1, wordBreak: 'break-all' }} aria-label="Send an email to Mael Rabot">contact@maelrabot.com</Link>
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </Card>
+        <>
+            {item.description && <Typography sx={{ mt: 1.5, whiteSpace: 'pre-line' }}>{item.description}</Typography>}
 
-            {/* Professional Experience */}
-            <Card sx={{ mb: 4 }} component="section" aria-label="Professional Experience">
-                <CardHeader title={t('experience.title')} />
-                <CardContent>
-                    <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('experience.command')}</Typography>
-                    
-                    {experiences.map((job: PortfolioItem, index: number) => (
-                        <Card key={index} variant="outlined" sx={{ mb: 3 }} component="article" aria-label={`${job.position} at ${job.company}`}>
-                            <CardHeader title={`${job.position} @ ${job.company}`} sx={{ pb: 0 }} />
-                            <CardContent>
-                                <TableContainer component={Paper} variant="outlined" sx={{ mb: 2, mt: 2 }}>
-                                    <Table size="small" aria-label={`Details for ${job.position}`}>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell component="th" scope="row" sx={{ width: { xs: '110px', sm: '150px' } }}>{t('experience.duration')}</TableCell>
-                                                <TableCell>{job.duration || `${job.startDate} - ${job.endDate}`}</TableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableCell component="th" scope="row">{t('experience.location')}</TableCell>
-                                                <TableCell>{job.location}</TableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableCell component="th" scope="row">{t('experience.type')}</TableCell>
-                                                <TableCell>{job.contractType}</TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+            {item.highlights && item.highlights.length > 0 && (
+                <ul className="dash-list" style={{ marginTop: 'var(--space-lg)' }}>
+                    {item.highlights.map((b, i) => <li key={i} className="muted">{b}</li>)}
+                </ul>
+            )}
 
-                                {job.images && job.images.length > 0 && (
-                                    <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 2, pb: 1 }} role="region" aria-label={`Images for ${job.company} experience`}>
-                                        {job.images.map((img, imgIndex) => (
-                                            <Box 
-                                                component="img"
-                                                key={imgIndex}
-                                                src={img.url} 
-                                                alt={`Image ${imgIndex + 1} representing experience at ${job.company}`} 
-                                                sx={{ 
-                                                    maxHeight: '200px', 
-                                                    maxWidth: '80%',
-                                                    objectFit: 'contain',
-                                                    border: '1px solid',
-                                                    borderColor: 'divider',
-                                                    flexShrink: 0
-                                                }} 
-                                            />
-                                        ))}
-                                    </Box>
-                                )}
-
-                                {job.description && (
-                                    <Typography sx={{ whiteSpace: 'pre-wrap', mb: 2 }}>{job.description}</Typography>
-                                )}
-
-                                {(job.responsibilities && job.responsibilities.length > 0) && (
-                                    <Box sx={{ mb: 2 }}>
-                                        {job.company && (
-                                            <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('experience.achievements', { company: job.company.toLowerCase() })}</Typography>
-                                        )}
-                                        <List dense disablePadding aria-label="Responsibilities">
-                                            {job.responsibilities.map((resp: string, respIndex: number) => (
-                                                <ListItem key={respIndex} disableGutters>
-                                                    <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }} aria-hidden="true">&gt;</ListItemIcon>
-                                                    <ListItemText primary={resp} />
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                    </Box>
-                                )}
-
-                                {job.additionalInfo && Object.keys(job.additionalInfo).length > 0 && (
-                                    <Box sx={{ mb: 2 }}>
-                                        {Object.entries(job.additionalInfo).map(([key, value], infoIndex) => (
-                                            <Box key={infoIndex} sx={{ mb: 1 }}>
-                                                <Typography component="span" sx={{ fontWeight: 'bold' }}>{key}:</Typography>
-                                                {Array.isArray(value) ? (
-                                                    <List dense disablePadding sx={{ pl: 3 }}>
-                                                        {value.map((item, itemIndex) => (
-                                                            <ListItem key={itemIndex} disableGutters>
-                                                                <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }} aria-hidden="true">&gt;</ListItemIcon>
-                                                                <ListItemText primary={item} />
-                                                            </ListItem>
-                                                        ))}
-                                                    </List>
-                                                ) : (
-                                                    <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}> {value}</Typography>
-                                                )}
-                                            </Box>
-                                        ))}
-                                    </Box>
-                                )}
-
-                                {job.links && job.links.length > 0 && (
-                                    <Box>
-                                        <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">ASSOCIATED_LINKS:</Typography>
-                                        <List dense disablePadding aria-label="Associated links">
-                                            {job.links.map((link, linkIndex) => (
-                                                <ListItem key={linkIndex} disableGutters>
-                                                    <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }} aria-hidden="true">&gt;</ListItemIcon>
-                                                    <Link href={link.url} target="_blank" rel="noopener noreferrer" color="primary" underline="hover" aria-label={`Open link to ${link.url}`}>
-                                                        {link.url}
-                                                    </Link>
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                    </Box>
-                                )}
-                            </CardContent>
-                        </Card>
+            {item.facts && Object.keys(item.facts).length > 0 && (
+                <dl className="kv-grid" style={{ marginTop: 'var(--space-lg)' }}>
+                    {Object.entries(item.facts).map(([key, value]) => (
+                        <div key={key}>
+                            <dt>{key}</dt>
+                            <dd>{value}</dd>
+                        </div>
                     ))}
-                </CardContent>
-            </Card>
+                </dl>
+            )}
 
-            {/* Education & Certifications */}
-            <Card sx={{ mb: 4 }} component="section" aria-label="Education and Certifications">
-                <CardHeader title={`${t('education.title')} ${certifications.length > 0 ? t('education.certTitle') : ""} - ${t('education.academicTitle')}`} />
-                <CardContent>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={certifications.length > 0 ? 8 : 12}>
-                            <Card variant="outlined" sx={{ height: '100%' }}>
-                                <CardHeader title={t('education.title')} />
-                                <CardContent>
-                                    <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('education.educationCommand')}</Typography>
-                                    
-                                    {educations.map((edu: PortfolioItem, index: number) => (
-                                        <Box key={index} sx={{ mb: index < educations.length - 1 ? 4 : 0 }} component="article" aria-label={`${edu.degree} from ${edu.institution}`}>
-                                            <Typography variant="h6">{edu.degree}</Typography>
-                                            <Typography className="terminal-command" sx={{ display: 'inline-block', mb: 1 }}>{edu.institution}</Typography>
-                                            {edu.location && (
-                                                <Typography sx={{ mb: 0.5 }}><strong>{t('education.location')}</strong> {edu.location}</Typography>
-                                            )}
-                                            <Typography sx={{ mb: 2 }}><strong>{t('education.year')}</strong> {edu.year || `${edu.startDate} - ${edu.endDate}`}</Typography>
+            {item.images && item.images.length > 0 && (
+                <div className="gallery" role="region" aria-label={t('experience.images', { name })}>
+                    {item.images.map((img, i) => (
+                        <img key={i} src={img.url} alt={img.alt || t('experience.image', { index: i + 1, name })} />
+                    ))}
+                </div>
+            )}
 
-                                            {edu.images && edu.images.length > 0 && (
-                                                <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, mb: 2, pb: 1 }} role="region" aria-label={`Images for ${edu.institution}`}>
-                                                    {edu.images.map((img, imgIndex) => (
-                                                        <Box 
-                                                            component="img"
-                                                            key={imgIndex}
-                                                            src={img.url} 
-                                                            alt={`Image ${imgIndex + 1} representing education at ${edu.institution}`} 
-                                                            sx={{ 
-                                                                maxHeight: '200px', 
-                                                                maxWidth: '80%',
-                                                                objectFit: 'contain',
-                                                                border: '1px solid',
-                                                                borderColor: 'divider',
-                                                                flexShrink: 0
-                                                            }} 
-                                                        />
-                                                    ))}
-                                                </Box>
-                                            )}
+            {item.links && item.links.length > 0 && (
+                <Box sx={{ mt: 2.5, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                    {item.links.map((link) => (
+                        <Link key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" sx={{ fontSize: 'var(--size-sm)' }}>
+                            {link.label} ↗
+                        </Link>
+                    ))}
+                </Box>
+            )}
 
-                                            {edu.description && (
-                                                <Typography sx={{ whiteSpace: 'pre-wrap', mb: 2 }}>{edu.description}</Typography>
-                                            )}
+            {item.technologies && item.technologies.length > 0 && (
+                <Box sx={{ mt: 2.5, display: 'flex', flexWrap: 'wrap', gap: 1 }} role="list" aria-label={t('experience.stack')}>
+                    {item.technologies.map((tech) => <Chip role="listitem" key={tech} label={tech} variant="outlined" size="small" />)}
+                </Box>
+            )}
+        </>
+    );
+};
 
-                                            {edu.bullets && edu.bullets.length > 0 && (
-                                                <List dense disablePadding sx={{ mb: 2 }} aria-label="Key highlights">
-                                                    {edu.bullets.map((bullet: string, bulletIndex: number) => (
-                                                        <ListItem key={bulletIndex} disableGutters>
-                                                            <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }} aria-hidden="true">&gt;</ListItemIcon>
-                                                            <ListItemText primary={bullet} />
-                                                        </ListItem>
-                                                    ))}
-                                                </List>
-                                            )}
+const Timeline: React.FC<{ entries: TimelineEntry[] }> = ({ entries }) => {
+    return (
+        <ol className="timeline container">
+            {entries.map(({ item, title, organisation }) => (
+                <Reveal as="li" key={item.id} className="timeline__item">
+                    <div className="timeline__meta">
+                        <div className="timeline__date">{item.duration}</div>
+                        <div className="timeline__org">
+                            {'website' in item && item.website ? (
+                                <a href={item.website} target="_blank" rel="noopener noreferrer">
+                                    {organisation} <span aria-hidden="true">↗</span>
+                                </a>
+                            ) : organisation}
+                        </div>
+                        <div className="timeline__place">
+                            {[item.location, 'contractType' in item && item.contractType].filter(Boolean).join(' · ')}
+                        </div>
+                    </div>
+                    <div>
+                        <Typography variant="h3" component="h3">{title}</Typography>
+                        <Details item={item} name={organisation} />
+                    </div>
+                </Reveal>
+            ))}
+        </ol>
+    );
+};
 
-                                            {edu.additionalInfo && Object.keys(edu.additionalInfo).length > 0 && (
-                                                <Box sx={{ mb: 2 }}>
-                                                    {Object.entries(edu.additionalInfo).map(([key, value], infoIndex) => (
-                                                        <Box key={infoIndex} sx={{ mb: 1 }}>
-                                                            <Typography component="span" sx={{ fontWeight: 'bold' }}>{key}:</Typography>
-                                                            {Array.isArray(value) ? (
-                                                                <List dense disablePadding sx={{ pl: 3 }}>
-                                                                    {value.map((item, itemIndex) => (
-                                                                        <ListItem key={itemIndex} disableGutters>
-                                                                            <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }} aria-hidden="true">&gt;</ListItemIcon>
-                                                                            <ListItemText primary={item} />
-                                                                        </ListItem>
-                                                                    ))}
-                                                                </List>
-                                                            ) : (
-                                                                <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}> {value}</Typography>
-                                                            )}
-                                                        </Box>
-                                                    ))}
-                                                </Box>
-                                            )}
+const Resume: React.FC<{ experiences: Experience[], educations: Education[] }> = ({ experiences, educations }) => {
+    const { t, i18n } = useTranslation('resume');
+    const preferred = i18n.language?.startsWith('fr') ? 'fr' : 'en';
+    const downloads = preferred === 'fr' ? (['fr', 'en'] as const) : (['en', 'fr'] as const);
 
-                                            {edu.links && edu.links.length > 0 && (
-                                                <Box>
-                                                    <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">ASSOCIATED_LINKS:</Typography>
-                                                    <List dense disablePadding aria-label="Associated links">
-                                                        {edu.links.map((link, linkIndex) => (
-                                                            <ListItem key={linkIndex} disableGutters>
-                                                                <ListItemIcon sx={{ minWidth: 24, color: 'inherit' }} aria-hidden="true">&gt;</ListItemIcon>
-                                                                <Link href={link.url} target="_blank" rel="noopener noreferrer" color="primary" underline="hover" aria-label={`Open link to ${link.url}`}>
-                                                                    {link.url}
-                                                                </Link>
-                                                            </ListItem>
-                                                        ))}
-                                                    </List>
-                                                </Box>
-                                            )}
-                                            
-                                            {index < educations.length - 1 && <Divider sx={{ mt: 3, mb: 1 }} />}
-                                        </Box>
-                                    ))}
-                                </CardContent>
-                            </Card>
-                        </Grid>
+    return (
+        <>
+            <SplitSection
+                tight
+                sticky={false}
+                label={t('header.eyebrow')}
+                aside={<SectionHeader level="h1" eyebrow={t('header.eyebrow')} title={t('header.title')} intro={t('header.intro')} />}
+            >
+                <Reveal from="right">
+                    <Card>
+                        <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                            <Typography variant="overline" component="h2" sx={{ mb: 2.5 }}>{t('profile.title')}</Typography>
+                            <dl className="kv-grid">
+                                <div><dt>{t('profile.role')}</dt><dd>{t('profile.roleValue')}</dd></div>
+                                <div><dt>{t('profile.focus')}</dt><dd>{t('profile.focusValue')}</dd></div>
+                                <div><dt>{t('profile.location')}</dt><dd>{t('profile.locationValue')}</dd></div>
+                                <div>
+                                    <dt>{t('profile.contact')}</dt>
+                                    <dd><Link href={`mailto:${CONTACT.email}`}>{CONTACT.email}</Link></dd>
+                                </div>
+                            </dl>
+                            <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mt: 4 }}>
+                                {downloads.map((lng, i) => (
+                                    <Button
+                                        key={lng}
+                                        variant={i === 0 ? 'contained' : 'outlined'}
+                                        href={RESUME_PDF[lng].href}
+                                        download={RESUME_PDF[lng].fileName}
+                                    >
+                                        ↓ {t(`download.${lng}`)}
+                                    </Button>
+                                ))}
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Reveal>
+            </SplitSection>
 
-                        {certifications?.length > 0 && (
-                            <Grid item xs={12} md={4}>
-                                <Card variant="outlined" sx={{ height: '100%' }}>
-                                    <CardHeader title={t('education.certTitle').replace('& ', '')} />
-                                    <CardContent>
-                                        <Typography className="terminal-prompt" sx={{ mb: 3 }} aria-hidden="true">{t('education.certCommand')}</Typography>
-                                        <List disablePadding aria-label="List of certifications">
-                                            {certifications.map((cert: string, index: number) => (
-                                                <ListItem key={index} disableGutters sx={{ borderBottom: '1px dotted', borderColor: 'divider', pb: 1, mb: 1 }}>
-                                                    <ListItemIcon sx={{ minWidth: 20 }}>
-                                                        <Box sx={{ width: 8, height: 8, bgcolor: 'primary.main' }} aria-hidden="true" />
-                                                    </ListItemIcon>
-                                                    <ListItemText 
-                                                        primary={<Typography className="terminal-command">{cert}</Typography>} 
-                                                    />
-                                                    <Typography variant="caption" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                                                        {t('education.valid')}
-                                                    </Typography>
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        )}
-                    </Grid>
-                </CardContent>
-            </Card>
+            <section className="section" aria-labelledby="experience-title" style={{ paddingTop: 0 }}>
+                <div className="container" style={{ marginBottom: 'var(--space-xl)' }}>
+                    <SectionHeader eyebrow={t('experience.eyebrow')} title={<span id="experience-title">{t('experience.title')}</span>} />
+                </div>
+                <Timeline
+                    entries={experiences.map((item) => ({ item, title: item.position, organisation: item.company }))}
+                />
+            </section>
 
-            {/* Download Options */}
-            <Card sx={{ mb: 4 }} component="section" aria-label="Download Options">
-                <CardHeader title={t('download.title')} />
-                <CardContent>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <Button 
-                                fullWidth 
-                                variant="outlined" 
-                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
-                                onClick={() => {
-                                    const link = document.createElement('a');
-                                    link.href = '/resume_en.pdf';
-                                    link.download = 'Mael_RABOT_Resume_en.pdf';
-                                    document.body.appendChild(link);
-                                    link.click();
-                                    document.body.removeChild(link);
-                                }}
-                                aria-label="Download Resume as PDF"
-                            >
-                                <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('download.pdf.command')}</Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.pdf.description')}</Typography>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Button 
-                                fullWidth 
-                                variant="outlined" 
-                                sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', height: '100%' }}
-                                onClick={() => {
-                                    const link = document.createElement('a');
-                                    link.href = 'https://github.com/Mael-RABOT/portfolio/archive/refs/heads/master.zip';
-                                    link.download = 'Mael_RABOT_Portfolio.zip';
-                                    document.body.appendChild(link);
-                                    link.click();
-                                    document.body.removeChild(link);
-                                }}
-                                aria-label="Download Portfolio Source Code"
-                            >
-                                <Typography className="terminal-prompt" sx={{ mb: 1 }} aria-hidden="true">{t('download.portfolio.command')}</Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', textTransform: 'none' }}>{t('download.portfolio.description')}</Typography>
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </Card>
-
-            {/* Footer */}
-            <Typography align="center" sx={{ mt: 4 }} aria-hidden="true">
-                <span className="blinking-cursor">{t('footer.ready')}</span>
-            </Typography>
-        </Box>
+            <section className="section" aria-labelledby="education-title" style={{ paddingTop: 0 }}>
+                <div className="container" style={{ marginBottom: 'var(--space-xl)' }}>
+                    <SectionHeader eyebrow={t('education.eyebrow')} title={<span id="education-title">{t('education.title')}</span>} />
+                </div>
+                <Timeline
+                    entries={educations.map((item) => ({ item, title: item.degree, organisation: item.institution }))}
+                />
+            </section>
+        </>
     );
 };
 

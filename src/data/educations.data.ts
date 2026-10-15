@@ -1,82 +1,79 @@
-import { PortfolioItem } from '../services/portfolioApi';
+import type { Education, Translatable } from './types';
 
 /**
- * Local Education Registry
- * Add or edit your degrees and certifications here without needing any backend server.
+ * Education, most recent first.
  */
-export const LOCAL_EDUCATIONS: PortfolioItem[] = [
+export const LOCAL_EDUCATIONS: Translatable<Education>[] = [
   {
-    '@id': '/api/items/epitech-master',
     id: 'epitech-master',
-    name: "Master's Degree in Computer Science",
     degree: "Master's Degree in Computer Science",
     institution: 'Epitech Lyon',
-    school: 'Epitech Lyon',
-    company: 'Epitech Lyon',
     location: 'Lyon, France',
-    startDate: '2022',
-    endDate: '2027',
-    duration: 'September 2022 - April 2027',
-    description: 'Expert project-based higher education in software architecture, low-level systems programming, algorithms, and leadership.',
-    bullets: [
-      'Focus on C, C++, Unix System Programming, and Network Architecture',
-      '3.2 GPA | School Ambassador',
-      'Active Contributor to the Epitech Innovation Hub',
+    duration: 'September 2022 – April 2027',
+    description: 'Project-based higher education in software architecture, low-level systems programming, algorithms and leadership.',
+    highlights: [
+      'Focus on C, C++, Unix system programming and network architecture',
+      '3.2 GPA · School ambassador',
+      'Active contributor to the Epitech Innovation Hub',
       'Advanced software architecture and team-based engineering projects',
     ],
-    responsibilities: [
-      'Focus on C, C++, Unix System Programming, and Network Architecture',
-      '3.2 GPA | School Ambassador',
-      'Active Contributor to the Epitech Innovation Hub',
-    ],
-    itemType: 'education',
+    fr: {
+      degree: 'Master en informatique',
+      duration: 'Septembre 2022 – Avril 2027',
+      description: 'Formation par projets en architecture logicielle, programmation système bas niveau, algorithmique et leadership.',
+      highlights: [
+        'Spécialisation en C, C++, programmation système Unix et architecture réseau',
+        'GPA de 3,2 · Ambassadeur de l\'école',
+        'Contributeur actif au Hub Innovation d\'Epitech',
+        'Projets d\'équipe avancés en architecture logicielle',
+      ],
+    },
   },
   {
-    '@id': '/api/items/chung-ang-university',
     id: 'chung-ang-university',
-    name: 'International Engineering Program',
     degree: 'International Engineering Program',
     institution: 'Chung-Ang University (CAU)',
-    school: 'Chung-Ang University (CAU)',
-    company: 'Chung-Ang University (CAU)',
     location: 'Seoul, South Korea',
-    startDate: '2025',
-    endDate: '2026',
-    duration: 'August 2025 - June 2026',
-    description: 'International exchange program immersed in advanced computer science coursework, collaborative research, and cross-cultural engineering.',
-    bullets: [
-      'Advanced computer science coursework in distributed systems and robotics',
+    duration: 'August 2025 – June 2026',
+    description: 'International exchange year with advanced computer science coursework, collaborative research and cross-cultural engineering.',
+    highlights: [
+      'Advanced coursework in distributed systems and robotics',
       'International software development collaborations',
       'Korean language and immersive academic study',
     ],
-    responsibilities: [
-      'Advanced computer science coursework in distributed systems and robotics',
-      'International software development collaborations',
-    ],
-    itemType: 'education',
+    fr: {
+      degree: 'Programme international d\'ingénierie',
+      location: 'Séoul, Corée du Sud',
+      duration: 'Août 2025 – Juin 2026',
+      description: 'Année d\'échange international : cours avancés en informatique, recherche collaborative et ingénierie interculturelle.',
+      highlights: [
+        'Cours avancés en systèmes distribués et en robotique',
+        'Collaborations internationales en développement logiciel',
+        'Apprentissage du coréen et immersion universitaire',
+      ],
+    },
   },
   {
-    '@id': '/api/items/lycee-international',
     id: 'lycee-international',
-    name: 'Scientific High School Diploma (Baccalauréat)',
     degree: 'Scientific High School Diploma (Baccalauréat)',
     institution: 'Lycée International de Ferney-Voltaire',
-    school: 'Lycée International de Ferney-Voltaire',
-    company: 'Lycée International de Ferney-Voltaire',
     location: 'Ferney-Voltaire, France',
-    startDate: '2018',
-    endDate: '2021',
-    duration: 'September 2018 - June 2021',
-    description: 'Rigorous scientific curriculum specializing in Mathematics, Computer Science, and international languages.',
-    bullets: [
-      'Specialization in Mathematics and Computer Science',
-      'Bilingual and international secondary academic program',
-      'President and delegate in student organizations',
+    duration: 'September 2018 – June 2021',
+    description: 'Scientific curriculum specialising in mathematics, computer science and international languages.',
+    highlights: [
+      'Specialisation in mathematics and computer science',
+      'Bilingual, international secondary programme',
+      'President and delegate in student organisations',
     ],
-    responsibilities: [
-      'Specialization in Mathematics and Computer Science',
-      'Bilingual and international secondary academic program',
-    ],
-    itemType: 'education',
+    fr: {
+      degree: 'Baccalauréat scientifique',
+      duration: 'Septembre 2018 – Juin 2021',
+      description: 'Parcours scientifique avec spécialités mathématiques, informatique et langues internationales.',
+      highlights: [
+        'Spécialités mathématiques et informatique',
+        'Section bilingue et internationale',
+        'Président et délégué d\'associations lycéennes',
+      ],
+    },
   },
 ];

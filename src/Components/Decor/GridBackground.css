@@ -1,0 +1,28 @@
+.grid-bg {
+  --grid-offset: 0px;
+  --mx: -9999px;
+  --my: -9999px;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  /* fade the grid out toward the edges so it reads as decoration, not a table */
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 35%, transparent 100%);
+}
+
+.grid-bg__layer {
+  position: absolute;
+  left: 0;
+  top: calc(-1 * var(--grid-size));
+  width: 100%;
+  height: calc(100% + 2 * var(--grid-size));
+  transform: translate3d(0, var(--grid-offset), 0);
+  will-change: transform;
+}
+
+.grid-bg__spotlight {
+  -webkit-mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) calc(var(--my) + var(--grid-size) - var(--grid-offset)), #000, transparent 70%);
+  mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) calc(var(--my) + var(--grid-size) - var(--grid-offset)), #000, transparent 70%);
+}

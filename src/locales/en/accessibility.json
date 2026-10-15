@@ -10,8 +10,9 @@
     "item1": "Meaningful alternative text (alt) for images.",
     "item2": "ARIA labels (aria-label) for interactive elements like buttons and links.",
     "item3": "Semantic HTML5 markup for structural clarity.",
-    "item4": "High color contrast in accordance with the terminal theme.",
-    "item5": "Keyboard navigation support."
+    "item4": "Sufficient colour contrast between text and background.",
+    "item5": "Keyboard navigation support.",
+    "item6": "Reduced motion is respected: animations are disabled when the system asks for it."
   },
   "non_accessible": {
     "title": "Non-accessible Content",
@@ -25,5 +26,7 @@
   "enforcement": {
     "title": "Enforcement Procedure",
     "description": "If a lack of accessibility prevents access to a content or functionality of the site, and it is reported without a rapid response, there is an entitlement to send complaints or a request for referral to the relevant regulatory authority (e.g., the Defender of Rights in France for RGAA)."
-  }
+  },
+  "eyebrow": "Accessibility",
+  "intro": "How this website aims to be usable by everyone."
 }

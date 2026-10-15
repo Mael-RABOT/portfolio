@@ -1,82 +1,34 @@
 {
   "header": {
-    "title": "CURRICULUM VITAE - PROFIL DÉVELOPPEUR",
-    "command": "cat /home/developer/cv.txt | head -"
+    "eyebrow": "CV",
+    "title": "Expériences & formation",
+    "intro": "Ingénierie logicielle, robotique et mentorat : mon parcours jusqu'ici."
   },
   "profile": {
-    "name": "Nom :",
-    "location": "Lieu :",
-    "status": "Statut :",
-    "specialization": "Spécialisation :",
-    "contact": "Contact :",
-    "nameValue": "Maël RABOT",
+    "title": "En bref",
+    "location": "Lieu",
     "locationValue": "Paris, France",
-    "statusValue": "Étudiant en informatique à Epitech",
-    "specializationValue": "Développement Full-Stack, Robotique, Recherche IA",
-    "contactValue": "Disponible pour des opportunités à"
-  },
-  "experience": {
-    "title": "EXPÉRIENCE PROFESSIONNELLE - HISTORIQUE TRAVAIL",
-    "command": "cat /var/log/career.log",
-    "duration": "DURÉE :",
-    "location": "LIEU :",
-    "type": "TYPE :",
-    "achievements": "grep \"réalisations\" {{company}}.log"
-  },
-  "education": {
-    "title": "FORMATION",
-    "certTitle": "& CERTIFICATIONS",
-    "academicTitle": "DOSSIERS ACADÉMIQUES",
-    "educationCommand": "ls /etc/education/",
-    "certCommand": "find /certs -name \"*.pem\" -type f",
-    "year": "Année :",
-    "location": "Lieu :",
-    "gpa": "Moyenne :",
-    "valid": "[VALIDE]"
-  },
-  "skills": {
-    "title": "MATRICE DE COMPÉTENCES TECHNIQUES",
-    "command": "cat /proc/skillset | column -t",
-    "headers": {
-      "category": "CATÉGORIE",
-      "technologies": "TECHNOLOGIES",
-      "years": "ANNÉES"
-    },
-    "categories": {
-      "frontend": "Frontend",
-      "backend": "Backend",
-      "database": "Base de données",
-      "devops": "DevOps",
-      "mobile": "Mobile"
-    },
-    "techStacks": {
-      "frontend": "React, TypeScript",
-      "backend": "Node.js, Python, Java, PHP, C/C++",
-      "database": "PostgreSQL, MongoDB, SQL",
-      "devops": "Docker, Bash",
-      "mobile": "React Native, Flutter, Kotlin"
-    }
+    "role": "Actuellement",
+    "roleValue": "Mentor pédagogique à Epitech · Co-fondateur de Lucy-Robotics",
+    "focus": "Domaines",
+    "focusValue": "Développement full-stack, robotique, IA, mentorat",
+    "contact": "Contact"
   },
   "download": {
-    "title": "TÉLÉCHARGEMENT DOCUMENT - OPTIONS D'EXPORT",
-    "pdf": {
-      "command": "wget resume.pdf",
-      "description": "Télécharger version PDF"
-    },
-    "home": {
-      "command": "curl -O home.html",
-      "description": "Aller à la page d'accueil"
-    },
-    "portfolio": {
-      "command": "git clone portfolio",
-      "description": "Cloner l'ensemble du portfolio"
-    },
-    "contact": {
-      "command": "echo $CONTACT_INFO",
-      "description": "Afficher les détails de contact"
-    }
+    "en": "Resume · PDF en anglais",
+    "fr": "CV · PDF en français"
   },
-  "footer": {
-    "ready": "DONNÉES CV CHARGÉES - PRÊT POUR L'EXPORT"
+  "experience": {
+    "eyebrow": "01 / Expériences",
+    "title": "Où j'ai travaillé",
+    "info": "En bref",
+    "links": "Liens",
+    "stack": "Technologies",
+    "images": "Images pour {{name}}",
+    "image": "Image {{index}} pour {{name}}"
+  },
+  "education": {
+    "eyebrow": "02 / Formation",
+    "title": "Où j'ai étudié"
   }
 }

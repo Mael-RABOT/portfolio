@@ -1,201 +1,218 @@
-import { PortfolioItem } from '../services/portfolioApi';
+import type { Project, Translatable } from './types';
+import { LUCY_LINKS } from './contact.data';
 
 /**
- * Local Projects Registry
- * Add or edit your projects here without needing any backend server.
+ * Projects, shown in this order on the Projects page.
  */
-export const LOCAL_PROJECTS: PortfolioItem[] = [
+export const LOCAL_PROJECTS: Translatable<Project>[] = [
   {
-    '@id': '/api/items/lucy',
     id: 'lucy',
     name: 'Lucy',
-    type: 'Humanoid Robotics Framework',
+    type: 'Robotics framework',
     status: 'active',
-    language: 'Rust / C++ / ROS 2 / Python / React / TypeScript',
-    description: `Welcome to Sentience Robotics & Project Lucy.
-An open-source initiative dedicated to developing a modular, full-stack framework for humanoid interaction and control.
+    stack: 'ROS 2 / C++ / Rust / Python / TypeScript / React',
+    description: `> One platform // Any robot
 
-Our mission is to bridge the gap between high-level AI-driven cognition and robust, real-time hardware execution. Built primarily on the InMoov platform, Lucy acts as a universal brain and nervous system adaptable to any humanoid robotics hardware.
+Lucy is an open-source robotics framework that makes robots simpler to use: one ROS 2 core between the robots and the interfaces that drive them.
 
-Key Pillars:
-• LUCY (Platform Bridge): ROS 2-based interface layer with C++ core and ros2_control to allow external web clients or AI models to command robotic actuators seamlessly.
-• HuRI (Human-Robot Interaction): Speech-to-Speech (S2S) pipelines, multi-layer cognitive memory (short, medium, and long-term), and kinematic grounding.
-• Web Control Panel: Real-time telemetry, actuator control, and cloud-assisted teleoperation.`,
-    technologies: ['Rust', 'C++', 'ROS 2', 'ros2_control', 'Python', 'TypeScript', 'React', 'InMoov', 'Blender', 'URDF'],
-    repository: 'https://github.com/Sentience-Robotics',
-    demo: 'https://docs.sentience-robotics.fr/share/p1x9ikjkhf/p/public-documentation-EExgMX2REV',
+How it fits together:
+• Core: runs all the ROS 2 logic in C++, Rust and Python. The main packages are lucy_ros_packages (built on ros2_control) and lucy_embedded_firmware.
+• lucy_ws: the workspace that pulls everything together, with Python scripts and installers. A few commands get it running on macOS, Windows or Linux, without Docker (pixi + RoboStack).
+• Robots: InMoov (the open-source humanoid by Gaël Langevin) and the SO-101 arm today, with more to come.
+• Interfaces: the Lucy Control Panel (web app) and a CLI ship with Lucy, and any other interface can be plugged in or built, since everything is open source.
+
+Software is licensed under GPL-3.0; hardware contributions follow InMoov's CC BY-NC licence.`,
+    technologies: ['ROS 2', 'ros2_control', 'C++', 'Rust', 'Python', 'TypeScript', 'React', 'pixi', 'RoboStack', 'URDF', 'InMoov', 'SO-101'],
+    repository: LUCY_LINKS.github,
     links: [
-      {
-        id: 1,
-        url: 'https://docs.sentience-robotics.fr/share/p1x9ikjkhf/p/public-documentation-EExgMX2REV',
-        item: 'Public Documentation'
-      },
-      {
-        id: 2,
-        url: 'https://projects.sentience-robotics.fr/',
-        item: 'Project Manager (Development Cycle)'
-      },
-      {
-        id: 3,
-        url: 'https://github.com/Sentience-Robotics',
-        item: 'GitHub Organization'
-      },
-      {
-        id: 4,
-        url: 'https://discord.gg/g4KNZ3eeBd',
-        item: 'Community Discord'
-      }
+      { url: LUCY_LINKS.site, label: 'Website' },
+      { url: LUCY_LINKS.docs, label: 'Public documentation' },
+      { url: LUCY_LINKS.projects, label: 'Roadmap & development cycle' },
+      { url: 'https://github.com/Lucy-Robotics/lucy_ws', label: 'Lucy workspace (lucy_ws)' },
+      { url: 'https://github.com/Lucy-Robotics/lucy_control_panel', label: 'Lucy Control Panel' },
+      { url: LUCY_LINKS.discord, label: 'Community Discord' },
     ],
-    responsibilities: [
-      'Architecting modular full-stack humanoid interaction and motor control framework in ROS 2',
-      'Designing hardware abstraction with C++ and ros2_control for real-time actuator control on InMoov hardware',
-      'Developing AI cognition pipeline with speech-to-speech, cognitive memory, and kinematic grounding',
-      'Directing open-source community ecosystem, public documentation, project roadmap, and issue tracking'
+    highlights: [
+      'Architecting a modular, robot-agnostic framework on ROS 2',
+      'Hardware abstraction in C++ with ros2_control for real-time actuator control',
+      'Lucy Control Panel and CLI as ready-to-use interfaces',
+      'Open-source community, public documentation, roadmap and issue tracking',
     ],
-    itemType: 'project',
+    fr: {
+      type: 'Framework robotique',
+      description: `> Une plateforme // N'importe quel robot
+
+Lucy est un framework robotique open source qui simplifie l'utilisation des robots : un seul cœur ROS 2 entre les robots et les interfaces qui les pilotent.
+
+Comment ça s'articule :
+• Le cœur : il exécute toute la logique ROS 2 en C++, Rust et Python. Les principaux packages sont lucy_ros_packages (basé sur ros2_control) et lucy_embedded_firmware.
+• lucy_ws : le workspace qui rassemble tout, avec scripts Python et installeurs. Quelques commandes suffisent pour le lancer sur macOS, Windows ou Linux, sans Docker (pixi + RoboStack).
+• Les robots : InMoov (l'humanoïde open source de Gaël Langevin) et le bras SO-101 aujourd'hui, et d'autres à venir.
+• Les interfaces : le Lucy Control Panel (application web) et une CLI sont fournis avec Lucy, et n'importe quelle autre interface peut être branchée ou développée, puisque tout est open source.
+
+Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la licence CC BY-NC d'InMoov.`,
+      links: [
+        { url: LUCY_LINKS.site, label: 'Site web' },
+        { url: LUCY_LINKS.docs, label: 'Documentation publique' },
+        { url: LUCY_LINKS.projects, label: 'Feuille de route & cycle de développement' },
+        { url: 'https://github.com/Lucy-Robotics/lucy_ws', label: 'Workspace Lucy (lucy_ws)' },
+        { url: 'https://github.com/Lucy-Robotics/lucy_control_panel', label: 'Lucy Control Panel' },
+        { url: LUCY_LINKS.discord, label: 'Discord de la communauté' },
+      ],
+      highlights: [
+        'Architecture d\'un framework modulaire et indépendant du robot, basé sur ROS 2',
+        'Abstraction matérielle en C++ avec ros2_control pour le contrôle temps réel des actionneurs',
+        'Lucy Control Panel et CLI comme interfaces prêtes à l\'emploi',
+        'Communauté open source, documentation publique, feuille de route et suivi des tickets',
+      ],
+    },
   },
   {
-    '@id': '/api/items/not-a-rhythm-game',
-    id: 'not-a-rhythm-game',
-    name: 'Not A Rhythm Game',
-    type: 'Desktop Game',
-    status: 'active',
-    language: 'C++',
-    description: 'Open source rhythm game inspired by Muse Dash, with a complete level editor and custom audio engine.',
-    technologies: ['C++', 'ImGui', 'GLFW', 'BASS'],
-    repository: 'https://github.com/Mael-RABOT/NotARhythmGame',
-    itemType: 'project',
-  },
-  {
-    '@id': '/api/items/area',
-    id: 'area',
-    name: 'AREA',
-    type: 'Web Application',
-    status: 'completed',
-    language: 'TypeScript / Go',
-    description: 'Recreation of IFTTT action-reaction automation platform featuring OAuth2 & 2FA authentication protocols.',
-    technologies: ['Vite', 'TypeScript', 'Go', 'OAuth2', '2FA', 'Docker'],
-    repository: 'https://github.com/ASM-Studios/AREA',
-    itemType: 'project',
-  },
-  {
-    '@id': '/api/items/r-type',
-    id: 'r-type',
-    name: 'R-Type',
-    type: 'Game Engine',
-    status: 'completed',
-    language: 'C++',
-    description: 'Cross-platform custom ECS game engine recreating the famous arcade game R-Type with networked multiplayer.',
-    technologies: ['C++', 'CMake', 'Cross-platform', 'ECS Architecture'],
-    repository: 'https://github.com/ASM-Studios/R-Type',
-    itemType: 'project',
-  },
-  {
-    '@id': '/api/items/lucy-ws',
-    id: 'lucy-ws',
-    name: 'LUCY | The Platform Bridge',
-    type: 'Robotics Interface Layer',
-    status: 'active',
-    language: 'C++ / ROS 2',
-    description: 'The Platform Bridge for Sentience Robotics: ROS 2-based interface layer abstracting hardware complexity with a C++ core and ros2_control to allow external web clients or AI models to command robotic actuators seamlessly on humanoid platforms (InMoov).',
-    technologies: ['Rust', 'C++', 'ROS 2', 'ros2_control', 'Python', 'TypeScript', 'React', 'InMoov', 'Blender', 'URDF'],
-    repository: 'https://github.com/Sentience-Robotics/lucy_ws',
-    itemType: 'project',
-  },
-  {
-    '@id': '/api/items/huri',
     id: 'huri',
     name: 'HuRI | Human-Robot Interaction',
-    type: 'AI Cognition Framework',
+    type: 'AI framework',
     status: 'active',
-    language: 'Python / ROS 2',
-    description: 'The AI framework for Sentience Robotics focusing on Speech-to-Speech (S2S) pipelines, multi-layer cognitive memory (short, medium, and long-term), and kinematic grounding to ensure humanoid movements feel natural, expressive, and context-aware.',
-    technologies: ['Python', 'Speech-to-Speech (S2S)', 'Cognitive Memory', 'Kinematics', 'ROS 2', 'AI Grounding'],
-    repository: 'https://github.com/Sentience-Robotics/HuRI',
-    itemType: 'project',
+    stack: 'Python / ROS 2',
+    description: 'AI framework developed at Lucy-Robotics for human-robot interaction: speech-to-speech pipelines, multi-layer memory (short, medium and long term) and kinematic grounding, so robots can converse and move in a natural, context-aware way.',
+    technologies: ['Python', 'Speech-to-Speech', 'Cognitive memory', 'Kinematics', 'ROS 2'],
+    repository: 'https://github.com/Lucy-Robotics/HuRI',
+    fr: {
+      name: 'HuRI | Interaction humain-robot',
+      type: 'Framework d\'IA',
+      description: 'Framework d\'IA développé chez Lucy-Robotics pour l\'interaction humain-robot : conversation vocale (speech-to-speech), mémoire multi-niveaux (court, moyen et long terme) et ancrage cinématique, pour que les robots dialoguent et bougent de manière naturelle et adaptée au contexte.',
+      technologies: ['Python', 'Speech-to-Speech', 'Mémoire cognitive', 'Cinématique', 'ROS 2'],
+    },
   },
   {
-    '@id': '/api/items/lucy-control-panel',
-    id: 'lucy-control-panel',
-    name: 'Lucy Control Panel',
-    type: 'Robotics Web Interface',
-    status: 'active',
-    language: 'TypeScript / React',
-    description: 'Web-based control panel frontend and ROS 2 communication bridge for operating humanoid robotic platforms, commanding actuators, and monitoring telemetry in real time.',
-    technologies: ['React', 'TypeScript', 'Vite', 'ROS 2', 'WebSocket', 'Material UI'],
-    repository: 'https://github.com/Sentience-Robotics/lucy_control_panel',
-    itemType: 'project',
+    id: 'not-a-rhythm-game',
+    name: 'Not A Rhythm Game',
+    type: 'Desktop game',
+    status: 'completed',
+    stack: 'C++',
+    description: 'Open-source rhythm game inspired by Muse Dash, with a complete level editor and a custom audio engine.',
+    technologies: ['C++', 'ImGui', 'GLFW', 'BASS'],
+    repository: 'https://github.com/Mael-RABOT/NotARhythmGame',
+    fr: {
+      type: 'Jeu PC',
+      description: 'Jeu de rythme open source inspiré de Muse Dash, avec un éditeur de niveaux complet et un moteur audio maison.',
+    },
   },
   {
-    '@id': '/api/items/office-du-tourisme',
+    id: 'area',
+    name: 'AREA',
+    type: 'Web application',
+    status: 'completed',
+    stack: 'TypeScript / Go',
+    description: 'Recreation of the IFTTT action-reaction automation platform, with OAuth2 and two-factor authentication.',
+    technologies: ['Vite', 'TypeScript', 'Go', 'OAuth2', '2FA', 'Docker'],
+    repository: 'https://github.com/ASM-Studios/AREA',
+    fr: {
+      type: 'Application web',
+      description: 'Reproduction de la plateforme d\'automatisation action-réaction IFTTT, avec authentification OAuth2 et double facteur.',
+    },
+  },
+  {
+    id: 'r-type',
+    name: 'R-Type',
+    type: 'Game engine',
+    status: 'completed',
+    stack: 'C++',
+    description: 'Cross-platform ECS game engine recreating the arcade classic R-Type, with networked multiplayer.',
+    technologies: ['C++', 'CMake', 'Cross-platform', 'ECS architecture'],
+    repository: 'https://github.com/ASM-Studios/R-Type',
+    fr: {
+      type: 'Moteur de jeu',
+      description: 'Moteur de jeu ECS multiplateforme recréant le classique d\'arcade R-Type, avec multijoueur en réseau.',
+      technologies: ['C++', 'CMake', 'Multiplateforme', 'Architecture ECS'],
+    },
+  },
+  {
     id: 'office-du-tourisme',
     name: 'Office Du Tourisme',
-    type: 'Web Application',
+    type: 'Web application',
     status: 'completed',
-    language: 'JavaScript',
-    description: 'Game jam interactive Geoguessr-style web exploration game with Google Maps StreetView API integration.',
-    technologies: ['JavaScript', 'Google Maps API', 'HTML5/CSS3'],
+    stack: 'JavaScript',
+    description: 'Game-jam project: a GeoGuessr-style exploration game built on the Google Maps Street View API.',
+    technologies: ['JavaScript', 'Google Maps API', 'HTML5 / CSS3'],
     repository: 'https://github.com/ASM-Studios/officeDuTourisme-Front',
-    itemType: 'project',
+    fr: {
+      type: 'Application web',
+      description: 'Projet de game jam : un jeu d\'exploration façon GeoGuessr basé sur l\'API Google Maps Street View.',
+    },
   },
   {
-    '@id': '/api/items/corewar',
     id: 'corewar',
     name: 'Corewar',
-    type: 'System Programming',
+    type: 'System programming',
     status: 'completed',
-    language: 'C',
-    description: 'Virtual arena machine and bytecode assembler where competing programs fight for survival in memory.',
-    technologies: ['C', 'Assembly', 'Virtual Machine', 'Compiler Design'],
+    stack: 'C',
+    description: 'Virtual machine arena and bytecode assembler where competing programs fight for survival in memory.',
+    technologies: ['C', 'Assembly', 'Virtual machine', 'Compiler design'],
     repository: 'https://github.com/ASM-Studios/ASM-corewar',
-    itemType: 'project',
+    fr: {
+      type: 'Programmation système',
+      description: 'Arène de machine virtuelle et assembleur de bytecode où des programmes s\'affrontent pour survivre en mémoire.',
+      technologies: ['C', 'Assembleur', 'Machine virtuelle', 'Compilation'],
+    },
   },
   {
-    '@id': '/api/items/portfolio',
     id: 'portfolio',
     name: 'Portfolio',
-    type: 'Web Application',
+    type: 'Web application',
     status: 'active',
-    language: 'TypeScript',
-    description: 'Modern cyberpunk terminal portfolio featuring clean 60/30/10 tech styling, responsive layout, and i18n support.',
-    technologies: ['React', 'TypeScript', 'Vite', 'MUI', 'i18n'],
+    stack: 'TypeScript / React',
+    description: 'This website: a dark, minimalist portfolio with a token-based theme, scroll animations and English/French support.',
+    technologies: ['React', 'TypeScript', 'Vite', 'MUI', 'Framer Motion', 'i18next'],
     repository: 'https://github.com/Mael-RABOT/portfolio',
-    itemType: 'project',
+    fr: {
+      type: 'Application web',
+      description: 'Ce site : un portfolio sombre et minimaliste, avec un thème basé sur des tokens, des animations au scroll et une version anglaise/française.',
+    },
   },
   {
-    '@id': '/api/items/pandoc',
     id: 'pandoc',
     name: 'Pandoc Parser',
-    type: 'System Tool',
+    type: 'System tool',
     status: 'completed',
-    language: 'Haskell',
-    description: 'Functional document format parser and converter implementation in Haskell with AST transformations.',
-    technologies: ['Haskell', 'Functional Programming', 'Document Processing'],
+    stack: 'Haskell',
+    description: 'Document format parser and converter written in Haskell, built on AST transformations.',
+    technologies: ['Haskell', 'Functional programming', 'Document processing'],
     repository: 'https://github.com/Mael-RABOT/Pandoc',
-    itemType: 'project',
+    fr: {
+      type: 'Outil système',
+      description: 'Parseur et convertisseur de formats de documents écrit en Haskell, basé sur des transformations d\'AST.',
+      technologies: ['Haskell', 'Programmation fonctionnelle', 'Traitement de documents'],
+    },
   },
   {
-    '@id': '/api/items/teams-clone',
     id: 'teams-clone',
     name: 'Teams TUI Clone',
-    type: 'TUI Application',
+    type: 'Terminal application',
     status: 'completed',
-    language: 'C',
-    description: 'Lightweight Microsoft Teams terminal user interface with multi-client network socket messaging.',
-    technologies: ['C', 'TUI', 'BSD Sockets', 'Networking', 'Terminal'],
+    stack: 'C',
+    description: 'Lightweight terminal clone of Microsoft Teams with multi-client messaging over network sockets.',
+    technologies: ['C', 'TUI', 'BSD sockets', 'Networking'],
     repository: 'https://github.com/Mael-RABOT/microsoftTeams',
-    itemType: 'project',
+    fr: {
+      type: 'Application terminal',
+      description: 'Clone léger de Microsoft Teams en terminal, avec messagerie multi-clients via sockets réseau.',
+      technologies: ['C', 'TUI', 'Sockets BSD', 'Réseau'],
+    },
   },
   {
-    '@id': '/api/items/ai-number-recognition',
     id: 'ai-number-recognition',
     name: 'AI Number Recognition',
-    type: 'Machine Learning',
+    type: 'Machine learning',
     status: 'completed',
-    language: 'Python',
-    description: 'Computer vision neural network pipeline for recognizing and classifying hand-drawn digits from scratch.',
-    technologies: ['Python', 'Machine Learning', 'Computer Vision', 'Neural Networks'],
+    stack: 'Python',
+    description: 'Neural network built from scratch to recognise and classify hand-drawn digits.',
+    technologies: ['Python', 'Machine learning', 'Computer vision', 'Neural networks'],
     repository: 'https://github.com/Mael-RABOT/AI_number_recognition',
-    itemType: 'project',
+    fr: {
+      name: 'Reconnaissance de chiffres par IA',
+      type: 'Machine learning',
+      description: 'Réseau de neurones codé from scratch pour reconnaître et classer des chiffres dessinés à la main.',
+      technologies: ['Python', 'Machine learning', 'Vision par ordinateur', 'Réseaux de neurones'],
+    },
   },
 ];
