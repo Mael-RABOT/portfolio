@@ -1,0 +1,43 @@
+{
+  "eyebrow": "Legal",
+  "title": "Legal notice & privacy",
+  "intro": "Who publishes this site, who hosts it, and what it does (and doesn't do) with your data.",
+  "editor": {
+    "title": "Publisher",
+    "description": "This website is published by Maël Rabot, as a private, non-professional individual. In accordance with article 6-III-2 of French law no. 2004-575 of 21 June 2004 (LCEN), personal identification details have been provided to the host.",
+    "contact": "Contact"
+  },
+  "director": {
+    "title": "Publication director",
+    "description": "Maël Rabot."
+  },
+  "hosting": {
+    "title": "Host"
+  },
+  "ip": {
+    "title": "Intellectual property",
+    "description": "The source code of this website is released under the GPL-3.0 licence. Texts, photographs and the resume remain the property of their author and may not be reproduced without permission. Names and logos of third-party projects or organisations belong to their respective owners."
+  },
+  "data": {
+    "title": "Personal data (GDPR)",
+    "controller": "Data controller: Maël Rabot.",
+    "collected": "This website has no accounts, no forms, no analytics, no advertising and no trackers.",
+    "logs": "Server logs: the IP address, date, requested page and browser are recorded automatically by the server, for security and operational purposes (legitimate interest, GDPR art. 6.1.f). They are kept for 12 months at most.",
+    "email": "Email contact: the information you send is used only to reply to your message. It is never shared, sold or used for any other purpose.",
+    "transfers": "No data is passed on to third parties. Fonts are hosted on this server: your browser makes no request to Google or any other external service. The server is located in France; no data is transferred outside the European Union.",
+    "rights": "Under articles 15 to 21 of the GDPR, you have the right to access, rectify, erase, object to, restrict and port your data. You may also lodge a complaint with the CNIL, the French data protection authority (www.cnil.fr).",
+    "contact": "To exercise these rights"
+  },
+  "storage": {
+    "title": "Cookies and local storage",
+    "intro": "This website sets no cookies. It only saves two display preferences in your browser's local storage (localStorage). They never leave your device and are exempt from consent under the CNIL guidelines:",
+    "theme": "theme: the light or dark theme you chose.",
+    "language": "i18nextLng: the display language you chose.",
+    "clear": "You can remove them at any time by clearing this site's data in your browser settings."
+  },
+  "links": {
+    "title": "External links",
+    "description": "This website links to third-party sites (GitHub, LinkedIn, Lucy-Robotics…). Their content and privacy policies are not the publisher's responsibility."
+  },
+  "updated": "Last updated: 15 October 2026."
+}

@@ -15,6 +15,8 @@ import enNavigation from '../locales/en/navigation.json';
 import frNavigation from '../locales/fr/navigation.json';
 import enAccessibility from '../locales/en/accessibility.json';
 import frAccessibility from '../locales/fr/accessibility.json';
+import enLegal from '../locales/en/legal.json';
+import frLegal from '../locales/fr/legal.json';
 
 i18n
   .use(LanguageDetector)
@@ -28,7 +30,8 @@ i18n
         contact: enContact,
         resume: enResume,
         navigation: enNavigation,
-        accessibility: enAccessibility
+        accessibility: enAccessibility,
+        legal: enLegal
       },
       fr: {
         home: frHome,
@@ -36,7 +39,8 @@ i18n
         contact: frContact,
         resume: frResume,
         navigation: frNavigation,
-        accessibility: frAccessibility
+        accessibility: frAccessibility,
+        legal: frLegal
       }
     },
     fallbackLng: 'en',
@@ -61,4 +65,4 @@ if (typeof document !== 'undefined') {
   });
 }
 
-export default i18n;
+export default i18n;

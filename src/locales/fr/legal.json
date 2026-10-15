@@ -1,0 +1,43 @@
+{
+  "eyebrow": "Mentions légales",
+  "title": "Mentions légales & confidentialité",
+  "intro": "Qui publie ce site, qui l'héberge, et ce qu'il fait (ou ne fait pas) de vos données.",
+  "editor": {
+    "title": "Éditeur du site",
+    "description": "Ce site est édité par Maël Rabot, à titre personnel et non professionnel. Conformément à l'article 6-III-2 de la loi n° 2004-575 du 21 juin 2004 (LCEN), les éléments d'identification personnels ont été communiqués à l'hébergeur.",
+    "contact": "Contact"
+  },
+  "director": {
+    "title": "Directeur de la publication",
+    "description": "Maël Rabot."
+  },
+  "hosting": {
+    "title": "Hébergeur"
+  },
+  "ip": {
+    "title": "Propriété intellectuelle",
+    "description": "Le code source de ce site est publié sous licence GPL-3.0. Les textes, photographies et le CV restent la propriété de leur auteur et ne peuvent être reproduits sans autorisation. Les noms et logos de projets ou d'organisations tierces appartiennent à leurs détenteurs respectifs."
+  },
+  "data": {
+    "title": "Données personnelles (RGPD)",
+    "controller": "Responsable du traitement : Maël Rabot.",
+    "collected": "Ce site ne propose ni compte, ni formulaire, ni outil de mesure d'audience, ni publicité, ni traceur.",
+    "logs": "Journaux du serveur : l'adresse IP, la date, la page demandée et le navigateur sont enregistrés automatiquement par le serveur, à des fins de sécurité et de bon fonctionnement (intérêt légitime, art. 6.1.f du RGPD). Ils sont conservés 12 mois au maximum.",
+    "email": "Contact par e-mail : les informations transmises servent uniquement à répondre au message. Elles ne sont ni cédées, ni vendues, ni utilisées à d'autres fins.",
+    "transfers": "Aucune donnée n'est transmise à des tiers. Les polices de caractères sont hébergées sur ce serveur : le navigateur n'effectue aucune requête vers Google ou un autre service externe. Le serveur est situé en France ; aucune donnée n'est transférée hors de l'Union européenne.",
+    "rights": "Conformément aux articles 15 à 21 du RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité de vos données. Vous pouvez également introduire une réclamation auprès de la CNIL (www.cnil.fr).",
+    "contact": "Pour exercer ces droits"
+  },
+  "storage": {
+    "title": "Cookies et stockage local",
+    "intro": "Ce site ne dépose aucun cookie. Il enregistre uniquement deux préférences d'affichage dans le stockage local de votre navigateur (localStorage). Elles ne quittent jamais votre appareil et sont exemptées de consentement selon les lignes directrices de la CNIL :",
+    "theme": "theme : le thème clair ou sombre choisi.",
+    "language": "i18nextLng : la langue d'affichage choisie.",
+    "clear": "Vous pouvez les supprimer à tout moment en effaçant les données de ce site dans les paramètres de votre navigateur."
+  },
+  "links": {
+    "title": "Liens externes",
+    "description": "Ce site contient des liens vers des sites tiers (GitHub, LinkedIn, Lucy-Robotics…). Leur contenu et leur politique de confidentialité ne relèvent pas de la responsabilité de l'éditeur."
+  },
+  "updated": "Dernière mise à jour : 15 octobre 2026."
+}

@@ -12,6 +12,7 @@ import Projects from "./Pages/Projects";
 import Resume from "./Pages/Resume";
 import Contact from "./Pages/Contact";
 import Accessibility from "./Pages/Accessibility";
+import Legal from "./Pages/Legal";
 import NotFound from "./Pages/NotFound";
 import CvPage from "./Pages/Cv/CvPage";
 
@@ -66,6 +67,7 @@ const App: React.FC = () => {
                                     <Route path="/resume" element={<Resume experiences={data.experiences} educations={data.educations} />} />
                                     <Route path="/contact" element={<Contact />} />
                                     <Route path="/accessibility" element={<Accessibility />} />
+                                    <Route path="/legal" element={<Legal />} />
                                     <Route path="*" element={<NotFound />} />
                                 </Routes>
                             </Layout>

@@ -81,6 +81,7 @@ const Footer: React.FC = () => {
           <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={`mailto:${CONTACT.email}`}>{t('footer.email')}</a>
+          <Link to="/legal">{t('footer.legal')}</Link>
           <Link to="/accessibility">{t('footer.accessibility')}</Link>
         </nav>
       </div>
