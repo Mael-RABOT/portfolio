@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Card, CardContent, Chip, Link, Typography } from "@mui/material";
 import type { Education, Experience } from "../data/types";
 import { Reveal } from "../Components/Motion/Reveal";
@@ -132,6 +133,9 @@ const Resume: React.FC<{ experiences: Experience[], educations: Education[] }> =
                                     </Button>
                                 ))}
                             </Box>
+                            <Link component={RouterLink} to={`/cv/${preferred}`} sx={{ display: 'inline-block', mt: 2, fontSize: 'var(--size-sm)' }}>
+                                {t('download.web')} →
+                            </Link>
                         </CardContent>
                     </Card>
                 </Reveal>

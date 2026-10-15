@@ -1,0 +1,314 @@
+/* ============================================================================
+   Printable CV. Colours and page geometry come from the `cv` tokens in
+   src/theme/theme.const.ts (--cv-*). Sizes are in pt/mm: this is a paper document.
+   ============================================================================ */
+
+/* CSS variables don't work inside @page: keep this equal to `cv.pageMargin`
+   (scripts/generate-cv.mjs reads the token and passes it to the PDF printer). */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+.cv-screen {
+  min-height: 100vh;
+  padding: var(--space-lg) var(--space-md) var(--space-xxl);
+  background: var(--color-bg);
+}
+
+/* ---------------------------------------------------------------- Toolbar (screen only) */
+.cv-toolbar {
+  max-width: var(--cv-page-width);
+  margin: 0 auto var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--size-sm);
+}
+
+.cv-toolbar a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.cv-toolbar a:hover {
+  color: var(--color-accent);
+}
+
+.cv-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.cv-toolbar .cv-toolbar__download {
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+}
+
+.cv-toolbar .cv-toolbar__download:hover {
+  color: var(--color-on-accent);
+  background: var(--color-accent-light);
+}
+
+/* ---------------------------------------------------------------- Sheet */
+.cv-sheet {
+  width: var(--cv-page-width);
+  min-height: var(--cv-page-height);
+  margin: 0 auto;
+  padding: var(--cv-page-margin);
+  background: var(--cv-paper);
+  color: var(--cv-ink);
+  font-family: var(--font-sans);
+  font-size: 8.9pt;
+  line-height: 1.38;
+  -webkit-font-smoothing: antialiased;
+  /* no fi/fl ligatures: they break text extraction (ATS) in the PDF */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 860px) {
+  .cv-screen {
+    overflow-x: auto;
+  }
+}
+
+.cv-sheet a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cv-sheet ul {
+  list-style: none;
+}
+
+/* ---------------------------------------------------------------- Header */
+.cv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8mm;
+  padding-bottom: 4mm;
+  margin-bottom: 5mm;
+  border-bottom: 1.5pt solid var(--cv-accent);
+}
+
+.cv-header__name {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+  font-family: var(--font-mono);
+  font-size: 22pt;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.cv-header__mark {
+  width: 4.2mm;
+  height: 4.2mm;
+  background: var(--cv-accent);
+  clip-path: polygon(0 0, calc(100% - 1.4mm) 0, 100% 1.4mm, 100% 100%, 1.4mm 100%, 0 calc(100% - 1.4mm));
+}
+
+.cv-header__headline {
+  margin-top: 1.5mm;
+  font-size: 10pt;
+  color: var(--cv-ink-muted);
+}
+
+.cv-header__contact {
+  text-align: right;
+  font-size: 8pt;
+  line-height: 1.5;
+  color: var(--cv-ink-muted);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- Body: main + side column */
+.cv-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 58mm;
+  gap: 7mm;
+}
+
+.cv-side {
+  align-self: start; /* the rule stops with the column's content */
+  padding-left: 6mm;
+  border-left: 0.75pt solid var(--cv-rule);
+}
+
+/* Second page: full width, always starts on a new sheet */
+.cv-continuation {
+  break-before: page;
+}
+
+.cv-inline-list {
+  color: var(--cv-ink);
+}
+
+.cv-section + .cv-section {
+  margin-top: 4.5mm;
+}
+
+.cv-section__title {
+  display: flex;
+  align-items: center;
+  gap: 2mm;
+  margin-bottom: 2.2mm;
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cv-accent);
+}
+
+.cv-section__title::after {
+  content: "";
+  flex: 1;
+  height: 0.75pt;
+  background: var(--cv-rule);
+}
+
+.cv-profile {
+  color: var(--cv-ink);
+}
+
+/* ---------------------------------------------------------------- Entries
+   No positioned elements inside the sheet: Chrome writes positioned content last
+   in the PDF text layer, which would scramble the reading order for ATS parsers. */
+.cv-entry {
+  break-inside: avoid;
+}
+
+.cv-entry + .cv-entry {
+  margin-top: 3mm;
+}
+
+.cv-entry__title {
+  font-size: 9.6pt;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.cv-entry__org {
+  font-weight: 500;
+  color: var(--cv-accent);
+}
+
+.cv-entry__meta {
+  margin-top: 0.3mm;
+  font-family: var(--font-mono);
+  font-size: 7.4pt;
+  color: var(--cv-ink-muted);
+}
+
+.cv-entry__summary {
+  margin-top: 1mm;
+}
+
+.cv-entry__bullets {
+  margin-top: 1mm;
+}
+
+.cv-entry__bullets li {
+  display: grid;
+  grid-template-columns: 3.5mm minmax(0, 1fr);
+}
+
+.cv-entry__bullets li + li {
+  margin-top: 0.4mm;
+}
+
+.cv-entry__bullets li::before {
+  content: "";
+  width: 2mm;
+  height: 0.75pt;
+  margin-top: 0.62em;
+  background: var(--cv-accent);
+}
+
+/* compact entries (side column) */
+.cv-entry--compact + .cv-entry--compact {
+  margin-top: 2.5mm;
+}
+
+.cv-entry--compact .cv-entry__title {
+  font-size: 8.8pt;
+}
+
+.cv-entry--compact .cv-entry__org {
+  display: block;
+}
+
+.cv-entry--compact .cv-entry__bullets li {
+  display: block;
+  color: var(--cv-ink-muted);
+}
+
+.cv-entry--compact .cv-entry__sep {
+  display: none;
+}
+
+.cv-entry--compact .cv-entry__bullets li::before {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- Side column content */
+.cv-skills div + div {
+  margin-top: 1.6mm;
+}
+
+.cv-skills dt {
+  font-weight: 600;
+  font-size: 8.4pt;
+}
+
+.cv-skills dd {
+  color: var(--cv-ink-muted);
+}
+
+.cv-languages li + li {
+  margin-top: 0.5mm;
+}
+
+/* ---------------------------------------------------------------- Print */
+@media print {
+  body {
+    background: var(--cv-paper) !important;
+  }
+
+  .cv-screen {
+    min-height: 0;
+    padding: 0;
+    background: none;
+  }
+
+  .cv-toolbar {
+    display: none;
+  }
+
+  /* the @page margin replaces the on-screen padding */
+  .cv-sheet {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+}
+
+/* On screen, mark where the second page starts */
+@media screen {
+  .cv-continuation {
+    margin: var(--cv-page-margin) calc(-1 * var(--cv-page-margin)) 0;
+    padding: var(--cv-page-margin) var(--cv-page-margin) 0;
+    border-top: 1px dashed var(--cv-rule);
+  }
+}

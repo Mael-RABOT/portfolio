@@ -74,6 +74,8 @@ export const colors = {
 // ============================================================================
 export const fonts = {
   mono: "'IBM Plex Mono', ui-monospace, 'Courier New', monospace",
+  // Used by the printable CV only (denser and more readable on paper)
+  sans: "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif",
 } as const;
 
 export const fontWeights = {
@@ -158,7 +160,22 @@ export const grid = {
 } as const;
 
 // ============================================================================
-// 6. MOTION
+// 6. PRINTABLE CV (light "paper" version of the palette)
+// ============================================================================
+export const cv = {
+  paper: '#FFFFFF',
+  ink: '#1B1A17',
+  inkMuted: '#5E5A52',
+  accent: '#C2560F',        // darker amber: readable on white and in print
+  rule: '#E3DCCD',
+  tint: TEXT,               // the site's parchment, as a light highlight
+  pageWidth: '210mm',
+  pageHeight: '297mm',
+  pageMargin: '12mm',
+} as const;
+
+// ============================================================================
+// 7. MOTION
 // ============================================================================
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -172,7 +189,7 @@ export const motion = {
 } as const;
 
 // ============================================================================
-// 7. CSS VARIABLES (generated, do not hand-edit)
+// 8. CSS VARIABLES (generated, do not hand-edit)
 // ============================================================================
 const kebab = (s: string) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 
@@ -199,6 +216,7 @@ const groups: Record<string, Record<string, unknown>> = {
   shape,
   grid,
   motion,
+  cv,
 };
 
 export const cssVariables: Record<string, string> = Object.fromEntries(

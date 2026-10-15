@@ -13,6 +13,7 @@ import Resume from "./Pages/Resume";
 import Contact from "./Pages/Contact";
 import Accessibility from "./Pages/Accessibility";
 import NotFound from "./Pages/NotFound";
+import CvPage from "./Pages/Cv/CvPage";
 
 // F1–F5 keyboard shortcuts, kept as a hidden nicety
 const SHORTCUTS: Record<string, string> = {
@@ -49,18 +50,29 @@ const App: React.FC = () => {
 
     return (
         <Router>
-            <GridBackground />
-            <KeyboardShortcuts />
-            <Layout>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/projects" element={<Projects projects={data.projects} />} />
-                    <Route path="/resume" element={<Resume experiences={data.experiences} educations={data.educations} />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/accessibility" element={<Accessibility />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </Layout>
+            <Routes>
+                {/* Printable CV: standalone A4 page, no site chrome */}
+                <Route path="/cv/:lang?" element={<CvPage />} />
+                <Route
+                    path="*"
+                    element={
+                        <>
+                            <GridBackground />
+                            <KeyboardShortcuts />
+                            <Layout>
+                                <Routes>
+                                    <Route path="/" element={<Home />} />
+                                    <Route path="/projects" element={<Projects projects={data.projects} />} />
+                                    <Route path="/resume" element={<Resume experiences={data.experiences} educations={data.educations} />} />
+                                    <Route path="/contact" element={<Contact />} />
+                                    <Route path="/accessibility" element={<Accessibility />} />
+                                    <Route path="*" element={<NotFound />} />
+                                </Routes>
+                            </Layout>
+                        </>
+                    }
+                />
+            </Routes>
         </Router>
     );
 };
