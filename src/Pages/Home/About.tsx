@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, Typography } from '@mui/material';
 import { Reveal } from '../../Components/Motion/Reveal';
 import { SectionHeader, SplitSection } from '../../Components/Section/Section';
-import { colors } from '../../theme/theme.const';
+import { cssColors } from '../../theme/theme.const';
 
 interface Fact {
   title: string;
@@ -29,7 +29,7 @@ const About: React.FC = () => {
       <ol className="stack facts">
         {Array.isArray(facts) && facts.map((fact, i) => (
           <Reveal key={fact.title} as="li" delay={i * 0.1} from="right">
-            <Card sx={{ '&:hover': { '--chamfer-border': colors.accent } }}>
+            <Card sx={{ '&:hover': { '--chamfer-border': cssColors.accent } }}>
               <CardContent sx={{ display: 'flex', gap: 3, alignItems: 'baseline' }}>
                 <span className="facts__index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 <div>

@@ -8,8 +8,12 @@
  *    and never hold literal values.
  *
  * CSS variable naming: `--<group>-<key>` in kebab-case, e.g.
- *   colors.accentSoft   -> --color-accent-soft
- *   layout.navHeight    -> --layout-nav-height
+ *   palettes.*.accentSoft -> --color-accent-soft
+ *   layout.navHeight      -> --layout-nav-height
+ *
+ * Themes: colours have one palette per mode (`palettes.dark` = default, `palettes.light`).
+ * Both expose the same --color-* variables, scoped by <html data-theme="dark|light">.
+ * In TS/TSX, use `cssColors.x` (a `var(--color-x)` string) so styles follow the theme.
  */
 
 // ============================================================================
@@ -38,36 +42,92 @@ function adjustBrightness(hex: string, percent: number): string {
 }
 
 // ============================================================================
-// 1. BASE COLORS (change these to retheme everything)
+// 1. COLORS: one palette per theme (dark is the default)
 // ============================================================================
-const BACKGROUND = '#0E0E0F'; // Page canvas
-const SURFACE = '#151517';    // Boxes / cards
-const TEXT = '#F7F1E5';       // Warm parchment, all readable text
-const ACCENT = '#FF8A3D';     // Warm amber, links, CTAs, active states
-const ERROR = '#FF5C5C';
-const WARNING = '#FFC24B';
+export type ThemeMode = 'dark' | 'light';
+export const DEFAULT_THEME: ThemeMode = 'dark';
+export const THEME_STORAGE_KEY = 'theme';
 
-export const colors = {
-  bg: BACKGROUND,
-  surface: SURFACE,
-  surfaceRaised: adjustBrightness(SURFACE, 3),
+const PARCHMENT = '#F7F1E5'; // warm off-white: text in dark mode, background in light mode
+const INK = '#1B1A17';       // warm near-black: text in light mode
 
-  text: TEXT,
-  textMuted: rgba(TEXT, 0.68),
-  textSubtle: rgba(TEXT, 0.45),
+interface PaletteBase {
+  bg: string;            // page canvas
+  surface: string;       // boxes / cards
+  surfaceRaised: string; // tooltips, hovered rows
+  text: string;          // all readable text
+  accent: string;        // links, CTAs, active states
+  accentHover: string;   // accent on hover
+  onAccent: string;      // text on an accent fill
+  error: string;
+  warning: string;
+  gridAlpha: number;     // opacity of the dotted background grid
+}
 
-  accent: ACCENT,
-  accentLight: adjustBrightness(ACCENT, 10),
-  accentDark: adjustBrightness(ACCENT, -12),
-  accentSoft: rgba(ACCENT, 0.12),
-  onAccent: BACKGROUND,
+const buildPalette = (b: PaletteBase) => ({
+  bg: b.bg,
+  surface: b.surface,
+  surfaceRaised: b.surfaceRaised,
 
-  line: rgba(TEXT, 0.12),
-  lineStrong: rgba(TEXT, 0.24),
+  text: b.text,
+  textMuted: rgba(b.text, 0.68),
+  textSubtle: rgba(b.text, 0.45),
 
-  error: ERROR,
-  warning: WARNING,
-} as const;
+  accent: b.accent,
+  accentLight: b.accentHover,
+  accentDark: adjustBrightness(b.accent, -12),
+  accentSoft: rgba(b.accent, 0.12),
+  onAccent: b.onAccent,
+
+  line: rgba(b.text, 0.12),
+  lineStrong: rgba(b.text, 0.24),
+
+  gridLine: rgba(b.text, b.gridAlpha),
+  gridHighlight: rgba(b.accent, 0.55), // grid colour under the cursor spotlight
+  gridMarker: rgba(b.accent, 0.5),
+
+  error: b.error,
+  warning: b.warning,
+});
+
+export type Palette = ReturnType<typeof buildPalette>;
+
+export const palettes: Record<ThemeMode, Palette> = {
+  dark: buildPalette({
+    bg: '#0E0E0F',
+    surface: '#151517',
+    surfaceRaised: '#1D1D20',
+    text: PARCHMENT,
+    accent: '#FF8A3D',      // warm amber
+    accentHover: '#FFA061',
+    onAccent: '#0E0E0F',
+    error: '#FF5C5C',
+    warning: '#FFC24B',
+    gridAlpha: 0.16,
+  }),
+  light: buildPalette({
+    bg: PARCHMENT,          // off-white, not pure white
+    surface: '#FBF8F1',
+    surfaceRaised: '#FFFFFF',
+    text: INK,
+    accent: '#C2560F',      // darker amber: AA contrast on parchment
+    accentHover: '#A8480A',
+    onAccent: '#FFFDF8',
+    error: '#C62828',
+    warning: '#9A5B00',
+    gridAlpha: 0.14,
+  }),
+};
+
+const kebab = (s: string) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+
+/**
+ * Palette keys as CSS variables (`cssColors.accent` -> `var(--color-accent)`).
+ * Use these in `sx` props, inline styles and SVG: they follow the active theme.
+ */
+export const cssColors = Object.fromEntries(
+  Object.keys(palettes.dark).map((key) => [key, `var(--color-${kebab(key)})`])
+) as Record<keyof Palette, string>;
 
 // ============================================================================
 // 2. TYPOGRAPHY
@@ -152,10 +212,7 @@ export const shape = {
 export const grid = {
   size: 56,               // px between grid lines
   dash: '1 5',            // SVG stroke-dasharray: dotted lines
-  color: rgba(TEXT, 0.16),
-  highlight: rgba(ACCENT, 0.55), // grid colour under the cursor spotlight
-  spotlightRadius: 240,   // px
-  markerColor: rgba(ACCENT, 0.5),
+  spotlightRadius: 240,   // px (colours live in the palettes: gridLine, gridHighlight, gridMarker)
   parallax: 0.12,         // background scroll speed relative to page
 } as const;
 
@@ -164,11 +221,11 @@ export const grid = {
 // ============================================================================
 export const cv = {
   paper: '#FFFFFF',
-  ink: '#1B1A17',
+  ink: INK,
   inkMuted: '#5E5A52',
   accent: '#C2560F',        // darker amber: readable on white and in print
   rule: '#E3DCCD',
-  tint: TEXT,               // the site's parchment, as a light highlight
+  tint: PARCHMENT,          // the site's parchment, as a light highlight
   pageWidth: '210mm',
   pageHeight: '297mm',
   pageMargin: '12mm',
@@ -191,8 +248,6 @@ export const motion = {
 // ============================================================================
 // 8. CSS VARIABLES (generated, do not hand-edit)
 // ============================================================================
-const kebab = (s: string) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-
 const toCssValue = (group: string, key: string, value: unknown): string | null => {
   if (typeof value === 'string') return value;
   if (typeof value === 'number') {
@@ -204,8 +259,17 @@ const toCssValue = (group: string, key: string, value: unknown): string | null =
   return null;
 };
 
-const groups: Record<string, Record<string, unknown>> = {
-  color: colors,
+const toVariables = (groups: Record<string, Record<string, unknown>>): Record<string, string> =>
+  Object.fromEntries(
+    Object.entries(groups).flatMap(([group, values]) =>
+      Object.entries(values)
+        .map(([key, value]): [string, string | null] => [`--${group}-${kebab(key)}`, toCssValue(group, key, value)])
+        .filter((entry): entry is [string, string] => entry[1] !== null)
+    )
+  );
+
+/** Tokens shared by both themes */
+export const cssVariables = toVariables({
   font: fonts,
   weight: fontWeights,
   size: fontSizes,
@@ -217,21 +281,37 @@ const groups: Record<string, Record<string, unknown>> = {
   grid,
   motion,
   cv,
+});
+
+/** Colour tokens per theme (same variable names, different values) */
+export const themeVariables: Record<ThemeMode, Record<string, string>> = {
+  dark: toVariables({ color: palettes.dark }),
+  light: toVariables({ color: palettes.light }),
 };
 
-export const cssVariables: Record<string, string> = Object.fromEntries(
-  Object.entries(groups).flatMap(([group, values]) =>
-    Object.entries(values)
-      .map(([key, value]): [string, string | null] => [`--${group}-${kebab(key)}`, toCssValue(group, key, value)])
-      .filter((entry): entry is [string, string] => entry[1] !== null)
-  )
-);
+const declarations = (vars: Record<string, string>) =>
+  Object.entries(vars).map(([name, value]) => `  ${name}: ${value};`).join('\n');
 
-/** Writes every token to :root as a CSS custom property. */
+/** Stylesheet: shared tokens on :root, colours scoped by <html data-theme="…">. */
+export const themeStylesheet = (): string =>
+  [
+    `:root {\n${declarations(cssVariables)}\n}`,
+    ...(Object.keys(themeVariables) as ThemeMode[]).map(
+      (mode) => `:root[data-theme="${mode}"] {\n${declarations(themeVariables[mode])}\n  color-scheme: ${mode};\n}`
+    ),
+  ].join('\n\n');
+
+/** Writes every token to a <style id="theme-tokens"> in <head>. */
 export const injectThemeVariables = (): void => {
   if (typeof document === 'undefined') return;
-  const root = document.documentElement;
-  Object.entries(cssVariables).forEach(([name, value]) => root.style.setProperty(name, value));
+  let style = document.getElementById('theme-tokens');
+  if (!style) {
+    style = document.createElement('style');
+    style.id = 'theme-tokens';
+    document.head.prepend(style);
+  }
+  style.textContent = themeStylesheet();
+  if (!document.documentElement.dataset.theme) document.documentElement.dataset.theme = DEFAULT_THEME;
 };
 
 if (typeof document !== 'undefined') {
@@ -239,7 +319,7 @@ if (typeof document !== 'undefined') {
 }
 
 export const THEME_CONFIG = {
-  colors,
+  palettes,
   fonts,
   fontWeights,
   fontSizes,

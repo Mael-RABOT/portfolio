@@ -6,7 +6,7 @@ import type { Project } from "../data/types";
 import { Reveal } from "../Components/Motion/Reveal";
 import { SectionHeader, SplitSection } from "../Components/Section/Section";
 import { LUCY_LINKS } from "../data/contact.data";
-import { colors } from "../theme/theme.const";
+import { cssColors } from "../theme/theme.const";
 import "./Pages.css";
 
 const isUrl = (text?: string): text is string => {
@@ -141,7 +141,7 @@ const Organizations: React.FC = () => {
         >
             <div className="stack">
                 <Reveal from="right">
-                    <Card sx={{ '--chamfer-border': colors.lineStrong }}>
+                    <Card sx={{ '--chamfer-border': cssColors.lineStrong }}>
                         <CardContent sx={{ p: { xs: 3, md: 4 } }}>
                             <Typography variant="h3">{t('organizations.lucyRobotics.title')}</Typography>
                             <Typography sx={{ mt: 2 }}>{t('organizations.lucyRobotics.p1')}</Typography>

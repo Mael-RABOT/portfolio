@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
@@ -9,6 +9,18 @@
   <title>Maël Rabot · Software engineer</title>
   <meta name="description" content="Maël Rabot, software engineer in Paris. Pedagogical mentor at Epitech and co-founder of Lucy-Robotics, building Lucy, an open-source framework that makes robots simpler to use." />
   <meta name="theme-color" content="#0E0E0F" />
+  <!-- Apply the saved theme before the app loads (no flash). Dark is the default.
+       Colours mirror palettes.*.bg in src/theme/theme.const.ts; ThemeProvider takes over after mount. -->
+  <script>
+    (function () {
+      var mode = 'dark';
+      try { if (localStorage.getItem('theme') === 'light') mode = 'light'; } catch (e) {}
+      var bg = mode === 'light' ? '#F7F1E5' : '#0E0E0F';
+      document.documentElement.dataset.theme = mode;
+      document.documentElement.style.backgroundColor = bg;
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', bg);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link

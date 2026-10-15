@@ -13,14 +13,18 @@
   box-sizing: border-box;
 }
 
+/* The page background lives on <html> only: a body background would paint
+   over the fixed grid decoration (z-index: -1). */
 html {
+  background-color: var(--color-bg);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* smooth light/dark switch (disabled by the reduced-motion rule below) */
+  transition: background-color var(--motion-base) var(--motion-easing);
 }
 
 body {
   min-height: 100vh;
-  background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--size-md);
@@ -28,6 +32,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: color var(--motion-base) var(--motion-easing);
 }
 
 ::selection {

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 import { Counter, Reveal } from '../../Components/Motion/Reveal';
 import { SectionHeader, SplitSection } from '../../Components/Section/Section';
-import { colors } from '../../theme/theme.const';
+import { cssColors } from '../../theme/theme.const';
 
 interface Stat {
   value: number;
@@ -21,7 +21,7 @@ const TrackCard: React.FC<{ track: 'mentoring' | 'building'; onLink: () => void;
 
   return (
     <Reveal delay={index * 0.12} from="right">
-      <Card component="article" sx={{ '&:hover': { '--chamfer-border': colors.accent } }}>
+      <Card component="article" sx={{ '&:hover': { '--chamfer-border': cssColors.accent } }}>
         <CardContent sx={{ p: { xs: 3, md: 4 } }}>
           <Typography variant="overline" component="p">
             {String(index + 1).padStart(2, '0')} · {t(`tracks.${track}.label`)}

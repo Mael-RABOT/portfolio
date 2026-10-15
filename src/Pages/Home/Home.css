@@ -217,7 +217,7 @@
 }
 
 .diagram__node:focus-visible polygon {
-  stroke: var(--color-text);
+  stroke: var(--color-text) !important; /* beats the inline stroke set from React */
 }
 
 /* Mobile version of the diagram: stacked groups of chips */

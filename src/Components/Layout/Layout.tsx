@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitch from '../LanguageSwitch/LanguageSwitch';
+import ThemeSwitch from '../ThemeSwitch/ThemeSwitch';
 import { CONTACT } from '../../data/contact.data';
 import './Layout.css';
 
@@ -47,7 +48,10 @@ const Navbar: React.FC = () => {
               {t(`menu.${item.key}`)}
             </NavLink>
           ))}
-          <LanguageSwitch />
+          <div className="navbar__prefs">
+            <LanguageSwitch />
+            <ThemeSwitch />
+          </div>
         </nav>
 
         <button

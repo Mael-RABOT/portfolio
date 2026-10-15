@@ -281,8 +281,16 @@
 
 /* ---------------------------------------------------------------- Print */
 @media print {
+  /* paper is always light, whatever the site theme
+     (Chrome paints the PDF page margins from the root color-scheme) */
+  :root {
+    color-scheme: light !important;
+  }
+
+  html,
   body {
     background: var(--cv-paper) !important;
+    transition: none !important;
   }
 
   .cv-screen {

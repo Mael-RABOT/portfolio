@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from 'framer-motion';
-import { colors, fonts } from '../../theme/theme.const';
+import { cssColors as c, fonts } from '../../theme/theme.const';
+
+// Colours go through `style` (CSS variables don't work in SVG presentation attributes)
 import { useInViewOnce } from '../../Components/Motion/useInViewOnce';
 
 type NodeId =
@@ -102,7 +104,7 @@ const LucyDiagram: React.FC = () => {
             key={column}
             x={COL[column].x}
             y={24}
-            fill={colors.accent}
+            style={{ fill: c.accent }}
             fontFamily={fonts.mono}
             fontSize={TEXT.label}
             letterSpacing="0.14em"
@@ -119,13 +121,12 @@ const LucyDiagram: React.FC = () => {
                 d={edge.d}
                 pathLength={1}
                 className={`diagram__edge ${edge.ghost ? 'diagram__edge--ghost' : ''}`}
-                style={{ '--d': `${0.3 + i * 0.08}s` } as React.CSSProperties}
+                style={{ '--d': `${0.3 + i * 0.08}s`, stroke: lit ? c.accent : c.lineStrong } as React.CSSProperties}
                 fill="none"
-                stroke={lit ? colors.accent : colors.lineStrong}
                 strokeWidth={1}
               />
               {!reduce && !edge.ghost && (
-                <circle r={2.5} fill={colors.accent} opacity={lit ? 1 : 0.3}>
+                <circle r={2.5} style={{ fill: c.accent }} opacity={lit ? 1 : 0.3}>
                   <animateMotion dur={`${2 + (i % 3) * 0.5}s`} repeatCount="indefinite" path={edge.d} />
                 </circle>
               )}
@@ -137,20 +138,22 @@ const LucyDiagram: React.FC = () => {
         <g className="diagram__node" tabIndex={0} role="button" aria-pressed={active === 'core'} aria-label={title('core')} {...select('core')}>
           <polygon
             points={chamferPoints(CORE, 14)}
-            fill={active === 'core' ? colors.accentSoft : colors.surface}
-            stroke={isCorePart(active) ? colors.accent : colors.lineStrong}
+            style={{
+              fill: active === 'core' ? c.accentSoft : c.surface,
+              stroke: isCorePart(active) ? c.accent : c.lineStrong,
+            }}
             strokeWidth={1}
           />
-          <text x={CORE.x + 16} y={CORE.y + 28} fill={active === 'core' ? colors.accent : colors.text} fontFamily={fonts.mono} fontSize={TEXT.title} fontWeight={600}>
+          <text x={CORE.x + 16} y={CORE.y + 28} style={{ fill: active === 'core' ? c.accent : c.text }} fontFamily={fonts.mono} fontSize={TEXT.title} fontWeight={600}>
             {title('core')}
           </text>
-          <text x={CORE.x + 16} y={CORE.y + 48} fill={colors.textMuted} fontFamily={fonts.mono} fontSize={TEXT.small}>
+          <text x={CORE.x + 16} y={CORE.y + 48} style={{ fill: c.textMuted }} fontFamily={fonts.mono} fontSize={TEXT.small}>
             ROS 2 · C++ · Rust · Python
           </text>
-          <text x={CORE.x + 16} y={CORE.y + 256} fill={colors.textMuted} fontFamily={fonts.mono} fontSize={TEXT.small}>
+          <text x={CORE.x + 16} y={CORE.y + 256} style={{ fill: c.textMuted }} fontFamily={fonts.mono} fontSize={TEXT.small}>
             {t('lucy.diagram.install')}
           </text>
-          <text x={CORE.x + 16} y={CORE.y + 276} fill={colors.textMuted} fontFamily={fonts.mono} fontSize={TEXT.small}>
+          <text x={CORE.x + 16} y={CORE.y + 276} style={{ fill: c.textMuted }} fontFamily={fonts.mono} fontSize={TEXT.small}>
             macOS · Windows · Linux
           </text>
         </g>
@@ -170,8 +173,10 @@ const LucyDiagram: React.FC = () => {
             >
               <polygon
                 points={chamferPoints(node, node.inner ? 7 : CUT)}
-                fill={selected ? colors.accentSoft : node.inner ? colors.bg : colors.surface}
-                stroke={selected ? colors.accent : node.ghost ? colors.line : colors.lineStrong}
+                style={{
+                  fill: selected ? c.accentSoft : node.inner ? c.bg : c.surface,
+                  stroke: selected ? c.accent : node.ghost ? c.line : c.lineStrong,
+                }}
                 strokeDasharray={node.ghost ? '4 4' : undefined}
                 strokeWidth={1}
               />
@@ -180,7 +185,7 @@ const LucyDiagram: React.FC = () => {
                 y={centerY(node)}
                 textAnchor="middle"
                 dominantBaseline="central"
-                fill={selected ? colors.accent : node.ghost ? colors.textMuted : colors.text}
+                style={{ fill: selected ? c.accent : node.ghost ? c.textMuted : c.text }}
                 fontFamily={fonts.mono}
                 fontSize={node.inner ? TEXT.inner : TEXT.node}
               >

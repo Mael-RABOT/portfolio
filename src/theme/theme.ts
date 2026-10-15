@@ -2,7 +2,9 @@ import { createTheme } from '@mui/material/styles';
 import type { CSSObject } from '@mui/material/styles';
 import type { TypographyStyleOptions } from '@mui/material/styles/createTypography';
 import {
-  colors,
+  cssColors,
+  palettes,
+  type ThemeMode,
   fonts,
   fontWeights,
   fontSizes,
@@ -33,8 +35,8 @@ export const chamferBox = (size = 'var(--shape-chamfer)'): CSSObject => ({
   border: 'none',
   borderRadius: 0,
   clipPath: chamferPath(size),
-  '--chamfer-border': colors.line,
-  '--chamfer-bg': colors.surface,
+  '--chamfer-border': cssColors.line,
+  '--chamfer-bg': cssColors.surface,
   '&::before, &::after': {
     content: '""',
     position: 'absolute',
@@ -62,172 +64,185 @@ const heading = (fontSize: string): TypographyStyleOptions => ({
   fontWeight: fontWeights.semiBold,
   lineHeight: lineHeights.tight,
   letterSpacing: letterSpacing.tight,
-  color: colors.text,
+  color: cssColors.text,
 });
 
-const theme = createTheme({
-  spacing: SPACING_BASE,
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: colors.accent,
-      light: colors.accentLight,
-      dark: colors.accentDark,
-      contrastText: colors.onAccent,
+/**
+ * MUI theme for one mode. The palette holds real colour values (MUI derives
+ * shades from them); every style override uses CSS variables (`cssColors`),
+ * so the overrides follow <html data-theme> without rebuilding anything.
+ */
+export const createAppTheme = (mode: ThemeMode) => {
+  const p = palettes[mode];
+  return createTheme({
+    spacing: SPACING_BASE,
+    palette: {
+      mode,
+      primary: {
+        main: p.accent,
+        light: p.accentLight,
+        dark: p.accentDark,
+        contrastText: p.onAccent,
+      },
+      secondary: {
+        main: p.text,
+        contrastText: p.bg,
+      },
+      error: { main: p.error },
+      warning: { main: p.warning },
+      background: {
+        default: p.bg,
+        paper: p.surface,
+      },
+      text: {
+        primary: p.text,
+        secondary: p.textMuted,
+        disabled: p.textSubtle,
+      },
+      divider: p.line,
     },
-    secondary: {
-      main: colors.text,
-      contrastText: colors.bg,
+    shape: { borderRadius: shape.radius },
+    typography: {
+      fontFamily: fonts.mono,
+      h1: heading(fontSizes.h1),
+      h2: heading(fontSizes.h2),
+      h3: heading(fontSizes.h3),
+      h4: heading(fontSizes.xl),
+      h5: heading(fontSizes.lg),
+      h6: { ...heading(fontSizes.md), letterSpacing: letterSpacing.normal },
+      subtitle1: { fontSize: fontSizes.lg, lineHeight: lineHeights.normal, color: cssColors.textMuted },
+      subtitle2: { fontSize: fontSizes.sm, fontWeight: fontWeights.medium, color: cssColors.textMuted },
+      body1: { fontSize: fontSizes.md, lineHeight: lineHeights.relaxed },
+      body2: { fontSize: fontSizes.sm, lineHeight: lineHeights.normal },
+      caption: { fontSize: fontSizes.xs, color: cssColors.textMuted },
+      overline: {
+        fontSize: fontSizes.xs,
+        fontWeight: fontWeights.medium,
+        letterSpacing: letterSpacing.label,
+        lineHeight: lineHeights.normal,
+        textTransform: 'uppercase',
+        color: cssColors.accent,
+      },
+      button: {
+        fontSize: fontSizes.sm,
+        fontWeight: fontWeights.medium,
+        letterSpacing: letterSpacing.wide,
+        textTransform: 'none',
+      },
     },
-    error: { main: colors.error },
-    warning: { main: colors.warning },
-    background: {
-      default: colors.bg,
-      paper: colors.surface,
-    },
-    text: {
-      primary: colors.text,
-      secondary: colors.textMuted,
-      disabled: colors.textSubtle,
-    },
-    divider: colors.line,
-  },
-  shape: { borderRadius: shape.radius },
-  typography: {
-    fontFamily: fonts.mono,
-    h1: heading(fontSizes.h1),
-    h2: heading(fontSizes.h2),
-    h3: heading(fontSizes.h3),
-    h4: heading(fontSizes.xl),
-    h5: heading(fontSizes.lg),
-    h6: { ...heading(fontSizes.md), letterSpacing: letterSpacing.normal },
-    subtitle1: { fontSize: fontSizes.lg, lineHeight: lineHeights.normal, color: colors.textMuted },
-    subtitle2: { fontSize: fontSizes.sm, fontWeight: fontWeights.medium, color: colors.textMuted },
-    body1: { fontSize: fontSizes.md, lineHeight: lineHeights.relaxed },
-    body2: { fontSize: fontSizes.sm, lineHeight: lineHeights.normal },
-    caption: { fontSize: fontSizes.xs, color: colors.textMuted },
-    overline: {
-      fontSize: fontSizes.xs,
-      fontWeight: fontWeights.medium,
-      letterSpacing: letterSpacing.label,
-      lineHeight: lineHeights.normal,
-      textTransform: 'uppercase',
-      color: colors.accent,
-    },
-    button: {
-      fontSize: fontSizes.sm,
-      fontWeight: fontWeights.medium,
-      letterSpacing: letterSpacing.wide,
-      textTransform: 'none',
-    },
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: { body: { backgroundColor: colors.bg } },
-    },
-    MuiButton: {
-      defaultProps: { disableElevation: true, disableRipple: true },
-      styleOverrides: {
-        root: {
-          ...chamferBox('var(--shape-chamfer-sm)'),
-          padding: '10px 20px',
-          color: colors.text,
-          transition: `color ${motion.fast}s ${motion.easing}`,
-          // neutralise MUI's own variant backgrounds/borders, the pseudo layers draw everything
-          '&, &:hover, &:active': { backgroundColor: 'transparent', border: 'none', boxShadow: 'none' },
-          '&:focus-visible': { outline: 'none', '--chamfer-border': colors.accent },
-          '&.Mui-disabled': { color: colors.textSubtle },
-        },
-        contained: {
-          '--chamfer-border': colors.accent,
-          '--chamfer-bg': colors.accent,
-          color: colors.onAccent,
-          '&:hover, &:focus-visible': {
-            '--chamfer-border': colors.accentLight,
-            '--chamfer-bg': colors.accentLight,
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: { body: { backgroundColor: cssColors.bg } },
+      },
+      MuiButton: {
+        defaultProps: { disableElevation: true, disableRipple: true },
+        styleOverrides: {
+          root: {
+            ...chamferBox('var(--shape-chamfer-sm)'),
+            padding: '10px 20px',
+            color: cssColors.text,
+            transition: `color ${motion.fast}s ${motion.easing}`,
+            // neutralise MUI's own variant backgrounds/borders, the pseudo layers draw everything
+            '&, &:hover, &:active': { backgroundColor: 'transparent', border: 'none', boxShadow: 'none' },
+            '&:focus-visible': { outline: 'none', '--chamfer-border': cssColors.accent },
+            '&.Mui-disabled': { color: cssColors.textSubtle },
           },
-          '&:focus-visible': { '--chamfer-border': colors.text },
+          contained: {
+            '--chamfer-border': cssColors.accent,
+            '--chamfer-bg': cssColors.accent,
+            color: cssColors.onAccent,
+            '&:hover, &:focus-visible': {
+              '--chamfer-border': cssColors.accentLight,
+              '--chamfer-bg': cssColors.accentLight,
+            },
+            '&:focus-visible': { '--chamfer-border': cssColors.text },
+          },
+          outlined: {
+            '--chamfer-border': cssColors.lineStrong,
+            '--chamfer-bg': cssColors.bg,
+            '&:hover': { '--chamfer-border': cssColors.accent, color: cssColors.accent },
+          },
+          text: {
+            '--chamfer-border': 'transparent',
+            '--chamfer-bg': 'transparent',
+            '&:hover': { color: cssColors.accent },
+          },
         },
-        outlined: {
-          '--chamfer-border': colors.lineStrong,
-          '--chamfer-bg': colors.bg,
-          '&:hover': { '--chamfer-border': colors.accent, color: colors.accent },
+      },
+      MuiCard: {
+        defaultProps: { elevation: 0 },
+        styleOverrides: {
+          root: {
+            ...chamferBox(),
+            overflow: 'visible',
+          },
         },
-        text: {
-          '--chamfer-border': 'transparent',
-          '--chamfer-bg': 'transparent',
-          '&:hover': { color: colors.accent },
+      },
+      MuiCardHeader: {
+        styleOverrides: {
+          root: { padding: '20px 24px 0' },
+          title: { ...heading(fontSizes.lg), letterSpacing: letterSpacing.normal },
+          subheader: { fontSize: fontSizes.xs, color: cssColors.textMuted, marginTop: 4 },
+        },
+      },
+      MuiCardContent: {
+        styleOverrides: {
+          root: { padding: 24, '&:last-child': { paddingBottom: 24 } },
+        },
+      },
+      MuiPaper: {
+        defaultProps: { elevation: 0 },
+        styleOverrides: {
+          root: { backgroundImage: 'none', borderRadius: 0 },
+        },
+      },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            borderRadius: 0,
+            fontSize: fontSizes.xs,
+            height: 28,
+          },
+          outlined: {
+            borderColor: cssColors.line,
+            color: cssColors.textMuted,
+          },
+          filledPrimary: {
+            backgroundColor: cssColors.accentSoft,
+            color: cssColors.accent,
+          },
+        },
+      },
+      MuiDivider: {
+        styleOverrides: { root: { borderColor: cssColors.line } },
+      },
+      MuiLink: {
+        defaultProps: { underline: 'hover' },
+        styleOverrides: {
+          root: {
+            color: cssColors.accent,
+            textUnderlineOffset: '3px',
+            '&:hover': { color: cssColors.accentLight },
+          },
+        },
+      },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            borderRadius: 0,
+            backgroundColor: cssColors.surfaceRaised,
+            border: `1px solid ${cssColors.line}`,
+            fontSize: fontSizes.xs,
+          },
         },
       },
     },
-    MuiCard: {
-      defaultProps: { elevation: 0 },
-      styleOverrides: {
-        root: {
-          ...chamferBox(),
-          overflow: 'visible',
-        },
-      },
-    },
-    MuiCardHeader: {
-      styleOverrides: {
-        root: { padding: '20px 24px 0' },
-        title: { ...heading(fontSizes.lg), letterSpacing: letterSpacing.normal },
-        subheader: { fontSize: fontSizes.xs, color: colors.textMuted, marginTop: 4 },
-      },
-    },
-    MuiCardContent: {
-      styleOverrides: {
-        root: { padding: 24, '&:last-child': { paddingBottom: 24 } },
-      },
-    },
-    MuiPaper: {
-      defaultProps: { elevation: 0 },
-      styleOverrides: {
-        root: { backgroundImage: 'none', borderRadius: 0 },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          borderRadius: 0,
-          fontSize: fontSizes.xs,
-          height: 28,
-        },
-        outlined: {
-          borderColor: colors.line,
-          color: colors.textMuted,
-        },
-        filledPrimary: {
-          backgroundColor: colors.accentSoft,
-          color: colors.accent,
-        },
-      },
-    },
-    MuiDivider: {
-      styleOverrides: { root: { borderColor: colors.line } },
-    },
-    MuiLink: {
-      defaultProps: { underline: 'hover' },
-      styleOverrides: {
-        root: {
-          color: colors.accent,
-          textUnderlineOffset: '3px',
-          '&:hover': { color: colors.accentLight },
-        },
-      },
-    },
-    MuiTooltip: {
-      styleOverrides: {
-        tooltip: {
-          borderRadius: 0,
-          backgroundColor: colors.surfaceRaised,
-          border: `1px solid ${colors.line}`,
-          fontSize: fontSizes.xs,
-        },
-      },
-    },
-  },
-});
+  });
+};
 
-export default theme;
+export const themes = {
+  dark: createAppTheme('dark'),
+  light: createAppTheme('light'),
+} as const;
+
+export default themes.dark;
