@@ -2,6 +2,10 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* body's overflow-x: hidden is passed to the viewport, which mobile browsers
+     ignore for touch panning: clip off-screen content (e.g. .reveal--right) here.
+     clip, unlike hidden, creates no scroll container and leaves fixed children alone. */
+  overflow-x: clip;
 }
 
 .layout__main {
