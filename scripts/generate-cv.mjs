@@ -3,9 +3,14 @@
  *
  *   npm run cv:pdf        (also runs automatically before `vite build`)
  *
- * Starts a Vite dev server, prints each CV page with headless Chrome and writes
- * the PDFs to public/ (paths come from RESUME_PDF in src/data/contact.data.ts).
- * Fails if the French CV does not fit on a single page.
+ * Prints each CV page with headless Chrome (served by a temporary Vite dev
+ * server) and writes the PDFs to public/ (paths come from RESUME_PDF in
+ * src/data/contact.data.ts). Fails if the French CV does not fit on one page.
+ *
+ * Chrome: Puppeteer's bundled Chrome is used by default. On machines where it
+ * cannot run (e.g. Linux ARM servers), point PUPPETEER_EXECUTABLE_PATH at a
+ * system Chromium, or let the script skip: the PDFs committed in public/ are
+ * kept and the build continues. Set CV_PDF_STRICT=1 to make that a hard error.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -16,20 +21,37 @@ const MAX_PAGES = { en: 2, fr: 1 };
 
 const countPages = (pdf) => (Buffer.from(pdf).toString('latin1').match(/\/Type\s*\/Page(?![s\w])/g) || []).length;
 
+// 1. Start Chrome first: if it is unavailable there is nothing else to clean up.
+let browser;
+try {
+  browser = await puppeteer.launch({ headless: true });
+} catch (error) {
+  const reason = String(error?.message || error).split('\n').find((line) => line.trim()) ?? 'unknown error';
+  const message = [
+    `⚠ CV PDFs not regenerated: Chrome could not start (${reason.trim()}).`,
+    '  The PDFs committed in public/ are kept. To regenerate them, run `npm run cv:pdf` on a machine',
+    '  where Chrome works, or set PUPPETEER_EXECUTABLE_PATH to a system Chromium.',
+  ].join('\n');
+  if (process.env.CV_PDF_STRICT) {
+    console.error(message);
+    process.exit(1);
+  }
+  console.warn(message);
+  process.exit(0);
+}
+
+// 2. Serve the app and print each CV.
 const server = await createServer({
   logLevel: 'error',
   server: { port: 0, hmr: false },
 });
 
 let failed = false;
-let browser;
 
 try {
   await server.listen();
   const baseUrl = server.resolvedUrls.local[0].replace(/\/$/, '');
   const { RESUME_PDF } = await server.ssrLoadModule('/src/data/contact.data.ts');
-
-  browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   for (const lang of Object.keys(MAX_PAGES)) {
@@ -62,7 +84,7 @@ try {
   console.error(error);
   failed = true;
 } finally {
-  await browser?.close();
+  await browser.close();
   await server.close();
 }
 
