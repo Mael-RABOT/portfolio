@@ -273,7 +273,7 @@ export const CV: Record<Language, Cv> = {
     name: 'Maël Rabot',
     headline: 'Ingénieur logiciel · Mentorat de développeurs & robotique',
     location: 'Paris, France',
-    profile: "Ingénieur logiciel en fin de Master informatique à Epitech. J'accompagne des développeurs à Epitech International et j'ai co-fondé Lucy-Robotics, qui développe Lucy, un framework open source qui simplifie l'utilisation des robots : une plateforme, n'importe quel robot. J'aime la programmation bas niveau, la conception orientée objet, le développement web et la robotique.",
+    profile: "Ingénieur logiciel en fin de Master informatique à Epitech. J'accompagne les étudiants d'Epitech International dans leurs projets et j'ai co-fondé Lucy-Robotics, qui développe Lucy, un framework open source qui simplifie l'utilisation des robots : une plateforme, n'importe quel robot. J'aime la programmation bas niveau, la conception orientée objet, le développement web et la robotique.",
     experience: [
       {
         title: 'Mentor pédagogique',
