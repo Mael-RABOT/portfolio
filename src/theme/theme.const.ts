@@ -213,7 +213,6 @@ export const grid = {
   size: 56,               // px between grid lines
   dash: '1 5',            // SVG stroke-dasharray: dotted lines
   spotlightRadius: 240,   // px (colours live in the palettes: gridLine, gridHighlight, gridMarker)
-  parallax: 0.12,         // background scroll speed relative to page
 } as const;
 
 // ============================================================================

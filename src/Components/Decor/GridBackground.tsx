@@ -21,7 +21,7 @@ const GridPattern: React.FC<{ id: string; stroke: string }> = ({ id, stroke }) =
 
 /**
  * Fixed decorative background: dotted grid lines, a few accent markers,
- * a slight parallax on scroll and a spotlight that lights the grid under the pointer.
+ * and a spotlight that lights the grid under the pointer.
  */
 const GridBackground: React.FC = () => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -33,38 +33,26 @@ const GridBackground: React.FC = () => {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const finePointer = window.matchMedia('(pointer: fine)').matches;
-    if (reduceMotion) return;
+    if (reduceMotion || !finePointer) return;
 
     let frame = 0;
-    let pointer: { x: number; y: number } | null = null;
+    let pointer = { x: 0, y: 0 };
 
     const render = () => {
       frame = 0;
-      const offset = -(window.scrollY * grid.parallax) % grid.size;
-      root.style.setProperty('--grid-offset', `${offset}px`);
-      if (pointer) {
-        root.style.setProperty('--mx', `${pointer.x}px`);
-        root.style.setProperty('--my', `${pointer.y}px`);
-      }
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(render);
+      root.style.setProperty('--mx', `${pointer.x}px`);
+      root.style.setProperty('--my', `${pointer.y}px`);
     };
     const onPointerMove = (e: PointerEvent) => {
       pointer = { x: e.clientX, y: e.clientY };
-      schedule();
+      if (!frame) frame = requestAnimationFrame(render);
     };
 
-    window.addEventListener('scroll', schedule, { passive: true });
-    if (finePointer) {
-      setSpotlight(true);
-      window.addEventListener('pointermove', onPointerMove, { passive: true });
-    }
-    render();
+    setSpotlight(true);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', schedule);
       window.removeEventListener('pointermove', onPointerMove);
     };
   }, []);

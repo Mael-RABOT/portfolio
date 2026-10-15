@@ -1,5 +1,4 @@
 .grid-bg {
-  --grid-offset: 0px;
   --mx: -9999px;
   --my: -9999px;
   position: fixed;
@@ -14,15 +13,12 @@
 
 .grid-bg__layer {
   position: absolute;
-  left: 0;
-  top: calc(-1 * var(--grid-size));
+  inset: 0;
   width: 100%;
-  height: calc(100% + 2 * var(--grid-size));
-  transform: translate3d(0, var(--grid-offset), 0);
-  will-change: transform;
+  height: 100%;
 }
 
 .grid-bg__spotlight {
-  -webkit-mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) calc(var(--my) + var(--grid-size) - var(--grid-offset)), #000, transparent 70%);
-  mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) calc(var(--my) + var(--grid-size) - var(--grid-offset)), #000, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) var(--my), #000, transparent 70%);
+  mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) var(--my), #000, transparent 70%);
 }
