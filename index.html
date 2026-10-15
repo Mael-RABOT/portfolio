@@ -6,9 +6,74 @@
   <link rel="icon" type="image/png" href="/chamfer.png" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Maël Rabot · Software engineer</title>
-  <meta name="description" content="Maël Rabot, software engineer in Paris. Pedagogical mentor at Epitech and co-founder of Lucy-Robotics, building Lucy, an open-source framework that makes robots simpler to use." />
+  <!-- Defaults for crawlers that don't run JS; src/Components/Seo updates them per route -->
+  <title>Maël Rabot · Software engineer in Paris</title>
+  <meta name="description" content="Maël Rabot (Mael Rabot), software engineer in Paris. Pedagogical mentor at Epitech and co-founder of Lucy-Robotics, building Lucy, an open-source framework that makes robots simpler to use." />
+  <meta name="author" content="Maël Rabot" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://maelrabot.com/" />
   <meta name="theme-color" content="#0E0E0F" />
+
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Maël Rabot" />
+  <meta property="og:title" content="Maël Rabot · Software engineer in Paris" />
+  <meta property="og:description" content="Maël Rabot (Mael Rabot), software engineer in Paris. Pedagogical mentor at Epitech and co-founder of Lucy-Robotics, building Lucy, an open-source framework that makes robots simpler to use." />
+  <meta property="og:url" content="https://maelrabot.com/" />
+  <meta property="og:image" content="https://maelrabot.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Maël Rabot, software engineer in Paris" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="fr_FR" />
+  <meta property="profile:first_name" content="Maël" />
+  <meta property="profile:last_name" content="Rabot" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Maël Rabot · Software engineer in Paris" />
+  <meta name="twitter:description" content="Maël Rabot (Mael Rabot), software engineer in Paris. Pedagogical mentor at Epitech and co-founder of Lucy-Robotics, building Lucy, an open-source framework that makes robots simpler to use." />
+  <meta name="twitter:image" content="https://maelrabot.com/og-image.png" />
+
+  <!-- Structured data: ties this site, GitHub and LinkedIn to the same person for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://maelrabot.com/#person",
+        "name": "Maël Rabot",
+        "alternateName": ["Mael Rabot", "Maël RABOT"],
+        "givenName": "Maël",
+        "familyName": "Rabot",
+        "url": "https://maelrabot.com/",
+        "image": "https://maelrabot.com/og-image.png",
+        "email": "mailto:contact@maelrabot.com",
+        "jobTitle": "Software engineer",
+        "worksFor": [
+          { "@type": "EducationalOrganization", "name": "Epitech", "url": "https://international.epitech.eu/" },
+          { "@type": "Organization", "name": "Lucy-Robotics", "url": "https://lucy-robotics.com/" }
+        ],
+        "alumniOf": [
+          { "@type": "EducationalOrganization", "name": "Epitech Lyon", "url": "https://www.epitech.eu/" },
+          { "@type": "CollegeOrUniversity", "name": "Chung-Ang University" }
+        ],
+        "address": { "@type": "PostalAddress", "addressLocality": "Paris", "addressCountry": "FR" },
+        "knowsLanguage": ["fr", "en"],
+        "sameAs": [
+          "https://github.com/Mael-RABOT",
+          "https://linkedin.com/in/mael-rabot"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://maelrabot.com/#website",
+        "url": "https://maelrabot.com/",
+        "name": "Maël Rabot",
+        "inLanguage": ["en", "fr"],
+        "publisher": { "@id": "https://maelrabot.com/#person" }
+      }
+    ]
+  }
+  </script>
   <!-- Apply the saved theme before the app loads (no flash). Dark is the default.
        Colours mirror palettes.*.bg in src/theme/theme.const.ts; ThemeProvider takes over after mount. -->
   <script>

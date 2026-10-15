@@ -1,3 +1,6 @@
+/** Canonical origin of the site (no trailing slash); also hard-coded in index.html and public/ */
+export const SITE_URL = 'https://maelrabot.com';
+
 /**
  * Public contact endpoints, shared by the navbar, footer, home and contact pages.
  */

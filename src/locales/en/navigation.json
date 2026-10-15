@@ -32,5 +32,35 @@
   "themeSwitch": {
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme"
+  },
+  "seo": {
+    "home": {
+      "title": "Maël Rabot · Software engineer in Paris",
+      "description": "Maël Rabot (Mael Rabot), software engineer in Paris. Pedagogical mentor at Epitech and co-founder of Lucy-Robotics, building Lucy, an open-source framework that makes robots simpler to use."
+    },
+    "projects": {
+      "title": "Projects · Maël Rabot",
+      "description": "Projects by Maël Rabot: Lucy, an open-source robotics framework, HuRI, R-Type, AREA and other software work."
+    },
+    "resume": {
+      "title": "Resume · Maël Rabot",
+      "description": "Maël Rabot's background: experience, Epitech education and software engineering skills. Resume available as a PDF."
+    },
+    "contact": {
+      "title": "Contact · Maël Rabot",
+      "description": "Get in touch with Maël Rabot, software engineer in Paris: email, LinkedIn and GitHub."
+    },
+    "accessibility": {
+      "title": "Accessibility · Maël Rabot",
+      "description": "Accessibility statement for Maël Rabot's website (WCAG 2.1 AA / RGAA)."
+    },
+    "legal": {
+      "title": "Legal notice · Maël Rabot",
+      "description": "Legal notice and privacy policy for Maël Rabot's website: publisher, host, personal data and local storage."
+    },
+    "notFound": {
+      "title": "Page not found · Maël Rabot",
+      "description": "This page doesn't exist or has been moved."
+    }
   }
 }

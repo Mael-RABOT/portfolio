@@ -32,5 +32,35 @@
   "themeSwitch": {
     "toLight": "Passer au thème clair",
     "toDark": "Passer au thème sombre"
+  },
+  "seo": {
+    "home": {
+      "title": "Maël Rabot · Ingénieur logiciel à Paris",
+      "description": "Maël Rabot (Mael Rabot), ingénieur logiciel à Paris. Mentor pédagogique à Epitech et cofondateur de Lucy-Robotics, il développe Lucy, un framework open source qui simplifie l'utilisation des robots."
+    },
+    "projects": {
+      "title": "Projets · Maël Rabot",
+      "description": "Les projets de Maël Rabot : Lucy, framework robotique open source, HuRI, R-Type, AREA et d'autres réalisations logicielles."
+    },
+    "resume": {
+      "title": "CV · Maël Rabot",
+      "description": "Parcours de Maël Rabot : expériences, formation à Epitech et compétences en ingénierie logicielle. CV téléchargeable en PDF."
+    },
+    "contact": {
+      "title": "Contact · Maël Rabot",
+      "description": "Contacter Maël Rabot, ingénieur logiciel à Paris : e-mail, LinkedIn et GitHub."
+    },
+    "accessibility": {
+      "title": "Accessibilité · Maël Rabot",
+      "description": "Déclaration d'accessibilité du site de Maël Rabot (WCAG 2.1 AA / RGAA)."
+    },
+    "legal": {
+      "title": "Mentions légales · Maël Rabot",
+      "description": "Mentions légales et politique de confidentialité du site de Maël Rabot : éditeur, hébergeur, données personnelles et stockage local."
+    },
+    "notFound": {
+      "title": "Page introuvable · Maël Rabot",
+      "description": "Cette page n'existe pas ou a été déplacée."
+    }
   }
 }

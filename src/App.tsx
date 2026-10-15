@@ -7,6 +7,7 @@ import { getPortfolioData } from "./data/portfolio.data";
 
 import Layout from "./Components/Layout/Layout";
 import GridBackground from "./Components/Decor/GridBackground";
+import Seo from "./Components/Seo/Seo";
 import Home from "./Pages/Home";
 import Projects from "./Pages/Projects";
 import Resume from "./Pages/Resume";
@@ -60,6 +61,7 @@ const App: React.FC = () => {
                         <>
                             <GridBackground />
                             <KeyboardShortcuts />
+                            <Seo />
                             <Layout>
                                 <Routes>
                                     <Route path="/" element={<Home />} />
