@@ -4,6 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Card, CardContent, Chip, Link, Typography } from "@mui/material";
 import type { Education, Experience } from "../data/types";
 import { Reveal } from "../Components/Motion/Reveal";
+import { FadeImage } from "../Components/Motion/FadeImage";
 import { SectionHeader, SplitSection } from "../Components/Section/Section";
 import { CONTACT, RESUME_PDF } from "../data/contact.data";
 import "./Pages.css";
@@ -43,7 +44,7 @@ const Details: React.FC<{ item: Item; name: string }> = ({ item, name }) => {
             {item.images && item.images.length > 0 && (
                 <div className="gallery" role="region" aria-label={t('experience.images', { name })}>
                     {item.images.map((img, i) => (
-                        <img key={i} src={img.url} alt={img.alt || t('experience.image', { index: i + 1, name })} />
+                        <FadeImage key={i} src={img.url} alt={img.alt || t('experience.image', { index: i + 1, name })} />
                     ))}
                 </div>
             )}
@@ -72,6 +73,7 @@ const Timeline: React.FC<{ entries: TimelineEntry[] }> = ({ entries }) => {
         <ol className="timeline container">
             {entries.map(({ item, title, organisation }) => (
                 <Reveal as="li" key={item.id} className="timeline__item">
+                    <span className="timeline__marker" aria-hidden="true" />
                     <div className="timeline__meta">
                         <div className="timeline__date">{item.duration}</div>
                         <div className="timeline__org">

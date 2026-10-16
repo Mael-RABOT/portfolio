@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
-import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useTransitionNavigate } from "./Components/Motion/viewTransition";
 import './App.css';
 import './i18n/i18n';
 import { useTranslation } from "react-i18next";
@@ -27,7 +28,7 @@ const SHORTCUTS: Record<string, string> = {
 };
 
 const KeyboardShortcuts: React.FC = () => {
-    const navigate = useNavigate();
+    const navigate = useTransitionNavigate();
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {

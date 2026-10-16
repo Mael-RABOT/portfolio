@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useTransitionNavigate } from '../../Components/Motion/viewTransition';
 import { Button, Chip, Typography } from '@mui/material';
 import { Reveal } from '../../Components/Motion/Reveal';
 import { SectionHeader } from '../../Components/Section/Section';
@@ -11,7 +11,7 @@ const LINK_KEYS = ['site', 'docs', 'github', 'discord'] as const;
 
 const LucySpotlight: React.FC = () => {
   const { t } = useTranslation('home');
-  const navigate = useNavigate();
+  const navigate = useTransitionNavigate();
 
   return (
     <section id="lucy" className="section" aria-labelledby="lucy-title">

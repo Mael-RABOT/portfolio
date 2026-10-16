@@ -64,11 +64,13 @@ const GridBackground: React.FC = () => {
           <GridPattern id="grid-base" stroke={cssColors.gridLine} />
         </defs>
         <rect width="100%" height="100%" fill="url(#grid-base)" />
-        {MARKERS.map(([cx, cy]) => (
+        {MARKERS.map(([cx, cy], i) => (
           <path
             key={`${cx}-${cy}`}
+            className="grid-bg__marker"
             d={`M ${cx * grid.size - 5} ${cy * grid.size} h 10 M ${cx * grid.size} ${cy * grid.size - 5} v 10`}
-            style={{ stroke: cssColors.gridMarker }}
+            pathLength={1}
+            style={{ stroke: cssColors.gridMarker, '--i': i } as React.CSSProperties}
             strokeWidth={1}
           />
         ))}

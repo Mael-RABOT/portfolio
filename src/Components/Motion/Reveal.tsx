@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { animate, useInView, useReducedMotion } from 'framer-motion';
+import React, { useEffect } from 'react';
 import { motion } from '../../theme/theme.const';
 import { useInViewOnce } from './useInViewOnce';
+import { useReducedMotion } from './useReducedMotion';
 
 interface RevealProps {
   children: React.ReactNode;
@@ -32,32 +32,34 @@ export const Reveal: React.FC<RevealProps> = ({ children, delay = 0, from = 'bot
   );
 };
 
-/** Counts up from 0 to `value` the first time it becomes visible. */
+// Ease-out close to the site's cubic-bezier(0.22, 1, 0.36, 1)
+const easeOut = (t: number) => 1 - (1 - t) ** 4;
+
+/**
+ * Counts up from 0 to `value` the first time it becomes visible.
+ * The final value is rendered by React; the animation writes to the DOM directly
+ * (no re-render per frame) and always ends on `value`.
+ */
 export const Counter: React.FC<{ value: number; suffix?: string }> = ({ value, suffix = '' }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
+  const [ref, inView] = useInViewOnce<HTMLSpanElement>();
   const reduce = useReducedMotion();
-  const [display, setDisplay] = useState(reduce ? value : 0);
 
   useEffect(() => {
-    if (!inView || reduce) return;
-    const controls = animate(0, value, {
-      duration: 1.4,
-      ease: motion.ease,
-      onUpdate: (v) => setDisplay(Math.round(v)),
-      // never leave the counter on an intermediate value if the animation is interrupted
-      onComplete: () => setDisplay(value),
+    const el = ref.current;
+    if (!el || !inView || reduce) return;
+    const duration = motion.slow * 2 * 1000;
+    let start = 0;
+    let frame = requestAnimationFrame(function tick(now) {
+      start ||= now;
+      const t = Math.min((now - start) / duration, 1);
+      el.textContent = `${Math.round(easeOut(t) * value)}${suffix}`;
+      if (t < 1) frame = requestAnimationFrame(tick);
     });
     return () => {
-      controls.stop();
-      setDisplay(value);
+      cancelAnimationFrame(frame);
+      el.textContent = `${value}${suffix}`;
     };
-  }, [inView, reduce, value]);
+  }, [ref, inView, reduce, value, suffix]);
 
-  return (
-    <span ref={ref}>
-      {display}
-      {suffix}
-    </span>
-  );
+  return <span ref={ref}>{`${value}${suffix}`}</span>;
 };

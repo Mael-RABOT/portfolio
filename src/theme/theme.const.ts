@@ -239,7 +239,11 @@ export const motion = {
   fast: 0.15,     // seconds
   base: 0.35,
   slow: 0.7,
-  ease: EASE,     // framer-motion
+  glitch: 0.28,   // micro-glitch on titles (one-shot)
+  draw: 0.9,      // SVG line draw-in (angle frames, grid markers)
+  page: 0.3,      // route change (View Transition)
+  theme: 0.55,    // circular light/dark reveal (View Transition)
+  decode: 0.45,   // eyebrow text scramble
   easing: `cubic-bezier(${EASE.join(', ')})`, // CSS
   revealDistance: 24, // px
 } as const;

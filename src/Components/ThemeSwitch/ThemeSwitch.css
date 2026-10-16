@@ -24,3 +24,14 @@
   stroke-linecap: square;
   stroke-linejoin: miter;
 }
+
+.theme-switch.is-switched svg {
+  animation: icon-spin-in var(--motion-base) var(--motion-easing) both;
+}
+
+@keyframes icon-spin-in {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+}

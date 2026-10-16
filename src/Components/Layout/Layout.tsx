@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitch from '../LanguageSwitch/LanguageSwitch';
 import ThemeSwitch from '../ThemeSwitch/ThemeSwitch';
 import { CONTACT } from '../../data/contact.data';
+import { GlitchText } from '../Motion/GlitchText';
+import { useTransitionLink } from '../Motion/viewTransition';
 import './Layout.css';
 
 const NAV_ITEMS = [
@@ -18,6 +20,7 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const link = useTransitionLink();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -26,15 +29,15 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close the mobile menu on navigation
-  useEffect(() => setOpen(false), [location.pathname]);
+  // Close the mobile menu on navigation (layout effect: before the page transition's snapshot)
+  useLayoutEffect(() => setOpen(false), [location.pathname]);
 
   return (
     <header className={`navbar ${scrolled || open ? 'is-solid' : ''}`}>
       <div className="container navbar__inner">
-        <Link to="/" className="navbar__brand" aria-label={t('brandLabel')}>
+        <Link to="/" className="navbar__brand" aria-label={t('brandLabel')} onClick={link('/')}>
           <span className="navbar__mark" aria-hidden="true" />
-          Maël Rabot
+          <GlitchText text="Maël Rabot" />
         </Link>
 
         <nav className={`navbar__nav ${open ? 'is-open' : ''}`} id="main-navigation" aria-label={t('label')}>
@@ -44,8 +47,15 @@ const Navbar: React.FC = () => {
               to={item.path}
               end={item.path === '/'}
               className={({ isActive }) => `navbar__link ${isActive ? 'is-active' : ''}`}
+              onClick={link(item.path)}
             >
-              {t(`menu.${item.key}`)}
+              {({ isActive }) => (
+                <>
+                  {t(`menu.${item.key}`)}
+                  {/* one per page: the page transition morphs it from the old link to the new one */}
+                  {isActive && <span className="navbar__indicator" aria-hidden="true" />}
+                </>
+              )}
             </NavLink>
           ))}
           <div className="navbar__prefs">
@@ -66,12 +76,14 @@ const Navbar: React.FC = () => {
           <span />
         </button>
       </div>
+      <span className="navbar__progress" aria-hidden="true" />
     </header>
   );
 };
 
 const Footer: React.FC = () => {
   const { t } = useTranslation('navigation');
+  const link = useTransitionLink();
 
   return (
     <footer className="footer">
@@ -81,8 +93,8 @@ const Footer: React.FC = () => {
           <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={`mailto:${CONTACT.email}`}>{t('footer.email')}</a>
-          <Link to="/legal">{t('footer.legal')}</Link>
-          <Link to="/accessibility">{t('footer.accessibility')}</Link>
+          <Link to="/legal" onClick={link('/legal')}>{t('footer.legal')}</Link>
+          <Link to="/accessibility" onClick={link('/accessibility')}>{t('footer.accessibility')}</Link>
         </nav>
       </div>
     </footer>

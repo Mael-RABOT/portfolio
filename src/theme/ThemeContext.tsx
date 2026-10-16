@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
 import { themes } from './theme';
 import { DEFAULT_THEME, THEME_STORAGE_KEY, palettes, type ThemeMode } from './theme.const';
@@ -30,7 +30,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     document.documentElement.style.removeProperty('background-color');
   }, []);
 
-  useEffect(() => {
+  // layout effect: applied inside the theme View Transition's update, before the new snapshot
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = mode;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', palettes[mode].bg);
   }, [mode]);

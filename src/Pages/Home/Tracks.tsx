@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useTransitionNavigate } from '../../Components/Motion/viewTransition';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 import { Counter, Reveal } from '../../Components/Motion/Reveal';
 import { SectionHeader, SplitSection } from '../../Components/Section/Section';
@@ -62,7 +62,7 @@ const TrackCard: React.FC<{ track: 'mentoring' | 'building'; onLink: () => void;
 
 const Tracks: React.FC = () => {
   const { t } = useTranslation('home');
-  const navigate = useNavigate();
+  const navigate = useTransitionNavigate();
 
   return (
     <SplitSection

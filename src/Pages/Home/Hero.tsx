@@ -1,7 +1,10 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useTransitionNavigate } from '../../Components/Motion/viewTransition';
 import { Button } from '@mui/material';
+import { GlitchText } from '../../Components/Motion/GlitchText';
+import { DecodeText } from '../../Components/Motion/DecodeText';
+import AngleFrame from '../../Components/Decor/AngleFrame';
 
 // Staggered CSS entrance (see `.enter` in App.css)
 const enter = (delay: number) => ({
@@ -11,19 +14,21 @@ const enter = (delay: number) => ({
 
 const Hero: React.FC = () => {
   const { t } = useTranslation('home');
-  const navigate = useNavigate();
+  const navigate = useTransitionNavigate();
 
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="container hero__inner">
+        <AngleFrame trigger="load" delay={1.1} />
         <span {...enter(0.1)}>
-          <span className="eyebrow">{t('hero.eyebrow')}</span>
+          <span className="eyebrow"><DecodeText text={t('hero.eyebrow')} trigger="load" delay={0.25} /></span>
         </span>
         <h1 id="hero-title" {...enter(0.2)} className="enter hero__title">
-          {t('hero.name')}
+          {/* glitches once the title has landed (enter delay + duration) */}
+          <GlitchText text={t('hero.name')} onLoad delay={0.9} />
         </h1>
         <p {...enter(0.35)} className="enter hero__tagline">
-          <Trans t={t} i18nKey="hero.tagline" components={[<strong key="epitech" />, <strong key="lucy" />]} />
+          <Trans t={t} i18nKey="hero.tagline" components={[<strong key="epitech" className="mark" />, <strong key="lucy" className="mark" />]} />
         </p>
         <div {...enter(0.5)} className="enter hero__actions">
           <Button variant="contained" onClick={() => navigate('/projects')}>

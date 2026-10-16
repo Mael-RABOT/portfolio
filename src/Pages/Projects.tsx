@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Card, CardContent, Chip, Link, Typography } from "@mui/material";
 import type { Project } from "../data/types";
 import { Reveal } from "../Components/Motion/Reveal";
+import { FadeImage } from "../Components/Motion/FadeImage";
+import { GlitchText } from "../Components/Motion/GlitchText";
 import { SectionHeader, SplitSection } from "../Components/Section/Section";
 import { LUCY_LINKS } from "../data/contact.data";
 import { cssColors } from "../theme/theme.const";
@@ -40,7 +42,10 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
                     <Chip label={t(`status.${statusKey(project)}` as never)} color="primary" size="small" />
                     {project.type && <Chip label={project.type} variant="outlined" size="small" />}
                 </Box>
-                <Typography id="project-title" variant="h2" component="h2">{project.name}</Typography>
+                <Typography id="project-title" variant="h2" component="h2">
+                    {/* details remount per project, so the glitch replays on every switch */}
+                    <GlitchText text={project.name} onLoad delay={0.1} />
+                </Typography>
                 {project.stack && (
                     <Typography className="muted" sx={{ mt: 1, fontSize: 'var(--size-sm)' }}>{project.stack}</Typography>
                 )}
@@ -63,7 +68,7 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
                 {project.images && project.images.length > 0 && (
                     <div className="gallery" role="region" aria-label={t('details.images', { name: project.name })}>
                         {project.images.map((img, i) => (
-                            <img key={i} src={img.url} alt={img.alt || t('details.screenshot', { index: i + 1, name: project.name })} />
+                            <FadeImage key={i} src={img.url} alt={img.alt || t('details.screenshot', { index: i + 1, name: project.name })} />
                         ))}
                     </div>
                 )}

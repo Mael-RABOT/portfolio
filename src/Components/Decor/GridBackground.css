@@ -22,3 +22,16 @@
   -webkit-mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) var(--my), #000, transparent 70%);
   mask-image: radial-gradient(circle var(--grid-spotlight-radius) at var(--mx) var(--my), #000, transparent 70%);
 }
+
+/* "+" markers draw in once on first load, one after another */
+.grid-bg__marker {
+  stroke-dasharray: 1;
+  animation: draw-in var(--motion-draw) var(--motion-easing) both;
+  animation-delay: calc(0.6s + var(--i, 0) * 90ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-bg__marker {
+    animation: none;
+  }
+}

@@ -29,6 +29,7 @@
 
 /* ---------------------------------------------------------------- Navbar */
 .navbar {
+  view-transition-name: navbar; /* stays put during page transitions */
   position: fixed;
   inset: 0 0 auto;
   z-index: 50;
@@ -110,9 +111,44 @@
   color: var(--color-text);
 }
 
-.navbar__link.is-active::after,
 .navbar__link:hover::after {
   transform: scaleX(1);
+}
+
+/* Active underline: a real element so the page transition can morph it between links */
+.navbar__indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--color-accent);
+  view-transition-name: nav-indicator;
+}
+
+/* Reading progress: CSS scroll-driven, no JS. Hidden where unsupported. */
+.navbar__progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .navbar__progress {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: scroll-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+@keyframes scroll-progress {
+  to { transform: none; }
 }
 
 .navbar__toggle {

@@ -228,11 +228,34 @@ img {
   color: var(--color-accent);
 }
 
+/* 1px rule ending in a 45° kick: the chamfer motif */
 .eyebrow::before {
   content: "";
   width: 24px;
-  height: 1px;
+  height: 5px;
+  margin-top: 4px; /* keeps the horizontal rule on the text's centre line */
   background: currentColor;
+  clip-path: polygon(0 0, 20px 0, 24px 4px, 24px 5px, 19.6px 1px, 0 1px);
+  transform-origin: left;
+}
+
+/* draws in with the header it belongs to */
+.reveal .eyebrow::before {
+  transform: scaleX(0);
+  transition: transform var(--motion-slow) var(--motion-easing) calc(var(--reveal-delay, 0s) + 0.15s);
+}
+
+.reveal.is-visible .eyebrow::before {
+  transform: none;
+}
+
+.enter .eyebrow::before {
+  animation: scale-x-in var(--motion-slow) var(--motion-easing) both;
+  animation-delay: calc(var(--enter-delay, 0s) + 0.15s);
+}
+
+@keyframes scale-x-in {
+  from { transform: scaleX(0); }
 }
 
 .muted {
@@ -307,10 +330,153 @@ img {
   transition-delay: 0s;
 }
 
+/* ----------------------------------------------------------------------------
+   Highlight: accent underline that sweeps in (per line when the text wraps).
+   Static outside of .enter / .reveal.
+   ---------------------------------------------------------------------------- */
+.mark {
+  background: linear-gradient(var(--color-accent), var(--color-accent)) left bottom / 100% 1px no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.enter .mark {
+  animation: mark-in var(--motion-slow) var(--motion-easing) both;
+  animation-delay: calc(var(--enter-delay, 0s) + 0.4s);
+}
+
+.reveal .mark {
+  background-size: 0% 1px;
+  transition: background-size var(--motion-slow) var(--motion-easing) calc(var(--reveal-delay, 0s) + 0.3s);
+}
+
+.reveal.is-visible .mark {
+  background-size: 100% 1px;
+}
+
+@keyframes mark-in {
+  from { background-size: 0% 1px; }
+}
+
+/* ----------------------------------------------------------------------------
+   Micro-glitch (GlitchText): two offset slices of the text, ~0.3s, never looping.
+   The slices are pseudo-elements, so the text exists once in the DOM (SEO, copy),
+   and their `/ ""` alt text keeps them silent for screen readers.
+   `.glitch--load` plays once after --glitch-delay; hovering the text (or the link
+   around it) replays it. The hover animation is appended to the list, so leaving
+   doesn't restart the load one.
+   ---------------------------------------------------------------------------- */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text) / "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.glitch::before { color: var(--color-accent); }
+.glitch::after { color: var(--color-text-muted); }
+
+.glitch--load::before {
+  animation: glitch-a var(--motion-glitch) var(--glitch-delay, 0s);
+}
+
+.glitch--load::after {
+  animation: glitch-b var(--motion-glitch) var(--glitch-delay, 0s);
+}
+
+@media (hover: hover) {
+  .glitch:hover::before,
+  a:hover .glitch::before {
+    animation: glitch-a-hover var(--motion-glitch);
+  }
+
+  .glitch:hover::after,
+  a:hover .glitch::after {
+    animation: glitch-b-hover var(--motion-glitch);
+  }
+
+  .glitch--load:hover::before,
+  a:hover .glitch--load::before {
+    animation: glitch-a var(--motion-glitch) var(--glitch-delay, 0s), glitch-a-hover var(--motion-glitch);
+  }
+
+  .glitch--load:hover::after,
+  a:hover .glitch--load::after {
+    animation: glitch-b var(--motion-glitch) var(--glitch-delay, 0s), glitch-b-hover var(--motion-glitch);
+  }
+}
+
+/* steps(1): every keyframe is held, then jumps — reads as digital, costs nothing */
+@keyframes glitch-a {
+  0% { opacity: 1; clip-path: inset(12% 0 68% 0); transform: translateX(-2px); animation-timing-function: steps(1); }
+  25% { opacity: 1; clip-path: inset(58% 0 22% 0); transform: translateX(2px); animation-timing-function: steps(1); }
+  50% { opacity: 1; clip-path: inset(30% 0 52% 0); transform: translateX(-1px); animation-timing-function: steps(1); }
+  75% { opacity: 1; clip-path: inset(82% 0 4% 0); transform: translateX(1px); animation-timing-function: steps(1); }
+  100% { opacity: 0; }
+}
+
+@keyframes glitch-b {
+  0% { opacity: 1; clip-path: inset(64% 0 18% 0); transform: translateX(2px); animation-timing-function: steps(1); }
+  25% { opacity: 1; clip-path: inset(8% 0 80% 0); transform: translateX(-2px); animation-timing-function: steps(1); }
+  50% { opacity: 1; clip-path: inset(44% 0 40% 0); transform: translateX(1px); animation-timing-function: steps(1); }
+  75% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* same frames under another name, so hovering always restarts them */
+@keyframes glitch-a-hover {
+  0% { opacity: 1; clip-path: inset(12% 0 68% 0); transform: translateX(-2px); animation-timing-function: steps(1); }
+  25% { opacity: 1; clip-path: inset(58% 0 22% 0); transform: translateX(2px); animation-timing-function: steps(1); }
+  50% { opacity: 1; clip-path: inset(30% 0 52% 0); transform: translateX(-1px); animation-timing-function: steps(1); }
+  75% { opacity: 1; clip-path: inset(82% 0 4% 0); transform: translateX(1px); animation-timing-function: steps(1); }
+  100% { opacity: 0; }
+}
+
+@keyframes glitch-b-hover {
+  0% { opacity: 1; clip-path: inset(64% 0 18% 0); transform: translateX(2px); animation-timing-function: steps(1); }
+  25% { opacity: 1; clip-path: inset(8% 0 80% 0); transform: translateX(-2px); animation-timing-function: steps(1); }
+  50% { opacity: 1; clip-path: inset(44% 0 40% 0); transform: translateX(1px); animation-timing-function: steps(1); }
+  75% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ----------------------------------------------------------------------------
+   SVG line draw-in (AngleFrame, grid markers). Paths use pathLength={1}.
+   ---------------------------------------------------------------------------- */
+@keyframes draw-in {
+  from { stroke-dashoffset: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  /* final state immediately (the global rule below keeps animation delays) */
+  .reveal .eyebrow::before,
+  .enter .eyebrow::before {
+    animation: none;
+    transform: none;
+  }
+
+  .enter .mark,
+  .reveal .mark {
+    animation: none;
+    background-size: 100% 1px;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    display: none;
   }
 }
 
@@ -326,4 +492,74 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Positioned parent for an AngleFrame */
+.angle-host {
+  position: relative;
+}
+
+/* ----------------------------------------------------------------------------
+   View Transitions (started by Components/Motion/viewTransition.ts, which tags
+   <html data-vt="page|theme">). Ignored by browsers without support.
+   ---------------------------------------------------------------------------- */
+@supports (view-transition-name: x) {
+  /* Route change: the page slides up and fades, the navbar stays put */
+  html[data-vt="page"]::view-transition-old(root) {
+    animation: page-out var(--motion-page) var(--motion-easing) both;
+  }
+
+  html[data-vt="page"]::view-transition-new(root) {
+    animation: page-in var(--motion-page) var(--motion-easing) both;
+  }
+
+  html[data-vt="page"]::view-transition-group(nav-indicator) {
+    animation-duration: var(--motion-base);
+    animation-timing-function: var(--motion-easing);
+  }
+
+  /* Theme switch: the new theme grows in a circle from the toggle (clip-path set from JS) */
+  html[data-vt="theme"]::view-transition-old(root),
+  html[data-vt="theme"]::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  /* navbar and indicator join the root snapshot, so the circle reveals them too */
+  html[data-vt="theme"] .navbar,
+  html[data-vt="theme"] .navbar__indicator {
+    view-transition-name: none;
+  }
+
+  /* colour transitions would blur inside the circle: the snapshot already does the job */
+  html[data-vt="theme"],
+  html[data-vt="theme"] *,
+  html[data-vt="theme"] *::before,
+  html[data-vt="theme"] *::after {
+    transition: none !important;
+  }
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Images that fade in once decoded (FadeImage) */
+.fade-img {
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--motion-easing);
+}
+
+.fade-img.is-loaded {
+  opacity: 1;
 }

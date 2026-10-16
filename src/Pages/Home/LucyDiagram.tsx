@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from '../../Components/Motion/useReducedMotion';
 import { cssColors as c, fonts } from '../../theme/theme.const';
 
 // Colours go through `style` (CSS variables don't work in SVG presentation attributes)
