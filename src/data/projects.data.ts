@@ -98,6 +98,41 @@ Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la
     },
   },
   {
+    id: 'ast3roid',
+    name: 'Ast3roid',
+    type: 'Desktop game',
+    status: 'completed',
+    stack: 'Rust / Bevy',
+    description: 'Small spaceship game inspired by the arcade classic Asteroids, made entirely in Rust with the Bevy engine. Developed as part of the "Design of a Game Software" course at Chung-Ang University, Seoul.',
+    technologies: ['Rust', 'Bevy', 'Blender', 'Texturing', 'Lighting', 'SFX / VFX', 'Game design'],
+    demo: 'https://mael-rabot.itch.io/ast3roid',
+    links: [
+      { url: 'https://mael-rabot.itch.io/ast3roid', label: 'Play on itch.io' },
+      { url: 'https://www.cau.ac.kr/', label: 'Chung-Ang University' },
+    ],
+    highlights: [
+      'Game design and most of the asset creation',
+      '3D modelling and texturing in Blender',
+      'Work on the lighting system',
+      'Some sound and visual effects (SFX / VFX)',
+    ],
+    fr: {
+      type: 'Jeu PC',
+      description: 'Petit jeu de vaisseau spatial inspiré du classique d\'arcade Asteroids, entièrement réalisé en Rust avec le moteur Bevy. Développé dans le cadre du cours « Design of a Game Software » à l\'université Chung-Ang de Séoul.',
+      technologies: ['Rust', 'Bevy', 'Blender', 'Texturing', 'Éclairage', 'SFX / VFX', 'Game design'],
+      links: [
+        { url: 'https://mael-rabot.itch.io/ast3roid', label: 'Jouer sur itch.io' },
+        { url: 'https://www.cau.ac.kr/', label: 'Université Chung-Ang' },
+      ],
+      highlights: [
+        'Game design et la majeure partie de la création des assets',
+        'Modélisation 3D et texturing sous Blender',
+        'Travail sur le système d\'éclairage',
+        'Quelques effets sonores et visuels (SFX / VFX)',
+      ],
+    },
+  },
+  {
     id: 'area',
     name: 'AREA',
     type: 'Web application',
