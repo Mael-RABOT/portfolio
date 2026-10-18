@@ -7,15 +7,14 @@
  * server) and writes the PDFs to public/ (paths come from RESUME_PDF in
  * src/data/contact.data.ts). Fails if the French CV does not fit on one page.
  *
- * Chrome: Puppeteer's bundled Chrome is used by default. On machines where it
- * cannot run (e.g. Linux ARM servers), point PUPPETEER_EXECUTABLE_PATH at a
- * system Chromium, or let the script skip: the PDFs committed in public/ are
+ * Chrome: see chrome.mjs (bundled Chrome, else a system Chromium). If none can
+ * start, point PUPPETEER_EXECUTABLE_PATH at one, or let the script skip: the PDFs committed in public/ are
  * kept and the build continues. Set CV_PDF_STRICT=1 to make that a hard error.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { createServer } from 'vite';
-import puppeteer from 'puppeteer';
+import { launchChrome, launchErrorReason } from './chrome.mjs';
 
 const MAX_PAGES = { en: 2, fr: 1 };
 
@@ -24,9 +23,9 @@ const countPages = (pdf) => (Buffer.from(pdf).toString('latin1').match(/\/Type\s
 // 1. Start Chrome first: if it is unavailable there is nothing else to clean up.
 let browser;
 try {
-  browser = await puppeteer.launch({ headless: true });
+  browser = await launchChrome();
 } catch (error) {
-  const reason = String(error?.message || error).split('\n').find((line) => line.trim()) ?? 'unknown error';
+  const reason = launchErrorReason(error);
   const message = [
     `⚠ CV PDFs not regenerated: Chrome could not start (${reason.trim()}).`,
     '  The PDFs committed in public/ are kept. To regenerate them, run `npm run cv:pdf` on a machine',

@@ -19,7 +19,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { createServer, preview } from 'vite';
-import puppeteer from 'puppeteer';
+import { launchChrome, launchErrorReason } from './chrome.mjs';
 
 const DIST = 'dist';
 const PAGES = ['/', '/projects', '/resume', '/contact', '/accessibility', '/legal'];
@@ -28,7 +28,13 @@ const LANGS = { en: '', fr: '/fr' };
 const localized = (path, lang) => (lang === 'en' ? path : path === '/' ? LANGS.fr : `${LANGS.fr}${path}`);
 
 // 1. Routes and sitemap (no Chrome needed)
-const loader = await createServer({ logLevel: 'error', appType: 'custom', server: { middlewareMode: true, hmr: false } });
+// noDiscovery: this server only loads two data modules, so skip the dependency scan (closing it mid-scan floods the log)
+const loader = await createServer({
+  logLevel: 'error',
+  appType: 'custom',
+  server: { middlewareMode: true, hmr: false },
+  optimizeDeps: { noDiscovery: true },
+});
 let siteUrl;
 let routes;
 try {
@@ -67,9 +73,9 @@ console.log(`Sitemap: ${join(DIST, 'sitemap.xml')} (${routes.length * 2} URLs)`)
 // 2. Prerender
 let browser;
 try {
-  browser = await puppeteer.launch({ headless: true });
+  browser = await launchChrome();
 } catch (error) {
-  const reason = String(error?.message || error).split('\n').find((line) => line.trim()) ?? 'unknown error';
+  const reason = launchErrorReason(error);
   const message = `⚠ Pages not prerendered: Chrome could not start (${reason.trim()}). The site still works as a plain SPA.`;
   if (process.env.PRERENDER_STRICT) {
     console.error(message);
