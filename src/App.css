@@ -518,20 +518,26 @@ img {
     animation-timing-function: var(--motion-easing);
   }
 
-  /* Theme switch: the new theme grows in a circle from the toggle (clip-path set from JS) */
+  /* Theme switch: the new theme dissolves in on the grid, block by block from the toggle
+     (stepped clip-paths set from JS, see Components/Motion/pixelReveal.ts) */
   html[data-vt="theme"]::view-transition-old(root),
   html[data-vt="theme"]::view-transition-new(root) {
     animation: none;
     mix-blend-mode: normal;
   }
 
-  /* navbar and indicator join the root snapshot, so the circle reveals them too */
+  /* blocks flipping right now are cut out of both snapshots: they flash in the (new) accent */
+  html[data-vt="theme"]::view-transition {
+    background: var(--color-accent);
+  }
+
+  /* navbar and indicator join the root snapshot, so the dissolve reveals them too */
   html[data-vt="theme"] .navbar,
   html[data-vt="theme"] .navbar__indicator {
     view-transition-name: none;
   }
 
-  /* colour transitions would blur inside the circle: the snapshot already does the job */
+  /* colour transitions would blur inside the blocks: the snapshot already does the job */
   html[data-vt="theme"],
   html[data-vt="theme"] *,
   html[data-vt="theme"] *::before,

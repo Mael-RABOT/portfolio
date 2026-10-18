@@ -25,13 +25,16 @@
   stroke-linejoin: miter;
 }
 
+/* draws in top to bottom in 4 hard steps, like a line-by-line redraw */
 .theme-switch.is-switched svg {
-  animation: icon-spin-in var(--motion-base) var(--motion-easing) both;
+  animation: icon-boot var(--motion-base) steps(4, jump-end) both;
 }
 
-@keyframes icon-spin-in {
+@keyframes icon-boot {
   from {
-    opacity: 0;
-    transform: rotate(-90deg) scale(0.6);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0);
   }
 }
