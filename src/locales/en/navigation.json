@@ -33,6 +33,12 @@
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme"
   },
+  "carousel": {
+    "prev": "Previous",
+    "next": "Next",
+    "goTo": "Show item {{index}}",
+    "slide": "{{index}} of {{count}}"
+  },
   "seo": {
     "home": {
       "title": "Maël Rabot · Software engineer in Paris",
@@ -41,6 +47,9 @@
     "projects": {
       "title": "Projects · Maël Rabot",
       "description": "Projects by Maël Rabot: Lucy, an open-source robotics framework, HuRI, R-Type, AREA and other software work."
+    },
+    "project": {
+      "title": "{{name}} · Maël Rabot"
     },
     "resume": {
       "title": "Resume · Maël Rabot",

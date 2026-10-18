@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, Typography } from '@mui/material';
 import { Reveal } from '../../Components/Motion/Reveal';
 import { SectionHeader, SplitSection } from '../../Components/Section/Section';
+import { PROGRAMMING_LANGUAGES } from '../../data/skills.data';
 
-const CATEGORIES = ['programmingLanguages', 'tools', 'softSkills', 'languages', 'others'] as const;
+const CATEGORIES = ['programmingLanguages', 'tools', 'languages'] as const;
 type Category = (typeof CATEGORIES)[number];
 
 const Skills: React.FC = () => {
@@ -12,6 +13,8 @@ const Skills: React.FC = () => {
   const [active, setActive] = useState<Category>('programmingLanguages');
 
   const list = (category: Category): string[] => {
+    // shared with the CV (src/data/skills.data.ts)
+    if (category === 'programmingLanguages') return [...PROGRAMMING_LANGUAGES];
     const value = t(`skills.${category}.list`, { returnObjects: true });
     return Array.isArray(value) ? (value as string[]) : [];
   };

@@ -51,7 +51,7 @@ const LucySpotlight: React.FC = () => {
             <Button
               variant="contained"
               sx={{ mt: 3 }}
-              onClick={() => navigate('/projects', { state: { selectedProjectId: 'lucy' } })}
+              onClick={() => navigate('/projects/lucy')}
             >
               {t('lucy.cta')} →
             </Button>

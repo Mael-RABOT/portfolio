@@ -33,6 +33,12 @@
     "toLight": "Passer au thème clair",
     "toDark": "Passer au thème sombre"
   },
+  "carousel": {
+    "prev": "Précédent",
+    "next": "Suivant",
+    "goTo": "Afficher l'élément {{index}}",
+    "slide": "{{index}} sur {{count}}"
+  },
   "seo": {
     "home": {
       "title": "Maël Rabot · Ingénieur logiciel à Paris",
@@ -41,6 +47,9 @@
     "projects": {
       "title": "Projets · Maël Rabot",
       "description": "Les projets de Maël Rabot : Lucy, framework robotique open source, HuRI, R-Type, AREA et d'autres réalisations logicielles."
+    },
+    "project": {
+      "title": "{{name}} · Maël Rabot"
     },
     "resume": {
       "title": "CV · Maël Rabot",

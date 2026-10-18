@@ -79,8 +79,12 @@
   </script>
   <!-- Apply the saved theme before the app loads (no flash). Dark is the default.
        Colours mirror palettes.*.bg in src/theme/theme.const.ts; ThemeProvider takes over after mount. -->
+  <!-- Prerendered pages (scripts/prerender.mjs) are for crawlers and visitors without JavaScript;
+       with JavaScript the live app replaces them (src/main.tsx), so they stay hidden meanwhile. -->
+  <style>html.js #root[data-prerendered] { visibility: hidden; }</style>
   <script>
     (function () {
+      document.documentElement.classList.add('js');
       var mode = 'dark';
       try { if (localStorage.getItem('theme') === 'light') mode = 'light'; } catch (e) {}
       var bg = mode === 'light' ? '#F7F1E5' : '#0E0E0F';

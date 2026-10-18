@@ -26,6 +26,13 @@
     "completed": "Terminé",
     "archived": "Archivé"
   },
+  "archive": {
+    "eyebrow": "Archives",
+    "title": "Projets plus modestes",
+    "intro": "Projets d'école et expériences, gardés pour mémoire.",
+    "source": "Code",
+    "sourceLabel": "Code source de {{name}}"
+  },
   "organizations": {
     "eyebrow": "Organisations",
     "title": "Les équipes avec qui je construis",

@@ -1,6 +1,7 @@
 import { useCallback, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { useNavigate, type NavigateOptions, type To } from 'react-router-dom';
+import { useLocalePath } from '../../i18n/locale';
 
 type TransitionKind = 'page' | 'theme';
 
@@ -29,18 +30,21 @@ export function startTransition(update: () => void, kind: TransitionKind): ViewT
  */
 export function useTransitionNavigate() {
   const navigate = useNavigate();
+  const localePath = useLocalePath();
 
   return useCallback(
     (to: To | number, options?: NavigateOptions) => {
       // history moves (-1) land asynchronously, after any snapshot: no transition for them
       if (typeof to === 'number') return void navigate(to);
+      // app paths are written without the language prefix ("/projects" -> "/fr/projects" in French)
+      const target = typeof to === 'string' && to.startsWith('/') ? localePath(to) : to;
       startTransition(() => {
-        navigate(to, options);
+        navigate(target, options);
         // instant: Layout's scroll reset would otherwise run smoothly after the snapshot
         window.scrollTo({ top: 0, behavior: 'instant' });
       }, 'page');
     },
-    [navigate]
+    [navigate, localePath]
   );
 }
 

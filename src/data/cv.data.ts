@@ -1,5 +1,6 @@
 import type { Language } from './types';
 import { CONTACT, LUCY_LINKS } from './contact.data';
+import { PROGRAMMING_LANGUAGES } from './skills.data';
 
 /**
  * Printable CV content (rendered at /cv/en and /cv/fr, exported to PDF by
@@ -96,7 +97,7 @@ export const CV: Record<Language, Cv> = {
         title: 'Co-Founder & Product Manager',
         org: 'Lucy-Robotics',
         url: LUCY_LINKS.site,
-        meta: 'Lyon, France · 2024 – Present · Non-profit association',
+        meta: 'Lyon, France · Oct. 2024 – Present · Non-profit association',
         bullets: [
           'Co-founded the association behind Lucy, an open-source robotics framework: one ROS 2 core between robots and the interfaces that drive them',
           'Lead the product roadmap and engineering teams: backlog prioritization, sprint planning and agile delivery with Kanban',
@@ -249,7 +250,7 @@ export const CV: Record<Language, Cv> = {
       },
     ],
     skills: [
-      { label: 'Languages', items: 'C, C++, Python, TypeScript, JavaScript, Rust, Go, Elixir, Haskell, SQL, Bash' },
+      { label: 'Languages', items: PROGRAMMING_LANGUAGES.join(', ') },
       { label: 'Web', items: 'React, Vue.js, Node.js, Vite' },
       { label: 'Robotics', items: 'ROS 2, ros2_control, URDF, InMoov, 3D printing' },
       { label: 'Data, AI & tools', items: 'PostgreSQL, MariaDB, PyTorch, Git, Docker, CI, Agile' },
@@ -290,7 +291,7 @@ export const CV: Record<Language, Cv> = {
         title: 'Co-fondateur & Product Manager',
         org: 'Lucy-Robotics',
         url: LUCY_LINKS.site,
-        meta: 'Lyon · 2024 – Aujourd\'hui · Association loi 1901',
+        meta: 'Lyon · oct. 2024 – Aujourd\'hui · Association loi 1901',
         bullets: [
           'Pilotage de la feuille de route produit et des équipes : priorisation du backlog, sprints, Kanban',
           'Contribution à l\'architecture du framework ROS 2, à sa documentation et au prototypage matériel en impression 3D',
@@ -360,7 +361,7 @@ export const CV: Record<Language, Cv> = {
       },
     ],
     skills: [
-      { label: 'Langages', items: 'C, C++, Python, TypeScript, JavaScript, Rust, Go, Elixir, Haskell, SQL, Bash' },
+      { label: 'Langages', items: PROGRAMMING_LANGUAGES.join(', ') },
       { label: 'Web', items: 'React, Vue.js, Node.js, Vite' },
       { label: 'Robotique', items: 'ROS 2, ros2_control, URDF, InMoov, impression 3D' },
       { label: 'Données, IA & outils', items: 'PostgreSQL, MariaDB, PyTorch, Git, Docker, CI, Agile' },

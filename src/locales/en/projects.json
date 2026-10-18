@@ -26,6 +26,13 @@
     "completed": "Completed",
     "archived": "Archived"
   },
+  "archive": {
+    "eyebrow": "Archive",
+    "title": "Smaller projects",
+    "intro": "School projects and experiments, kept for the record.",
+    "source": "Source",
+    "sourceLabel": "Source code of {{name}}"
+  },
   "organizations": {
     "eyebrow": "Organizations",
     "title": "Teams I build with",

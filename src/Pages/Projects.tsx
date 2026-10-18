@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useRef } from "react";
+import { Link as RouterLink, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Box, Button, Card, CardContent, Chip, Link, Typography } from "@mui/material";
 import type { Project } from "../data/types";
 import { Reveal } from "../Components/Motion/Reveal";
-import { FadeImage } from "../Components/Motion/FadeImage";
 import { GlitchText } from "../Components/Motion/GlitchText";
+import { Carousel } from "../Components/Carousel/Carousel";
 import { SectionHeader, SplitSection } from "../Components/Section/Section";
 import { LUCY_LINKS } from "../data/contact.data";
 import { cssColors } from "../theme/theme.const";
+import { useLocalePath } from "../i18n/locale";
 import "./Pages.css";
 
 const isUrl = (text?: string): text is string => {
@@ -66,11 +67,11 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
                 )}
 
                 {project.images && project.images.length > 0 && (
-                    <div className="gallery" role="region" aria-label={t('details.images', { name: project.name })}>
-                        {project.images.map((img, i) => (
-                            <FadeImage key={i} src={img.url} alt={img.alt || t('details.screenshot', { index: i + 1, name: project.name })} />
-                        ))}
-                    </div>
+                    <Carousel
+                        items={project.images}
+                        label={t('details.images', { name: project.name })}
+                        altFor={(index) => t('details.screenshot', { index, name: project.name })}
+                    />
                 )}
 
                 {project.description && (
@@ -209,21 +210,61 @@ const Organizations: React.FC = () => {
     );
 };
 
-const Projects: React.FC<{ projects: Project[] }> = ({ projects }) => {
-    const location = useLocation();
+/** Smaller and school projects: one line each, straight to the source */
+const Archive: React.FC<{ projects: Project[] }> = ({ projects }) => {
     const { t } = useTranslation('projects');
-    const detailsRef = useRef<HTMLDivElement>(null);
-    const [selectedId, setSelectedId] = useState<string | undefined>(
-        () => location.state?.selectedProjectId || projects?.[0]?.id
+    if (projects.length === 0) return null;
+
+    return (
+        <section className="section section--tight" aria-labelledby="archive-title">
+            <div className="container">
+                <SectionHeader
+                    eyebrow={t('archive.eyebrow')}
+                    title={<span id="archive-title">{t('archive.title')}</span>}
+                    intro={t('archive.intro')}
+                />
+                <Reveal>
+                    <ul className="archive-list">
+                        {projects.map((project) => {
+                            const url = isUrl(project.repository) ? project.repository : isUrl(project.demo) ? project.demo : undefined;
+                            return (
+                                <li key={project.id} className="archive-list__item">
+                                    <span className="archive-list__name">{project.name}</span>
+                                    <span className="archive-list__desc">{project.description}</span>
+                                    <span className="archive-list__stack">{project.stack}</span>
+                                    {url && (
+                                        <Link
+                                            href={url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="archive-list__link"
+                                            aria-label={t('archive.sourceLabel', { name: project.name })}
+                                        >
+                                            {t('archive.source')} ↗
+                                        </Link>
+                                    )}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </Reveal>
+            </div>
+        </section>
     );
-    const selected = projects?.find((p) => p.id === selectedId) || projects?.[0];
+};
 
-    useEffect(() => {
-        if (location.state?.selectedProjectId) setSelectedId(location.state.selectedProjectId);
-    }, [location.state]);
+const Projects: React.FC<{ projects: Project[] }> = ({ projects }) => {
+    const { id } = useParams();
+    const { t } = useTranslation('projects');
+    const lp = useLocalePath();
+    const detailsRef = useRef<HTMLDivElement>(null);
+    const featured = projects.filter((p) => p.featured);
+    const archived = projects.filter((p) => !p.featured);
+    // /projects/<id> picks the project; /projects (or an unknown id) shows the first one
+    const selected = featured.find((p) => p.id === id) || featured[0];
 
-    const select = (id: string) => {
-        setSelectedId(id);
+    // The link itself updates the URL (replace: switching projects doesn't pile up history entries)
+    const select = () => {
         // Desktop: back to the top of the page. Mobile: the details sit below the list, so jump to them.
         if (window.matchMedia('(max-width: 900px)').matches) {
             detailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -247,23 +288,24 @@ const Projects: React.FC<{ projects: Project[] }> = ({ projects }) => {
                 <div className="container split" style={{ marginTop: 'var(--space-xxl)' }}>
                     <nav className="split__sticky" aria-label={t('list.label')}>
                         <Typography variant="caption" component="p" sx={{ mb: 1.5 }}>
-                            {t('list.count', { count: projects?.length || 0 })}
+                            {t('list.count', { count: featured.length })}
                         </Typography>
                         <ul className="project-list">
-                            {projects?.map((project) => {
+                            {featured.map((project) => {
                                 const active = project.id === selected?.id;
                                 return (
                                     <li key={project.id}>
-                                        <button
-                                            type="button"
+                                        <RouterLink
+                                            to={lp(`/projects/${project.id}`)}
+                                            replace
                                             className={`project-list__item ${active ? 'is-active' : ''}`}
-                                            aria-current={active ? 'true' : undefined}
-                                            onClick={() => select(project.id)}
+                                            aria-current={active ? 'page' : undefined}
+                                            onClick={select}
                                         >
                                             <span className={`status-dot status-dot--${statusKey(project)}`} aria-hidden="true" />
                                             <span className="project-list__name">{project.name}</span>
                                             <span className="project-list__type">{project.type}</span>
-                                        </button>
+                                        </RouterLink>
                                     </li>
                                 );
                             })}
@@ -281,6 +323,7 @@ const Projects: React.FC<{ projects: Project[] }> = ({ projects }) => {
                 </div>
             </section>
 
+            <Archive projects={archived} />
             <Organizations />
         </>
     );

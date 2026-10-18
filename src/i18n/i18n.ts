@@ -18,6 +18,17 @@ import frAccessibility from '../locales/fr/accessibility.json';
 import enLegal from '../locales/en/legal.json';
 import frLegal from '../locales/fr/legal.json';
 
+const LANGUAGE_STORAGE_KEY = 'i18nextLng';
+
+/** Remembers an explicit language choice (the switch), for the next visit */
+export const saveLanguage = (lng: string) => {
+  try {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, lng);
+  } catch {
+    // storage blocked (private mode…): the URL still carries the language
+  }
+};
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -46,11 +57,15 @@ i18n
     fallbackLng: 'en',
     supportedLngs: ['en', 'fr'],
     load: 'languageOnly',
-    // English by default; French when chosen (persisted) or preferred by the browser
+    // The URL decides (/fr/...), see LangSync in App.tsx. On an English URL, a saved choice
+    // or a French browser sends the first visit to /fr. Old ?lang= links still work.
+    // No automatic caching: only the language switch saves a choice (saveLanguage below).
     detection: {
-      order: ['querystring', 'localStorage', 'navigator'],
+      order: ['path', 'querystring', 'localStorage', 'navigator'],
+      lookupFromPathIndex: 0,
       lookupQuerystring: 'lang',
-      caches: ['localStorage'],
+      lookupLocalStorage: LANGUAGE_STORAGE_KEY,
+      caches: [],
     },
     interpolation: {
       escapeValue: false

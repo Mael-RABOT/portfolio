@@ -56,7 +56,7 @@ export const LOCAL_EXPERIENCES: Translatable<Experience>[] = [
     website: 'https://lucy-robotics.com/',
     location: 'Lyon, France',
     contractType: 'Non-profit association',
-    duration: '2024 – Present',
+    duration: 'October 2024 – Present',
     description: 'Co-founded Lucy-Robotics, the association behind Lucy, an open-source robotics framework that makes robots simpler to use: one platform, any robot. I lead the product roadmap and the engineering teams, and contribute to the ROS 2 architecture.',
     highlights: [
       'ROS 2 framework architecture and development',
@@ -69,7 +69,7 @@ export const LOCAL_EXPERIENCES: Translatable<Experience>[] = [
     fr: {
       position: 'Co-fondateur & Product Manager',
       contractType: 'Association loi 1901',
-      duration: '2024 – Aujourd\'hui',
+      duration: 'Octobre 2024 – Aujourd\'hui',
       description: 'Co-fondateur de Lucy-Robotics, l\'association qui développe Lucy, un framework robotique open source qui simplifie l\'utilisation des robots : une plateforme, n\'importe quel robot. Je pilote la feuille de route produit et les équipes techniques, et je contribue à l\'architecture ROS 2.',
       highlights: [
         'Architecture et développement du framework ROS 2',

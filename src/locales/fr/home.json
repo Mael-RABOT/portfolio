@@ -152,52 +152,24 @@
   "skills": {
     "eyebrow": "03 / Boîte à outils",
     "title": "Mes outils",
-    "intro": "Du C bas niveau aux interfaces web et à la robotique, sans oublier les compétences humaines qui font fonctionner une équipe.",
+    "intro": "Du C bas niveau aux interfaces web et à la robotique.",
     "programmingLanguages": {
-      "title": "Langages",
-      "list": [
-        "C",
-        "C++",
-        "Python",
-        "JavaScript",
-        "TypeScript",
-        "PHP",
-        "SQL",
-        "Bash"
-      ]
+      "title": "Langages"
     },
     "tools": {
       "title": "Outils & frameworks",
       "list": [
         "Git",
         "React",
-        "Docker",
+        "Vue.js",
         "Node.js",
-        "MariaDB",
+        "Docker",
+        "PostgreSQL",
         "ROS 2",
+        "ros2_control",
+        "Bevy",
         "Blender",
         "URDF"
-      ]
-    },
-    "softSkills": {
-      "title": "Savoir-être",
-      "list": [
-        "Travail d'équipe",
-        "Autonomie",
-        "Résolution de problèmes",
-        "Apprentissage continu",
-        "Environnement international",
-        "Mentorat pédagogique"
-      ]
-    },
-    "others": {
-      "title": "Autres centres d'intérêt",
-      "list": [
-        "Impression 3D",
-        "Robotique",
-        "Open source",
-        "Relation client",
-        "Aviation"
       ]
     },
     "languages": {
@@ -211,8 +183,8 @@
   "about": {
     "eyebrow": "04 / À propos",
     "title": "Au-delà du code",
-    "p1": "Je termine un Master en informatique à Epitech. Ma passion pour la technologie me pousse à explorer de nombreux domaines, toujours à la recherche de nouveaux défis et de choses à apprendre.",
-    "p2": "J'aime la programmation bas niveau, la conception orientée objet, le développement web et la robotique, et je m'intéresse au développement de jeux vidéo et à la programmation graphique.",
+    "p1": "Je termine un Master en informatique à Epitech (avril 2027), après une année d'échange à l'université Chung-Ang de Séoul. Entre le mentorat et Lucy, mes journées se partagent entre la lecture du code des autres et la conception de logiciels qui doivent fonctionner sur du vrai matériel.",
+    "p2": "À partir de 2027, je cherche un poste d'ingénieur logiciel en robotique ou dans l'outillage pour développeurs, dans une équipe où la revue de code et le mentorat font partie du métier. En dehors du travail : impression 3D et aviation.",
     "facts": [
       {
         "title": "Coding Club",

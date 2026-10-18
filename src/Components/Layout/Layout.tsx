@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitch from '../LanguageSwitch/LanguageSwitch';
@@ -6,6 +6,7 @@ import ThemeSwitch from '../ThemeSwitch/ThemeSwitch';
 import { CONTACT } from '../../data/contact.data';
 import { GlitchText } from '../Motion/GlitchText';
 import { useTransitionLink } from '../Motion/viewTransition';
+import { stripLang, useLocalePath } from '../../i18n/locale';
 import './Layout.css';
 
 const NAV_ITEMS = [
@@ -21,6 +22,7 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const link = useTransitionLink();
+  const lp = useLocalePath();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -35,7 +37,7 @@ const Navbar: React.FC = () => {
   return (
     <header className={`navbar ${scrolled || open ? 'is-solid' : ''}`}>
       <div className="container navbar__inner">
-        <Link to="/" className="navbar__brand" aria-label={t('brandLabel')} onClick={link('/')}>
+        <Link to={lp('/')} className="navbar__brand" aria-label={t('brandLabel')} onClick={link('/')}>
           <span className="navbar__mark" aria-hidden="true" />
           <GlitchText text="Maël Rabot" />
         </Link>
@@ -44,7 +46,7 @@ const Navbar: React.FC = () => {
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.path}
-              to={item.path}
+              to={lp(item.path)}
               end={item.path === '/'}
               className={({ isActive }) => `navbar__link ${isActive ? 'is-active' : ''}`}
               onClick={link(item.path)}
@@ -84,6 +86,7 @@ const Navbar: React.FC = () => {
 const Footer: React.FC = () => {
   const { t } = useTranslation('navigation');
   const link = useTransitionLink();
+  const lp = useLocalePath();
 
   return (
     <footer className="footer">
@@ -93,8 +96,8 @@ const Footer: React.FC = () => {
           <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={`mailto:${CONTACT.email}`}>{t('footer.email')}</a>
-          <Link to="/legal" onClick={link('/legal')}>{t('footer.legal')}</Link>
-          <Link to="/accessibility" onClick={link('/accessibility')}>{t('footer.accessibility')}</Link>
+          <Link to={lp('/legal')} onClick={link('/legal')}>{t('footer.legal')}</Link>
+          <Link to={lp('/accessibility')} onClick={link('/accessibility')}>{t('footer.accessibility')}</Link>
         </nav>
       </div>
     </footer>
@@ -104,10 +107,15 @@ const Footer: React.FC = () => {
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { t } = useTranslation('navigation');
   const { pathname } = useLocation();
+  // "/fr/projects/lucy" -> "projects": switching language or project keeps the scroll position
+  const section = stripLang(pathname).split('/')[1] ?? '';
+  const previous = useRef(section);
 
   useEffect(() => {
+    if (previous.current === section) return;
+    previous.current = section;
     window.scrollTo({ top: 0 });
-  }, [pathname]);
+  }, [section]);
 
   return (
     <div className="layout">

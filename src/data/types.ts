@@ -8,6 +8,8 @@ export interface Link {
 export interface Image {
   url: string;
   alt?: string;
+  /** Short muted loops (webm/mp4) play like animated screenshots */
+  kind?: 'image' | 'video';
 }
 
 interface BaseItem {
@@ -43,6 +45,10 @@ export interface Project extends BaseItem {
   stack?: string;
   repository?: string;
   demo?: string;
+  /** Featured projects get a detail page; the others are listed in the compact archive */
+  featured?: boolean;
+  /** Alt text per media file name (without extension), overriding the one derived from the name */
+  mediaAlt?: Record<string, string>;
 }
 
 /**

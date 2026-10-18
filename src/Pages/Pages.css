@@ -37,22 +37,6 @@
   font-size: var(--size-sm);
 }
 
-.gallery {
-  display: flex;
-  gap: var(--space-sm);
-  overflow-x: auto;
-  margin-top: var(--space-xl);
-  padding-bottom: var(--space-xs);
-}
-
-.gallery img {
-  max-height: 280px;
-  max-width: 100%;
-  object-fit: contain;
-  flex-shrink: 0;
-  border: 1px solid var(--color-line);
-}
-
 /* ---------------------------------------------------------------- Projects */
 .project-list {
   list-style: none;
@@ -61,6 +45,7 @@
 
 .project-list__item {
   width: 100%;
+  text-decoration: none;
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: var(--space-sm);
@@ -112,6 +97,57 @@
 
 .status-dot--completed {
   background: var(--color-text-muted);
+}
+
+/* ---------------------------------------------------------------- Projects archive */
+.archive-list {
+  list-style: none;
+  margin-top: var(--space-xl);
+  border-top: 1px solid var(--color-line);
+}
+
+.archive-list__item {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr) auto;
+  gap: var(--space-xs) var(--space-lg);
+  align-items: baseline;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: var(--size-sm);
+}
+
+.archive-list__name {
+  font-weight: var(--weight-medium);
+}
+
+.archive-list__desc {
+  color: var(--color-text-muted);
+}
+
+.archive-list__stack {
+  font-size: var(--size-xs);
+  color: var(--color-text-subtle);
+}
+
+.archive-list__link {
+  font-size: var(--size-xs);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .archive-list__item {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .archive-list__desc,
+  .archive-list__stack {
+    grid-column: 1 / -1;
+  }
+
+  .archive-list__link {
+    grid-column: 2;
+    grid-row: 1;
+  }
 }
 
 /* ---------------------------------------------------------------- Resume timeline */

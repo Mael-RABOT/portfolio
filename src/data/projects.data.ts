@@ -3,10 +3,13 @@ import { LUCY_LINKS } from './contact.data';
 
 /**
  * Projects, shown in this order on the Projects page.
+ * `featured` ones get a detail page (/projects/<id>); the rest go to the compact archive.
+ * Media: drop files in src/assets/projects/<id>/ (see projectMedia.ts).
  */
 export const LOCAL_PROJECTS: Translatable<Project>[] = [
   {
     id: 'lucy',
+    featured: true,
     name: 'Lucy',
     type: 'Robotics framework',
     status: 'active',
@@ -14,6 +17,8 @@ export const LOCAL_PROJECTS: Translatable<Project>[] = [
     description: `> One platform // Any robot
 
 Lucy is an open-source robotics framework that makes robots simpler to use: one ROS 2 core between the robots and the interfaces that drive them.
+
+The problem: every robot comes with its own software stack, so a control interface or an AI layer has to be rewritten for each one. Lucy puts a single core in between: robots plug in on one side, interfaces on the other, and anything written once works with every supported robot.
 
 How it fits together:
 • Core: runs all the ROS 2 logic in C++, Rust and Python. The main packages are lucy_ros_packages (built on ros2_control) and lucy_embedded_firmware.
@@ -38,11 +43,27 @@ Software is licensed under GPL-3.0; hardware contributions follow InMoov's CC BY
       'Lucy Control Panel and CLI as ready-to-use interfaces',
       'Open-source community, public documentation, roadmap and issue tracking',
     ],
+    facts: {
+      Role: 'Co-founder & product manager',
+      Team: "6 Master's (M2) students",
+      Started: 'October 2024',
+      Codebase: '~20 repositories',
+      Status: 'SO-101 support added in Sept. 2026 · 2 beta tests done · v1 targeted for Q1 2027',
+    },
     fr: {
       type: 'Framework robotique',
+      facts: {
+        Rôle: 'Co-fondateur & product manager',
+        Équipe: '6 étudiants en Master 2',
+        Début: 'Octobre 2024',
+        Code: '~20 dépôts',
+        Statut: 'Support du SO-101 ajouté en sept. 2026 · 2 bêta-tests réalisés · v1 prévue pour le T1 2027',
+      },
       description: `> Une plateforme // N'importe quel robot
 
 Lucy est un framework robotique open source qui simplifie l'utilisation des robots : un seul cœur ROS 2 entre les robots et les interfaces qui les pilotent.
+
+Le problème : chaque robot arrive avec sa propre pile logicielle, et une interface de contrôle ou une couche d'IA doit être réécrite pour chacun. Lucy place un cœur unique entre les deux : les robots se branchent d'un côté, les interfaces de l'autre, et ce qui est écrit une fois fonctionne avec tous les robots supportés.
 
 Comment ça s'articule :
 • Le cœur : il exécute toute la logique ROS 2 en C++, Rust et Python. Les principaux packages sont lucy_ros_packages (basé sur ros2_control) et lucy_embedded_firmware.
@@ -69,6 +90,7 @@ Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la
   },
   {
     id: 'huri',
+    featured: true,
     name: 'HuRI | Human-Robot Interaction',
     type: 'AI framework',
     status: 'active',
@@ -85,6 +107,7 @@ Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la
   },
   {
     id: 'not-a-rhythm-game',
+    featured: true,
     name: 'Not A Rhythm Game',
     type: 'Desktop game',
     status: 'completed',
@@ -99,6 +122,7 @@ Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la
   },
   {
     id: 'ast3roid',
+    featured: true,
     name: 'Ast3roid',
     type: 'Desktop game',
     status: 'completed',
@@ -148,6 +172,7 @@ Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la
   },
   {
     id: 'r-type',
+    featured: true,
     name: 'R-Type',
     type: 'Game engine',
     status: 'completed',
@@ -196,12 +221,12 @@ Le logiciel est sous licence GPL-3.0 ; les contributions matérielles suivent la
     type: 'Web application',
     status: 'active',
     stack: 'TypeScript / React',
-    description: 'This website: a dark, minimalist portfolio with a token-based theme, scroll animations and English/French support.',
-    technologies: ['React', 'TypeScript', 'Vite', 'MUI', 'Framer Motion', 'i18next'],
+    description: 'This site: one design-token file driving MUI and CSS variables, light/dark themes with a pixel-grid View Transition, prerendered pages in English and French, and a CV PDF generated from the same data at build time.',
+    technologies: ['React', 'TypeScript', 'Vite', 'MUI', 'i18next', 'View Transitions API', 'Puppeteer'],
     repository: 'https://github.com/Mael-RABOT/portfolio',
     fr: {
       type: 'Application web',
-      description: 'Ce site : un portfolio sombre et minimaliste, avec un thème basé sur des tokens, des animations au scroll et une version anglaise/française.',
+      description: 'Ce site : un seul fichier de design tokens qui alimente MUI et les variables CSS, des thèmes clair/sombre avec une View Transition en grille de pixels, des pages pré-rendues en anglais et en français, et un CV PDF généré à partir des mêmes données au build.',
     },
   },
   {
