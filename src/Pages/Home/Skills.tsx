@@ -38,14 +38,14 @@ const Skills: React.FC = () => {
                 onClick={() => setActive(category)}
               >
                 <span>{t(`skills.${category}.title`)}</span>
-                <span className="skill-tabs__count">{String(list(category).length).padStart(2, '0')}</span>
+                <span className="skill-tabs__count">{list(category).length}</span>
               </button>
             ))}
           </div>
         </SectionHeader>
       }
     >
-      <Reveal from="right">
+      <Reveal>
         <Card>
           <CardContent
             id="skill-panel"
@@ -56,14 +56,9 @@ const Skills: React.FC = () => {
             <Typography variant="overline" component="p" sx={{ mb: 3 }}>
               {t(`skills.${active}.title`)}
             </Typography>
-            {/* re-mounted per category so the CSS stagger replays */}
-            <ul key={active} className="skill-cloud">
-              {list(active).map((skill, i) => (
-                <li
-                  key={skill}
-                  className="skill-cloud__item chamfer chamfer--sm"
-                  style={{ '--i': i } as React.CSSProperties}
-                >
+            <ul className="skill-cloud">
+              {list(active).map((skill) => (
+                <li key={skill} className="skill-cloud__item chamfer chamfer--sm">
                   {skill}
                 </li>
               ))}

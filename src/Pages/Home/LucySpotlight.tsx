@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTransitionNavigate } from '../../Components/Motion/viewTransition';
+import { useNavigate } from 'react-router-dom';
+import { useLocalePath } from '../../i18n/locale';
 import { Button, Chip, Typography } from '@mui/material';
 import { Reveal } from '../../Components/Motion/Reveal';
 import { SectionHeader } from '../../Components/Section/Section';
@@ -11,12 +12,13 @@ const LINK_KEYS = ['site', 'docs', 'github', 'discord'] as const;
 
 const LucySpotlight: React.FC = () => {
   const { t } = useTranslation('home');
-  const navigate = useTransitionNavigate();
+  const navigate = useNavigate();
+  const lp = useLocalePath();
 
   return (
     <section id="lucy" className="section" aria-labelledby="lucy-title">
       <div className="container split split--reverse">
-        <Reveal from="left">
+        <Reveal>
           <LucyDiagram />
         </Reveal>
 
@@ -26,11 +28,11 @@ const LucySpotlight: React.FC = () => {
             title={<span id="lucy-title">{t('lucy.title')}</span>}
             intro={t('lucy.subtitle')}
           >
-            <Chip label={`● ${t('lucy.status')}`} color="primary" size="small" sx={{ mt: 2.5 }} />
+            <Chip label={t('lucy.status')} color="primary" size="small" sx={{ mt: 2.5 }} />
             <Typography sx={{ mt: 2.5 }}>{t('lucy.description')}</Typography>
           </SectionHeader>
 
-          <Reveal delay={0.15}>
+          <Reveal delay={0.1}>
             <ul className="link-grid">
               {LINK_KEYS.map((key) => (
                 <li key={key}>
@@ -51,7 +53,7 @@ const LucySpotlight: React.FC = () => {
             <Button
               variant="contained"
               sx={{ mt: 3 }}
-              onClick={() => navigate('/projects/lucy')}
+              onClick={() => navigate(lp('/projects/lucy'))}
             >
               {t('lucy.cta')} →
             </Button>

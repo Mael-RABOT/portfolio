@@ -8,7 +8,7 @@
     "scroll": "Scroll"
   },
   "tracks": {
-    "eyebrow": "01 / Today",
+    "eyebrow": "Today",
     "title": "Two tracks, one craft.",
     "intro": "My time is split between mentoring students through their projects at Epitech and building Lucy, an open-source robotics framework, with Lucy-Robotics.",
     "more": "Show details",
@@ -76,7 +76,7 @@
     }
   },
   "lucy": {
-    "eyebrow": "02 / Featured project",
+    "eyebrow": "Featured project",
     "title": "Lucy",
     "subtitle": "> One platform // Any robot",
     "description": "Lucy is an open-source robotics framework that makes robots simpler to use. Its core runs all the ROS 2 logic and installs in a few commands on macOS, Windows or Linux. Robots plug in on one side (InMoov and the SO-101 arm today), control interfaces on the other: the Lucy Control Panel, a CLI, or one you build yourself.",
@@ -150,7 +150,7 @@
     }
   },
   "skills": {
-    "eyebrow": "03 / Toolbox",
+    "eyebrow": "Toolbox",
     "title": "What I work with",
     "intro": "From low-level C to web interfaces and robotics.",
     "programmingLanguages": {
@@ -181,7 +181,7 @@
     }
   },
   "about": {
-    "eyebrow": "04 / About",
+    "eyebrow": "About",
     "title": "Beyond the code",
     "p1": "I'm finishing a Master's in computer science at Epitech (April 2027), after an exchange year at Chung-Ang University in Seoul. Between mentoring and Lucy, my days go to reading other people's code and designing software that has to work on real hardware.",
     "p2": "From 2027, I'm looking for a software engineering role in robotics or developer tooling, on a team where code review and mentoring are part of the job. Outside work: 3D printing and aviation.",

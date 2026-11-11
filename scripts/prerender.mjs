@@ -92,7 +92,7 @@ let failed = false;
 try {
   const baseUrl = server.resolvedUrls.local[0].replace(/\/$/, '');
   const page = await browser.newPage();
-  // A fixed, neutral visitor: English browser, nothing saved, no animations mid-capture
+  // A fixed, neutral visitor: English browser, nothing saved
   await page.setExtraHTTPHeaders({ 'Accept-Language': 'en' });
   await page.evaluateOnNewDocument(() => {
     Object.defineProperty(navigator, 'language', { get: () => 'en-US' });
@@ -121,7 +121,6 @@ try {
         // runtime-only state: `js` would hide the copy for visitors without JavaScript
         root.classList.remove('js');
         if (!root.classList.length) root.removeAttribute('class');
-        root.removeAttribute('data-vt');
         root.style.removeProperty('background-color');
         if (!root.getAttribute('style')) root.removeAttribute('style');
         return `<!doctype html>\n${root.outerHTML}`;

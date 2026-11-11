@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useReducedMotion } from '../../Components/Motion/useReducedMotion';
 import { cssColors as c, fonts } from '../../theme/theme.const';
 
 // Colours go through `style` (CSS variables don't work in SVG presentation attributes)
-import { useInViewOnce } from '../../Components/Motion/useInViewOnce';
 
 type NodeId =
   | 'lcp' | 'cli' | 'huri' | 'custom'
@@ -77,9 +75,7 @@ const isCorePart = (id: NodeId) => id === 'core' || byId(id as Exclude<NodeId, '
 /** Interactive architecture diagram of the Lucy stack. */
 const LucyDiagram: React.FC = () => {
   const { t } = useTranslation('home');
-  const reduce = useReducedMotion();
   const [active, setActive] = useState<NodeId>('core');
-  const [ref, visible] = useInViewOnce<HTMLElement>();
 
   const select = (id: NodeId) => ({
     onMouseEnter: () => setActive(id),
@@ -96,7 +92,7 @@ const LucyDiagram: React.FC = () => {
   ];
 
   return (
-    <figure ref={ref} className={`diagram chamfer ${visible ? 'is-visible' : ''}`} aria-label={t('lucy.diagram.label')}>
+    <figure className="diagram chamfer" aria-label={t('lucy.diagram.label')}>
       {/* Desktop / tablet: SVG diagram */}
       <svg viewBox="0 0 760 370" className="diagram__svg" role="presentation">
         {(['interfaces', 'core', 'robots'] as Column[]).map((column) => (
@@ -113,26 +109,16 @@ const LucyDiagram: React.FC = () => {
           </text>
         ))}
 
-        {EDGES.map((edge, i) => {
-          const lit = edgeLit(edge.node);
-          return (
-            <g key={edge.node}>
-              <path
-                d={edge.d}
-                pathLength={1}
-                className={`diagram__edge ${edge.ghost ? 'diagram__edge--ghost' : ''}`}
-                style={{ '--d': `${0.3 + i * 0.08}s`, stroke: lit ? c.accent : c.lineStrong } as React.CSSProperties}
-                fill="none"
-                strokeWidth={1}
-              />
-              {!reduce && !edge.ghost && (
-                <circle r={2.5} style={{ fill: c.accent }} opacity={lit ? 1 : 0.3}>
-                  <animateMotion dur={`${2 + (i % 3) * 0.5}s`} repeatCount="indefinite" path={edge.d} />
-                </circle>
-              )}
-            </g>
-          );
-        })}
+        {EDGES.map((edge) => (
+          <path
+            key={edge.node}
+            d={edge.d}
+            style={{ stroke: edgeLit(edge.node) ? c.accent : c.lineStrong }}
+            strokeDasharray={edge.ghost ? '3 4' : undefined}
+            fill="none"
+            strokeWidth={1}
+          />
+        ))}
 
         {/* Core block */}
         <g className="diagram__node" tabIndex={0} role="button" aria-pressed={active === 'core'} aria-label={title('core')} {...select('core')}>
@@ -144,27 +130,26 @@ const LucyDiagram: React.FC = () => {
             }}
             strokeWidth={1}
           />
-          <text x={CORE.x + 16} y={CORE.y + 28} style={{ fill: active === 'core' ? c.accent : c.text }} fontFamily={fonts.mono} fontSize={TEXT.title} fontWeight={600}>
+          <text x={CORE.x + 16} y={CORE.y + 28} style={{ fill: active === 'core' ? c.accent : c.text }} fontFamily={fonts.body} fontSize={TEXT.title} fontWeight={600}>
             {title('core')}
           </text>
-          <text x={CORE.x + 16} y={CORE.y + 48} style={{ fill: c.textMuted }} fontFamily={fonts.mono} fontSize={TEXT.small}>
+          <text x={CORE.x + 16} y={CORE.y + 48} style={{ fill: c.textMuted }} fontFamily={fonts.body} fontSize={TEXT.small}>
             ROS 2 · C++ · Rust · Python
           </text>
-          <text x={CORE.x + 16} y={CORE.y + 256} style={{ fill: c.textMuted }} fontFamily={fonts.mono} fontSize={TEXT.small}>
+          <text x={CORE.x + 16} y={CORE.y + 256} style={{ fill: c.textMuted }} fontFamily={fonts.body} fontSize={TEXT.small}>
             {t('lucy.diagram.install')}
           </text>
-          <text x={CORE.x + 16} y={CORE.y + 276} style={{ fill: c.textMuted }} fontFamily={fonts.mono} fontSize={TEXT.small}>
+          <text x={CORE.x + 16} y={CORE.y + 276} style={{ fill: c.textMuted }} fontFamily={fonts.body} fontSize={TEXT.small}>
             macOS · Windows · Linux
           </text>
         </g>
 
-        {NODES.map((node, i) => {
+        {NODES.map((node) => {
           const selected = node.id === active;
           return (
             <g
               key={node.id}
-              className="diagram__node diagram__node--enter"
-              style={{ '--d': `${i * 0.06}s` } as React.CSSProperties}
+              className="diagram__node"
               tabIndex={0}
               role="button"
               aria-pressed={selected}
@@ -186,7 +171,7 @@ const LucyDiagram: React.FC = () => {
                 textAnchor="middle"
                 dominantBaseline="central"
                 style={{ fill: selected ? c.accent : node.ghost ? c.textMuted : c.text }}
-                fontFamily={fonts.mono}
+                fontFamily={fonts.body}
                 fontSize={node.inner ? TEXT.inner : TEXT.node}
               >
                 {title(node.id)}
@@ -220,11 +205,8 @@ const LucyDiagram: React.FC = () => {
       </div>
 
       <figcaption className="diagram__caption" aria-live="polite">
-        {/* re-mounted on change so the CSS fade replays */}
-        <div key={active} className="diagram__caption-body">
-          <strong>{title(active)}</strong>
-          <p className="muted">{t(`lucy.diagram.nodes.${active}.description`)}</p>
-        </div>
+        <strong>{title(active)}</strong>
+        <p className="muted">{t(`lucy.diagram.nodes.${active}.description`)}</p>
         <p className="diagram__hint">{t('lucy.diagram.hint')}</p>
       </figcaption>
     </figure>

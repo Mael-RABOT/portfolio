@@ -103,7 +103,7 @@ export const createAppTheme = (mode: ThemeMode) => {
     },
     shape: { borderRadius: shape.radius },
     typography: {
-      fontFamily: fonts.mono,
+      fontFamily: fonts.body,
       h1: heading(fontSizes.h1),
       h2: heading(fontSizes.h2),
       h3: heading(fontSizes.h3),
@@ -116,6 +116,7 @@ export const createAppTheme = (mode: ThemeMode) => {
       body2: { fontSize: fontSizes.sm, lineHeight: lineHeights.normal },
       caption: { fontSize: fontSizes.xs, color: cssColors.textMuted },
       overline: {
+        fontFamily: fonts.mono,
         fontSize: fontSizes.xs,
         fontWeight: fontWeights.medium,
         letterSpacing: letterSpacing.label,
@@ -200,6 +201,7 @@ export const createAppTheme = (mode: ThemeMode) => {
         styleOverrides: {
           root: {
             borderRadius: 0,
+            fontFamily: fonts.mono,
             fontSize: fontSizes.xs,
             height: 28,
           },

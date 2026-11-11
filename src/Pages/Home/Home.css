@@ -1,4 +1,5 @@
 /* ---------------------------------------------------------------- Hero */
+/* Landing screen: name, tagline and CTAs alone, scroll cue at the bottom */
 .hero {
   position: relative;
   min-height: 100svh;
@@ -8,14 +9,14 @@
 }
 
 .hero__inner {
-  position: relative; /* anchors the AngleFrame */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
 .hero__title {
-  margin-top: var(--space-lg);
+  margin-top: var(--space-md);
+  font-family: var(--font-mono);
   font-size: var(--size-display);
   font-weight: var(--weight-semi-bold);
   line-height: var(--leading-tight);
@@ -51,11 +52,17 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-xs);
+  font-family: var(--font-mono);
   font-size: var(--size-xxs);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--color-text-subtle);
+  transition: color var(--motion-fast) var(--motion-easing);
+}
+
+.hero__scroll:hover {
+  color: var(--color-accent);
 }
 
 .hero__scroll-line {
@@ -81,6 +88,13 @@
   to { top: 100%; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-line::after {
+    animation: none;
+    top: 0;
+  }
+}
+
 /* ---------------------------------------------------------------- Tracks */
 .stats {
   margin-top: var(--space-lg);
@@ -99,6 +113,7 @@
 }
 
 .stats__value {
+  font-family: var(--font-mono);
   font-size: var(--size-xl);
   font-weight: var(--weight-semi-bold);
   color: var(--color-accent);
@@ -160,61 +175,6 @@
   outline: none;
 }
 
-/* draw-in when the diagram scrolls into view (class set by useInViewOnce) */
-.diagram__edge {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 0.8s var(--motion-easing) var(--d, 0s), stroke var(--motion-fast) var(--motion-easing);
-}
-
-.diagram__edge--ghost {
-  stroke-dasharray: 0.043 0.057; /* ≈ "3 4" on a 70-unit edge (pathLength = 1) */
-  stroke-dashoffset: 0;
-  opacity: 0;
-  transition: opacity var(--motion-slow) var(--motion-easing) var(--d, 0s);
-}
-
-.diagram.is-visible .diagram__edge {
-  stroke-dashoffset: 0;
-}
-
-.diagram.is-visible .diagram__edge--ghost {
-  opacity: 1;
-}
-
-.diagram__node--enter {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity var(--motion-base) var(--motion-easing) var(--d, 0s),
-    transform var(--motion-base) var(--motion-easing) var(--d, 0s);
-}
-
-.diagram.is-visible .diagram__node--enter {
-  opacity: 1;
-  transform: none;
-}
-
-.diagram__caption-body {
-  animation: caption-in var(--motion-fast) var(--motion-easing) both;
-}
-
-@keyframes caption-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .diagram__edge { stroke-dashoffset: 0; }
-  .diagram__edge--ghost,
-  .diagram__node--enter { opacity: 1; transform: none; }
-}
-
-.diagram__node polygon,
-.diagram__node text {
-  transition: fill var(--motion-fast) var(--motion-easing), stroke var(--motion-fast) var(--motion-easing);
-}
 
 .diagram__node:focus-visible polygon {
   stroke: var(--color-text) !important; /* beats the inline stroke set from React */
@@ -232,6 +192,7 @@
 }
 
 .diagram__group-label {
+  font-family: var(--font-mono);
   font-size: var(--size-xxs);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -329,7 +290,7 @@
   color: var(--color-text-muted);
   text-align: left;
   cursor: pointer;
-  transition: color var(--motion-fast) var(--motion-easing), padding var(--motion-base) var(--motion-easing);
+  transition: color var(--motion-fast) var(--motion-easing);
 }
 
 .skill-tabs__tab:hover {
@@ -338,10 +299,10 @@
 
 .skill-tabs__tab.is-active {
   color: var(--color-accent);
-  padding-left: var(--space-sm);
 }
 
 .skill-tabs__count {
+  font-family: var(--font-mono);
   font-size: var(--size-xxs);
   color: var(--color-text-subtle);
 }
@@ -355,23 +316,8 @@
 
 .skill-cloud__item {
   --chamfer-bg: var(--color-bg);
-  animation: chip-in var(--motion-base) var(--motion-easing) both;
-  animation-delay: calc(var(--i, 0) * 40ms);
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-xs) var(--space-md);
   font-size: var(--size-sm);
-  transition: color var(--motion-fast) var(--motion-easing);
-}
-
-.skill-cloud__item:hover {
-  --chamfer-border: var(--color-accent);
-  color: var(--color-accent);
-}
-
-@keyframes chip-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
 }
 
 /* ---------------------------------------------------------------- About */
@@ -379,14 +325,8 @@
   list-style: none;
 }
 
-.facts__index {
-  font-size: var(--size-xs);
-  color: var(--color-accent);
-}
-
 /* ---------------------------------------------------------------- CTA */
 .cta {
-  --chamfer-size: var(--shape-chamfer);
   --chamfer-border: var(--color-line-strong);
   display: flex;
   flex-wrap: wrap;

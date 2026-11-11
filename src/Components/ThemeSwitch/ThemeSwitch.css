@@ -24,17 +24,3 @@
   stroke-linecap: square;
   stroke-linejoin: miter;
 }
-
-/* draws in top to bottom in 4 hard steps, like a line-by-line redraw */
-.theme-switch.is-switched svg {
-  animation: icon-boot var(--motion-base) steps(4, jump-end) both;
-}
-
-@keyframes icon-boot {
-  from {
-    clip-path: inset(0 0 100% 0);
-  }
-  to {
-    clip-path: inset(0);
-  }
-}

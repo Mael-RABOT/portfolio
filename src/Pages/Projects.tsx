@@ -4,11 +4,9 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Card, CardContent, Chip, Link, Typography } from "@mui/material";
 import type { Project } from "../data/types";
 import { Reveal } from "../Components/Motion/Reveal";
-import { GlitchText } from "../Components/Motion/GlitchText";
 import { Carousel } from "../Components/Carousel/Carousel";
 import { SectionHeader, SplitSection } from "../Components/Section/Section";
 import { LUCY_LINKS } from "../data/contact.data";
-import { cssColors } from "../theme/theme.const";
 import { useLocalePath } from "../i18n/locale";
 import "./Pages.css";
 
@@ -44,8 +42,7 @@ const ProjectDetails: React.FC<{ project: Project }> = ({ project }) => {
                     {project.type && <Chip label={project.type} variant="outlined" size="small" />}
                 </Box>
                 <Typography id="project-title" variant="h2" component="h2">
-                    {/* details remount per project, so the glitch replays on every switch */}
-                    <GlitchText text={project.name} onLoad delay={0.1} />
+                    {project.name}
                 </Typography>
                 {project.stack && (
                     <Typography className="muted" sx={{ mt: 1, fontSize: 'var(--size-sm)' }}>{project.stack}</Typography>
@@ -145,67 +142,61 @@ const Organizations: React.FC = () => {
                 </SectionHeader>
             }
         >
-            <div className="stack">
-                <Reveal from="right">
-                    <Card sx={{ '--chamfer-border': cssColors.lineStrong }}>
-                        <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                            <Typography variant="h3">{t('organizations.lucyRobotics.title')}</Typography>
-                            <Typography sx={{ mt: 2 }}>{t('organizations.lucyRobotics.p1')}</Typography>
-                            <Typography className="muted" sx={{ mt: 1.5 }}>{t('organizations.lucyRobotics.p2')}</Typography>
+            <Reveal className="stack">
+                <Card>
+                    <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                        <Typography variant="h3">{t('organizations.lucyRobotics.title')}</Typography>
+                        <Typography sx={{ mt: 2 }}>{t('organizations.lucyRobotics.p1')}</Typography>
+                        <Typography className="muted" sx={{ mt: 1.5 }}>{t('organizations.lucyRobotics.p2')}</Typography>
 
-                            <Block title={t('organizations.lucyRobotics.pillars')}>
-                                <ul className="dash-list">
-                                    <li>
-                                        <Link href="https://github.com/Lucy-Robotics/lucy_ws" target="_blank" rel="noopener noreferrer">
-                                            {t('organizations.lucyRobotics.lucy')} ↗
-                                        </Link>
-                                        <Typography className="muted" sx={{ fontSize: 'var(--size-sm)' }}>{t('organizations.lucyRobotics.lucyDesc')}</Typography>
-                                    </li>
-                                    <li>
-                                        <Link href="https://github.com/Lucy-Robotics/HuRI" target="_blank" rel="noopener noreferrer">
-                                            {t('organizations.lucyRobotics.huri')} ↗
-                                        </Link>
-                                        <Typography className="muted" sx={{ fontSize: 'var(--size-sm)' }}>{t('organizations.lucyRobotics.huriDesc')}</Typography>
-                                    </li>
-                                </ul>
-                            </Block>
+                        <Block title={t('organizations.lucyRobotics.pillars')}>
+                            <ul className="dash-list">
+                                <li>
+                                    <Link href="https://github.com/Lucy-Robotics/lucy_ws" target="_blank" rel="noopener noreferrer">
+                                        {t('organizations.lucyRobotics.lucy')} ↗
+                                    </Link>
+                                    <Typography className="muted" sx={{ fontSize: 'var(--size-sm)' }}>{t('organizations.lucyRobotics.lucyDesc')}</Typography>
+                                </li>
+                                <li>
+                                    <Link href="https://github.com/Lucy-Robotics/HuRI" target="_blank" rel="noopener noreferrer">
+                                        {t('organizations.lucyRobotics.huri')} ↗
+                                    </Link>
+                                    <Typography className="muted" sx={{ fontSize: 'var(--size-sm)' }}>{t('organizations.lucyRobotics.huriDesc')}</Typography>
+                                </li>
+                            </ul>
+                        </Block>
 
-                            <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mt: 4 }}>
-                                <Button variant="contained" href={LUCY_LINKS.site} target="_blank" rel="noopener noreferrer">
-                                    {t('organizations.lucyRobotics.website')} ↗
-                                </Button>
-                                <Button variant="outlined" href={LUCY_LINKS.github} target="_blank" rel="noopener noreferrer">
-                                    {t('organizations.lucyRobotics.github')} ↗
-                                </Button>
-                                <Button variant="outlined" href={LUCY_LINKS.discord} target="_blank" rel="noopener noreferrer">
-                                    {t('organizations.lucyRobotics.discord')} ↗
-                                </Button>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </Reveal>
+                        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mt: 4 }}>
+                            <Button variant="contained" href={LUCY_LINKS.site} target="_blank" rel="noopener noreferrer">
+                                {t('organizations.lucyRobotics.website')} ↗
+                            </Button>
+                            <Button variant="outlined" href={LUCY_LINKS.github} target="_blank" rel="noopener noreferrer">
+                                {t('organizations.lucyRobotics.github')} ↗
+                            </Button>
+                            <Button variant="outlined" href={LUCY_LINKS.discord} target="_blank" rel="noopener noreferrer">
+                                {t('organizations.lucyRobotics.discord')} ↗
+                            </Button>
+                        </Box>
+                    </CardContent>
+                </Card>
 
-                <Reveal from="right" delay={0.1}>
-                    <Card>
-                        <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                            <Typography variant="h4" component="h3">{t('organizations.asm.title')}</Typography>
-                            <Typography className="muted" sx={{ mt: 1.5 }}>{t('organizations.asm.description')}</Typography>
-                            <Link href="https://github.com/ASM-Studios/" target="_blank" rel="noopener noreferrer" sx={{ display: 'inline-block', mt: 2 }}>
-                                {t('organizations.asm.link')} ↗
-                            </Link>
-                        </CardContent>
-                    </Card>
-                </Reveal>
+                <Card>
+                    <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                        <Typography variant="h4" component="h3">{t('organizations.asm.title')}</Typography>
+                        <Typography className="muted" sx={{ mt: 1.5 }}>{t('organizations.asm.description')}</Typography>
+                        <Link href="https://github.com/ASM-Studios/" target="_blank" rel="noopener noreferrer" sx={{ display: 'inline-block', mt: 2 }}>
+                            {t('organizations.asm.link')} ↗
+                        </Link>
+                    </CardContent>
+                </Card>
 
-                <Reveal from="right" delay={0.2}>
-                    <Card>
-                        <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                            <Typography variant="h4" component="h3">{t('organizations.personal.title')}</Typography>
-                            <Typography className="muted" sx={{ mt: 1.5 }}>{t('organizations.personal.description')}</Typography>
-                        </CardContent>
-                    </Card>
-                </Reveal>
-            </div>
+                <Card>
+                    <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                        <Typography variant="h4" component="h3">{t('organizations.personal.title')}</Typography>
+                        <Typography className="muted" sx={{ mt: 1.5 }}>{t('organizations.personal.description')}</Typography>
+                    </CardContent>
+                </Card>
+            </Reveal>
         </SplitSection>
     );
 };
@@ -313,12 +304,7 @@ const Projects: React.FC<{ projects: Project[] }> = ({ projects }) => {
                     </nav>
 
                     <div ref={detailsRef} style={{ scrollMarginTop: 'calc(var(--layout-nav-height) + 16px)' }}>
-                        {/* re-mounted per project so the CSS entrance replays */}
-                        {selected && (
-                            <div key={selected.id} className="swap-in">
-                                <ProjectDetails project={selected} />
-                            </div>
-                        )}
+                        {selected && <ProjectDetails project={selected} />}
                     </div>
                 </div>
             </section>

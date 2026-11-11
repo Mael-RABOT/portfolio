@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Image } from '../../data/types';
-import { FadeImage } from '../Motion/FadeImage';
 import { useReducedMotion } from '../Motion/useReducedMotion';
 import './Carousel.css';
 
@@ -19,7 +18,7 @@ const Slide: React.FC<{ media: Image; alt: string; active: boolean }> = ({ media
     else el.pause();
   }, [active, reduce]);
 
-  if (media.kind !== 'video') return <FadeImage src={media.url} alt={alt} draggable={false} />;
+  if (media.kind !== 'video') return <img src={media.url} alt={alt} draggable={false} loading="lazy" decoding="async" />;
   return (
     <video ref={video} src={media.url} aria-label={alt} muted loop playsInline preload="metadata" controls={reduce} />
   );

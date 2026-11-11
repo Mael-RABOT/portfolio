@@ -1,10 +1,9 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import { Reveal } from '../Motion/Reveal';
-import { DecodeText } from '../Motion/DecodeText';
 
 interface SectionHeaderProps {
-  /** Small uppercase label, e.g. "01 / Today" */
+  /** Small uppercase label, e.g. "Today" */
   eyebrow: string;
   title: React.ReactNode;
   intro?: React.ReactNode;
@@ -15,7 +14,7 @@ interface SectionHeaderProps {
 
 export const SectionHeader: React.FC<SectionHeaderProps> = ({ eyebrow, title, intro, level = 'h2', children }) => (
   <Reveal>
-    <span className="eyebrow"><DecodeText text={eyebrow} /></span>
+    <span className="eyebrow">{eyebrow}</span>
     <Typography variant={level} component={level} sx={{ mt: 2, mb: intro ? 2.5 : 0 }}>
       {title}
     </Typography>

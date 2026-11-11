@@ -20,7 +20,7 @@
     "web": "View the web version of my resume"
   },
   "experience": {
-    "eyebrow": "01 / Experience",
+    "eyebrow": "Experience",
     "title": "Where I've worked",
     "info": "Key facts",
     "links": "Links",
@@ -29,7 +29,7 @@
     "image": "Image {{index}} for {{name}}"
   },
   "education": {
-    "eyebrow": "02 / Education",
+    "eyebrow": "Education",
     "title": "Where I've studied"
   }
 }

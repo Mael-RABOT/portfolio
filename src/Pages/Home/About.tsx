@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, Typography } from '@mui/material';
 import { Reveal } from '../../Components/Motion/Reveal';
 import { SectionHeader, SplitSection } from '../../Components/Section/Section';
-import { cssColors } from '../../theme/theme.const';
 
 interface Fact {
   title: string;
@@ -28,14 +27,11 @@ const About: React.FC = () => {
     >
       <ol className="stack facts">
         {Array.isArray(facts) && facts.map((fact, i) => (
-          <Reveal key={fact.title} as="li" delay={i * 0.1} from="right">
-            <Card sx={{ '&:hover': { '--chamfer-border': cssColors.accent } }}>
-              <CardContent sx={{ display: 'flex', gap: 3, alignItems: 'baseline' }}>
-                <span className="facts__index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <Typography variant="h6" component="h3">{fact.title}</Typography>
-                  <Typography className="muted" sx={{ mt: 0.5, fontSize: 'var(--size-sm)' }}>{fact.text}</Typography>
-                </div>
+          <Reveal as="li" key={fact.title} delay={i * 0.08}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="h3">{fact.title}</Typography>
+                <Typography className="muted" sx={{ mt: 0.5, fontSize: 'var(--size-sm)' }}>{fact.text}</Typography>
               </CardContent>
             </Card>
           </Reveal>

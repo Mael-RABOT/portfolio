@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitch from '../LanguageSwitch/LanguageSwitch';
 import ThemeSwitch from '../ThemeSwitch/ThemeSwitch';
 import { CONTACT } from '../../data/contact.data';
-import { GlitchText } from '../Motion/GlitchText';
-import { useTransitionLink } from '../Motion/viewTransition';
 import { stripLang, useLocalePath } from '../../i18n/locale';
 import './Layout.css';
 
@@ -21,7 +19,6 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const link = useTransitionLink();
   const lp = useLocalePath();
 
   useEffect(() => {
@@ -31,15 +28,15 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close the mobile menu on navigation (layout effect: before the page transition's snapshot)
+  // Close the mobile menu on navigation
   useLayoutEffect(() => setOpen(false), [location.pathname]);
 
   return (
     <header className={`navbar ${scrolled || open ? 'is-solid' : ''}`}>
       <div className="container navbar__inner">
-        <Link to={lp('/')} className="navbar__brand" aria-label={t('brandLabel')} onClick={link('/')}>
+        <Link to={lp('/')} className="navbar__brand" aria-label={t('brandLabel')}>
           <span className="navbar__mark" aria-hidden="true" />
-          <GlitchText text="Maël Rabot" />
+          Maël Rabot
         </Link>
 
         <nav className={`navbar__nav ${open ? 'is-open' : ''}`} id="main-navigation" aria-label={t('label')}>
@@ -49,15 +46,8 @@ const Navbar: React.FC = () => {
               to={lp(item.path)}
               end={item.path === '/'}
               className={({ isActive }) => `navbar__link ${isActive ? 'is-active' : ''}`}
-              onClick={link(item.path)}
             >
-              {({ isActive }) => (
-                <>
-                  {t(`menu.${item.key}`)}
-                  {/* one per page: the page transition morphs it from the old link to the new one */}
-                  {isActive && <span className="navbar__indicator" aria-hidden="true" />}
-                </>
-              )}
+              {t(`menu.${item.key}`)}
             </NavLink>
           ))}
           <div className="navbar__prefs">
@@ -85,7 +75,6 @@ const Navbar: React.FC = () => {
 
 const Footer: React.FC = () => {
   const { t } = useTranslation('navigation');
-  const link = useTransitionLink();
   const lp = useLocalePath();
 
   return (
@@ -96,8 +85,8 @@ const Footer: React.FC = () => {
           <a href={CONTACT.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={`mailto:${CONTACT.email}`}>{t('footer.email')}</a>
-          <Link to={lp('/legal')} onClick={link('/legal')}>{t('footer.legal')}</Link>
-          <Link to={lp('/accessibility')} onClick={link('/accessibility')}>{t('footer.accessibility')}</Link>
+          <Link to={lp('/legal')}>{t('footer.legal')}</Link>
+          <Link to={lp('/accessibility')}>{t('footer.accessibility')}</Link>
         </nav>
       </div>
     </footer>

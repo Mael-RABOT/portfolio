@@ -20,7 +20,7 @@
     "web": "Voir la version web de mon CV"
   },
   "experience": {
-    "eyebrow": "01 / Expériences",
+    "eyebrow": "Expériences",
     "title": "Où j'ai travaillé",
     "info": "En bref",
     "links": "Liens",
@@ -29,7 +29,7 @@
     "image": "Image {{index}} pour {{name}}"
   },
   "education": {
-    "eyebrow": "02 / Formation",
+    "eyebrow": "Formation",
     "title": "Où j'ai étudié"
   }
 }

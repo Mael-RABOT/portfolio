@@ -7,7 +7,6 @@ import { getPortfolioData } from "./data/portfolio.data";
 import { langFromPath, stripLang, toLanguage, useLanguage, withLang } from "./i18n/locale";
 
 import Layout from "./Components/Layout/Layout";
-import GridBackground from "./Components/Decor/GridBackground";
 import Seo from "./Components/Seo/Seo";
 import Home from "./Pages/Home";
 import Projects from "./Pages/Projects";
@@ -54,7 +53,6 @@ const Site: React.FC = () => {
 
     return (
         <>
-            <GridBackground />
             <LangSync />
             <Seo projects={data.projects} />
             <Layout>

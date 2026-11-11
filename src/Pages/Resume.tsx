@@ -110,37 +110,35 @@ const Resume: React.FC<{ experiences: Experience[], educations: Education[] }> =
                 label={t('header.eyebrow')}
                 aside={<SectionHeader level="h1" eyebrow={t('header.eyebrow')} title={t('header.title')} intro={t('header.intro')} />}
             >
-                <Reveal from="right">
-                    <Card>
-                        <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                            <Typography variant="overline" component="h2" sx={{ mb: 2.5 }}>{t('profile.title')}</Typography>
-                            <dl className="kv-grid">
-                                <div><dt>{t('profile.role')}</dt><dd>{t('profile.roleValue')}</dd></div>
-                                <div><dt>{t('profile.focus')}</dt><dd>{t('profile.focusValue')}</dd></div>
-                                <div><dt>{t('profile.location')}</dt><dd>{t('profile.locationValue')}</dd></div>
-                                <div>
-                                    <dt>{t('profile.contact')}</dt>
-                                    <dd><Link href={`mailto:${CONTACT.email}`}>{CONTACT.email}</Link></dd>
-                                </div>
-                            </dl>
-                            <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mt: 4 }}>
-                                {downloads.map((lng, i) => (
-                                    <Button
-                                        key={lng}
-                                        variant={i === 0 ? 'contained' : 'outlined'}
-                                        href={RESUME_PDF[lng].href}
-                                        download={RESUME_PDF[lng].fileName}
-                                    >
-                                        ↓ {t(`download.${lng}`)}
-                                    </Button>
-                                ))}
-                            </Box>
-                            <Link component={RouterLink} to={`/cv/${preferred}`} sx={{ display: 'inline-block', mt: 2, fontSize: 'var(--size-sm)' }}>
-                                {t('download.web')} →
-                            </Link>
-                        </CardContent>
-                    </Card>
-                </Reveal>
+                <Card>
+                    <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                        <Typography variant="overline" component="h2" sx={{ mb: 2.5 }}>{t('profile.title')}</Typography>
+                        <dl className="kv-grid">
+                            <div><dt>{t('profile.role')}</dt><dd>{t('profile.roleValue')}</dd></div>
+                            <div><dt>{t('profile.focus')}</dt><dd>{t('profile.focusValue')}</dd></div>
+                            <div><dt>{t('profile.location')}</dt><dd>{t('profile.locationValue')}</dd></div>
+                            <div>
+                                <dt>{t('profile.contact')}</dt>
+                                <dd><Link href={`mailto:${CONTACT.email}`}>{CONTACT.email}</Link></dd>
+                            </div>
+                        </dl>
+                        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mt: 4 }}>
+                            {downloads.map((lng, i) => (
+                                <Button
+                                    key={lng}
+                                    variant={i === 0 ? 'contained' : 'outlined'}
+                                    href={RESUME_PDF[lng].href}
+                                    download={RESUME_PDF[lng].fileName}
+                                >
+                                    ↓ {t(`download.${lng}`)}
+                                </Button>
+                            ))}
+                        </Box>
+                        <Link component={RouterLink} to={`/cv/${preferred}`} sx={{ display: 'inline-block', mt: 2, fontSize: 'var(--size-sm)' }}>
+                            {t('download.web')} →
+                        </Link>
+                    </CardContent>
+                </Card>
             </SplitSection>
 
             <section className="section" aria-labelledby="experience-title" style={{ paddingTop: 0 }}>

@@ -83,8 +83,6 @@ const buildPalette = (b: PaletteBase) => ({
   lineStrong: rgba(b.text, 0.24),
 
   gridLine: rgba(b.text, b.gridAlpha),
-  gridHighlight: rgba(b.accent, 0.55), // grid colour under the cursor spotlight
-  gridMarker: rgba(b.accent, 0.5),
 
   error: b.error,
   warning: b.warning,
@@ -103,7 +101,7 @@ export const palettes: Record<ThemeMode, Palette> = {
     onAccent: '#0E0E0F',
     error: '#FF5C5C',
     warning: '#FFC24B',
-    gridAlpha: 0.16,
+    gridAlpha: 0.12,
   }),
   light: buildPalette({
     bg: PARCHMENT,          // off-white, not pure white
@@ -115,7 +113,7 @@ export const palettes: Record<ThemeMode, Palette> = {
     onAccent: '#FFFDF8',
     error: '#C62828',
     warning: '#9A5B00',
-    gridAlpha: 0.14,
+    gridAlpha: 0.12,
   }),
 };
 
@@ -133,9 +131,12 @@ export const cssColors = Object.fromEntries(
 // 2. TYPOGRAPHY
 // ============================================================================
 export const fonts = {
-  mono: "'IBM Plex Mono', ui-monospace, 'Courier New', monospace",
-  // Used by the printable CV only (denser and more readable on paper)
+  // Body and UI text
+  body: "'Space Grotesk', 'Segoe UI', Arial, sans-serif",
+  // Printable CV only (denser and more readable on paper)
   sans: "'IBM Plex Sans', 'Segoe UI', Arial, sans-serif",
+  // Headings, labels, dates and numbers
+  mono: "'IBM Plex Mono', ui-monospace, 'Courier New', monospace",
 } as const;
 
 export const fontWeights = {
@@ -207,16 +208,14 @@ export const shape = {
 } as const;
 
 // ============================================================================
-// 5. DECORATION (dotted grid background)
+// 4b. BACKGROUND GRID (colour: palettes.*.gridLine)
 // ============================================================================
 export const grid = {
-  size: 56,               // px between grid lines
-  dash: '1 5',            // SVG stroke-dasharray: dotted lines
-  spotlightRadius: 240,   // px (colours live in the palettes: gridLine, gridHighlight, gridMarker)
+  size: 56, // px between grid lines
 } as const;
 
 // ============================================================================
-// 6. PRINTABLE CV (light "paper" version of the palette)
+// 5. PRINTABLE CV (light "paper" version of the palette)
 // ============================================================================
 export const cv = {
   paper: '#FFFFFF',
@@ -231,32 +230,25 @@ export const cv = {
 } as const;
 
 // ============================================================================
-// 7. MOTION
+// 6. MOTION
 // ============================================================================
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 export const motion = {
-  fast: 0.15,     // seconds
-  base: 0.35,
-  slow: 0.7,
-  glitch: 0.28,   // micro-glitch on titles (one-shot)
-  draw: 0.9,      // SVG line draw-in (angle frames, grid markers)
-  page: 0.3,      // route change (View Transition)
-  theme: 0.55,    // pixel-grid light/dark reveal (View Transition)
-  decode: 0.45,   // eyebrow text scramble
-  easing: `cubic-bezier(${EASE.join(', ')})`, // CSS
-  revealDistance: 24, // px
+  fast: 0.15,     // seconds: hover colours
+  base: 0.3,      // expand/collapse, carousel slide
+  reveal: 0.5,    // fade-up on scroll
+  theme: 0.25,    // light/dark crossfade
+  easing: 'ease-out',
 } as const;
 
 // ============================================================================
-// 8. CSS VARIABLES (generated, do not hand-edit)
+// 7. CSS VARIABLES (generated, do not hand-edit)
 // ============================================================================
-const toCssValue = (group: string, key: string, value: unknown): string | null => {
+const toCssValue = (group: string, value: unknown): string | null => {
   if (typeof value === 'string') return value;
   if (typeof value === 'number') {
-    // Unitless numbers stay unitless where CSS expects them, everything else in grid/motion is px/seconds
-    if (group === 'motion') return key === 'revealDistance' ? `${value}px` : `${value}s`;
-    if (group === 'grid') return key === 'parallax' ? String(value) : `${value}px`;
+    // motion numbers are seconds, grid numbers are px, everything else stays unitless
+    if (group === 'motion') return `${value}s`;
+    if (group === 'grid') return `${value}px`;
     return String(value);
   }
   return null;
@@ -266,7 +258,7 @@ const toVariables = (groups: Record<string, Record<string, unknown>>): Record<st
   Object.fromEntries(
     Object.entries(groups).flatMap(([group, values]) =>
       Object.entries(values)
-        .map(([key, value]): [string, string | null] => [`--${group}-${kebab(key)}`, toCssValue(group, key, value)])
+        .map(([key, value]): [string, string | null] => [`--${group}-${kebab(key)}`, toCssValue(group, value)])
         .filter((entry): entry is [string, string] => entry[1] !== null)
     )
   );

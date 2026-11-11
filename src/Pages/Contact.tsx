@@ -28,11 +28,6 @@ const Contact: React.FC = () => {
                 <>
                     <Button variant="contained" href={`mailto:${CONTACT.email}`}>{t('channels.email.send')}</Button>
                     <Button variant="outlined" onClick={handleCopyEmail} aria-label={t('channels.email.copyLabel')}>
-                        {copied && (
-                            <svg className="check-draw" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M4 12.5l5 5L20 6.5" pathLength={1} />
-                            </svg>
-                        )}
                         <span aria-live="polite">{copied ? t('channels.email.copied') : t('channels.email.copy')}</span>
                     </Button>
                 </>
@@ -78,17 +73,12 @@ const Contact: React.FC = () => {
         >
             <ul className="stack" style={{ listStyle: 'none' }} aria-label={t('channels.label')}>
                 {channels.map((channel, i) => (
-                    <Reveal as="li" key={channel.key} from="right" delay={i * 0.1}>
-                        <div className={`channel chamfer ${i === 0 ? 'chamfer--active' : ''}`}>
-                            <div>
-                                <div className="channel__label">{t(`channels.${channel.key}.label`)}</div>
-                                <div className="channel__value">
-                                    {/* the email gets the highlight sweep when its card reveals */}
-                                    <span className={channel.key === 'email' ? 'mark' : undefined}>{channel.value}</span>
-                                </div>
-                            </div>
-                            <div className="channel__actions">{channel.actions}</div>
+                    <Reveal as="li" key={channel.key} delay={i * 0.08} className={`channel chamfer ${i === 0 ? 'chamfer--active' : ''}`}>
+                        <div>
+                            <div className="channel__label">{t(`channels.${channel.key}.label`)}</div>
+                            <div className="channel__value">{channel.value}</div>
                         </div>
+                        <div className="channel__actions">{channel.actions}</div>
                     </Reveal>
                 ))}
             </ul>
